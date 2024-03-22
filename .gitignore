@@ -8,8 +8,6 @@
 /var/
 /vendor/
 
-# Archivos de configuración de entorno
-.env
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
