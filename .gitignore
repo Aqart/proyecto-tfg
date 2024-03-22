@@ -8,10 +8,8 @@
 /var/
 /vendor/
 
-# Archivos de configuración de entorno y de paquetes
+# Archivos de configuración de entorno
 .env
-composer.json
-composer.lock
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
