@@ -25,7 +25,7 @@ use ApiPlatform\Metadata\GetCollection;
             uriTemplate: "/transportes",
         ),
         new Post(
-            uriTemplate: "/transporte/{id}",
+            uriTemplate: "/transporte",
         ),
         new Put(
             uriTemplate: "/transporte/{id}",

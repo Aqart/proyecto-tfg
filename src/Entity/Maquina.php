@@ -7,9 +7,34 @@ use App\Repository\MaquinaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: MaquinaRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    shortName: "Maquina",
+    description: "Entidad maquina",
+    operations: [
+        new Get(
+            uriTemplate: "/maquina/{id}",
+        ),
+        new GetCollection(
+            uriTemplate: "/maquinas",
+        ),
+        new Post(
+            uriTemplate: "/maquina",
+        ),
+        new Put(
+            uriTemplate: "/maquina/{id}",
+        ),
+        new Delete(
+            uriTemplate: "/maquina/{id}",
+        )
+    ]
+)]
 class Maquina
 {
     #[ORM\Id]

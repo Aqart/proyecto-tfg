@@ -25,7 +25,7 @@ use ApiPlatform\Metadata\Delete;
             uriTemplate: "/trabajadores",
         ),
         new Post(
-            uriTemplate: "/trabajador/{id}",
+            uriTemplate: "/trabajador",
         ),
         new Put(
             uriTemplate: "/trabajador/{id}",

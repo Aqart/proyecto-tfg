@@ -26,7 +26,7 @@ use ApiPlatform\Metadata\GetCollection;
             uriTemplate: "/materiasprimas",
         ),
         new Post(
-            uriTemplate: "/materiaprima/{id}",
+            uriTemplate: "/materiaprima",
         ),
         new Put(
             uriTemplate: "/materiaprima/{id}",
