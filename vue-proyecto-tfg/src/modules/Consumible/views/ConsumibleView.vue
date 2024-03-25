@@ -6,7 +6,7 @@
 
 <script>
   import { defineAsyncComponent } from 'vue'
-  import axios from 'axios'
+  import authApi from '@/api/stoneApi'
   
   export default {
     data() {
@@ -18,20 +18,14 @@
       ConsumibleComponent: defineAsyncComponent(() => import('@/modules/Consumible/components/ConsumibleComponent.vue'))
     },
     mounted() {
-        const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMTM5MjE5OSwiZXhwIjoxNzExMzk1Nzk5fQ._i0J21u_GbYxVqTmTgZeaJrxWz3pcKAKycaUuORT3xc"
+        const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMTM5NzM3NCwiZXhwIjoxNzExNDExNzc0fQ.HxnY0VQoGhdiH9bsT5eppSXvDyRBYruqCcfKYj8xqE8"
         const config = {
           headers: { Authorization: `Bearer ${AUTH_TOKEN}`}
         }
   
-        // Específicamos los valores por defecto de cada consulta
-        const instance = axios.create({
-          baseURL: "http://localhost:3000",
-          headers: { Authorization: `Bearer ${AUTH_TOKEN}`}
-        });
-  
         async function getConsumibles() {
           try {
-            const response = await instance.get('/consumibles', config);
+            const response = await authApi.get('/consumibles', config);
             console.log(response.data);
             return response.data;
           } catch (error) {
