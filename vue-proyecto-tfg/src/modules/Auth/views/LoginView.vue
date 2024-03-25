@@ -1,6 +1,6 @@
 <template>
     <div>
-        <AuthComponent :title=title />
+        <LoginComponent :title=title />
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
         }
     },
     components: {
-        AuthComponent: defineAsyncComponent(() => import('@/modules/Auth/components/AuthComponent.vue'))
+        LoginComponent: defineAsyncComponent(() => import('@/modules/Auth/components/LoginComponent.vue'))
     }
 }
 </script>
