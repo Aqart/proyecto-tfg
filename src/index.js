@@ -2,6 +2,8 @@
 
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
+
 import AuthController from '@src/controllers/AuthController' // Importa el AuthController
 import TrabajadorController from '@src/controllers/TrabajadorController'
 import MaquinaController from '@src/controllers/MaquinaController'
@@ -11,6 +13,10 @@ import MateriaPrimaController from '@src/controllers/MateriaPrimaController'
 import TransporteController from '@src/controllers/TransporteController'
 
 const app = express()
+
+// Middleware para habilitar CORS
+app.use(cors())
+
 /**
  * The port number for the server.
  * @type {number}
