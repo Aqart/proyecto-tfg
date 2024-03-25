@@ -7,7 +7,7 @@
     <RouterView/>
     </main>
     <footer>
-    <p>Footer</p>
+    <p class="text-6xl">Footer</p>
     </footer>
 </div>
 
@@ -21,7 +21,16 @@ export default {
     components: {
         RouterView,
         NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
-    }
+    },
+    data() {
+        return {
+            token: null
+        }
+    },
+     created() {
+    this.token = localStorage.getItem('auth-token') || null
+
+  }
 }
 </script>
 

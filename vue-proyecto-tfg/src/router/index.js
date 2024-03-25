@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeRouter from '@/modules/Home/router'
+import AuthRouter from '@/modules/Auth/router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +12,10 @@ const router = createRouter({
     {
       path: '',
       redirect: '/home'
+    },
+    {
+      path: '/auth',
+      ...AuthRouter
     }
   ]
 })
