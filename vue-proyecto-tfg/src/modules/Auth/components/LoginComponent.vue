@@ -24,21 +24,25 @@
         id="password"
         placeholder="•••••••••"
       />
-
-      <button type="submit">Acceder</button>
+      <ButtonComponent text="Acceder" />
     </form>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import {  ref } from 'vue'
 import useAuth from '../composables/useAuth'
+import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue'
+
 export default {
   props: {
     title: {
       type: String,
       required: true
     }
+  },
+  components: {
+    ButtonComponent
   },
    setup() {
 

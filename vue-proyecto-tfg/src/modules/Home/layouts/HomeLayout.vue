@@ -3,7 +3,7 @@
     <header>
     <NabvarComponent />
     </header>
-    <main>
+    <main class="flex flex-col justify-center items-center">
     <RouterView/>
     </main>
     <footer>
