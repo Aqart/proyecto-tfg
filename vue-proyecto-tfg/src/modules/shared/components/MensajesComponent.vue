@@ -2,7 +2,7 @@
   <div>
     <!-- Caja para mensajes de success y de error -->
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert" v-if="type === 'success'">
-      <strong class="font-bold">¡Éxito!</strong>
+      <strong class="font-bold">¡Éxito!&nbsp;</strong>
       <span class="block sm:inline">{{ message }}</span>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg @click="cerrarMensaje" class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -14,7 +14,7 @@
     </div>
 
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="type === 'error'">
-      <strong class="font-bold">¡Error!</strong>
+      <strong class="font-bold">¡Error!&nbsp;</strong>
       <span class="block sm:inline">{{ message }}</span>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg @click="cerrarMensaje" class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -26,7 +26,7 @@
 
     <!-- Warning -->
     <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert" v-if="type === 'warning'">
-      <strong class="font-bold">¡Advertencia!</strong>
+      <strong class="font-bold">¡Advertencia!&nbsp;</strong>
       <span class="block sm:inline">{{ message }}</span>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg @click="cerrarMensaje" class="fill-current h-6 w-6 text-yellow-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
