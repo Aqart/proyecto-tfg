@@ -21,7 +21,7 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
 export default {
     components: {
         RouterView,
-        NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
+        NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue'))
     },
     data() {
         return {

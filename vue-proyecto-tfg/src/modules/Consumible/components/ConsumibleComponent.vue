@@ -6,7 +6,12 @@
     <button @click="anadirConsumible" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-4 rounded">Añadir Consumible</button>
 
     <!-- Componente dinámico -->
-    <component v-bind:is="vistaActual" v-if="vistaActual"></component>
+    <component v-bind:is="vistaActual" 
+              v-if="vistaActual" 
+              @actualizarVista="vistaActual = $event"
+    >
+    </component>
+    
 
   </div>
 </template>
@@ -15,6 +20,7 @@
 
 import ListaConsumibles from './ListaConsumibles.vue';
 import FormularioConsumible from './FormularioConsumible.vue';
+import MensajesComponent from '@/modules/shared/components/MensajesComponent.vue';
 
 export default {
   props: {
@@ -25,12 +31,14 @@ export default {
   },
   data() {
     return {
-      vistaActual: ''
+      vistaActual: '',
+      mensajeVista: ''
     }
   },
   components: {
     ListaConsumibles,
-    FormularioConsumible
+    FormularioConsumible,
+    MensajesComponent,
   },
   methods: {
     mostrarTodos() {
@@ -38,7 +46,7 @@ export default {
     },
     anadirConsumible() {
       this.vistaActual = 'FormularioConsumible';
-    }
+    },
   }
   // setup() {
     
