@@ -4,3 +4,7 @@ export const setConsumibles = ( state, data) => {
   state.consumibles = data;
   console.log(state.consumibles)
 }
+
+export const setConsumible = ( state, { nombre, precio }) => {
+  state.consumibles.push({ nombre, precio })
+}
