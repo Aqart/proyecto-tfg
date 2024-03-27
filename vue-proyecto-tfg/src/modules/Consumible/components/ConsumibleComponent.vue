@@ -1,17 +1,20 @@
 <template>
   <div>
     <h1 class="text-5xl">{{ title }}</h1>
-    <!-- foreach para mostrar los consumibles -->
-    <div v-for="consumible in getConsumibles" :key="consumible.id">
-      <h2>{{consumible.nombre}}</h2>
-      <p>{{consumible.precio}}</p>
-    </div>
+    <!-- Botón para mostrar todos los consumibles -->
+    <button @click="mostrarTodos" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver los consumibles</button>
+    <button @click="anadirConsumible" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-4 rounded">Añadir Consumible</button>
+
+    <!-- Componente dinámico -->
+    <component v-bind:is="vistaActual" v-if="vistaActual"></component>
+
   </div>
 </template>
 
 <script>
 
-import { mapGetters } from 'vuex';
+import ListaConsumibles from './ListaConsumibles.vue';
+import FormularioConsumible from './FormularioConsumible.vue';
 
 export default {
   props: {
@@ -20,15 +23,25 @@ export default {
       default: "Consumibles"
     }
   },
-  // data() {
-  //   //consumibles: this.$store.getConsumibles();
-  // },
-  computed: {
-    ...mapGetters('Consumible',['getConsumibles']),
+  data() {
+    return {
+      vistaActual: ''
+    }
   },
-  // async setup() {
-  //   const { getConsumibles } = await useConsumible();
-  //   console.log(getConsumibles)
+  components: {
+    ListaConsumibles,
+    FormularioConsumible
+  },
+  methods: {
+    mostrarTodos() {
+      this.vistaActual = 'ListaConsumibles';
+    },
+    anadirConsumible() {
+      this.vistaActual = 'FormularioConsumible';
+    }
+  }
+  // setup() {
+    
   // }
     
 }

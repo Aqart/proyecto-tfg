@@ -9,8 +9,14 @@ const useConsumible = () => {
     return resp
   }
 
+  const createConsumible = async (consumible) => {
+    const resp = await store.dispatch('Consumible/createConsumible', consumible)
+    return resp
+  }
+
   return {
-    getConsumibles
+    getConsumibles,
+    createConsumible
   }
 
 }
