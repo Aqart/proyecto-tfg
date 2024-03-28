@@ -27,17 +27,21 @@
 
     <button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Añadir Consumible</button>
   </form>
+
 </template>
 
 
 <script>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 
   export default {
-    setup() {
-      const router = useRouter();
+    emits: [
+      'actualizarVista', 
+      'updateMessage',
+      'updateType'
+    ],
+    setup(props, { emit }) {
       const { createConsumible } = useConsumible()
 
       // Define una propiedad reactiva consumibleForm
@@ -45,14 +49,27 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
         nombre: '',
         precio: ''
       })
+      
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
         handleSubmit: async () => {
-          await createConsumible(consumibleForm.value)
-          console.log(consumibleForm.value)
-          router.push({ name: 'consumibles' })
+          const { ok, message } = await createConsumible(consumibleForm.value)
+
+          if (!ok) {
+            // Enviar el mensaje de error al componente padre y actualizar vista
+            emit('updateType', 'error')
+            emit('updateMessage', message)
+            emit('actualizarVista', 'MensajeComponent')
+          }else{
+            emit('updateType', 'success')
+            emit('updateMessage', message)
+            emit('actualizarVista', 'MensajeComponent')
+
+          }
+          // Enviar el mensaje de consumibleForm.value al componente padre y actualizar vista
+        
         }
       }
     }

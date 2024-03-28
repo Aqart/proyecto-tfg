@@ -8,7 +8,9 @@ export default {
 </script>
 
 <template>
+<div class="bg-backGround min-h-screen flex flex-col items-center">
   <RouterView />
+</div>
 </template>
 
 
