@@ -33,16 +33,17 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 
   export default {
-    emits: [
-      'actualizarVista', 
-      'updateMessage',
-      'updateType'
-    ],
-    setup(props, { emit }) {
-      const { createConsumible } = useConsumible()
+    // emits: [
+    //   'updateMessage',
+    //   'updateType'
+    // ],
+    setup() {
+      const router = useRouter()
+      const { createConsumible, actualizarMensaje } = useConsumible()
 
       // Define una propiedad reactiva consumibleForm
       const consumibleForm = ref({
@@ -59,16 +60,19 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
 
           if (!ok) {
             // Enviar el mensaje de error al componente padre y actualizar vista
-            emit('updateType', 'error')
-            emit('updateMessage', message)
-            emit('actualizarVista', 'MensajeComponent')
+            // this.$store.commit('actualizarVista', 'MensajeComponent')
+            actualizarMensaje('error', message)
+            // emit('updateType', 'error')
+            // emit('updateMessage', message)
           }else{
-            emit('updateType', 'success')
-            emit('updateMessage', message)
-            emit('actualizarVista', 'MensajeComponent')
+            // this.$store.commit('actualizarVista', 'MensajeComponent')
+            actualizarMensaje('success', message)
+            // emit('updateType', 'success')
+            // emit('updateMessage', message)
 
           }
-          // Enviar el mensaje de consumibleForm.value al componente padre y actualizar vista
+          
+          router.push('/consumibles')
         
         }
       }

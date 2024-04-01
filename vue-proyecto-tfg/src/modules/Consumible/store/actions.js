@@ -52,3 +52,8 @@ export const createConsumible = async ({ commit }, consumible) => {
     console.error('Error al obtener los consumibles:', error.message)
   }
 }
+
+export const actualizarMensaje = ({ commit }, { tipo, mensaje }) => {
+  commit('updateMessage', mensaje)
+  commit('updateType', tipo)
+}
