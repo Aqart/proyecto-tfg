@@ -1,5 +1,5 @@
 import ConsumiblesRouter from '@/modules/Consumible/router'
-
+import GastosGeneralesRouter from '@/modules/GastosGenerales/router'
 export default {
   name: 'home',
   component: () =>
@@ -8,6 +8,10 @@ export default {
     {
       path: '/consumibles',
       ...ConsumiblesRouter
+    },
+    {
+      path: '/gastos-generales',
+      ...GastosGeneralesRouter
     }
   ]
 }

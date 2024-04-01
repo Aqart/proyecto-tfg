@@ -4,8 +4,8 @@ const useConsumible = () => {
   const store = useStore()
 
   const getConsumibles = async () => {
+    
     const resp = await store.dispatch('Consumible/fetchConsumibles')
-    console.log('Ha entrado en composables')
     return resp
   }
 
