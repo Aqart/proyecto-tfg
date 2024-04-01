@@ -1,13 +1,13 @@
 <template>
 <div>
-    <header>
+    <header class="mt-5">
     <NabvarComponent />
     </header>
     <main class="flex flex-col justify-center items-center">
     <RouterView/>
     </main>
     <footer>
-    <p class="text-6xl">Footer</p>
+    <p class="text-6xl"></p>
     </footer>
 </div>
 
