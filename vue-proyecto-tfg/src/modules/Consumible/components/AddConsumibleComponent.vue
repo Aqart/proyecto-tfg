@@ -37,10 +37,6 @@ import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 
   export default {
-    // emits: [
-    //   'updateMessage',
-    //   'updateType'
-    // ],
     setup() {
       const router = useRouter()
       const { createConsumible, actualizarMensaje } = useConsumible()
@@ -50,7 +46,6 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
         nombre: '',
         precio: ''
       })
-      
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
@@ -58,18 +53,11 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
         handleSubmit: async () => {
           const { ok, message } = await createConsumible(consumibleForm.value)
 
+          // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
-            // Enviar el mensaje de error al componente padre y actualizar vista
-            // this.$store.commit('actualizarVista', 'MensajeComponent')
             actualizarMensaje('error', message)
-            // emit('updateType', 'error')
-            // emit('updateMessage', message)
           }else{
-            // this.$store.commit('actualizarVista', 'MensajeComponent')
             actualizarMensaje('success', message)
-            // emit('updateType', 'success')
-            // emit('updateMessage', message)
-
           }
           
           router.push('/consumibles')
