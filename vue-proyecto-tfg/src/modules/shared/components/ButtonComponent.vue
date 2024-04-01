@@ -1,5 +1,8 @@
 <template>
-    <button :class="[bgColor, textColor, otherClasses]" :type="type">{{ text }}</button>
+    <button 
+        :class="buttonClasses" 
+        :type="type">{{ text }}
+    </button>
 </template>
 
 <script>
@@ -13,17 +16,36 @@ export default {
             type: String,
             default: 'bg-primary'
         },
-        textColor:{
-            type: String,
-            default: 'text-secondary'
-        },
         otherClasses:{
             type: String,
-            default: `rounded-lg w-full p-2.5 mt-4`
+            default: 'rounded-lg w-full p-2.5 mt-4'
         },
         type:{
             type: String,
             default: ''
+        }
+    },
+    data() {
+        return {
+            isHovered: false
+        }
+    },
+    computed: {
+        buttonClasses() {
+
+            let classes = `${this.bgColor} `;
+            
+            
+            if(this.bgColor === 'bg-primary'){
+                classes += 'text-secondary hover:bg-secondary hover:text-primary';
+            }
+
+            if(this.bgColor === 'bg-secondary'){
+                classes += 'text-primary hover:bg-primary hover:text-secondary';
+            }
+            classes += ` ${this.otherClasses} ease-in-out transition-all duration-75`
+            return classes
+            
         }
     }
 }

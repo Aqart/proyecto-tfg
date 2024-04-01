@@ -9,7 +9,7 @@ import { defineAsyncComponent } from 'vue'
 export default {
     data() {
         return {
-            title: 'Inicio de sesion'
+            title: 'Inicio de sesión'
         }
     },
     components: {
