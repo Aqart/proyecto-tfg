@@ -4,8 +4,9 @@ const useConsumible = () => {
   const store = useStore()
 
   const getConsumibles = async () => {
+    
     const resp = await store.dispatch('Consumible/fetchConsumibles')
-
+    console.log('respConsumible', resp)
     return resp
   }
 

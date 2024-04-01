@@ -7,7 +7,8 @@
         <nav class="flex">
             <router-link to="/login" class="mr-4">Login</router-link>
             <router-link to="/register" class="mr-4">Register</router-link>
-            <router-link to="/consumibles">Consumibles</router-link>
+            <router-link to="/consumibles" class="mr-4">Consumibles</router-link>
+            <router-link to="/gastos-generales" class="mr-4"> Gastos</router-link>
         </nav>
     </div>
 </header>
