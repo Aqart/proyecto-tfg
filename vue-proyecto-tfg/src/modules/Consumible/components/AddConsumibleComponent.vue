@@ -33,23 +33,19 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 
   export default {
-    emits: [
-      'actualizarVista', 
-      'updateMessage',
-      'updateType'
-    ],
-    setup(props, { emit }) {
-      const { createConsumible } = useConsumible()
+    setup() {
+      const router = useRouter()
+      const { createConsumible, actualizarMensaje } = useConsumible()
 
       // Define una propiedad reactiva consumibleForm
       const consumibleForm = ref({
         nombre: '',
         precio: ''
       })
-      
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
@@ -57,18 +53,14 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
         handleSubmit: async () => {
           const { ok, message } = await createConsumible(consumibleForm.value)
 
+          // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
-            // Enviar el mensaje de error al componente padre y actualizar vista
-            emit('updateType', 'error')
-            emit('updateMessage', message)
-            emit('actualizarVista', 'MensajeComponent')
+            actualizarMensaje('error', message)
           }else{
-            emit('updateType', 'success')
-            emit('updateMessage', message)
-            emit('actualizarVista', 'MensajeComponent')
-
+            actualizarMensaje('success', message)
           }
-          // Enviar el mensaje de consumibleForm.value al componente padre y actualizar vista
+          
+          router.push('/consumibles')
         
         }
       }

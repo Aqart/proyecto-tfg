@@ -6,7 +6,6 @@ const useConsumible = () => {
   const getConsumibles = async () => {
     
     const resp = await store.dispatch('Consumible/fetchConsumibles')
-    console.log('respConsumible', resp)
     return resp
   }
 
@@ -15,9 +14,14 @@ const useConsumible = () => {
     return resp
   }
 
+  const actualizarMensaje = (tipo, mensaje) => {
+    store.dispatch('Consumible/actualizarMensaje', { tipo, mensaje }) 
+  }
+
   return {
     getConsumibles,
-    createConsumible
+    createConsumible,
+    actualizarMensaje
   }
 
 }

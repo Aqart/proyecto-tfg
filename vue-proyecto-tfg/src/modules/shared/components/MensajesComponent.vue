@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- Caja para mensajes de success y de error -->
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert" v-if="type === 'success'">
+    <!-- Success -->
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert" v-if="mostrarMensaje && type === 'success'">
       <strong class="font-bold">¡Éxito!&nbsp;</strong>
       <span class="block sm:inline">{{ message }}</span>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -13,7 +13,8 @@
 
     </div>
 
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="type === 'error'">
+    <!-- Error -->
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="mostrarMensaje && type === 'error'">
       <strong class="font-bold">¡Error!&nbsp;</strong>
       <span class="block sm:inline">{{ message }}</span>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -25,7 +26,7 @@
     </div>
 
     <!-- Warning -->
-    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert" v-if="type === 'warning'">
+    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert" v-if="mostrarMensaje && type === 'warning'">
       <strong class="font-bold">¡Advertencia!&nbsp;</strong>
       <span class="block sm:inline">{{ message }}</span>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -50,9 +51,14 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      mostrarMensaje: true
+    }
+  },
   methods: {
     cerrarMensaje() {
-      
+      this.mostrarMensaje = false
     }
   }
 }
