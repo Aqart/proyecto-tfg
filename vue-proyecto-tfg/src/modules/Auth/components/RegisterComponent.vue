@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <h1 class="text-5xl">{{ title }}</h1>
+    <h1 class="text-5xl text-primaryTitle mb-5">{{ title }}</h1>
     <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
       Correo Electrónico
     </label>
@@ -30,13 +30,14 @@
       <option value="ADMIN" selected>Admin</option>
       </select>
 
-    <button type="submit" class="bg-blue-500 border border-gray-300 text-gray-900 text-sm rounded-lg py-5 px-20">Acceder</button>
+      <ButtonComponent text="Registrar" bgColor="bg-primary"/>
   </form>
 </template>
 
 <script>
 import { ref } from 'vue'
 import useAuth from '../composables/useAuth'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   props: {
@@ -44,6 +45,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  components: {
+    ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue'))
   },
   setup() {
 

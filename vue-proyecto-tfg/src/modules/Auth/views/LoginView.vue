@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="flex flex-col items-center gap-28">
+        <LogoComponent class="w-36 h-36" />
         <LoginComponent :title=title />
     </div>
 </template>
@@ -13,6 +14,7 @@ export default {
         }
     },
     components: {
+        LogoComponent: defineAsyncComponent(() => import('@/modules/shared/components/LogoComponent.vue')),
         LoginComponent: defineAsyncComponent(() => import('@/modules/Auth/components/LoginComponent.vue'))
     }
 }

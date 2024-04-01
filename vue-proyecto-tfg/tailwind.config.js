@@ -4,11 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        backGround: '#EEF2F7',
+        bgFrom: '#fff7f0',
+        bgTo: '#f1f6fc',
         primaryTitle: '#B1A090',
         primary: '#D9D9D9',
         secondary: '#6A524B'
-      }
+      },
     }
   },
   plugins: []
