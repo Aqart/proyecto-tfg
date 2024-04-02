@@ -10,3 +10,11 @@ export const loginUser = (state, { email, idToken }) => {
   state.email = email
   state.status = 'Authenticated'
 }
+
+// En vue-proyecto-tfg/src/modules/Auth/store/mutations.js
+export const logoutUser = (state) => {
+  localStorage.removeItem('idToken')
+  state.idToken = null
+  state.email = null
+  state.status = 'Unauthenticated'
+}
