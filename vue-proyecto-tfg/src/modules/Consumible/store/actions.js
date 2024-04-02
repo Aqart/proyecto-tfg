@@ -48,7 +48,38 @@ export const createConsumible = async ({ commit }, consumible) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.error('Error al obtener los consumibles:', error.message)
+    console.error('Error al crear el consumible:', error.message)
+  }
+}
+
+export const editConsumible = async ({ commit }, id, consumible) => {
+  console.log('Editar consumible')
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  try {
+    const response = await authApi.put(`/consumibles/${id}`, consumible, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+
+    // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+    if (response.status === 200 && response.data) {
+
+      // Hacer el commit
+
+      // Actualizar el estado con los consumibles obtenidos
+      // commit('setConsumible', consumible)
+      return { ok: true, message: response.data.message }
+    } else {
+      console.error('Error al editar consumible:', response.message)
+      return { ok: false, message: response.message }
+    }
+
+
+  } catch (error) {
+    console.error('Error al editar el consumible:', error.message)
   }
 }
 

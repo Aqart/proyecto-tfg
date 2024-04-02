@@ -12,6 +12,11 @@ export default {
       path: 'add',
       name: 'add-consumible',
       component: () => import('@/modules/Consumible/views/AddConsumiblesView.vue'),
+    },
+    {
+      path: 'edit/:id',
+      name: 'edit-consumible',
+      component: () => import('@/modules/Consumible/views/EditConsumiblesView.vue'),
     }
   ]
 }
