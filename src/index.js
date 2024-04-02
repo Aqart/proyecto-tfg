@@ -32,11 +32,14 @@ app.post('/registro', AuthController.registrarUsuario)
 // Endpoint para iniciar sesión
 app.post('/login', AuthController.iniciarSesion)
 
+// Aquí puedes colocar todas las rutas que deseas proteger con autenticación
+// Endpoint para verificar los token
+app.get('/verify', AuthController.checkToken)
+
 // Middleware para verificar el token JWT en las rutas protegidas
 app.use(AuthController.verificarToken)
 
 // Rutas protegidas
-// Aquí puedes colocar todas las rutas que deseas proteger con autenticación
 
 // Endpoints para Trabajadores
 app.get('/trabajadores', TrabajadorController.obtenerTodos)
