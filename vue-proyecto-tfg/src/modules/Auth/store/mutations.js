@@ -2,19 +2,19 @@
 
 // }
 export const loginUser = (state, { email, idToken }) => {
-  console.log('loginUser', email, idToken)
   if (idToken) {
     localStorage.setItem('idToken', idToken)
-    state.idToken = idToken
+    // Obtiene el token del almacenamiento local después de guardarlo
+    state.idToken = localStorage.getItem('idToken')
   }
   state.email = email
-  state.status = 'Authenticated'
 }
 
 // En vue-proyecto-tfg/src/modules/Auth/store/mutations.js
 export const logoutUser = (state) => {
+  // Borra el token del almacenamiento local
+  console.log('logoutUser')
   localStorage.removeItem('idToken')
   state.idToken = null
   state.email = null
-  state.status = 'Unauthenticated'
 }

@@ -1,4 +1,5 @@
 import authApi from '@/api/stoneApi'
+import { jwtDecode } from 'jwt-decode'
 
 // export const myAction = async ({ commit }) => {
 
@@ -27,22 +28,21 @@ export const createUser = async ({ state }, user) => {
   }
 }
 
-export const loginUser = async ({ commit }, user) => {
+export const loginUser = async ({ dispatch, commit }, user) => {
   const { email, password } = user
   try {
     const { data } = await authApi.post('/login', { email, password })
-    console.log("Login data", data)
+    console.log('Login data', data)
 
-    if(!isTokenExpired(localStorage.getItem('idToken') )){
-      console.log("Hace comprobación isToken")
+    const isExpired = await dispatch('isTokenExpired')
+    if (!isExpired) {
+      console.log('Hace comprobación isToken')
       commit('loginUser', { email: email, idToken: localStorage.getItem('idToken') })
     } else {
-      console.log("Hace comprobación isToken else")
+      console.log('Hace comprobación isToken else')
       delete user.password
       commit('loginUser', { email: email, idToken: data.token })
     }
-
-    
 
     return { ok: true, message: '....' }
   } catch (error) {
@@ -51,25 +51,26 @@ export const loginUser = async ({ commit }, user) => {
   }
 }
 
+export const logoutUser = ({ commit }) => {
+  console.log('logoutUserrr')
+  // Borra el token del almacenamiento local
+  localStorage.removeItem('idToken')
 
-export const isTokenExpired = async (token) => {
-  console.log('isTokenExpired state', token)
-  try {
-    const { response } = await authApi.get('/verify',{
-      headers: {
-        Athorization: `Bearer ${ token }`
-      }
-    })
+  // Borra el token del estado
+  commit('logoutUser')
+}
 
-    if(response.ok === 'true') {
-      return false
-    } else {
+export const isTokenExpired = ({ state }) => {
+  const token = state.idToken
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token)
+      const currentDate = new Date()
+      const expirationDate = new Date(decodedToken.exp * 1000)
+      return currentDate >= expirationDate
+    } catch (error) {
       return true
     }
-    
-  } catch (error) {
-    console.error(error)
   }
-
-
+  return true
 }

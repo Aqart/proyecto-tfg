@@ -76,25 +76,6 @@ const AuthController = {
         }
     },
 
-    // Método para verificar el token
-    checkToken: async function(req, res, next) {
-        const token = req.headers.authorization?.split(' ')[1]
-
-        if (!token) {
-            return res.status(401).json({ ok: false })
-        }
-
-        try {
-            const decoded = await jwt.verify(token, process.env.JWT_SECRET)
-            req.userId = decoded.userId
-            res.status(200).json({ ok: true })
-        } catch (err) {
-            res.status(401).json({ ok: false })
-        }
-    },
-
-
-
     // Middleware para verificar el token JWT
     verificarToken: async (req, res, next) => {
         const token = req.headers.authorization?.split(' ')[1]

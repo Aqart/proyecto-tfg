@@ -9,7 +9,7 @@ const router = createRouter({
     {
       path: '/home',
       ...HomeRouter,
-      meta: {requiresAuth: true}
+      meta: { requiresAuth: true }
     },
     {
       path: '',
@@ -23,22 +23,13 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-
-  const tokenStorage = localStorage.getItem('tokenStorage')
-
-  const isTokenExpired = await store.dispatch('Auth/isTokenExpired', tokenStorage)
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
-  if(isTokenExpired(tokenStorage))
-
-  if (requiresAuth && !isTokenExpired) {
-    next({
-      path: '/login',
-    })
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  const isTokenExpired = await store.dispatch('Auth/isTokenExpired')
+  if (requiresAuth && isTokenExpired) {
+    next('/login')
   } else {
     next()
   }
 })
-
 
 export default router

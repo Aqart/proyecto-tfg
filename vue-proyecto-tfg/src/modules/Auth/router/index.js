@@ -1,3 +1,4 @@
+import store from '@/store'
 export default {
   name: 'auth',
   component: () => import(/* webpackChunkName: "Auth" */ '@/modules/Auth/layouts/AuthLayout.vue'),
@@ -11,7 +12,19 @@ export default {
       path: '/register',
       name: 'auth-register',
       component: () =>
-        import(/* webpackChunkName: "Register" */ '@/modules/Auth/views/RegisterView.vue')
+        import(/* webpackChunkName: "Register" */ '@/modules/Auth/views/RegisterView.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/logout',
+      name: 'auth-logout',
+      beforeEnter(to, from, next) {
+        store.dispatch('Auth/logoutUser')
+        console.log(store)
+        next('/login')
+      }
     }
   ]
 }
