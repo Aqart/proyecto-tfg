@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit" class="p-10">
 
       <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
         Nombre
