@@ -3,5 +3,8 @@
 //  return state
 // }
 
+export const isLoggedIn = (state) => {
 
+    return !!state.idToken
+}
 

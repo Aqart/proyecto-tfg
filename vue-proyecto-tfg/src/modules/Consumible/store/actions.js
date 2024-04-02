@@ -25,6 +25,8 @@ export const fetchConsumibles = async ({ commit }) => {
   }
 }
 
+
+
 export const createConsumible = async ({ commit }, consumible) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
