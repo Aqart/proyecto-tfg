@@ -8,7 +8,8 @@ const router = createRouter({
   routes: [
     {
       path: '/home',
-      ...HomeRouter
+      ...HomeRouter,
+      meta: {requiresAuth: true}
     },
     {
       path: '',
@@ -21,25 +22,23 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  // Verifica si el usuario está autenticado
-  if (!store.state.Auth.idToken) {
-    // El usuario no está autenticado, redirige a la página de inicio de sesión
-    if (to.path !== '/login') {
-      next({
-        path: '/login',
-      })
-    } else {
-      next()
-    }
+router.beforeEach(async (to, from, next) => {
+
+  const tokenStorage = localStorage.getItem('tokenStorage')
+
+  const isTokenExpired = await store.dispatch('Auth/isTokenExpired', tokenStorage)
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if(isTokenExpired(tokenStorage))
+
+  if (requiresAuth && !isTokenExpired) {
+    next({
+      path: '/login',
+    })
   } else {
-    // El usuario está autenticado, permite el acceso a la ruta
-    if (to.path !== '/home') {
-      next('/home')
-    } else {
-      router.push('/home')
-    }
+    next()
   }
 })
+
 
 export default router

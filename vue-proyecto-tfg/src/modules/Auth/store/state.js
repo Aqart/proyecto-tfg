@@ -1,5 +1,5 @@
 export default () => ({
   status: 'Authenticated',
-  idToken: null,
+  idToken: localStorage.getItem('idToken') || null,
   email: null
 })
