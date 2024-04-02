@@ -14,6 +14,11 @@ const useConsumible = () => {
     return resp
   }
 
+  const editConsumible = async (consumible) => {
+    const resp = await store.dispatch('Consumible/editConsumible', consumible)
+    return resp
+  }
+
   const actualizarMensaje = (tipo, mensaje) => {
     store.dispatch('Consumible/actualizarMensaje', { tipo, mensaje }) 
   }
@@ -21,6 +26,7 @@ const useConsumible = () => {
   return {
     getConsumibles,
     createConsumible,
+    editConsumible,
     actualizarMensaje
   }
 
