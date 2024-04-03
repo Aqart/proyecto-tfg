@@ -22,6 +22,7 @@
         type="number"
         name="precio"
         id="precio"
+        step="0.01"
         placeholder="Precio del consumible"
         min=0
       />

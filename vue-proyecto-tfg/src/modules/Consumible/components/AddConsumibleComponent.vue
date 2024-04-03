@@ -22,6 +22,7 @@
       name="precio"
       id="precio"
       placeholder="Precio del consumible"
+      step="0.01"
       min=0
     />
 
@@ -35,12 +36,14 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
+import useShared from '@/modules/shared/composables/useShared'
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 
   export default {
     setup() {
       const router = useRouter()
-      const { createConsumible, actualizarMensaje } = useConsumible()
+      const { createConsumible } = useConsumible()
+      const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
       // Define una propiedad reactiva consumibleForm
       const consumibleForm = ref({
@@ -57,8 +60,10 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
           // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
             actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
           }else{
             actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
           }
           
           router.push('/consumibles')

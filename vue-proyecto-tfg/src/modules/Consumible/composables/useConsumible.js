@@ -19,15 +19,10 @@ const useConsumible = () => {
     return resp
   }
 
-  const actualizarMensaje = (tipo, mensaje) => {
-    store.dispatch('Consumible/actualizarMensaje', { tipo, mensaje }) 
-  }
-
   return {
     getConsumibles,
     createConsumible,
-    editConsumible,
-    actualizarMensaje
+    editConsumible
   }
 
 }

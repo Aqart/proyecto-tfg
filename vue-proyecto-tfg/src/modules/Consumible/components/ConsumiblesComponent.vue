@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div v-if="getMensaje">
-      <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="true" />
+    <div>
+      <MensajesComponent :message="getMensaje" :type="getTipo"
+      :mostrarMensaje="getMostrar"
+      />
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -103,64 +105,68 @@
           />
         </div>
       </div>
-      <table class="w-full text-sm text-left rtl:text-right text-secondary-500">
-        <thead class="text-xs text-secondary uppercase bg-primary">
-          <tr>
-            <th scope="col" class="p-4">
-              <div class="flex items-center">
-                <input
-                  id="checkbox-all-search"
-                  type="checkbox"
-                  class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-              </div>
-            </th>
-            <th scope="col" class="px-6 py-3">Nombre</th>
-            <th scope="col" class="px-6 py-3">Precio</th>
-            <th scope="col" class="px-6 py-3">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- bucle para mostrar los consumibles -->
-          <tr
-            v-for="consumible in getConsumibles"
-            :key="consumible.id"
-            class="bg-white border-b hover:bg-gray-50"
-          >
-            <td class="w-4 p-4">
-              <div class="flex items-center">
-                <input
-                  id="checkbox-table-search-1"
-                  type="checkbox"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-              </div>
-            </td>
-            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
-              <div>
-                <div class="text-base font-semibold">{{ consumible.nombre }}</div>
-              </div>
-            </th>
-            <td class="px-6 py-4">{{ consumible.precio }} €</td>
-            <td class="px-6 py-4">
-              <!-- Modal toggle -->
-              <!-- Poner un EnlaceComponent cuando se haya creado -->
-              <a
-                href="#"
-                type="button"
-                @click.prevent="showModal = true"
-                data-modal-target="editConsumibleModal"
-                data-modal-show="editConsumibleModal"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >
-                Editar
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="max-h-96">
+        <table class="w-full text-sm text-left rtl:text-right text-secondary-500">
+          <thead class="text-xs text-secondary uppercase bg-primary sticky top-0">
+            <tr>
+              <th scope="col" class="p-4">
+                <div class="flex items-center">
+                  <input
+                    id="checkbox-all-search"
+                    type="checkbox"
+                    class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                </div>
+              </th>
+              <th scope="col" class="px-6 py-3">Nombre</th>
+              <th scope="col" class="px-6 py-3">Precio</th>
+              <th scope="col" class="px-6 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody class="h-96 overflow-y-auto">
+            <!-- bucle para mostrar los consumibles -->
+            <tr
+              v-for="consumible in getConsumibles"
+              :key="consumible.id"
+              class="bg-white border-b hover:bg-gray-50"
+            >
+              <td class="w-4 p-4">
+                <div class="flex items-center">
+                  <input
+                    id="checkbox-table-search-1"
+                    type="checkbox"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                </div>
+              </td>
+              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
+                <div>
+                  <div class="text-base font-semibold">{{ consumible.nombre }}</div>
+                </div>
+              </th>
+              <td class="px-6 py-4">{{ consumible.precio }} €</td>
+              <td class="px-6 py-4">
+                <!-- Modal toggle -->
+                <!-- Poner un EnlaceComponent cuando se haya creado -->
+                <a
+                  href="#"
+                  type="button"
+                  @click.prevent="showModal = true"
+                  data-modal-target="editConsumibleModal"
+                  data-modal-show="editConsumibleModal"
+                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >
+                  Editar
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
 
       <!-- Edit Consumible modal -->
       <!--  -->
@@ -168,7 +174,6 @@
         <EditConsumibleComponent />
       </ModalComponent>
 
-      <!-- MODAL HIDDEN QUE VENÍA EN LA PLANTILLA -->
     </div>
   </div>
 </template>
@@ -186,7 +191,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Consumible', ['getConsumibles', 'getMensaje', 'getTipo'])
+    ...mapGetters('Consumible', ['getConsumibles']),
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
     MensajesComponent,
