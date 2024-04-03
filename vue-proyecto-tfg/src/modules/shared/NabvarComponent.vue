@@ -1,11 +1,11 @@
 <template>
     <header class="p-4 text-primaryTitle">
-        <nav class="flex flex-row justify-between items-center">
+        <nav class="flex flex-col justify-between gap-10 items-center sm:items-end sm:flex-row ">
+            
             <div class="flex items-center gap-3">
                 <LogoComponent class="w-10 h-10" />
                 <router-link to="/" class="text-4xl font-bold">Transforstone</router-link>
             </div>
-
             <div class="relative inline-block text-left">
                 <button @click="open = !open" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary" id="options-menu" aria-haspopup="true" aria-expanded="true">
                     <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
