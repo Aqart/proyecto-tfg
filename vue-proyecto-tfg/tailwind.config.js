@@ -8,8 +8,9 @@ export default {
         bgTo: '#f1f6fc',
         primaryTitle: '#B1A090',
         primary: '#D9D9D9',
-        secondary: '#6A524B'
-      },
+        secondary: '#6A524B',
+        stone: '#DACEBE'
+      }
     }
   },
   plugins: []
