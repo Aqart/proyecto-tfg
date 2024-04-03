@@ -1,8 +1,6 @@
 <template>
   <div>
-    <header>
       <NavbarConsumibleComponent />
-    </header>
       <RouterView />
   </div>
 </template>

@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import useShared from '@/modules/shared/composables/useShared'
+
 export default {
   props: {
     type: {
@@ -52,16 +54,21 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    mostrarMensaje: {
+      type: Boolean,
+      required: true
     }
   },
-  data() {
+  setup() {
+    const { actualizarMostrarMensaje } = useShared()
+
+    const cerrarMensaje = () => {
+      actualizarMostrarMensaje(false)
+    }
+
     return {
-      mostrarMensaje: true
-    }
-  },
-  methods: {
-    cerrarMensaje() {
-      this.mostrarMensaje = false
+      cerrarMensaje
     }
   }
 }
