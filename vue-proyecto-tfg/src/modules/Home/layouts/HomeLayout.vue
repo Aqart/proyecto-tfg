@@ -4,6 +4,7 @@
     <NabvarComponent />
     </header>
     <main class="flex flex-col justify-center items-center">
+    <MenuView />
     <RouterView/>
     </main>
     <footer>
@@ -22,7 +23,8 @@ import useGasto from '@/modules/GastosGenerales/composables/useGasto'
 export default {
     components: {
         RouterView,
-        NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue'))
+        NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
+        MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue'))
     },
     data() {
         return {
