@@ -19,6 +19,7 @@ import { defineAsyncComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 
 export default {
     components: {
@@ -57,10 +58,20 @@ export default {
             },
             // Puedes agregar más funciones relacionadas con obtener consumibles aquí
         };
+        const obtenerMaquinas = {
+            obtenerListaMaquinas: async () => {
+                // Importa las funciones necesarias desde useConsumible
+                const { getMaquinas } = useMaquina();
+                // Llama a la función getConsumibles para obtener la lista de consumibles
+                return await getMaquinas();
+            },
+            // Puedes agregar más funciones relacionadas con obtener consumibles aquí
+        };
 
         // Llama a las funciones necesarias al cargar el componente
         obtenerConsumibles.obtenerListaConsumibles();
         obtenerGastos.obtenerListaGastos();
+        obtenerMaquinas.obtenerListaMaquinas();
 
         // Retorna los objetos que quieres exponer en el componente
         // return { obtenerConsumibles };
