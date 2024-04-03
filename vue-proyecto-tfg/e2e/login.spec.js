@@ -32,3 +32,15 @@ test('Login correcto accede a la web', async ({ page }) => {
   //cerrar el navegador
   await page.close()
 })
+
+test('Logout cierra la sesión', async ({ page }) => {
+  await page.goto('http://localhost:5173/login')
+  await page.getByPlaceholder('email@email.es').click()
+  await page.getByPlaceholder('email@email.es').fill('admin@admin.es')
+  await page.getByPlaceholder('•••••••••').click()
+  await page.getByPlaceholder('•••••••••').fill('admin')
+  await page.getByRole('button', { name: 'Acceder' }).click()
+  await page.locator('#options-menu').click()
+  await page.getByRole('menuitem', { name: 'Desconectar' }).click()
+  await expect(page).toHaveURL('http://localhost:5173/login')
+})
