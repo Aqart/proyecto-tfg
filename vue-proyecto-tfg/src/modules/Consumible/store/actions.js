@@ -41,7 +41,7 @@ export const createConsumible = async ({ commit }, consumible) => {
 
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
-      commit('setConsumible', consumible)
+      commit('setNewConsumible', consumible)
       return { ok: true, message: response.data.message }
     } else {
       console.error('Error al obtener los consumibles:', response.message)
@@ -52,13 +52,43 @@ export const createConsumible = async ({ commit }, consumible) => {
   }
 }
 
+export const getConsumibleById = async ({ commit }, id) => {
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  try {
+    const response = await authApi.get(`/consumibles/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+
+    // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+    if(response.status === 200 && response.data){
+
+      console.log(response.data)
+      return response.data
+
+    } else {
+      console.error('Error al obtener el consumible:', response.message)
+      return { ok: false, message: response.message }
+    }
+
+
+  } catch(error){
+    console.log('Error al obtener el consumible:', error)
+  }
+}
+
+
+
 export const editConsumible = async ({ commit }, id, consumible) => {
   console.log('Editar consumible')
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.put(`/consumibles/${id}`, consumible, {
+    const response = await authApi.put(`/consumibles/${id}`, consumible,  {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }

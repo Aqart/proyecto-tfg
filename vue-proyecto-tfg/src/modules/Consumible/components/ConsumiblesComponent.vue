@@ -151,16 +151,12 @@
               <td class="px-6 py-4">
                 <!-- Modal toggle -->
                 <!-- Poner un EnlaceComponent cuando se haya creado -->
-                <a
-                  href="#"
-                  type="button"
-                  @click.prevent="showModal = true"
-                  data-modal-target="editConsumibleModal"
-                  data-modal-show="editConsumibleModal"
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Editar
-                </a>
+                  <router-link
+                    :to="`/consumibles/edit/${consumible.id}`"
+                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  >
+                    Editar
+                  </router-link>
               </td>
             </tr>
           </tbody>
@@ -168,11 +164,7 @@
       </div>
 
 
-      <!-- Edit Consumible modal -->
-      <!--  -->
-      <ModalComponent :showModal="showModal" @close="showModal = false" title="Consumible">
-        <EditConsumibleComponent />
-      </ModalComponent>
+
 
     </div>
   </div>
@@ -181,23 +173,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import MensajesComponent from '@/modules/shared/components/MensajesComponent.vue'
-import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
-import EditConsumibleComponent from '@/modules/Consumible/components/EditConsumibleComponent.vue'
 
 export default {
-  data() {
-    return {
-      showModal: false
-    }
-  },
   computed: {
     ...mapGetters('Consumible', ['getConsumibles']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
     MensajesComponent,
-    EditConsumibleComponent,
-    ModalComponent
-  }
+  },
 }
 </script>
