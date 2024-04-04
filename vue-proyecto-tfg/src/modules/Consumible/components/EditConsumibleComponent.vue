@@ -1,4 +1,6 @@
 <template>
+
+  <ModalComponent :showModal="true" @close="$router.push('/consumibles')" title="Consumible">
     <form @submit.prevent="handleSubmit" class="p-10">
 
       <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
@@ -27,22 +29,26 @@
         min=0
       />
 
-      <ButtonComponent text="Añadir Consumible" type="submit" bg-color = "bg-primary" />
+      <ButtonComponent text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
     </form>
+  </ModalComponent>
 
 </template>
 
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
+import useShared from '@/modules/shared/composables/useShared'
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
+import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
 
   export default {
     setup() {
       const router = useRouter()
-      const { createConsumible, actualizarMensaje } = useConsumible()
+      const {editConsumible, getConsumible } = useConsumible()
+      const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
       // Define una propiedad reactiva consumibleForm
       const consumibleForm = ref({
@@ -50,26 +56,36 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
         precio: ''
       })
 
+      onMounted(async () => {
+        const consumible = await getConsumible(router.currentRoute.value.params.id)
+        console.log('edit cons', consumible)
+        consumibleForm.value.nombre = consumible.nombre
+        consumibleForm.value.precio = consumible.precio
+      })
+
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
         handleSubmit: async () => {
-          const { ok, message } = await createConsumible(consumibleForm.value)
+          console.log('Datos del form', consumibleForm.value)
+          const { ok, message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
 
-          // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
             actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
           }else{
             actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
           }
-          
+
           router.push('/consumibles')
         
         }
       }
     },
     components: {
-      ButtonComponent
+      ButtonComponent,
+      ModalComponent
     }
   }
 </script>
