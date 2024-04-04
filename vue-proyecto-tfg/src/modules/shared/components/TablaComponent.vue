@@ -1,5 +1,8 @@
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <h1 class="text-3xl font-bold text-center py-4 bg-primary text-secondary">
+      Listado de {{ formattedRoute }}
+    </h1>
     <div
       class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 px-4 py-4 bg-primary"
     >
@@ -52,7 +55,7 @@
           </div>
         </div>
       </div>
-      <label for="table-search" class="sr-only">Buscar</label>
+      <label for="table-search w-full" class="sr-only">Buscar</label>
       <div class="relative">
         <div
           class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -78,13 +81,14 @@
           id="table-search-consumibles"
           class="block pt-2 pb-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
           placeholder="Buscar consumibles"
+          v-model="searchQuery"
         />
       </div>
     </div>
 
     <div class="max-h-96">
       <table class="w-full text-sm text-left rtl:text-right text-secondary-500">
-        <thead class="text-xs text-secondary uppercase bg-primary sticky top-0">
+        <thead class="text-sm text-secondary bg-primary sticky top-0">
           <tr>
             <th scope="col" class="p-4">
               <div class="flex items-center">
@@ -96,17 +100,15 @@
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
             </th>
-            <th v-for="(head, index) in data[0]" :key="index" scope="col" class="px-6 py-3">
-              <div v-if="index !== 'id'">
-                {{ index }}
-              </div>
+            <th v-for="key in filteredHeader" :key="key" scope="col" class="px-6 py-3">
+              <div v-html="formatIndex(key)"></div>
             </th>
             <th scope="col" class="px-6 py-3">Acciones</th>
           </tr>
         </thead>
-        <tbody class="h-96 overflow-y-auto">
+        <tbody class="overflow-y-auto">
           <!-- bucle para mostrar los consumibles -->
-          <tr v-for="body in data" :key="body.id" class="bg-white border-b hover:bg-gray-50">
+          <tr v-for="body in searchFilteredData" :key="body.id" class="bg-white border-b hover:bg-gray-50">
             <td class="w-4 p-4">
               <div class="flex items-center">
                 <input
@@ -124,9 +126,7 @@
                   {{ el }}
                 </div>
               </th>
-              <td v-else-if="index === 'id'" :key="index">
-              </td>
-              <td v-else :key="`${el}-td`" class="px-6 py-4">
+              <td v-else-if="index !== 'id'" :key="`${el}-td`" class="px-6 py-4 text-center">
                 <div class="text-sm text-black-900">
                   {{ el }}
                 </div>
@@ -156,19 +156,58 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      searchQuery: ''
+    }
+  },
   setup(props, context) {
-  // ...
+    // ...
 
-  const cerrarMensaje = () => {
-    context.emit('cerrarMensaje')
-  }
+    const cerrarMensaje = () => {
+      context.emit('cerrarMensaje')
+    }
 
-  return {
-    cerrarMensaje,
-    // Resto del código
+    const formatIndex = (index) => {
+      let formattedIndex = index.replace('_', ' ')
+      formattedIndex =
+        formattedIndex.charAt(0).toUpperCase() + formattedIndex.slice(1).toLowerCase()
+
+      if (formattedIndex.includes('m2')) {
+        formattedIndex = formattedIndex.replace('m2', 'm<sup>2</sup>')
+      }
+
+      if (formattedIndex.includes('m3')) {
+        formattedIndex = formattedIndex.replace('m3', 'm<sup>3</sup>')
+      }
+
+      return formattedIndex
+    }
+
+    return {
+      cerrarMensaje,
+      formatIndex
+      // Resto del código
+    }
+  },
+  computed: {
+    formattedRoute() {
+      return this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
+    },
+    filteredHeader() {
+    if (this.data && this.data.length > 0) {
+      return Object.keys(this.data[0]).filter(key => key !== 'id');
+    } else {
+      return [];
+    }
+  },
+  searchFilteredData() {
+    return this.data.filter(row => {
+      return Object.values(row).some(value => {
+        return String(value).toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    });
   }
-}
+  }
 }
 </script>
-
-<style></style>

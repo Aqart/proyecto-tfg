@@ -13,7 +13,7 @@
         <ButtonComponent type="button"
                 @click="handleClose"
                 text="X"
-                otherClasses="text-xl text-gray-400 bg-transparent rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center" 
+                otherClasses="text-xl text-gray-400 bg-transparent rounded-lg w-6 h-6 ms-auto inline-flex justify-center items-center" 
                 data-modal-hide="editConsumibleModal">
       </ButtonComponent>
       </div>
