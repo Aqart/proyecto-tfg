@@ -155,7 +155,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 export default {
   props: {
     data: {
@@ -169,11 +168,12 @@ export default {
       show: true,
     }
   },
-  setup(props, context) {
-    // ...
+  setup() {
+    const { actualizarMostrarMensaje } = useShared()
 
     const cerrarMensaje = () => {
-      context.emit('cerrarMensaje')
+      console.log("Cerrar Mensaje se está haciendo")
+      actualizarMostrarMensaje(false)
     }
 
     const formatIndex = (index) => {
