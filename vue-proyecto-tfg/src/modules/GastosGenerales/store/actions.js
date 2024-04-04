@@ -40,6 +40,7 @@ export const createGasto = async ({ commit }, gastos) => {
     if (response.status === 201 && response.data) {
       console.log('RESPONSE DATA', response.status, response.data)
 
+      console.log("Gastos action", gastos)
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
       commit('setGasto', gastos)
