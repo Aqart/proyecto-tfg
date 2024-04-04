@@ -8,13 +8,14 @@
     >
       <div>
         <button
+          @click="toggleDropdown"
           id="dropdownActionButton"
           data-dropdown-toggle="dropdownAction"
           class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-secondary-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5"
           type="button"
         >
           <span class="sr-only">Action button</span>
-          Action
+          Acción
           <svg
             class="w-2.5 h-2.5 ms-2.5"
             aria-hidden="true"
@@ -34,6 +35,7 @@
         <!-- Dropdown menu -->
         <!-- Cambiar por el botón de borrar -->
         <div
+          v-show="showDropdown"
           id="dropdownAction"
           class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
         >
@@ -76,13 +78,16 @@
             />
           </svg>
         </div>
-        <input
-          type="text"
-          id="table-search-consumibles"
-          class="block pt-2 pb-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
-          placeholder="Buscar consumibles"
-          v-model="searchQuery"
-        />
+          <div v-if="show">
+
+            <input
+            type="text"
+            id="table-search-consumibles"
+            class="block pt-2 pb-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
+            placeholder="Buscar consumibles"
+            v-model="searchQuery"
+            />
+          </div>
       </div>
     </div>
 
@@ -108,6 +113,7 @@
         </thead>
         <tbody class="max-h-96 overflow-y-auto">
           <!-- bucle para mostrar los consumibles -->
+          
           <tr v-for="body in searchFilteredData" :key="body.id" class="bg-white border-b hover:bg-gray-50">
             <td class="w-4 p-4">
               <div class="flex items-center">
@@ -149,6 +155,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
   props: {
     data: {
@@ -158,7 +165,8 @@ export default {
   },
   data() {
     return {
-      searchQuery: ''
+      searchQuery: '',
+      show: true,
     }
   },
   setup(props, context) {
@@ -183,10 +191,17 @@ export default {
 
       return formattedIndex
     }
+    const showDropdown = ref(false);
+
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
+};
 
     return {
       cerrarMensaje,
-      formatIndex
+      formatIndex,
+      showDropdown,
+      toggleDropdown
       // Resto del código
     }
   },
