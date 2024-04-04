@@ -7,16 +7,19 @@
     <div class="relative w-full max-w-2xl max-h-full bg-primary rounded-lg shadow">
       <!-- Modal header -->
       <div class="flex items-start justify-between p-4 border-b rounded-t">
-        <h3 class="text-xl font-semibold text-gray-900">
-            Editar {{ title }}
+        <h3 class="text-xl font-semibold text-secondary">
+            {{ title }}
         </h3>
         <ButtonComponent type="button"
-                @click="$emit('close')"
-                text='X'
+                @click="handleClose"
+                text="X"
                 otherClasses="text-xl text-gray-400 bg-transparent rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center" 
                 data-modal-hide="editConsumibleModal">
-          <span class="sr-only">Close modal</span>
       </ButtonComponent>
+      </div>
+      <div>
+        <MensajesComponent :message="getMensaje" :type="getTipo"
+          :mostrarMensaje="getMostrar"/>
       </div>
       <slot></slot>
     </div>
@@ -26,7 +29,10 @@
 
 <script>
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
-
+import MensajesComponent from '@/modules/shared/components/MensajesComponent.vue';
+import useShared from '@/modules/shared/composables/useShared'
+import { useRouter } from 'vue-router';
+import { mapGetters } from 'vuex';
 
   export default {
     props: {
@@ -39,8 +45,26 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
         required: true
       }
     },
+    computed: {
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
+    },
+    // Props y context se pasan para hacer el emit del close
+    setup() {
+      const router = useRouter()
+      const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+      const handleClose = () => {
+        actualizarMensaje('', '')
+        actualizarMostrarMensaje(false)
+        // context.emit('close')
+        router.back()
+      }
+      return {
+        handleClose
+      }
+    },
     components: {
-      ButtonComponent
+      ButtonComponent,
+      MensajesComponent
     }
   }
 
