@@ -6,7 +6,7 @@
       />
     </div>
     <TablaComponent :data="getConsumibles" />
-    </div>
+  </div>
 </template>
 
 <script>
