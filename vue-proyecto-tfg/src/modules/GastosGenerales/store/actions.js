@@ -43,7 +43,7 @@ export const createGasto = async ({ commit }, gastos) => {
       console.log("Gastos action", gastos)
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
-      commit('setGasto', gastos)
+      commit('setNewGasto', gastos)
       return { ok: true, message: response.data.message }
     } else {
       console.error('Error al obtener los gastos:', response.message)
