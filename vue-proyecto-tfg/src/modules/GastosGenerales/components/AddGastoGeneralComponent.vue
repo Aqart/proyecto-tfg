@@ -21,11 +21,12 @@
       type="number"
       name="precio"
       id="precio"
-      placeholder="Precio"
+      placeholder="Precio del gasto general"
+      step="0.01"
       min=0
     />
 
-    <button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Añadir Consumible</button>
+    <ButtonComponent text="Añadir gasto general" type="submit" bg-color = "bg-primary" />
   </form>
 
 </template>
@@ -33,23 +34,22 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useShared from '@/modules/shared/composables/useShared'
+import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 
   export default {
-    emits: [
-      'actualizarVista', 
-      'updateMessage',
-      'updateType'
-    ],
-    setup(props, { emit }) {
+    setup() {
+      const router = useRouter()
       const { createGasto } = useGasto()
+      const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
       // Define una propiedad reactiva consumibleForm
       const gastoForm = ref({
         nombre: '',
         precio: ''
       })
-      
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
@@ -57,21 +57,22 @@ import useGasto from '@/modules/GastosGenerales/composables/useGasto'
         handleSubmit: async () => {
           const { ok, message } = await createGasto(gastoForm.value)
 
+          // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
-            // Enviar el mensaje de error al componente padre y actualizar vista
-            emit('updateType', 'error')
-            emit('updateMessage', message)
-            emit('actualizarVista', 'MensajeComponent')
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
           }else{
-            emit('updateType', 'success')
-            emit('updateMessage', message)
-            emit('actualizarVista', 'MensajeComponent')
-
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
           }
-          // Enviar el mensaje de consumibleForm.value al componente padre y actualizar vista
+          
+          router.push('/gastos-generales')
         
         }
       }
+    },
+    components: {
+      ButtonComponent
     }
   }
 </script>
