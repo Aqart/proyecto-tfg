@@ -1,4 +1,6 @@
 export default () => ({
   gastos: [],
-  reponse: null
+  reponse: null,
+  mensajeVista: '',
+  typeVista: ''
 })

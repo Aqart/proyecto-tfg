@@ -1,6 +1,6 @@
 <template>
     <div>
-      <GastosComponent/>
+      <GastosComponent />
     </div>
   </template>
   

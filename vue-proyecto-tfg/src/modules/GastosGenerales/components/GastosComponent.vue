@@ -1,65 +1,34 @@
 <template>
   <div>
-    <h1 class="text-5xl">{{ title }}</h1>
-    <!-- Botón para mostrar todos los consumibles -->
-    <button @click="mostrarTodos" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver los gastos generales</button>
-    <button @click="anadirGasto" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-4 rounded">Añadir nuevo gasto </button>
-    <div v-if="vistaActual === 'ListaGastos'">
-      <ListaGastos />
-    </div>
-    <div v-if="vistaActual === 'FormularioGastos'">
-      <FormularioGastos
-        @actualizarVista="vistaActual = $event"
-        @updateMessage="mensajeVista = $event"
-        @updateType="typeVista = $event"/>
-    </div>
-    <div v-if="mensajeVista">
-      <MensajesComponent 
-      :message="mensajeVista"
-      :type="typeVista"
+    <div>
+      <MensajesComponent :message="getMensaje" :type="getTipo"
+      :mostrarMensaje="getMostrar"
       />
     </div>
-
+    <TablaComponent :data="getGastos" />
   </div>
 </template>
 
 <script>
-
-import ListaGastos from './ListaGastos.vue';
-import FormularioGastos from './FormularioGastos.vue';
-import MensajesComponent from '@/modules/shared/components/MensajesComponent.vue';
+import { mapGetters } from 'vuex'
+import { defineAsyncComponent } from 'vue'
 
 export default {
-  props: {
-    title: {
-      type: String,
-      default: "GastosGenerales"
-    }
-  },
   data() {
     return {
-      vistaActual: '',
-      mensajeVista: '',
-      typeVista: ''
+      showModal: false
     }
+  },
+  computed: {
+    ...mapGetters('GastosGenerales', ['getGastos']),
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    ListaGastos,
-    FormularioGastos,
-    MensajesComponent,
-  },
-  methods: {
-    mostrarTodos() {
-      this.vistaActual = '';
-      this.vistaActual = 'ListaGastos';
-    },
-    anadirGasto() {
-      this.vistaActual = 'FormularioGastos';
-    }
+    MensajesComponent: defineAsyncComponent(() => import('@/modules/shared/components/MensajesComponent.vue')),
+    //EditConsumibleComponent: defineAsyncComponent(() => import('@/modules/Consumible/components/EditConsumibleComponent.vue')),
+    //ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue')),
+    TablaComponent: defineAsyncComponent(() => import('@/modules/shared/components/TablaComponent.vue'))
   }
-  // setup() {
-    
-  // }
-    
+
 }
 </script>

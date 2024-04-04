@@ -1,18 +1,21 @@
 <template>
-    <div>
-        <RouterView />
-    </div>
-  </template>
-  
-  <script>
-  import { RouterView } from 'vue-router'
-  export default {
-    components: {
-        RouterView,
-    }
+  <div>
+      <NavbarGastosComponent />
+      <RouterView />
+  </div>
+</template>
+
+<script>
+import { RouterView } from 'vue-router'
+import NavbarGastosComponent from '../components/NavbarGastosComponent.vue'
+export default {
+  components: {
+      RouterView,
+      NavbarGastosComponent
   }
-  </script>
-  
-  <style>
-  
-  </style>
+}
+</script>
+
+<style>
+
+</style>
