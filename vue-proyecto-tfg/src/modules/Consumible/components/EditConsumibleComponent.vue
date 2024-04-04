@@ -1,7 +1,7 @@
 <template>
 
   <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
-  <ModalComponent :showModal="true" :title="nombreConsumible">
+  <ModalComponent :showModal="showModal" :title="nombreConsumible">
 
     <form @submit.prevent="handleSubmit" class="p-10">
 
@@ -31,7 +31,7 @@
         min=0
       />
 
-      <ButtonComponent text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
+      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
     </form>
 
 
@@ -48,6 +48,16 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
 
   export default {
+    data() {
+      return {
+        showModal: true
+      }
+    },
+    methods: {
+      toggleModal() {
+        this.showModal = !this.showModal
+      }
+    },
     setup() {
       const router = useRouter()
       const { editConsumible, getConsumible } = useConsumible()
@@ -111,9 +121,8 @@ import useShared from '@/modules/shared/composables/useShared'
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
-
-          router.push('/consumibles')
         
+          router.push('/consumibles')
         },
 
         // handleClose

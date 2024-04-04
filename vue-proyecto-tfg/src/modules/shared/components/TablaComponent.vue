@@ -149,6 +149,8 @@
 </template>
 
 <script>
+import useShared from '@/modules/shared/composables/useShared'
+
 export default {
   props: {
     data: {
@@ -161,11 +163,12 @@ export default {
       searchQuery: ''
     }
   },
-  setup(props, context) {
-    // ...
+  setup() {
+    const { actualizarMostrarMensaje } = useShared()
 
     const cerrarMensaje = () => {
-      context.emit('cerrarMensaje')
+      console.log("Cerrar Mensaje se está haciendo")
+      actualizarMostrarMensaje(false)
     }
 
     const formatIndex = (index) => {
