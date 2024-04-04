@@ -5,7 +5,7 @@
       :mostrarMensaje="getMostrar"
       />
     </div>
-    <TablaComponent :tableHead="getConsumibles" :tableBody="getConsumibles" />
+    <TablaComponent :data="getConsumibles" />
     </div>
 </template>
 
@@ -28,19 +28,6 @@ export default {
     //EditConsumibleComponent: defineAsyncComponent(() => import('@/modules/Consumible/components/EditConsumibleComponent.vue')),
     //ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue')),
     TablaComponent: defineAsyncComponent(() => import('@/modules/shared/components/TablaComponent.vue'))
-  },      
-  watch: {
-    getConsumibles() {
-      this.fillTableBody()
-    }
-  },
-  methods: {
-    async fillTableBody() {
-      this.tableBody = await this.getConsumibles.map((consumible) => ({
-        nombre: consumible.nombre,
-        precio: consumible.precio,
-      }))
-    },
   }
 
 }

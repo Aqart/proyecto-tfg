@@ -96,15 +96,17 @@
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
             </th>
-            <th v-for="(head, index) in tableHead[0]" :key="index" scope="col" class="px-6 py-3">
-              {{ index }}
+            <th v-for="(head, index) in data[0]" :key="index" scope="col" class="px-6 py-3">
+              <div v-if="index !== 'id'">
+                {{ index }}
+              </div>
             </th>
             <th scope="col" class="px-6 py-3">Acciones</th>
           </tr>
         </thead>
         <tbody class="h-96 overflow-y-auto">
           <!-- bucle para mostrar los consumibles -->
-          <tr v-for="body in tableBody" :key="body.id" class="bg-white border-b hover:bg-gray-50">
+          <tr v-for="body in data" :key="body.id" class="bg-white border-b hover:bg-gray-50">
             <td class="w-4 p-4">
               <div class="flex items-center">
                 <input
@@ -122,6 +124,8 @@
                   {{ el }}
                 </div>
               </th>
+              <td v-else-if="index === 'id'" :key="index">
+              </td>
               <td v-else :key="`${el}-td`" class="px-6 py-4">
                 <div class="text-sm text-black-900">
                   {{ el }}
@@ -146,11 +150,7 @@
 <script>
 export default {
   props: {
-    tableHead: {
-      type: Array,
-      required: true
-    },
-    tableBody: {
+    data: {
       type: Array,
       required: true
     }

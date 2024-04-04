@@ -1,6 +1,8 @@
 <template>
 
-  <ModalComponent :showModal="true" @close="$router.push('/consumibles')" title="Consumible">
+  <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
+  <ModalComponent :showModal="true" :title="nombreConsumible">
+
     <form @submit.prevent="handleSubmit" class="p-10">
 
       <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
@@ -31,6 +33,8 @@
 
       <ButtonComponent text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
     </form>
+
+
   </ModalComponent>
 
 </template>
@@ -39,10 +43,9 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { defineAsyncComponent, computed } from 'vue'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
-import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
-import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
 
   export default {
     setup() {
@@ -53,7 +56,13 @@ import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
       // Define una propiedad reactiva consumibleForm
       const consumibleForm = ref({
         nombre: '',
-        precio: ''
+        precio: '',
+      })
+
+      // Define la propiedad reactiva de los datos del consumible original
+      const consumibleOriginal = ref({
+        nombre: '',
+        precio: '',
       })
 
       onMounted(async () => {
@@ -61,13 +70,38 @@ import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
         console.log('edit cons', consumible)
         consumibleForm.value.nombre = consumible.nombre
         consumibleForm.value.precio = consumible.precio
+        consumibleOriginal.value = { nombre: consumible.nombre, precio: consumible.precio}
       })
+
+      const nombreConsumible = computed(() => { return `Editando: ${consumibleForm.value.nombre}` })
+
+      // Método que se ejecuta cuando cerramos el modal
+      // const handleClose = () => {
+      //   router.push('/consumibles')
+      // }
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
+        nombreConsumible,
         handleSubmit: async () => {
+          // Comprueba si los campos están vacíos
+          if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
+            actualizarMensaje('error', 'Todos los campos son obligatorios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+
+          // Comprueba si los valores son los mismos que los originales
+          if (consumibleForm.value.nombre === consumibleOriginal.value.nombre && 
+              consumibleForm.value.precio === consumibleOriginal.value.precio) {
+            actualizarMensaje('warning', 'No se han realizado cambios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+
           console.log('Datos del form', consumibleForm.value)
+
           const { ok, message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
 
           if (!ok) {
@@ -80,12 +114,14 @@ import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
 
           router.push('/consumibles')
         
-        }
+        },
+
+        // handleClose
       }
     },
     components: {
-      ButtonComponent,
-      ModalComponent
+      ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue')),
+      ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue')),
     }
   }
 </script>

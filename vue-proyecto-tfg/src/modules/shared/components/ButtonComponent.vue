@@ -1,11 +1,23 @@
 <template>
     <button 
         :class="buttonClasses" 
-        :type="type">{{ text }}
+        :type="type"
+        v-if="text != 'X'"
+        >
+        {{ text }}
+    </button>
+    <button
+        :class="buttonClasses" 
+        :type="type" 
+        v-else
+    >
+        <CloseIconComponent :customClasses="buttonClasses" />
     </button>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
 export default {
     props: {
         text: {
@@ -47,6 +59,9 @@ export default {
             return classes
             
         }
+    },
+    components: {
+        CloseIconComponent: defineAsyncComponent(() => import('@/assets/images/CloseIconComponent.vue'))
     }
 }
 </script>
