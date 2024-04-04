@@ -106,7 +106,7 @@
             <th scope="col" class="px-6 py-3">Acciones</th>
           </tr>
         </thead>
-        <tbody class="overflow-y-auto">
+        <tbody class="max-h-96 overflow-y-auto">
           <!-- bucle para mostrar los consumibles -->
           <tr v-for="body in searchFilteredData" :key="body.id" class="bg-white border-b hover:bg-gray-50">
             <td class="w-4 p-4">
