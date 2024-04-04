@@ -136,6 +136,7 @@
               <router-link
                 :to="`${$route.path}/edit/${body.id}`"
                 class="text-sm text-blue-500 hover:underline"
+                @click="cerrarMensaje"
               >
                 Editar
               </router-link>
@@ -154,7 +155,19 @@ export default {
       type: Array,
       required: true
     }
+  },
+  setup(props, context) {
+  // ...
+
+  const cerrarMensaje = () => {
+    context.emit('cerrarMensaje')
   }
+
+  return {
+    cerrarMensaje,
+    // Resto del código
+  }
+}
 }
 </script>
 

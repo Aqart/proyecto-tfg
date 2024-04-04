@@ -50,7 +50,7 @@ import useShared from '@/modules/shared/composables/useShared'
   export default {
     setup() {
       const router = useRouter()
-      const {editConsumible, getConsumible } = useConsumible()
+      const { editConsumible, getConsumible } = useConsumible()
       const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
       // Define una propiedad reactiva consumibleForm
@@ -73,7 +73,7 @@ import useShared from '@/modules/shared/composables/useShared'
         consumibleOriginal.value = { nombre: consumible.nombre, precio: consumible.precio}
       })
 
-      const nombreConsumible = computed(() => { return `Editando: ${consumibleForm.value.nombre}` })
+      const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })
 
       // Método que se ejecuta cuando cerramos el modal
       // const handleClose = () => {
