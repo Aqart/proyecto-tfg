@@ -44,11 +44,10 @@ import useShared from '@/modules/shared/composables/useShared'
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
 import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
 
-
   export default {
     setup() {
       const router = useRouter()
-      const { editConsumible, getConsumible } = useConsumible()
+      const {editConsumible, getConsumible } = useConsumible()
       const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
       // Define una propiedad reactiva consumibleForm
@@ -68,9 +67,9 @@ import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
       return {
         consumibleForm,
         handleSubmit: async () => {
-          const { ok, message } = await editConsumible(consumibleForm.value)
+          console.log('Datos del form', consumibleForm.value)
+          const { ok, message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
 
-          // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -78,7 +77,7 @@ import ModalComponent from '@/modules/shared/components/ModalComponent.vue'
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
-          
+
           router.push('/consumibles')
         
         }

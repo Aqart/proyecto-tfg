@@ -18,8 +18,8 @@ const useConsumible = () => {
     return resp
   }
 
-  const editConsumible = async (consumible) => {
-    const resp = await store.dispatch('Consumible/editConsumible', consumible)
+  const editConsumible = async (id, consumible) => {
+    const resp = await store.dispatch('Consumible/editConsumible', {id: id, consumible: consumible})
     return resp
   }
 
