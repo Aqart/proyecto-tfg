@@ -32,6 +32,9 @@ export default {
   watch: {
     updateGastos() {
       this.getGastos();
+    },
+    updateMensajes() {
+      this.getMostrar();
     }
   }
 
