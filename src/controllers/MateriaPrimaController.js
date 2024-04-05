@@ -21,8 +21,10 @@ const MateriaPrimaController = {
                 'INSERT INTO materia_prima (nombre, coste_total, cantidad_m3) VALUES (?, ?, ?)',
                 [nombre, coste_total, cantidad_m3]
             )
+            const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
                 message: 'Materia prima creada correctamente',
+                id: rows[0].id
             })
         } catch (error) {
             next(error)

@@ -6,6 +6,8 @@
     <div
       class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 px-4 py-4 bg-primary"
     >
+    <!-- Dropdown menu -->
+    <!-- Cambiar por el botón de borrar -->
       <div>
         <button
           @click="toggleDropdown"
@@ -32,8 +34,6 @@
             />
           </svg>
         </button>
-        <!-- Dropdown menu -->
-        <!-- Cambiar por el botón de borrar -->
         <div
           v-show="showDropdown"
           id="dropdownAction"
@@ -50,11 +50,6 @@
               <a href="#" class="block px-4 py-2 hover:bg-gray-100">Activate account</a>
             </li>
           </ul>
-          <div class="py-1">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >Delete User</a
-            >
-          </div>
         </div>
       </div>
       <label for="table-search w-full" class="sr-only">Buscar</label>
@@ -79,7 +74,6 @@
           </svg>
         </div>
           <div v-if="show">
-
             <input
             type="text"
             id="table-search-consumibles"
@@ -88,6 +82,16 @@
             v-model="searchQuery"
             />
           </div>
+      </div>
+      <div>
+        <button>
+          <router-link
+            :to="`${$route.path}/add`"
+            class="text-sm text-blue-500 hover:underline"
+          >
+            Añadir
+          </router-link>
+        </button>
       </div>
     </div>
 
@@ -196,9 +200,9 @@ export default {
     }
     const showDropdown = ref(false);
 
-const toggleDropdown = () => {
-  showDropdown.value = !showDropdown.value;
-};
+    const toggleDropdown = () => {
+      showDropdown.value = !showDropdown.value;
+    };
 
     return {
       cerrarMensaje,
@@ -213,7 +217,7 @@ const toggleDropdown = () => {
       return this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
     },
     filteredHeader() {
-    if (this.data && this.data.length > 0) {
+    if (this.data?.length > 0) {
       return Object.keys(this.data[0]).filter(key => key !== 'id');
     } else {
       return [];

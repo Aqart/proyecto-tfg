@@ -36,6 +36,9 @@ export const fetchMaquinas = async ({ commit }) => {
         }
         })
         if (response.status === 201 && response.data) {
+        if (response.data.id) {
+            maquina.id = response.data.id;
+        }
         commit('setMaquina', maquina)
         return { ok: true, message: response.data.message }
         }

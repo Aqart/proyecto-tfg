@@ -19,8 +19,10 @@ const MaquinaController = {
                 'INSERT INTO maquina (nombre, produccion_m2, energia_consumida) VALUES (?, ?, ?)',
                 [nombre, produccion_m2, energia_consumida]
             )
+            const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
                 message: 'Máquina creada correctamente',
+                id: rows[0].id
             })
         } catch (error) {
             next(error)

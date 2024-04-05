@@ -19,8 +19,10 @@ const TransporteController = {
                 'INSERT INTO transporte (nombre, unidades_mes, precio) VALUES (?, ?, ?)',
                 [nombre, unidades_mes, precio]
             )
+            const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
                 message: 'Transporte de materia prima creado correctamente',
+                id: rows[0].id
             })
         } catch (error) {
             next(error)

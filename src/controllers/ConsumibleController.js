@@ -19,8 +19,13 @@ const ConsumibleController = {
                 'INSERT INTO consumible (nombre, precio) VALUES (?, ?)',
                 [nombre, precio]
             )
+
+            // Obtener el ID del último consumible insertado
+            const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
+
             res.status(201).json({
                 message: 'Consumible creado correctamente',
+                id: rows[0].id
             })
         } catch (error) {
             next(error)
