@@ -155,6 +155,9 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import useShared from '@/modules/shared/composables/useShared'
+
 export default {
   props: {
     data: {
