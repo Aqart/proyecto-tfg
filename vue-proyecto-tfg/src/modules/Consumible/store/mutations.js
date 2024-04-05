@@ -2,8 +2,9 @@ export const setConsumibles = (state, data) => {
   state.consumibles = data
 }
 
-export const setNewConsumible = (state, { nombre, precio }) => {
-  state.consumibles.push({ nombre, precio })
+export const setNewConsumible = (state, consumible) => {
+  console.log("MUTATION", state.consumibles)
+  state.consumibles.push(consumible)
 }
 
 export const setResponse = (state, data) => {

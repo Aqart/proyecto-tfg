@@ -31,7 +31,7 @@
         min=0
       />
 
-      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
+      <ButtonComponent @click="$emit('close-modal')" :disabled="isButtonDisabled" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
     </form>
 
 
@@ -41,9 +41,8 @@
 
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineAsyncComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { defineAsyncComponent, computed } from 'vue'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
 
@@ -51,11 +50,6 @@ import useShared from '@/modules/shared/composables/useShared'
     data() {
       return {
         showModal: true
-      }
-    },
-    methods: {
-      toggleModal() {
-        this.showModal = !this.showModal
       }
     },
     setup() {
@@ -85,15 +79,17 @@ import useShared from '@/modules/shared/composables/useShared'
 
       const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })
 
-      // Método que se ejecuta cuando cerramos el modal
-      // const handleClose = () => {
-      //   router.push('/consumibles')
-      // }
+      // Método para habilitar/deshabilitar el botón de modificar
+      const isButtonDisabled = computed(() => {
+        return (consumibleForm.value.nombre.trim() === consumibleOriginal.value.nombre.trim() && 
+              consumibleForm.value.precio === consumibleOriginal.value.precio)
+      })
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
         nombreConsumible,
+        isButtonDisabled,
         handleSubmit: async () => {
           // Comprueba si los campos están vacíos
           if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
@@ -103,7 +99,7 @@ import useShared from '@/modules/shared/composables/useShared'
           }
 
           // Comprueba si los valores son los mismos que los originales
-          if (consumibleForm.value.nombre === consumibleOriginal.value.nombre && 
+          if (consumibleForm.value.nombre.trim() === consumibleOriginal.value.nombre.trim() && 
               consumibleForm.value.precio === consumibleOriginal.value.precio) {
             actualizarMensaje('warning', 'No se han realizado cambios')
             actualizarMostrarMensaje(true)
@@ -123,9 +119,8 @@ import useShared from '@/modules/shared/composables/useShared'
           }
         
           router.push('/consumibles')
-        },
+        }
 
-        // handleClose
       }
     },
     components: {

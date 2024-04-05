@@ -19,8 +19,10 @@ const TrabajadorController = {
                 'INSERT INTO trabajador (nombre, apellido1, apellido2, precio, produccion) VALUES (?, ?, ?, ?, ?)',
                 [nombre, apellido1, apellido2, precio, produccion]
             )
+            const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
                 message: 'Trabajador creado correctamente',
+                id: rows[0].id
             })
         } catch (error) {
             next(error)
