@@ -74,7 +74,7 @@ import useShared from '@/modules/shared/composables/useShared'
         console.log('edit cons', consumible)
         consumibleForm.value.nombre = consumible.nombre
         consumibleForm.value.precio = consumible.precio
-        consumibleOriginal.value = { nombre: consumible.nombre, precio: consumible.precio}
+        consumibleOriginal.value = { nombre: consumible.nombre, precio: consumible.precio }
       })
 
       const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })

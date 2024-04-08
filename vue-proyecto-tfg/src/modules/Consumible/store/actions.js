@@ -108,8 +108,8 @@ export const editConsumible = async ({ commit }, {id, consumible}) => {
       return { ok: true, message: response.data.message }
 
     } else {
-      console.error('Error al editar consumible:', response.message)
-      return { ok: false, message: response.message }
+      console.error('Error al editar consumible:', response.data.message)
+      return { ok: false, message: response.data.message }
     }
 
 
