@@ -42,16 +42,6 @@
           />
         </div>
       </div>
-      <div>
-        <button>
-          <router-link
-            :to="`${$route.path}/add`"
-            class="text-sm text-blue-500 hover:underline"
-          >
-            Añadir
-          </router-link>
-        </button>
-      </div>
     </div>
 
     <div class="flex-grow overflow-auto">
