@@ -8,7 +8,7 @@ export default {
 </script>
 
 <template>
-<div class="bg-gradient-to-br from-bgFrom to-bgTo min-h-screen flex flex-col items-center">
+<div class="min-h-screen bg-gradient-to-br from-bgFrom to-bgTo flex flex-col items-center">
   <RouterView />
 </div>
 </template>

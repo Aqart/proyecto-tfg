@@ -1,16 +1,16 @@
 <template>
-  <RouterView />
+  <div class="w-full">
+    <RouterView />
+  </div>
 </template>
 
 <script>
 import { RouterView } from 'vue-router'
 export default {
-components: {
-RouterView,
-}
+  components: {
+    RouterView
+  }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

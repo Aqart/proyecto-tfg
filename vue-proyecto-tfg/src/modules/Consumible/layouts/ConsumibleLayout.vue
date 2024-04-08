@@ -1,17 +1,14 @@
 <template>
-  <div>
-      <NavbarConsumibleComponent />
+  <div class="w-full">
       <RouterView />
   </div>
 </template>
 
 <script>
 import { RouterView } from 'vue-router'
-import NavbarConsumibleComponent from '../components/NavbarConsumibleComponent.vue'
 export default {
   components: {
-      RouterView,
-      NavbarConsumibleComponent
+      RouterView
   }
 }
 </script>

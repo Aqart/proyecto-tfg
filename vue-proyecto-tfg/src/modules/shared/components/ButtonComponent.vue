@@ -53,7 +53,7 @@ export default {
             }
 
             if(this.bgColor === 'bg-secondary'){
-                classes += 'text-primary hover:bg-primary hover:text-secondary';
+                classes += 'text-primary hover:bg-primary hover:text-secondary hover:ring-2 hover:ring-secondary';
             }
             classes += ` ${this.otherClasses} ease-in-out transition-all duration-75`
             return classes

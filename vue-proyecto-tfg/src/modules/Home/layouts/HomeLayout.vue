@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container max-w-6xl">
     <header class="mt-5">
     <NabvarComponent />
     </header>
@@ -10,7 +10,6 @@
     <RouterView/>
     </main>
     <footer>
-    <p class="text-6xl"></p>
     </footer>
 </div>
 

@@ -1,34 +1,35 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
-      Nombre
-    </label>
-    <input
-      v-model="consumibleForm.nombre"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-      type="text"
-      name="nombre"
-      id="nombre"
-      placeholder="Nombre del consumible"
-    />
-    
-    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900">
-      Precio
-    </label>
-    <input
-      v-model="consumibleForm.precio"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-      type="number"
-      name="precio"
-      id="precio"
-      placeholder="Precio del consumible"
-      step="0.01"
-      min=0
-    />
+  <ModalComponent :showModal="showModal" :title="'Añadir un nuevo consumible'">
+  <form @submit.prevent="handleSubmit" class="p-10">
+    <label for="nombre" class="block mb-2 text-xl font-medium text-gray-900">
+        Nombre
+      </label>
+      <input
+        v-model="consumibleForm.nombre"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
+        type="text"
+        name="nombre"
+        id="nombre"
+        placeholder="Nombre del consumible"
+      />
+      
+      <label for="precio" class="block mb-2 text-xl font-medium text-gray-900">
+        Precio
+      </label>
+      <input
+        v-model="consumibleForm.precio"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
+        type="number"
+        name="precio"
+        id="precio"
+        step="0.01"
+        placeholder="Precio del consumible"
+        min=0
+      />
 
-    <ButtonComponent text="Añadir Consumible" type="submit" bg-color = "bg-primary" />
+    <ButtonComponent @click="toggleModal" text="Añadir Consumible" type="submit" bgColor="bg-secondary" />
   </form>
-
+</ModalComponent>
 </template>
 
 
@@ -37,9 +38,19 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
-import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
+import { defineAsyncComponent } from 'vue'
 
   export default {
+    data() {
+      return {
+        showModal: true
+      }
+    },
+    methods: {
+      toggleModal() {
+        this.showModal = !this.showModal
+      }
+    },
     setup() {
       const router = useRouter()
       const { createConsumible } = useConsumible()
@@ -50,7 +61,6 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
         nombre: '',
         precio: ''
       })
-
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
@@ -72,7 +82,8 @@ import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
       }
     },
     components: {
-      ButtonComponent
+      ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue')),
+      ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue'))
     }
   }
 </script>
