@@ -34,11 +34,10 @@
 
 
 <script>
-import { ref, defineAsyncComponent, computed } from 'vue';
+import { ref, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
-import { defineAsyncComponent } from 'vue'
 
   export default {
     data() {
@@ -64,7 +63,7 @@ import { defineAsyncComponent } from 'vue'
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
-        isButtonDisabled,
+        //isButtonDisabled,
         handleSubmit: async () => {
           
           if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
