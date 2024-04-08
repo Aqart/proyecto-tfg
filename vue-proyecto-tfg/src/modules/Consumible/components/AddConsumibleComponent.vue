@@ -1,31 +1,29 @@
 <template>
-
-  <ModalComponent :showModal="showModal" :title="nombreConsumible">
-
-    <form @submit.prevent="handleSubmit" class="p-10">
-      <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
+  <ModalComponent :showModal="showModal" :title="'Añadir un nuevo consumible'">
+  <form @submit.prevent="handleSubmit" class="p-10">
+    <label for="nombre" class="block mb-2 text-xl font-medium text-gray-900">
         Nombre
       </label>
       <input
         v-model="consumibleForm.nombre"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
         type="text"
         name="nombre"
         id="nombre"
         placeholder="Nombre del consumible"
       />
       
-      <label for="precio" class="block mb-2 text-sm font-medium text-gray-900">
+      <label for="precio" class="block mb-2 text-xl font-medium text-gray-900">
         Precio
       </label>
       <input
         v-model="consumibleForm.precio"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
         type="number"
         name="precio"
         id="precio"
-        placeholder="Precio del consumible"
         step="0.01"
+        placeholder="Precio del consumible"
         min=0
       />
 
@@ -46,8 +44,12 @@ import useShared from '@/modules/shared/composables/useShared'
   export default {
     data() {
       return {
-        showModal: true,
-        nombreConsumible: "Nuevo Consumible"
+        showModal: true
+      }
+    },
+    methods: {
+      toggleModal() {
+        this.showModal = !this.showModal
       }
     },
     setup() {

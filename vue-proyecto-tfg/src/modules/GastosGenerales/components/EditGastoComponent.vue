@@ -3,7 +3,7 @@
   <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
   <ModalComponent :showModal="showModal" :title="nombreGasto">
 
-    <form @submit.prevent="handleSubmit" class="p-10">
+    <!-- <form @submit.prevent="handleSubmit" class="p-10">
 
       <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
         Nombre
@@ -31,9 +31,9 @@
         min=0
       />
 
-      <ButtonComponent @click="$emit('close-modal')" text="Modificar gasto general" type="submit" bg-color = "bg-primary" />
-    </form>
-
+      <ButtonComponent text="Modificar gasto general" type="submit" bg-color = "bg-primary" />
+    </form> -->
+    <FormComponent :fields="gastoForm" @submit="handleSubmit" />
 
   </ModalComponent>
 
@@ -125,8 +125,9 @@ import useShared from '@/modules/shared/composables/useShared'
       }
     },
     components: {
-      ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue')),
+      // ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue')),
       ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue')),
+      FormComponent: defineAsyncComponent(() => import('@/modules/shared/components/FormComponent.vue'))
     }
   }
 </script>
