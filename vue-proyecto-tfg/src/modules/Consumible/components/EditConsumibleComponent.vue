@@ -3,7 +3,7 @@
   <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
   <ModalComponent :showModal="showModal" :title="nombreConsumible">
 
-    <!-- <form @submit.prevent="handleSubmit" class="p-10">
+    <form @submit.prevent="handleSubmit" class="p-10">
       
       <label for="nombre" class="block mb-2 text-xl font-medium text-gray-900">
         Nombre
