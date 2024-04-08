@@ -76,3 +76,13 @@ import { mapGetters } from 'vuex';
 
 
 </script>
+
+<style scoped>
+  .modal-enter-active, .modal-leave-active {
+    transition: opacity .5s, transform .5s;
+  }
+  .modal-enter, .modal-leave-to {
+    opacity: 0;
+    transform: scale(0);
+  }
+</style>

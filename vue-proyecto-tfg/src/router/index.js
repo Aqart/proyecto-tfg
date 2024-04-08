@@ -28,8 +28,10 @@ router.beforeEach(async (to, from, next) => {
   if (requiresAuth && isTokenExpired) {
     next('/login')
   } else {
-    console.log('router', from.path, to.path.split('/').slice(0, -2).join('/'))
-    const rutaFrom = from.path.split('/').slice(0, -2).join('/')
+    // const rutaTo = to.path.split('/').slice(0, -2).join('/')
+    const rutaFrom = from.matched[1] ? from.matched[1].path : from.path
+    console.log('router', rutaFrom, to.path, from.matched[0], from.matched[1])
+
     if (rutaFrom !== to.path) {
       store.commit('Shared/setMostrar', false)
     }

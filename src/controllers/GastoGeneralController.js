@@ -21,8 +21,12 @@ const GastoGeneralController = {
                 'INSERT INTO gasto_general (nombre, precio) VALUES (?, ?)',
                 [nombre, precio]
             )
+
+            const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
+
             res.status(201).json({
                 message: 'Gasto general creado correctamente',
+                id: rows[0].id
             })
         } catch (error) {
             next(error)

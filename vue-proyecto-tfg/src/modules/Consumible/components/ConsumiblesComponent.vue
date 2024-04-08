@@ -14,11 +14,6 @@ import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
 
 export default {
-  data() {
-    return {
-      showModal: false
-    }
-  },
   computed: {
     ...mapGetters('Consumible', ['getConsumibles']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])

@@ -34,11 +34,10 @@
 
 
 <script>
-import { ref } from 'vue';
+import { ref, defineAsyncComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
-import { defineAsyncComponent } from 'vue'
 
   export default {
     data() {
@@ -61,12 +60,24 @@ import { defineAsyncComponent } from 'vue'
         nombre: '',
         precio: ''
       })
+
+      const isButtonDisabled = computed(() => {
+        return (!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio)
+      })
+
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
+        isButtonDisabled,
         handleSubmit: async () => {
+          
+          if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
+            actualizarMensaje('error', 'Todos los campos son obligatorios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+          
           const { ok, message } = await createConsumible(consumibleForm.value)
-
           // Guardar el tipo de mensaje y el contenido en el Store
           if (!ok) {
             actualizarMensaje('error', message)

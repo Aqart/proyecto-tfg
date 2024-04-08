@@ -31,9 +31,9 @@
         min=0
       />
 
-      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bgColor="bg-secondary" />
-    </form> -->
-    <FormComponent :fields="consumibleForm" @submit="handleSubmit" />
+      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
+    </form>
+
 
   </ModalComponent>
 
@@ -41,9 +41,8 @@
 
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineAsyncComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { defineAsyncComponent, computed } from 'vue'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
 
@@ -51,11 +50,6 @@ import useShared from '@/modules/shared/composables/useShared'
     data() {
       return {
         showModal: true
-      }
-    },
-    methods: {
-      toggleModal() {
-        this.showModal = !this.showModal
       }
     },
     setup() {
@@ -85,26 +79,47 @@ import useShared from '@/modules/shared/composables/useShared'
 
       const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })
 
-      // Método que se ejecuta cuando se envía el formulario
-      const handleSubmit = async () => {
-        try {
-          const { message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
-          console.log('Lo que recibo del consumibleForm', consumibleForm.value)
-          actualizarMensaje('success', message)
-          actualizarMostrarMensaje(true)
-          router.push('/consumibles')
-        } catch (error) {
-          console.error(error)
-          actualizarMensaje('error', 'No se ha podido modificar el consumible')
-          actualizarMostrarMensaje(true)
-        }
-      }
+      // Método que se ejecuta cuando cerramos el modal
+      // const handleClose = () => {
+      //   router.push('/consumibles')
+      // }
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
-        handleSubmit,
-        nombreConsumible
+        nombreConsumible,
+        handleSubmit: async () => {
+          // Comprueba si los campos están vacíos
+          if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
+            actualizarMensaje('error', 'Todos los campos son obligatorios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+
+          // Comprueba si los valores son los mismos que los originales
+          if (consumibleForm.value.nombre === consumibleOriginal.value.nombre && 
+              consumibleForm.value.precio === consumibleOriginal.value.precio) {
+            actualizarMensaje('warning', 'No se han realizado cambios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+
+          console.log('Datos del form', consumibleForm.value)
+
+          const { ok, message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
+
+          if (!ok) {
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
+          }else{
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
+          }
+        
+          router.push('/consumibles')
+        },
+
+        // handleClose
       }
     },
     components: {

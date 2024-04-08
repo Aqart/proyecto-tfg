@@ -24,6 +24,7 @@
         >
           Eliminar seleccionados (1)
         </a>
+
       </div>
       <label for="table-search-consumibles" class="sr-only">Buscar</label>
 <div class="relative flex-grow">
@@ -34,6 +35,7 @@
         </div>
         <div v-if="show">
           <input
+
             type="text"
             id="table-search-consumibles"
             class="block pt-2 pb-2 px-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
@@ -41,6 +43,16 @@
             v-model="searchQuery"
           />
         </div>
+      </div>
+      <div>
+        <button>
+          <router-link
+            :to="`${$route.path}/add`"
+            class="text-sm text-blue-500 hover:underline"
+          >
+            Añadir
+          </router-link>
+        </button>
       </div>
     </div>
 
@@ -116,6 +128,7 @@ import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
 
+
 export default {
   props: {
     data: {
@@ -160,8 +173,10 @@ export default {
     const showDropdown = ref(false)
 
     const toggleDropdown = () => {
+
       showDropdown.value = !showDropdown.value
     }
+
 
     return {
       cerrarMensaje,

@@ -37,8 +37,12 @@ export const createConsumible = async ({ commit }, consumible) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
+      if (response.data.id) {
+        consumible.id = response.data.id
+      }
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
+
       commit('setNewConsumible', consumible)
       return { ok: true, message: response.data.message }
     } else {

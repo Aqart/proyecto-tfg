@@ -1,7 +1,7 @@
 <template>
 
   <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
-  <ModalComponent :showModal="true" :title="nombreGasto">
+  <ModalComponent :showModal="showModal" :title="nombreGasto">
 
     <!-- <form @submit.prevent="handleSubmit" class="p-10">
 
@@ -48,6 +48,11 @@ import useGasto from '@/modules/GastosGenerales/composables/useGasto'
 import useShared from '@/modules/shared/composables/useShared'
 
   export default {
+    data() {
+      return {
+        showModal: true
+      }
+    },
     setup() {
       const router = useRouter()
       const { editGasto, getGasto } = useGasto()
@@ -70,7 +75,7 @@ import useShared from '@/modules/shared/composables/useShared'
         console.log('edit cons', gasto)
         gastoForm.value.nombre = gasto.nombre
         gastoForm.value.precio = gasto.precio
-        gastoForm.value = { nombre: gasto.nombre, precio: gasto.precio}
+        gastoOriginal.value = { nombre: gasto.nombre, precio: gasto.precio}
       })
 
       const nombreGasto = computed(() => { return `Editando: ${gastoOriginal.value.nombre}` })
