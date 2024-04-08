@@ -38,6 +38,7 @@ import { ref, defineAsyncComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
+import { defineAsyncComponent } from 'vue'
 
   export default {
     data() {
@@ -60,11 +61,6 @@ import useShared from '@/modules/shared/composables/useShared'
         nombre: '',
         precio: ''
       })
-
-      const isButtonDisabled = computed(() => {
-        return (!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio)
-      })
-
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,

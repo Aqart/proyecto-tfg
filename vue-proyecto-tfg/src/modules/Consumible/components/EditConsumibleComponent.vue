@@ -3,7 +3,7 @@
   <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
   <ModalComponent :showModal="showModal" :title="nombreConsumible">
 
-    <form @submit.prevent="handleSubmit" class="p-10">
+    <!-- <form @submit.prevent="handleSubmit" class="p-10">
       
       <label for="nombre" class="block mb-2 text-xl font-medium text-gray-900">
         Nombre
@@ -31,9 +31,9 @@
         min=0
       />
 
-      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
-    </form>
-
+      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bgColor="bg-secondary" />
+    </form> -->
+    <FormComponent :fields="consumibleForm" @submit="handleSubmit" />
 
   </ModalComponent>
 
@@ -79,16 +79,27 @@ import useShared from '@/modules/shared/composables/useShared'
 
       const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })
 
-      // Método que se ejecuta cuando cerramos el modal
-      // const handleClose = () => {
-      //   router.push('/consumibles')
-      // }
+      // Método que se ejecuta cuando se envía el formulario
+      const handleSubmit = async () => {
+        try {
+          const { message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
+          console.log('Lo que recibo del consumibleForm', consumibleForm.value)
+          actualizarMensaje('success', message)
+          actualizarMostrarMensaje(true)
+          router.push('/consumibles')
+        } catch (error) {
+          console.error(error)
+          actualizarMensaje('error', 'No se ha podido modificar el consumible')
+          actualizarMostrarMensaje(true)
+        }
+      }
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
-        nombreConsumible,
-        handleSubmit: async () => {
+        handleSubmit,
+        nombreConsumible
+        /* handleSubmit: async () => {
           // Comprueba si los campos están vacíos
           if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
             actualizarMensaje('error', 'Todos los campos son obligatorios')
@@ -117,9 +128,7 @@ import useShared from '@/modules/shared/composables/useShared'
           }
         
           router.push('/consumibles')
-        },
-
-        // handleClose
+        } */
       }
     },
     components: {
