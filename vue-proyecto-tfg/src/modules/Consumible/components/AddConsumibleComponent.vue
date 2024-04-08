@@ -27,11 +27,9 @@
         min=0
       />
 
-      <ButtonComponent @click="$emit('close-modal')" :disabled="isButtonDisabled" text="Añadir Consumible" type="submit" bg-color = "bg-primary" />
-    </form>
-
-  </ModalComponent>
-
+    <ButtonComponent @click="toggleModal" text="Añadir Consumible" type="submit" bgColor="bg-secondary" />
+  </form>
+</ModalComponent>
 </template>
 
 
@@ -40,6 +38,7 @@ import { ref, defineAsyncComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
+import { defineAsyncComponent } from 'vue'
 
   export default {
     data() {
@@ -62,11 +61,6 @@ import useShared from '@/modules/shared/composables/useShared'
         nombre: '',
         precio: ''
       })
-
-      const isButtonDisabled = computed(() => {
-        return (!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio)
-      })
-
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
@@ -96,7 +90,7 @@ import useShared from '@/modules/shared/composables/useShared'
     },
     components: {
       ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue')),
-      ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue')),
+      ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue'))
     }
   }
 </script>

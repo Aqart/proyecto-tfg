@@ -5,7 +5,6 @@
         <LogoComponent class="w-10 h-10" />
         <router-link to="/" class="text-5xl font-bold text-shadow">Transforstone</router-link>
       </div>
-      <!--TODO: Arreglar que se cierre cuando haces click fuera-->
       <div class="relative inline-block text-left">
         <button
           @click="open = !open"
