@@ -99,6 +99,36 @@ import useShared from '@/modules/shared/composables/useShared'
         consumibleForm,
         handleSubmit,
         nombreConsumible
+        /* handleSubmit: async () => {
+          // Comprueba si los campos están vacíos
+          if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
+            actualizarMensaje('error', 'Todos los campos son obligatorios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+
+          // Comprueba si los valores son los mismos que los originales
+          if (consumibleForm.value.nombre === consumibleOriginal.value.nombre && 
+              consumibleForm.value.precio === consumibleOriginal.value.precio) {
+            actualizarMensaje('warning', 'No se han realizado cambios')
+            actualizarMostrarMensaje(true)
+            return
+          }
+
+          console.log('Datos del form', consumibleForm.value)
+
+          const { ok, message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
+
+          if (!ok) {
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
+          }else{
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
+          }
+        
+          router.push('/consumibles')
+        } */
       }
     },
     components: {
