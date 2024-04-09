@@ -22,7 +22,7 @@
           aria-haspopup="true"
           aria-expanded="true"
         >
-          Eliminar seleccionados (1)
+          Eliminar seleccionados <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
         </a>
       </div>
       <label for="table-search-consumibles" class="sr-only">Buscar</label>
@@ -77,6 +77,8 @@
                 <input
                   id="checkbox-table-search-1"
                   type="checkbox"
+                  :value="body.id"
+                  v-model="selectedCheckboxes"
                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
@@ -126,7 +128,8 @@ export default {
   data() {
     return {
       searchQuery: '',
-      show: true
+      show: true,
+      selectedCheckboxes: []
     }
   },
   components: {

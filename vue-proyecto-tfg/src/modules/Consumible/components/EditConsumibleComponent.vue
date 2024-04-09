@@ -75,15 +75,16 @@ import useShared from '@/modules/shared/composables/useShared'
         consumibleForm.value.nombre = consumible.nombre
         consumibleForm.value.precio = Number(consumible.precio)
         consumibleOriginal.value = { nombre: consumible.nombre, precio: Number(consumible.precio)}
+        console.log('EditConsumibleComponent', consumibleForm)
       })
 
       const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })
 
       // Método que se ejecuta cuando se envía el formulario
-      const handleSubmit = async () => {
+      const handleSubmit = async (newFormValues) => {
+        console.log('Lo que recibo del consumibleForm', newFormValues)
         try {
-          const { message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
-          console.log('Lo que recibo del consumibleForm', consumibleForm.value)
+          const { message } = await editConsumible(router.currentRoute.value.params.id, newFormValues)
           actualizarMensaje('success', message)
           actualizarMostrarMensaje(true)
           router.push('/consumibles')

@@ -5,6 +5,7 @@
       </label>
       <input
         :value="inputValue"
+        @input="updateValue($event.target.value)"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
         type="number"
         name="number"
@@ -34,6 +35,22 @@ export default {
     type: Number,
     default: null
 },
+  },
+  data() {
+    return {
+      localInputValue: this.inputValue
+    }
+  },
+  methods: {
+    updateValue(event) {
+      this.localInputValue = event.target.value
+      this.$emit('input', this.localInputValue)
+    }
+  },
+  watch: {
+    inputValue(newVal) {
+      this.localInputValue = newVal
+    }
   }
 }
 </script>
