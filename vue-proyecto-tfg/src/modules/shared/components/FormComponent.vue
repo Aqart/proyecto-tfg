@@ -6,8 +6,8 @@
       :is="getFieldComponent(field)"
       :labelText="key"
       :placeHolder="`Introduce ${key}`"
-      :inputValue="field"
-      @input="updateValue(key, $event)"
+      :modelValue="field"
+      v-model="formValues[key]"
     />
     <ButtonComponent
       @click="toggleModal"
@@ -51,13 +51,11 @@ export default {
     getFieldComponent(value) {
       return typeof value === 'number' ? 'InputNumberComponent' : 'InputTextComponent'
     },
-    updateValue(key, value) {
-      this.formValues[key] = value
-    },
     handleSubmit() {
-     
-      this.$emit('submit', this.formValues)
-    }
+    // const valuesArray = Object.keys(this.formValues).map(key => this.formValues[key]);
+    console.log('VALORES', this.formValues)
+    this.$emit('submit', this.formValues)
+  }
   }
 }
 </script>

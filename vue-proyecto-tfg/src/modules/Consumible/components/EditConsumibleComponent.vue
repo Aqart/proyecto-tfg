@@ -3,7 +3,7 @@
   <!-- En lugar de router.back() en el ModalComponent se puede poner @close="handleClose" -->
   <ModalComponent :showModal="showModal" :title="nombreConsumible">
 
-    <form @submit.prevent="handleSubmit" class="p-10">
+    <!-- <form @submit.prevent="handleSubmit" class="p-10">
       
       <label for="nombre" class="block mb-2 text-xl font-medium text-gray-900">
         Nombre
@@ -32,8 +32,9 @@
       />
 
       <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
-    </form>
+    </form> -->
 
+      <FormComponent :fields="consumibleForm" @submit="handleFormSubmit" />
 
   </ModalComponent>
 
@@ -50,6 +51,12 @@ import useShared from '@/modules/shared/composables/useShared'
     data() {
       return {
         showModal: true
+      }
+    },
+    methods: {
+      handleFormSubmit(formValues) {
+        // Lógica para manejar los valores del formulario
+        console.log('Form values', formValues)
       }
     },
     setup() {
