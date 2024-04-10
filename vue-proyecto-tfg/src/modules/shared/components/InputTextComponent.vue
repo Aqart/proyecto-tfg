@@ -5,7 +5,7 @@
     </label>
     <input
       :value="inputValue"
-      @input="updateValue"
+      @input="updateValue($event.target.value)"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
       type="text"
       name="text"
@@ -24,15 +24,26 @@ export default {
     placeHolder: {
       type: String,
       required: true
-    },
-    inputValue: {
-      type: String,
-      default: ''
+  },
+  inputValue: {
+    type: String,
+    default: ''
+  }
+  },
+  data() {
+    return {
+      localInputValue: this.inputValue
     }
   },
   methods: {
     updateValue(event) {
-      this.$emit('update:inputValue', event.target.value);
+      this.localInputValue = event.target.value
+      this.$emit('input', this.localInputValue)
+    }
+  },
+  watch: {
+    inputValue(newVal) {
+      this.localInputValue = newVal
     }
   }
 }

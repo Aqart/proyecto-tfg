@@ -31,10 +31,16 @@
         min=0
       />
 
+<<<<<<< HEAD
       <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bg-color = "bg-primary" />
     </form> -->
 
       <FormComponent :fields="consumibleForm" @submit="handleFormSubmit" />
+=======
+      <ButtonComponent @click="toggleModal" text="Modificar Consumible" type="submit" bgColor="bg-secondary" />
+    </form> -->
+    <FormComponent :fields="consumibleForm" @submit="handleSubmit" />
+>>>>>>> e7b884bcc7d6fa0201d741395793ebbcf0bb80de
 
   </ModalComponent>
 
@@ -82,20 +88,32 @@ import useShared from '@/modules/shared/composables/useShared'
         consumibleForm.value.nombre = consumible.nombre
         consumibleForm.value.precio = Number(consumible.precio)
         consumibleOriginal.value = { nombre: consumible.nombre, precio: Number(consumible.precio)}
+        console.log('EditConsumibleComponent', consumibleForm)
       })
 
       const nombreConsumible = computed(() => { return `Editando: ${consumibleOriginal.value.nombre}` })
 
-      // Método que se ejecuta cuando cerramos el modal
-      // const handleClose = () => {
-      //   router.push('/consumibles')
-      // }
+      // Método que se ejecuta cuando se envía el formulario
+      const handleSubmit = async (newFormValues) => {
+        console.log('Lo que recibo del consumibleForm', newFormValues)
+        try {
+          const { message } = await editConsumible(router.currentRoute.value.params.id, newFormValues)
+          actualizarMensaje('success', message)
+          actualizarMostrarMensaje(true)
+          router.push('/consumibles')
+        } catch (error) {
+          console.error(error)
+          actualizarMensaje('error', 'No se ha podido modificar el consumible')
+          actualizarMostrarMensaje(true)
+        }
+      }
 
       // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
       return {
         consumibleForm,
-        nombreConsumible,
-        handleSubmit: async () => {
+        handleSubmit,
+        nombreConsumible
+        /* handleSubmit: async () => {
           // Comprueba si los campos están vacíos
           if(!consumibleForm.value.nombre.trim() || !consumibleForm.value.precio){
             actualizarMensaje('error', 'Todos los campos son obligatorios')
@@ -124,9 +142,7 @@ import useShared from '@/modules/shared/composables/useShared'
           }
         
           router.push('/consumibles')
-        },
-
-        // handleClose
+        } */
       }
     },
     components: {

@@ -37,9 +37,11 @@ export const createConsumible = async ({ commit }, consumible) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
+
       if (response.data.id) {
         consumible.id = response.data.id
       }
+
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
 
@@ -96,8 +98,8 @@ export const editConsumible = async ({ commit }, { id, consumible }) => {
 
       return { ok: true, message: response.data.message }
     } else {
-      console.error('Error al editar consumible:', response.message)
-      return { ok: false, message: response.message }
+      console.error('Error al editar consumible:', response.data.message)
+      return { ok: false, message: response.data.message }
     }
   } catch (error) {
     console.error('Error al editar el consumible:', error.message)

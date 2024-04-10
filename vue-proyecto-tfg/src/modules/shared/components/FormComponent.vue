@@ -6,8 +6,8 @@
       :is="getFieldComponent(field)"
       :labelText="key"
       :placeHolder="`Introduce ${key}`"
-      :modelValue="field"
-      v-model="formValues[key]"
+      :inputValue="field"
+      @input="updateValue(key, $event || formValues[key])"
     />
     <ButtonComponent
       @click="toggleModal"
@@ -20,6 +20,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+
 export default {
   props: {
     fields: {
@@ -29,7 +30,7 @@ export default {
   },
   data() {
     return {
-      formValues: { ...this.fields },
+      formValues: null,
       showModal: true
     }
   },
@@ -44,18 +45,40 @@ export default {
       () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
+  created() {
+    this.formValues = { ...this.fields }
+  },
   methods: {
     toggleModal() {
       this.showModal = !this.showModal
+      if (!this.showModal) {
+        this.formValues = { ...this.fields }
+      }
     },
     getFieldComponent(value) {
       return typeof value === 'number' ? 'InputNumberComponent' : 'InputTextComponent'
+    },
+    updateValue(key, value) {
+      console.log("Value", value)
+
+      this.formValues[key] = value
+      
+      console.log("updateValue",this.formValues)
     },
     handleSubmit() {
     // const valuesArray = Object.keys(this.formValues).map(key => this.formValues[key]);
     console.log('VALORES', this.formValues)
     this.$emit('submit', this.formValues)
   }
+  },
+  watch: {
+    fields: {
+      handler(newFields) {
+        this.formValues = { ...newFields }
+      },
+      deep: true,
+      immediate: true
+    }
   }
 }
 </script>

@@ -64,7 +64,8 @@ export default {
     getFormattedEmail() {
       const formattedEmail = localStorage
         .getItem('email')
-        .slice(0, localStorage.getItem('email').indexOf('@'))
+
+        if(formattedEmail) return formattedEmail.slice(0, localStorage.getItem('email').indexOf('@'))
 
       return formattedEmail
     }

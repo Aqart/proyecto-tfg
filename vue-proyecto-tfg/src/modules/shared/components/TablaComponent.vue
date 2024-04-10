@@ -22,9 +22,8 @@
           aria-haspopup="true"
           aria-expanded="true"
         >
-          Eliminar seleccionados (1)
+          Eliminar seleccionados <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
         </a>
-
       </div>
       <label for="table-search-consumibles" class="sr-only">Buscar</label>
 <div class="relative flex-grow">
@@ -35,7 +34,6 @@
         </div>
         <div v-if="show">
           <input
-
             type="text"
             id="table-search-consumibles"
             class="block pt-2 pb-2 px-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
@@ -79,6 +77,8 @@
                 <input
                   id="checkbox-table-search-1"
                   type="checkbox"
+                  :value="body.id"
+                  v-model="selectedCheckboxes"
                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
@@ -118,7 +118,6 @@ import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
 
-
 export default {
   props: {
     data: {
@@ -129,7 +128,8 @@ export default {
   data() {
     return {
       searchQuery: '',
-      show: true
+      show: true,
+      selectedCheckboxes: []
     }
   },
   components: {
@@ -163,10 +163,8 @@ export default {
     const showDropdown = ref(false)
 
     const toggleDropdown = () => {
-
       showDropdown.value = !showDropdown.value
     }
-
 
     return {
       cerrarMensaje,
