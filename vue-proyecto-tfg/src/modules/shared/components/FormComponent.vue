@@ -58,7 +58,8 @@ export default {
     },
     toggleModal() {
       //si alguno de los campos esta vacio no se envia
-      if (Object.values(this.form).some((el) => el === '')) {
+      // Comprobamos si this.form se ha inicializado
+      if (!this.form.length || Object.values(this.form).some((el) => el == '')) {
         this.$emit('send', 'No se pueden enviar campos vacios')
         return
       }else{
@@ -80,12 +81,16 @@ export default {
     checkType(type) {
       if (type === 'string') {
         return 'InputTextComponent'
-      } else if (type === 'number') {
+      } else if (type === 'number' || type === 'object') {
         return 'InputNumberComponent'
       } else {
         return 'InputTextComponent'
       }
-    }
+    },
+    // handleSubmit() {
+    //   console.log("Emitiendo el evento", this.form)
+    //   this.$emit('save', this.form)
+    // }
   }
 }
 </script>

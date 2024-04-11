@@ -213,24 +213,18 @@ export default {
     },
     toggleModalOpenNew() {
       this.modalTitle = 'Añadir nuevo'
+      console.log('toggleModalOpenNew', this.data[0])
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data
-        const dataTypes = Object.keys(this.data[0]).reduce((obj, key) => {
-          obj[key] = typeof this.data[0][key];
-          console.log('dataTypes', typeof obj)
-          return obj;
-        }, {});
-
-        // Crear un nuevo objeto con las mismas claves que el primer objeto en data,
-        // pero con todos los valores establecidos en null y respetando el tipo de dato
         this.item = Object.keys(this.data[0]).reduce((obj, key) => {
-          if (typeof dataTypes[key] === 'number') {
+          console.log(typeof this.data[0][key])
+          if(typeof this.data[0][key] == 'string'){
+            obj[key] = '';
+          } else if (typeof this.data[0][key] == 'number'){
             obj[key] = null;
           }
-          else if (typeof dataTypes[key] === 'string') {
-            obj[key] = '';
-          } 
           
+          console.log('dataTypes', obj)
           return obj;
         }, {});
 
