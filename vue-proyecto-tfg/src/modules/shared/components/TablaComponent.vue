@@ -112,7 +112,7 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <FormComponent :data="item" @send="getNewData" :tipo="modalTitle"/>
+      <FormComponent :data="item || {}" @send="getNewData" :tipo="modalTitle"/>
     </ModalComponent>
   </div>
 </template>
@@ -136,7 +136,7 @@ export default {
       searchQuery: '',
       show: true,
       selectedCheckboxes: [],
-      showModal: null,
+      showModal: false,
       itemId: null,
       item: null,
       newData: {},
@@ -198,7 +198,6 @@ export default {
       if (data){
         this.newData = data
         console.log('getNewData', this.newData)
-
       }
     },
     selectAllCheckboxes(event) {
