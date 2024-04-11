@@ -19,7 +19,10 @@ const useConsumible = () => {
   }
 
   const editConsumible = async (id, consumible) => {
-    const resp = await store.dispatch('Consumible/editConsumible', {id: id, consumible: consumible})
+    const resp = await store.dispatch('Consumible/editConsumible', {
+      id: id,
+      consumible: consumible
+    })
     return resp
   }
 
@@ -29,7 +32,6 @@ const useConsumible = () => {
     editConsumible,
     getConsumible
   }
-
 }
 
 export default useConsumible

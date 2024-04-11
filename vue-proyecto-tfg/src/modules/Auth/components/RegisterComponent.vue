@@ -26,11 +26,12 @@
       v-model="userForm.roles"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
       name="roles"
-      id="roles">
+      id="roles"
+    >
       <option value="ADMIN" selected>Admin</option>
-      </select>
+    </select>
 
-      <ButtonComponent text="Registrar" bgColor="bg-primary"/>
+    <ButtonComponent text="Registrar" bgColor="bg-primary" />
   </form>
 </template>
 
@@ -47,10 +48,11 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue'))
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
+    )
   },
   setup() {
-
     const { createUser } = useAuth()
     const userForm = ref({
       email: '',
@@ -59,7 +61,7 @@ export default {
     })
     return {
       userForm,
-       handleSubmit: async () => {
+      handleSubmit: async () => {
         const { ok, message } = await createUser(userForm.value)
         console.log(ok, message)
       }

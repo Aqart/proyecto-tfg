@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-      <RouterView />
+    <RouterView />
   </div>
 </template>
 
@@ -8,11 +8,9 @@
 import { RouterView } from 'vue-router'
 export default {
   components: {
-      RouterView
+    RouterView
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

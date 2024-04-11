@@ -5,12 +5,13 @@
 </template>
 
 <script>
-  import { defineAsyncComponent } from 'vue'
-  
-  export default {
-    components: {
-      EditGastoComponent: defineAsyncComponent(() => import('@/modules/GastosGenerales/components/EditGastoComponent.vue'))
-    }
-  }
+import { defineAsyncComponent } from 'vue'
 
+export default {
+  components: {
+    EditGastoComponent: defineAsyncComponent(
+      () => import('@/modules/GastosGenerales/components/EditGastoComponent.vue')
+    )
+  }
+}
 </script>

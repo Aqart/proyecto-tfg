@@ -4,7 +4,6 @@ const useMaquina = () => {
   const store = useStore()
 
   const getMaquinas = async () => {
-    
     const resp = await store.dispatch('Maquinas/fetchMaquinas')
     return resp
   }
@@ -24,7 +23,6 @@ const useMaquina = () => {
     createMaquina,
     editMaquina
   }
-
 }
 
 export default useMaquina

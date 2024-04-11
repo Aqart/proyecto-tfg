@@ -1,20 +1,18 @@
 <template>
   <form @submit.prevent="handleSubmit" class="p-10">
-    <component
-      v-for="(field, key) in fields"
-      :key="key"
-      :is="getFieldComponent(field)"
-      :labelText="key"
-      :placeHolder="`Introduce ${key}`"
-      :inputValue="field"
-      @input="updateValue(key, $event || formValues[key])"
-    />
-    <ButtonComponent
-      @click="toggleModal"
-      text="Modificar Consumible"
-      type="submit"
-      bgColor="bg-secondary"
-    />
+    <div v-for="(el, index) in data" :key="index">
+      <component
+        v-if="index !== 'id'"
+        :is="checkType(typeof el)"
+        :label="index"
+        :placeholder="index"
+        :value="el"
+        @changeText="handleChange"
+        @changeNumber="handleChange"
+        @errorNumber="handleError"
+      />
+    </div>
+    <ButtonComponent @click="toggleModal" text="Modificar Consumible" bgColor="bg-secondary" />
   </form>
 </template>
 
@@ -23,15 +21,22 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   props: {
-    fields: {
+    data: {
       type: Object,
+      required: true
+    },
+    tipo: {
+      type: String,
       required: true
     }
   },
   data() {
     return {
-      formValues: null,
-      showModal: true
+      form: { ...this.data },
+      error: {
+        status: false,
+        message: ''
+      }
     }
   },
   components: {
@@ -45,39 +50,41 @@ export default {
       () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
-  created() {
-    this.formValues = { ...this.fields }
-  },
   methods: {
+    handleError(e) {
+      this.error.status = true
+      this.error.message = e
+      console.error(this.error.message)
+    },
     toggleModal() {
-      this.showModal = !this.showModal
-      if (!this.showModal) {
-        this.formValues = { ...this.fields }
-      }
-    },
-    getFieldComponent(value) {
-      return typeof value === 'number' ? 'InputNumberComponent' : 'InputTextComponent'
-    },
-    updateValue(key, value) {
-      console.log("Value", value)
+      //si alguno de los campos esta vacio no se envia
+      if (Object.values(this.form).some((el) => el === '')) {
+        this.$emit('send', 'No se pueden enviar campos vacios')
+        return
+      }else{
 
-      this.formValues[key] = value
-      
-      console.log("updateValue",this.formValues)
-    },
-    handleSubmit() {
-    // const valuesArray = Object.keys(this.formValues).map(key => this.formValues[key]);
-    console.log('VALORES', this.formValues)
-    this.$emit('submit', this.formValues)
-  }
-  },
-  watch: {
-    fields: {
-      handler(newFields) {
-        this.formValues = { ...newFields }
+        delete this.form
+        this.$emit('send', this.form)
+        this.$emit('close')
+      }
       },
-      deep: true,
-      immediate: true
+    handleChange(e) {
+      if (this.tipo==='Editar') {
+        this.form.id = this.data.id
+      }else{
+        delete this.form.id
+      }
+      this.form = { ...this.form, ...e }
+      return this.form
+    },
+    checkType(type) {
+      if (type === 'string') {
+        return 'InputTextComponent'
+      } else if (type === 'number') {
+        return 'InputNumberComponent'
+      } else {
+        return 'InputTextComponent'
+      }
     }
   }
 }

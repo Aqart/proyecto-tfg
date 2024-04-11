@@ -1,4 +1,4 @@
 export default () => ({
   consumibles: [],
-  reponse: null,
+  reponse: null
 })

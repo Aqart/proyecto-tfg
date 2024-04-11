@@ -3,7 +3,7 @@ export const setConsumibles = (state, data) => {
 }
 
 export const setNewConsumible = (state, consumible) => {
-  console.log("MUTATION", state.consumibles)
+  console.log('MUTATION', state.consumibles)
   state.consumibles.push(consumible)
 }
 
@@ -12,11 +12,10 @@ export const setResponse = (state, data) => {
 }
 
 export const setConsumible = (state, data) => {
-  state.consumibles = state.consumibles.map(consumible => {
+  state.consumibles = state.consumibles.map((consumible) => {
     if (consumible.id == data.id) {
       return { ...consumible, nombre: data.consumible.nombre, precio: data.consumible.precio }
     }
     return consumible
   })
 }
-

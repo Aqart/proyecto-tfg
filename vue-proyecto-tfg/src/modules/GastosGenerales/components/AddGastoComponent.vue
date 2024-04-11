@@ -1,8 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
-      Nombre
-    </label>
+    <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900"> Nombre </label>
     <input
       v-model="gastoForm.nombre"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -11,10 +9,8 @@
       id="nombre"
       placeholder="Nombre del gasto general"
     />
-    
-    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900">
-      Precio
-    </label>
+
+    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900"> Precio </label>
     <input
       v-model="gastoForm.precio"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -23,56 +19,53 @@
       id="precio"
       placeholder="Precio del gasto general"
       step="0.01"
-      min=0
+      min="0"
     />
 
-    <ButtonComponent text="Añadir gasto general" type="submit" bg-color = "bg-primary" />
+    <ButtonComponent text="Añadir gasto general" type="submit" bg-color="bg-primary" />
   </form>
-
 </template>
 
-
 <script>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import useGasto from '@/modules/GastosGenerales/composables/useGasto'
 import useShared from '@/modules/shared/composables/useShared'
-import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue';
+import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue'
 
-  export default {
-    setup() {
-      const router = useRouter()
-      const { createGasto } = useGasto()
-      const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+export default {
+  setup() {
+    const router = useRouter()
+    const { createGasto } = useGasto()
+    const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
-      // Define una propiedad reactiva consumibleForm
-      const gastoForm = ref({
-        nombre: '',
-        precio: ''
-      })
+    // Define una propiedad reactiva consumibleForm
+    const gastoForm = ref({
+      nombre: '',
+      precio: ''
+    })
 
-      // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
-      return {
-        gastoForm,
-        handleSubmit: async () => {
-          const { ok, message } = await createGasto(gastoForm.value)
+    // Devuelve las propiedades y funciones para que estén disponibles en la plantilla
+    return {
+      gastoForm,
+      handleSubmit: async () => {
+        const { ok, message } = await createGasto(gastoForm.value)
 
-          // Guardar el tipo de mensaje y el contenido en el Store
-          if (!ok) {
-            actualizarMensaje('error', message)
-            actualizarMostrarMensaje(true)
-          }else{
-            actualizarMensaje('success', message)
-            actualizarMostrarMensaje(true)
-          }
-          
-          router.push('/gastos-generales')
-        
+        // Guardar el tipo de mensaje y el contenido en el Store
+        if (!ok) {
+          actualizarMensaje('error', message)
+          actualizarMostrarMensaje(true)
+        } else {
+          actualizarMensaje('success', message)
+          actualizarMostrarMensaje(true)
         }
+
+        router.push('/gastos-generales')
       }
-    },
-    components: {
-      ButtonComponent
     }
+  },
+  components: {
+    ButtonComponent
   }
+}
 </script>

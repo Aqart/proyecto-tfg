@@ -4,7 +4,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 
-import AuthController from '@src/controllers/AuthController' // Importa el AuthController
+import AuthController from '@src/controllers/AuthController'
 import TrabajadorController from '@src/controllers/TrabajadorController'
 import MaquinaController from '@src/controllers/MaquinaController'
 import ConsumibleController from '@src/controllers/ConsumibleController'
@@ -21,6 +21,7 @@ app.use(cors())
  * The port number for the server.
  * @type {number}
  */
+
 const PORT = process.env.PORT || 3000
 
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON

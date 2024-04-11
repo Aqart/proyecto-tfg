@@ -4,13 +4,12 @@
       <h1 class="text-4xl font-bold text-center p-10 text-secondary flex-grow">
         Listado de {{ formattedRoute }}
       </h1>
-      <router-link
-        :to="`${$route.path}/add`"
+      <span
         class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-lg font-bold rounded-md text-secondary/80 hover:text-secondary"
-        @click="cerrarMensaje"
+        @click="toggleModalOpenNew()"
       >
         Añadir nuevo
-      </router-link>
+      </span>
     </div>
     <div
       class="flex gap-4 items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 px-4 py-4 bg-stone/75"
@@ -22,15 +21,16 @@
           aria-haspopup="true"
           aria-expanded="true"
         >
-          Eliminar seleccionados <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
+          Eliminar seleccionados
+          <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
         </a>
       </div>
       <label for="table-search-consumibles" class="sr-only">Buscar</label>
-<div class="relative flex-grow">
+      <div class="relative flex-grow">
         <div
           class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"
         >
-        <SearchIconComponent />
+          <SearchIconComponent />
         </div>
         <div v-if="show">
           <input
@@ -45,12 +45,13 @@
     </div>
 
     <div class="flex-grow overflow-auto">
-  <table class="min-w-full divide-y divide-gray-200 text-left">
-    <thead class="text-lg font-bold text-secondary bg-stone/75 sticky top-0">
+      <table class="min-w-full divide-y divide-gray-200 text-left">
+        <thead class="text-lg font-bold text-secondary bg-stone/75 sticky top-0">
           <tr>
             <th scope="col" class="p-4">
               <div class="flex items-center">
                 <input
+                  @change="selectAllCheckboxes"
                   id="checkbox-all-search"
                   type="checkbox"
                   class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-blue-500"
@@ -66,27 +67,27 @@
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
           <!-- bucle para mostrar los consumibles -->
-
+          
           <tr
-            v-for="body in searchFilteredData"
-            :key="body.id"
-            class="bg-white border-b hover:bg-gray-50"
+          v-for="body in searchFilteredData"
+          :key="body.id"
+          class="bg-white border-b hover:bg-gray-50"
           >
-            <td class="w-4 p-4">
-              <div class="flex items-center">
-                <input
-                  id="checkbox-table-search-1"
-                  type="checkbox"
-                  :value="body.id"
-                  v-model="selectedCheckboxes"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-              </div>
-            </td>
-
-            <template v-for="(el, index) in body">
-              <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
+          <td class="w-4 p-4">
+            <div class="flex items-center">
+              <input
+              id="checkbox-table-search-1"
+              type="checkbox"
+              :value="body.id"
+              v-model="selectedCheckboxes"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+            </div>
+          </td>
+          
+          <template v-for="(el, index) in body">
+            <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
                 <div class="text-sm text-black-900 font-bold">
                   {{ el }}
                 </div>
@@ -98,18 +99,21 @@
               </td>
             </template>
             <td class="px-6 py-4">
-              <router-link
-                :to="`${$route.path}/edit/${body.id}`"
-                class="text-sm text-blue-500 hover:underline"
-                @click="cerrarMensaje"
+              <span
+                class="text-md text-blue-500 hover:underline"
+                @click="toggleModalOpenEdit(body.id)"
+                :data-id="body.id"
               >
                 Editar
-              </router-link>
+              </span>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
+      <FormComponent :data="item" @send="getNewData" :tipo="modalTitle"/>
+    </ModalComponent>
   </div>
 </template>
 
@@ -117,6 +121,7 @@
 import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
+import editConsumible from '@/modules/Consumible/composables/useConsumible'
 
 export default {
   props: {
@@ -127,14 +132,26 @@ export default {
   },
   data() {
     return {
+      modalTitle: '',
       searchQuery: '',
       show: true,
-      selectedCheckboxes: []
+      selectedCheckboxes: [],
+      showModal: null,
+      itemId: null,
+      item: null,
+      newData: {},
+      formType: 'Editar'
     }
   },
   components: {
     SearchIconComponent: defineAsyncComponent(
       () => import('@/assets/images/SearchIconComponent.vue')
+    ),
+    ModalComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ModalComponent.vue')
+    ),
+    FormComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/FormComponent.vue')
     )
   },
   setup() {
@@ -171,7 +188,69 @@ export default {
       formatIndex,
       showDropdown,
       toggleDropdown
-      // Resto del código
+    }
+  },
+  methods: {
+    handleFormType(type) {
+      this.formType = type
+    },
+    getNewData(data) {
+      if (data){
+        this.newData = data
+        console.log('getNewData', this.newData)
+
+      }
+    },
+    selectAllCheckboxes(event) {
+      if (event.target.checked) {
+        this.selectedCheckboxes = this.data.map((item) => item.id)
+      } else {
+        this.selectedCheckboxes = []
+      }
+    },
+    modalName(name) {
+      return this.modalTitle = name
+    },
+    toggleModalOpenNew() {
+      this.modalTitle = 'Añadir nuevo'
+      if (this.data.length > 0) {
+        // Obtener el tipo de dato de cada elemento en data
+        const dataTypes = Object.keys(this.data[0]).reduce((obj, key) => {
+          obj[key] = typeof this.data[0][key];
+          console.log('dataTypes', typeof obj)
+          return obj;
+        }, {});
+
+        // Crear un nuevo objeto con las mismas claves que el primer objeto en data,
+        // pero con todos los valores establecidos en null y respetando el tipo de dato
+        this.item = Object.keys(this.data[0]).reduce((obj, key) => {
+          if (typeof dataTypes[key] === 'number') {
+            obj[key] = null;
+          }
+          else if (typeof dataTypes[key] === 'string') {
+            obj[key] = '';
+          } 
+          
+          return obj;
+        }, {});
+
+        this.showModal = !this.showModal;
+      }
+
+    },
+    toggleModalOpenEdit(id) {
+      this.modalTitle = 'Editar'
+      this.itemId = id
+      this.getItemById(this.itemId)
+      this.showModal = !this.showModal
+    },
+    toggleModalClose() {
+      this.showModal = !this.showModal
+      this.itemId = null
+      this.item = null
+    },
+    getItemById(id) {
+      this.item = this.data.find((item) => item.id === id)
     }
   },
   computed: {
@@ -195,3 +274,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+.table-body-enter-active,
+.table-body-leave-active {
+  transition: opacity 0.5s;
+}
+.table-body-enter,
+.table-body-leave-to {
+  opacity: 0;
+}
+
+</style>

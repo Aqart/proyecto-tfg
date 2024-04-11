@@ -12,7 +12,7 @@ const store = createStore({
     Consumible,
     GastosGenerales,
     Shared,
-    Maquinas,
+    Maquinas
   }
 })
 

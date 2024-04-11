@@ -1,9 +1,7 @@
 <template>
   <div>
     <div>
-      <MensajesComponent :message="getMensaje" :type="getTipo"
-      :mostrarMensaje="getMostrar"
-      />
+      <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
     </div>
     <TablaComponent :data="getGastos" />
   </div>
@@ -24,19 +22,22 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(() => import('@/modules/shared/components/MensajesComponent.vue')),
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
+    ),
     //EditConsumibleComponent: defineAsyncComponent(() => import('@/modules/Consumible/components/EditConsumibleComponent.vue')),
     //ModalComponent: defineAsyncComponent(() => import('@/modules/shared/components/ModalComponent.vue')),
-    TablaComponent: defineAsyncComponent(() => import('@/modules/shared/components/TablaComponent.vue'))
+    TablaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/TablaComponent.vue')
+    )
   },
   watch: {
     updateGastos() {
-      this.getGastos();
+      this.getGastos()
     },
     updateMensajes() {
-      this.getMostrar();
+      this.getMostrar()
     }
   }
-
 }
 </script>

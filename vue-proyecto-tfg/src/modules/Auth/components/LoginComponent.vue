@@ -24,16 +24,16 @@
         id="password"
         placeholder="•••••••••"
       />
-      <ButtonComponent text="Acceder" bgColor="bg-primary"/>
+      <ButtonComponent text="Acceder" bgColor="bg-primary" />
     </form>
   </div>
 </template>
 
 <script>
-import {  ref } from 'vue'
+import { ref } from 'vue'
 import useAuth from '../composables/useAuth'
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 export default {
   props: {
@@ -45,7 +45,7 @@ export default {
   components: {
     ButtonComponent
   },
-   setup() {
+  setup() {
     const router = useRouter()
 
     const { loginUser } = useAuth()
@@ -55,16 +55,14 @@ export default {
     })
     return {
       userForm,
-       handleSubmit: async () => {
+      handleSubmit: async () => {
         const { ok, message } = await loginUser(userForm.value)
         console.log(userForm.value)
         console.log(ok, message)
 
-        router.push( {name: 'home'} )
-
+        router.push({ name: 'home' })
       }
     }
   }
-  
 }
 </script>

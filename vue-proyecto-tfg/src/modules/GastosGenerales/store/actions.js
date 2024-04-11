@@ -40,10 +40,10 @@ export const createGasto = async ({ commit }, gastos) => {
     if (response.status === 201 && response.data) {
       console.log('RESPONSE DATA', response.status, response.data)
 
-      console.log("Gastos action", gastos)
+      console.log('Gastos action', gastos)
 
       if (response.data.id) {
-        gastos.id = response.data.id;
+        gastos.id = response.data.id
       }
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
@@ -70,15 +70,13 @@ export const getGastoById = async ({ commit }, id) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      
       console.log(response.data)
       return response.data
-
     } else {
       console.error('Error al obtener el gasto:', response.message)
       return { ok: false, message: response.message }
     }
-  } catch(error){
+  } catch (error) {
     console.log('Error al obtener el consumible:', error)
   }
 }
@@ -99,13 +97,13 @@ export const editGasto = async ({ commit }, { id, gasto }) => {
       console.log('Fetch Get', response.data)
 
       // Actualizar el estado con los consumibles obtenidos
-      commit('setGasto', {id, gasto})
+      commit('setGasto', { id, gasto })
       return { ok: true, message: response.data.message }
     } else {
       console.error('Error al obtener el gasto:', response.message)
       return { ok: false, message: response.message }
     }
-  } catch(error){
+  } catch (error) {
     console.log('Error al editar el gasto:', error)
   }
 }

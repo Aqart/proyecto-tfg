@@ -1,7 +1,6 @@
 export default () => ({
-    maquinas: [],
-    reponse: null,
-    mensajeVista: '',
-    typeVista: ''
-  })
-  
+  maquinas: [],
+  reponse: null,
+  mensajeVista: '',
+  typeVista: ''
+})

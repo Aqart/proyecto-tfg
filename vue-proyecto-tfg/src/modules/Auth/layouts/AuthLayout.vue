@@ -1,18 +1,16 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen">
-        <RouterView />
-    </div>
+  <div class="flex justify-center items-center min-h-screen">
+    <RouterView />
+  </div>
 </template>
 
 <script>
 import { RouterView } from 'vue-router'
 export default {
-    components: {
-        RouterView,
-    }
+  components: {
+    RouterView
+  }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

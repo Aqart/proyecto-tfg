@@ -1,56 +1,65 @@
 <template>
   <div>
-    <label for="number" class="block mb-2 text-xl font-medium text-gray-900">
-        {{labelText}}
-      </label>
-      <input
-        :value="inputValue"
-        @input="updateValue($event.target.value)"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
-        type="number"
-        name="number"
-        id="number"
-        step="0.01"
-        :placeholder="placeHolder"
-        min=0
-      />
+    <label for="value" class="block mb-2 text-xl font-medium text-gray-900 first-letter:uppercase">
+      {{ label }}
+    </label>
+    <input
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 pb-4 mb-4"
+      type="number"
+      step="0.01"
+      min="0"
+      v-if="value===null ? handleError : value"
+      :value="newValue"
+      @input="(event) => updateValue(label,event)"
+      :name="value"
+      :placeholder="placeholder"
+    />
   </div>
 </template>
 
 <script>
+
 export default {
   props: {
-    form: {
-      type: Object
+    value: {
+      type: Number,
+      default : 0
     },
-    labelText: {
+    placeholder: {
+      type: String,
+      default: 'Numero'
+    },
+    label: {
       type: String,
       required: true
-    },
-    placeHolder: {
-      type: String,
-      required: true
-  },
-  inputValue: {
-    type: Number,
-    default: null
-},
+    }
   },
   data() {
     return {
-      localInputValue: this.inputValue
+      newInputValue: this.value,
+      error: false
+    }
+  },
+  computed: {
+    newValue() {
+      return this.newInputValue
     }
   },
   methods: {
-    updateValue(event) {
-      this.localInputValue = event.target.value
-      this.$emit('input', this.localInputValue)
+    updateValue(key, event) {
+      this.newInputValue = event.target.value
+      this.$emit('changeNumber', { [key]: Number(this.newInputValue) })
+    },
+    handleError() {
+      this.error = true
     }
   },
   watch: {
-    inputValue(newVal) {
-      this.localInputValue = newVal
+  error(newValue) {
+    if (newValue) {
+      this.$emit('errorNumber', 'Este campo no puede estar vacio');
     }
   }
+}
 }
 </script>
