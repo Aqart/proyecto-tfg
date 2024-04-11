@@ -12,7 +12,7 @@
         @errorNumber="handleError"
       />
     </div>
-    <ButtonComponent @click="toggleModal" text="Modificar Consumible" bgColor="bg-secondary" />
+    <ButtonComponent @click="toggleModal" :text="textoBoton" bgColor="bg-secondary" />
   </form>
 </template>
 
@@ -50,6 +50,11 @@ export default {
       () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
+  computed: {
+    textoBoton(){
+      return this.tipo === 'Editar' ? 'Modificar' : 'Guardar';
+    }
+  },
   methods: {
     handleError(e) {
       this.error.status = true
@@ -63,7 +68,6 @@ export default {
         this.$emit('send', 'No se pueden enviar campos vacios')
         return
       }else{
-
         delete this.form
         this.$emit('send', this.form)
         this.$emit('close')
