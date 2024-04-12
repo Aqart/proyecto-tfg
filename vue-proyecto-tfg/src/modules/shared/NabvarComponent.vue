@@ -3,7 +3,7 @@
     <nav class="flex flex-col justify-between gap-10 items-center sm:items-end sm:flex-row">
       <div class="flex items-center gap-3">
         <LogoComponent class="w-10 h-10" />
-        <router-link to="/" class="text-5xl font-bold text-shadow">Transforstone</router-link>
+        <router-link to="/" class="text-5xl font-bold text-shadow">Transforstone App</router-link>
       </div>
       <div class="relative inline-block text-left">
         <button
