@@ -60,7 +60,21 @@
               </div>
             </th>
             <th v-for="key in filteredHeader" :key="key" scope="col" class="px-6 py-3">
-              <div v-html="formatIndex(key)"></div>
+              <button @click="sortTable(key)" class="flex items-center justify-start w-full">
+                <div v-html="formatIndex(key)"></div>
+                <div v-show="sortField === key" class="relative ml-2">
+                  <font-awesome-icon
+                    :icon="['fas', 'sort-up']"
+                    class="absolute w-4 h-4 bottom-[-.4rem]"
+                    :class="{ 'opacity-50': sortDirection === -1 }"
+                  />
+                  <font-awesome-icon
+                    :icon="['fas', 'sort-down']"
+                    class="absolute w-4 h-4 top-[-.4rem]"
+                    :class="{ 'opacity-50': sortDirection === 1 }"
+                  />
+                </div>
+              </button>
             </th>
             <th scope="col" class="px-6 py-3">Acciones</th>
           </tr>
@@ -140,7 +154,9 @@ export default {
       itemId: null,
       item: null,
       newData: {},
-      formType: 'Editar'
+      formType: 'Editar',
+      sortField: null,
+      sortDirection: 1
     }
   },
   components: {
@@ -152,6 +168,9 @@ export default {
     ),
     FormComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/FormComponent.vue')
+    ),
+    ArrowDropDownComponent: defineAsyncComponent(() =>
+      import('@/assets/images/ArrowDropDownComponent.vue')
     )
   },
   setup() {
@@ -191,6 +210,14 @@ export default {
     }
   },
   methods: {
+    sortTable(field) {
+      if (this.sortField === field) {
+        this.sortDirection *= -1
+      } else {
+        this.sortField = field
+        this.sortDirection = 1
+      }
+    },
     handleFormType(type) {
       this.formType = type
     },
@@ -246,6 +273,27 @@ export default {
     }
   },
   computed: {
+    sortedData() {
+      if (!this.sortField) {
+        return this.data
+      }
+
+      return [...this.data].sort((a, b) => {
+        const aValue = a[this.sortField] || ''
+        const bValue = b[this.sortField] || ''
+
+        if (typeof aValue === 'number' && typeof bValue === 'number') {
+          return (aValue - bValue) * this.sortDirection
+        }
+        if (aValue < bValue) {
+          return -1 * this.sortDirection
+        }
+        if (aValue > bValue) {
+          return 1 * this.sortDirection
+        }
+        return 0
+      })
+    },
     formattedRoute() {
       return this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
     },
@@ -257,11 +305,37 @@ export default {
       }
     },
     searchFilteredData() {
-      return this.data.filter((row) => {
-        return Object.values(row).some((value) => {
-          return String(value).toLowerCase().includes(this.searchQuery.toLowerCase())
+      let result = this.data
+
+      if (this.searchQuery) {
+        result = result.filter((item) => {
+          // Asegúrate de adaptar esta lógica a tu caso específico
+          return Object.values(item).some((value) =>
+            value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+          )
         })
-      })
+      }
+
+      if (this.sortField) {
+        const sortDirection = this.sortDirection
+        result = [...result].sort((a, b) => {
+          const aValue = a[this.sortField] || ''
+          const bValue = b[this.sortField] || ''
+
+          if (typeof aValue === 'number' && typeof bValue === 'number') {
+            return (aValue - bValue) * sortDirection
+          }
+          if (aValue < bValue) {
+            return -1 * sortDirection
+          }
+          if (aValue > bValue) {
+            return 1 * sortDirection
+          }
+          return 0
+        })
+      }
+
+      return result
     }
   }
 }

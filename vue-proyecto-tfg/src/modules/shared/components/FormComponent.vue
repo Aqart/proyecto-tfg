@@ -50,6 +50,11 @@ export default {
       import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
+  computed: {
+    textoBoton() {
+      return this.tipo === 'Editar' ? 'Modificar' : 'Guardar'
+    }
+  },
   methods: {
     handleError(e) {
       this.error.status = true

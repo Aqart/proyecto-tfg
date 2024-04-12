@@ -5,10 +5,9 @@
         <LogoComponent class="w-10 h-10" />
         <router-link to="/" class="text-5xl font-bold text-shadow">Transforstone</router-link>
       </div>
-      <!--TODO: Arreglar que se cierre cuando haces click fuera-->
       <div class="relative inline-block text-left">
         <button
-          @click="open = !open"
+          @click.stop="toggleDropdown"
           class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary"
           id="options-menu"
           aria-haspopup="true"
@@ -22,6 +21,7 @@
         <div
           v-show="open"
           class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+          ref="dropdown"
         >
           <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <router-link
@@ -53,11 +53,11 @@ export default {
     }
   },
   components: {
-    LogoComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LogoComponent.vue')
+    LogoComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LogoComponent.vue')
     ),
-    ArrowDownComponent: defineAsyncComponent(
-      () => import('@/assets/images/ArrowDropDownComponent.vue')
+    ArrowDownComponent: defineAsyncComponent(() =>
+      import('@/assets/images/ArrowDropDownComponent.vue')
     )
   },
   computed: {
@@ -68,6 +68,22 @@ export default {
 
       return formattedEmail
     }
+  },
+  methods: {
+    toggleDropdown() {
+      this.open = !this.open
+    },
+    handleClickOutside(event) {
+      if (!this.$refs.dropdown.contains(event.target)) {
+        this.open = false
+      }
+    }
+  },
+  mounted() {
+    window.addEventListener('click', this.handleClickOutside)
+  },
+  beforeUnmount() {
+    window.removeEventListener('click', this.handleClickOutside)
   }
 }
 </script>

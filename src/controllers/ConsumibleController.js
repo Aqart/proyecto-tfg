@@ -25,7 +25,7 @@ const ConsumibleController = {
 
             res.status(201).json({
                 message: 'Consumible creado correctamente',
-                id: rows[0].id
+                id: rows[0].id,
             })
         } catch (error) {
             next(error)
