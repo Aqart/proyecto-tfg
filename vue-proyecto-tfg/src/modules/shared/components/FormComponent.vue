@@ -12,7 +12,7 @@
         @errorNumber="handleError"
       />
     </div>
-    <ButtonComponent @click="toggleModal" text="Modificar Consumible" bgColor="bg-secondary" />
+    <ButtonComponent @click="toggleModal" :text="textoBoton" bgColor="bg-secondary" />
   </form>
 </template>
 
@@ -40,14 +40,14 @@ export default {
     }
   },
   components: {
-    InputTextComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputTextComponent.vue')
+    InputTextComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputTextComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {
@@ -58,7 +58,8 @@ export default {
     },
     toggleModal() {
       //si alguno de los campos esta vacio no se envia
-      if (Object.values(this.form).some((el) => el === '')) {
+      // Comprobamos si this.form se ha inicializado
+      if (!this.form.length || Object.values(this.form).some((el) => el == '')) {
         this.$emit('send', 'No se pueden enviar campos vacios')
         return
       } else {
@@ -79,7 +80,7 @@ export default {
     checkType(type) {
       if (type === 'string') {
         return 'InputTextComponent'
-      } else if (type === 'number') {
+      } else if (type === 'number' || type === 'object') {
         return 'InputNumberComponent'
       } else {
         return 'InputTextComponent'

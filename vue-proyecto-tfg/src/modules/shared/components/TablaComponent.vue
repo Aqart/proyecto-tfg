@@ -112,7 +112,7 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <FormComponent :data="item" @send="getNewData" :tipo="modalTitle" />
+      <FormComponent :data="item || {}" @send="getNewData" :tipo="modalTitle" />
     </ModalComponent>
   </div>
 </template>
@@ -136,7 +136,7 @@ export default {
       searchQuery: '',
       show: true,
       selectedCheckboxes: [],
-      showModal: null,
+      showModal: false,
       itemId: null,
       item: null,
       newData: {},
@@ -144,14 +144,14 @@ export default {
     }
   },
   components: {
-    SearchIconComponent: defineAsyncComponent(
-      () => import('@/assets/images/SearchIconComponent.vue')
+    SearchIconComponent: defineAsyncComponent(() =>
+      import('@/assets/images/SearchIconComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     )
   },
   setup() {
@@ -212,23 +212,18 @@ export default {
     },
     toggleModalOpenNew() {
       this.modalTitle = 'Añadir nuevo'
+      console.log('toggleModalOpenNew', this.data[0])
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data
-        const dataTypes = Object.keys(this.data[0]).reduce((obj, key) => {
-          obj[key] = typeof this.data[0][key]
-          console.log('dataTypes', typeof obj)
-          return obj
-        }, {})
-
-        // Crear un nuevo objeto con las mismas claves que el primer objeto en data,
-        // pero con todos los valores establecidos en null y respetando el tipo de dato
         this.item = Object.keys(this.data[0]).reduce((obj, key) => {
-          if (typeof dataTypes[key] === 'number') {
-            obj[key] = null
-          } else if (typeof dataTypes[key] === 'string') {
+          console.log(typeof this.data[0][key])
+          if (typeof this.data[0][key] == 'string') {
             obj[key] = ''
+          } else if (typeof this.data[0][key] == 'number') {
+            obj[key] = null
           }
 
+          console.log('dataTypes', obj)
           return obj
         }, {})
 
