@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AddConsumibleComponent />
+    <ConsumiblesComponent />
   </div>
 </template>
 
@@ -9,8 +9,8 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
-    AddConsumibleComponent: defineAsyncComponent(
-      () => import('@/modules/Consumible/components/AddConsumibleComponent.vue')
+    ConsumiblesComponent: defineAsyncComponent(
+      () => import('@/modules/Consumible/components/ConsumiblesComponent.vue')
     )
   }
 }

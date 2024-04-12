@@ -16,6 +16,6 @@ export const setResponse = (state, data) => {
   state.response = data
 }
 
-export const setNewGasto = (state, { nombre, precio }) => {
-  state.gastos.push({ nombre, precio })
+export const setNewGasto = (state, gasto) => {
+  state.gastos.push(gasto)
 }
