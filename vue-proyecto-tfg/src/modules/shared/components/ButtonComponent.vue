@@ -1,6 +1,7 @@
 <template>
   <button :class="buttonClasses" :type="type" v-if="text != 'X'">
     {{ text }}
+    <FontAwesomeIcon :icon="icon" v-if="icon" class="ml-1" />
   </button>
   <button :class="buttonClasses" :type="type" v-else>
     <CloseIconComponent :customClasses="buttonClasses" />
@@ -27,6 +28,10 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    icon: {
+      type: Array,
+      default: null
     }
   },
   data() {

@@ -8,36 +8,50 @@
       <div class="relative inline-block text-left">
         <button
           @click.stop="toggleDropdown"
-          class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary"
+          class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-lg font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
         >
-          Bienvenido,&nbsp;<span class="first-letter:uppercase font-bold text-blue-500"
-            >#{{ getFormattedEmail }}</span
-          >
-          <ArrowDownComponent class="scale-x-[-1]" />
+          Bienvenido,&nbsp;&nbsp;<FontAwesomeIcon
+            class="text-blue-900 font-bold"
+            :icon="['fas', 'circle-user']"
+          />&nbsp;&nbsp;<span class="first-letter:uppercase font-bold text-blue-900">{{
+            getFormattedEmail
+          }}</span>
+          <FontAwesomeIcon :icon="['fas', 'caret-down']" class="text-gray-700 ml-2" />
         </button>
-        <div
-          v-show="open"
-          class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
-          ref="dropdown"
-        >
-          <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <router-link
-              to="/register"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              role="menuitem"
-              >Nuevo usuario</router-link
+        <Transition name="drop">
+          <div
+            v-show="open"
+            class="origin-top-right absolute right-0 w-full mt-3 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+            ref="dropdown"
+          >
+            <div
+              class="py-1"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="options-menu"
             >
-            <router-link
-              to="/logout"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              role="menuitem"
-              >Desconectar</router-link
-            >
+              <router-link
+                to="/register"
+                class="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
+                role="menuitem"
+                ><FontAwesomeIcon class="mr-3" :icon="['fas', 'user-plus']" />Nuevo
+                usuario</router-link
+              >
+              <router-link
+                to="/logout"
+                class="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
+                role="menuitem"
+                ><FontAwesomeIcon
+                  class="mr-3"
+                  :icon="['fas', 'right-from-bracket']"
+                />Desconectar</router-link
+              >
+            </div>
           </div>
-        </div>
+        </Transition>
       </div>
     </nav>
   </header>
@@ -55,9 +69,6 @@ export default {
   components: {
     LogoComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/LogoComponent.vue')
-    ),
-    ArrowDownComponent: defineAsyncComponent(() =>
-      import('@/assets/images/ArrowDropDownComponent.vue')
     )
   },
   computed: {
@@ -87,3 +98,30 @@ export default {
   }
 }
 </script>
+<style scoped>
+/* Estilos de transición para la entrada */
+.drop-enter-active {
+  transition: all 0.2s ease;
+}
+.drop-enter-from {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+.drop-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Estilos de transición para la salida */
+.drop-leave-active {
+  transition: all 0.3s ease;
+}
+.drop-leave-from {
+  transform: translateY(0);
+  opacity: 1;
+}
+.drop-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+</style>

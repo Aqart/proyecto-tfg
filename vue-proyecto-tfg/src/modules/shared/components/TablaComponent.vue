@@ -1,14 +1,14 @@
 <template>
   <div class="relative w-full shadow-md flex flex-col mb-10">
     <div class="flex flex-row flex-wrap bg-stone/75 rounded-t-lg">
-      <h1 class="text-4xl font-bold text-center p-10 text-secondary flex-grow">
+      <h1 class="text-4xl font-bold text-center p-10 text-secondary flex-grow text-shadow-sm">
         Listado de {{ formattedRoute }}
       </h1>
       <span
-        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-lg font-bold rounded-md text-secondary/80 hover:text-secondary"
+        class="inline-flex items-center justify-center mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-secondary/80 hover:text-secondary text-bold"
         @click="toggleModalOpenNew()"
       >
-        Añadir nuevo
+        <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
       </span>
     </div>
     <div
@@ -16,11 +16,12 @@
     >
       <div class="relative inline-block text-left flex-shrink-0">
         <a
-          class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary"
+          class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:ring-2 hover:ring-secondary"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
         >
+          <FontAwesomeIcon :icon="['fas', 'trash-can']" class="mr-2 hover:text-secondary" />
           Eliminar seleccionados
           <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
         </a>
@@ -30,13 +31,15 @@
         <div
           class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"
         >
-          <SearchIconComponent />
+          <SearchIconComponent
+            :class="'w-4 h-4 text-gray-500 focus:text-secondary transition-colors duration-200'"
+          />
         </div>
         <div v-if="show">
           <input
             type="text"
             id="table-search-consumibles"
-            class="block pt-2 pb-2 px-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-primary-500 focus:border-primary-500"
+            class="block pt-2 pb-2 px-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none shadow-sm"
             placeholder="Buscar consumibles"
             v-model="searchQuery"
           />
@@ -54,7 +57,7 @@
                   @change="selectAllCheckboxes"
                   id="checkbox-all-search"
                   type="checkbox"
-                  class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-blue-500"
+                  class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
                 />
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
@@ -63,12 +66,12 @@
               <button @click="sortTable(key)" class="flex items-center justify-start w-full">
                 <div v-html="formatIndex(key)"></div>
                 <div v-show="sortField === key" class="relative ml-2">
-                  <font-awesome-icon
+                  <FontAwesomeIcon
                     :icon="['fas', 'sort-up']"
                     class="absolute w-4 h-4 bottom-[-.4rem]"
                     :class="{ 'opacity-50': sortDirection === -1 }"
                   />
-                  <font-awesome-icon
+                  <FontAwesomeIcon
                     :icon="['fas', 'sort-down']"
                     class="absolute w-4 h-4 top-[-.4rem]"
                     :class="{ 'opacity-50': sortDirection === 1 }"
@@ -114,11 +117,11 @@
             </template>
             <td class="px-6 py-4">
               <span
-                class="text-md text-blue-500 hover:underline"
+                class="text-md text-blue-900 hover:text-secondary cursor-pointer"
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
-                Editar
+                <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
               </span>
             </td>
           </tr>
@@ -135,7 +138,7 @@
 import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
-import editConsumible from '@/modules/Consumible/composables/useConsumible'
+//import editConsumible from '@/modules/Consumible/composables/useConsumible'
 
 export default {
   props: {
@@ -168,9 +171,6 @@ export default {
     ),
     FormComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/FormComponent.vue')
-    ),
-    ArrowDropDownComponent: defineAsyncComponent(() =>
-      import('@/assets/images/ArrowDropDownComponent.vue')
     )
   },
   setup() {

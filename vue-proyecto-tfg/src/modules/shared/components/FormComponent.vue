@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="p-10">
+  <form @submit.prevent="handleSubmit" class="px-10 pb-10">
     <div v-for="(el, index) in data" :key="index">
       <component
         v-if="index !== 'id'"
@@ -10,6 +10,7 @@
         @changeText="handleChange"
         @changeNumber="handleChange"
         @errorNumber="handleError"
+        class="placeholder:first-letter:uppercase"
       />
     </div>
     <ButtonComponent @click="toggleModal" :text="textoBoton" bgColor="bg-secondary" />

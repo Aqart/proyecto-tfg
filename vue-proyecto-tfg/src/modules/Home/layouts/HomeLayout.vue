@@ -3,8 +3,8 @@
     <header class="mt-5">
       <NabvarComponent />
     </header>
-    <main class="flex flex-col justify-between items-center mt-10">
-      <MenuView />
+    <main class="flex flex-col justify-center items-center mt-10">
+      <MenuView v-if="$route.path === '/home'" />
       <RouterView />
     </main>
     <footer></footer>
