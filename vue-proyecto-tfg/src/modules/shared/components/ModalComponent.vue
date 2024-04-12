@@ -9,11 +9,11 @@
       <Transition name="modal-inner">
         <div
           v-show="modalActive"
-          class="relative w-full max-w-2xl max-h-full bg-stone/75 rounded-lg shadow"
+          class="relative w-full max-w-2xl max-h-full bg-stone/90 rounded-lg shadow"
         >
           <!-- Modal header -->
           <header class="flex items-start justify-between p-4 border-b rounded-t">
-            <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm">
+            <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow">
               {{ title }}
             </h3>
             <ButtonComponent

@@ -10,7 +10,6 @@
         @changeText="handleChange"
         @changeNumber="handleChange"
         @errorNumber="handleError"
-        class="placeholder:first-letter:uppercase"
       />
     </div>
     <ButtonComponent @click="toggleModal" :text="textoBoton" bgColor="bg-secondary" />
