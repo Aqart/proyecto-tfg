@@ -61,17 +61,16 @@ export default {
       if (Object.values(this.form).some((el) => el === '')) {
         this.$emit('send', 'No se pueden enviar campos vacios')
         return
-      }else{
-
+      } else {
         delete this.form
         this.$emit('send', this.form)
         this.$emit('close')
       }
-      },
+    },
     handleChange(e) {
-      if (this.tipo==='Editar') {
+      if (this.tipo === 'Editar') {
         this.form.id = this.data.id
-      }else{
+      } else {
         delete this.form.id
       }
       this.form = { ...this.form, ...e }

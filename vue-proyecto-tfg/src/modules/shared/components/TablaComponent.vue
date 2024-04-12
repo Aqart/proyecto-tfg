@@ -67,27 +67,27 @@
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
           <!-- bucle para mostrar los consumibles -->
-          
+
           <tr
-          v-for="body in searchFilteredData"
-          :key="body.id"
-          class="bg-white border-b hover:bg-gray-50"
+            v-for="body in searchFilteredData"
+            :key="body.id"
+            class="bg-white border-b hover:bg-gray-50"
           >
-          <td class="w-4 p-4">
-            <div class="flex items-center">
-              <input
-              id="checkbox-table-search-1"
-              type="checkbox"
-              :value="body.id"
-              v-model="selectedCheckboxes"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-            </div>
-          </td>
-          
-          <template v-for="(el, index) in body">
-            <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
+            <td class="w-4 p-4">
+              <div class="flex items-center">
+                <input
+                  id="checkbox-table-search-1"
+                  type="checkbox"
+                  :value="body.id"
+                  v-model="selectedCheckboxes"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+              </div>
+            </td>
+
+            <template v-for="(el, index) in body">
+              <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
                 <div class="text-sm text-black-900 font-bold">
                   {{ el }}
                 </div>
@@ -112,7 +112,7 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <FormComponent :data="item" @send="getNewData" :tipo="modalTitle"/>
+      <FormComponent :data="item" @send="getNewData" :tipo="modalTitle" />
     </ModalComponent>
   </div>
 </template>
@@ -195,10 +195,9 @@ export default {
       this.formType = type
     },
     getNewData(data) {
-      if (data){
+      if (data) {
         this.newData = data
         console.log('getNewData', this.newData)
-
       }
     },
     selectAllCheckboxes(event) {
@@ -209,34 +208,32 @@ export default {
       }
     },
     modalName(name) {
-      return this.modalTitle = name
+      return (this.modalTitle = name)
     },
     toggleModalOpenNew() {
       this.modalTitle = 'Añadir nuevo'
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data
         const dataTypes = Object.keys(this.data[0]).reduce((obj, key) => {
-          obj[key] = typeof this.data[0][key];
+          obj[key] = typeof this.data[0][key]
           console.log('dataTypes', typeof obj)
-          return obj;
-        }, {});
+          return obj
+        }, {})
 
         // Crear un nuevo objeto con las mismas claves que el primer objeto en data,
         // pero con todos los valores establecidos en null y respetando el tipo de dato
         this.item = Object.keys(this.data[0]).reduce((obj, key) => {
           if (typeof dataTypes[key] === 'number') {
-            obj[key] = null;
+            obj[key] = null
+          } else if (typeof dataTypes[key] === 'string') {
+            obj[key] = ''
           }
-          else if (typeof dataTypes[key] === 'string') {
-            obj[key] = '';
-          } 
-          
-          return obj;
-        }, {});
 
-        this.showModal = !this.showModal;
+          return obj
+        }, {})
+
+        this.showModal = !this.showModal
       }
-
     },
     toggleModalOpenEdit(id) {
       this.modalTitle = 'Editar'
@@ -283,5 +280,4 @@ export default {
 .table-body-leave-to {
   opacity: 0;
 }
-
 </style>

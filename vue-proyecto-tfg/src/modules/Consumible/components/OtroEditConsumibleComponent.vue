@@ -1,14 +1,12 @@
 <template>
   <ModalComponent title="Editar">
-    <FormComponent
-      :data="consumible"
-    />
+    <FormComponent :data="consumible" />
   </ModalComponent>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -30,10 +28,10 @@ export default {
     )
   },
   computed: {
-    ...mapGetters('Consumible', ['getConsumibleById']),
+    ...mapGetters('Consumible', ['getConsumibleById'])
   },
   created() {
-  console.log('Consumible', this.getConsumibleById(this.$route.params.id));
-}
+    console.log('Consumible', this.getConsumibleById(this.$route.params.id))
+  }
 }
 </script>

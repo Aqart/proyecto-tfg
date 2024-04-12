@@ -8,9 +8,9 @@
       type="number"
       step="0.01"
       min="0"
-      v-if="value===null ? handleError : value"
+      v-if="value === null ? handleError : value"
       :value="newValue"
-      @input="(event) => updateValue(label,event)"
+      @input="(event) => updateValue(label, event)"
       :name="value"
       :placeholder="placeholder"
     />
@@ -18,12 +18,11 @@
 </template>
 
 <script>
-
 export default {
   props: {
     value: {
       type: Number,
-      default : 0
+      default: 0
     },
     placeholder: {
       type: String,
@@ -55,11 +54,11 @@ export default {
     }
   },
   watch: {
-  error(newValue) {
-    if (newValue) {
-      this.$emit('errorNumber', 'Este campo no puede estar vacio');
+    error(newValue) {
+      if (newValue) {
+        this.$emit('errorNumber', 'Este campo no puede estar vacio')
+      }
     }
   }
-}
 }
 </script>

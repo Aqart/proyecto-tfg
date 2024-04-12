@@ -30,11 +30,7 @@
       />
 
     </form> -->
-    <FormComponent 
-      :data="consumibleForm"
-      @enviar="handleSubmit"
-      @close="handleClose"
-    />
+    <FormComponent :data="consumibleForm" @enviar="handleSubmit" @close="handleClose" />
   </ModalComponent>
 </template>
 

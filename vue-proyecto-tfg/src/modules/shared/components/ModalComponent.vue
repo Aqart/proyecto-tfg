@@ -6,34 +6,37 @@
       aria-hidden="true"
       class="fixed inset-0 flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full backdrop-blur-md bg-bgFrom/30"
     >
-    <Transition name="modal-inner">
-      <div v-show="modalActive" class="relative w-full max-w-2xl max-h-full bg-stone/75 rounded-lg shadow">
-        <!-- Modal header -->
-        <header class="flex items-start justify-between p-4 border-b rounded-t">
-          <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm">
-            {{ title }}
-          </h3>
-          <ButtonComponent
-            type="button"
-            text="X"
-            otherClasses="text-xl text-gray-400 bg-transparent rounded-lg w-6 h-6 ms-auto inline-flex justify-center items-center"
-            data-modal-hide="editConsumibleModal"
-            @click="toggleModal"
-          >
-          </ButtonComponent>
-        </header>
-        <main>
-          <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
-          <slot />
-        </main>
-      </div>
-    </Transition>
+      <Transition name="modal-inner">
+        <div
+          v-show="modalActive"
+          class="relative w-full max-w-2xl max-h-full bg-stone/75 rounded-lg shadow"
+        >
+          <!-- Modal header -->
+          <header class="flex items-start justify-between p-4 border-b rounded-t">
+            <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm">
+              {{ title }}
+            </h3>
+            <ButtonComponent
+              type="button"
+              text="X"
+              otherClasses="text-xl text-gray-400 bg-transparent rounded-lg w-6 h-6 ms-auto inline-flex justify-center items-center"
+              data-modal-hide="editConsumibleModal"
+              @click="toggleModal"
+            >
+            </ButtonComponent>
+          </header>
+          <main>
+            <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
+            <slot />
+          </main>
+        </div>
+      </Transition>
     </div>
   </Transition>
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -53,12 +56,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar']),
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
-  
+
   components: {
-    ButtonComponent: defineAsyncComponent(() => import('@/modules/shared/components/ButtonComponent.vue')),
-    MensajesComponent: defineAsyncComponent(() => import('@/modules/shared/components/MensajesComponent.vue'))
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ),
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
+    )
   }
 }
 </script>
@@ -79,5 +86,4 @@ export default {
 .modal-inner-leave-to {
   transform: scale(0);
 }
-
 </style>
