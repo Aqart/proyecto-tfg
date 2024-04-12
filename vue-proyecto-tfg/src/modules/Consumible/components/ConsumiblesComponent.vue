@@ -3,15 +3,55 @@
     <div>
       <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
     </div>
-    <TablaComponent :data="getConsumibles" />
+    <TablaComponent :data="getConsumibles" @saveData="persistData" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
+import useConsumible from '@/modules/Consumible/composables/useConsumible'
+import useShared from '@/modules/shared/composables/useShared'
+
 
 export default {
+  setup() {
+    const { createConsumible, editConsumible } = useConsumible()
+    const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+    const persistData = async (data, type) => {
+      try {
+        if (type === 'Añadir nuevo') {
+          console.log('Data to persist', data, type)
+          const { ok, message } = await createConsumible(data)
+          if(!ok) {
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
+          } else {
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
+          }
+        } else if(type === 'Editar'){
+          console.log('Data to persist', data, type)
+          const { ok, message } = await editConsumible(data)
+          if(!ok) {
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
+          } else {
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
+          }
+        }
+      } catch (error) {
+        console.error('Error persisting data', error)
+        actualizarMensaje('error', 'Error guardando los datos')
+        actualizarMostrarMensaje(true)
+      }
+      
+    }
+    return {
+      persistData
+    }
+  },
   computed: {
     ...mapGetters('Consumible', ['getConsumibles']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])

@@ -25,12 +25,12 @@ export const fetchGastos = async ({ commit }) => {
   }
 }
 
-export const createGasto = async ({ commit }, gastos) => {
+export const createGasto = async ({ commit }, gasto) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/gastos-generales', gastos, {
+    const response = await authApi.post('/gastos-generales', gasto, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -40,14 +40,14 @@ export const createGasto = async ({ commit }, gastos) => {
     if (response.status === 201 && response.data) {
       console.log('RESPONSE DATA', response.status, response.data)
 
-      console.log('Gastos action', gastos)
+      console.log('Gastos action', gasto)
 
       if (response.data.id) {
-        gastos.id = response.data.id
+        gasto.id = response.data.id
       }
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
-      commit('setNewGasto', gastos)
+      commit('setNewGasto', gasto)
       return { ok: true, message: response.data.message }
     } else {
       console.error('Error al obtener los gastos:', response.message)
@@ -81,17 +81,18 @@ export const getGastoById = async ({ commit }, id) => {
   }
 }
 
-export const editGasto = async ({ commit }, { id, gasto }) => {
+export const editGasto = async ({ commit }, gasto) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
+  const { id } = gasto
   try {
     const response = await authApi.put(`/gastos-generales/${id}`, gasto, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
-    console.log(response.data)
+    console.log('LA DATA', response.data)
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       console.log('Fetch Get', response.data)

@@ -78,11 +78,11 @@ export const getConsumibleById = async ({ commit }, id) => {
   }
 }
 
-export const editConsumible = async ({ commit }, { id, consumible }) => {
-  console.log('Editar consumible', id, consumible)
+export const editConsumible = async ({ commit }, consumible) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
+  const { id } = consumible
   try {
     const response = await authApi.put(`/consumibles/${id}`, consumible, {
       headers: {

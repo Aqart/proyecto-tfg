@@ -11,7 +11,7 @@
       type="number"
       step="0.01"
       min="0"
-      v-if="value === null ? handleError : value"
+      v-if="value === 0 || value === null ? handleError : value"
       :value="newValue"
       @input="(event) => updateValue(label, event)"
       :name="value"
