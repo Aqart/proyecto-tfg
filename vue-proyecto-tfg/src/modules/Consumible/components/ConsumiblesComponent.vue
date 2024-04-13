@@ -3,7 +3,7 @@
     <div>
       <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
     </div>
-    <TablaComponent :data="getConsumibles" @saveData="persistData" />
+    <TablaComponent :data="getConsumibles" @saveData="persistData" @deleteSelected="deleteConsumibles"/>
   </div>
 </template>
 
@@ -48,8 +48,14 @@ export default {
       }
       
     }
+
+    const deleteConsumibles = async (arrayData) => {
+      console.log('Data to delete', arrayData)
+    }
+
     return {
-      persistData
+      persistData,
+      deleteConsumibles
     }
   },
   computed: {
