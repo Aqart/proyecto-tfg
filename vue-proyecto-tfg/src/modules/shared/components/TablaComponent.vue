@@ -20,6 +20,7 @@
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
+          @click="deletedSelected"
         >
           <FontAwesomeIcon :icon="['fas', 'trash-can']" class="mr-2 hover:text-secondary" />
           Eliminar seleccionados
@@ -274,6 +275,10 @@ export default {
     },
     getItemById(id) {
       this.item = this.data.find((item) => item.id === id)
+    },
+    deletedSelected() {
+      console.log('selectedCheckboxes', this.selectedCheckboxes)
+      this.$emit('deleteSelected', this.selectedCheckboxes)
     }
   },
   computed: {

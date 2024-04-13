@@ -19,3 +19,7 @@ export const setConsumible = (state, data) => {
     return consumible
   })
 }
+
+export const deleteConsumible = (state, id) => {
+  state.consumibles = state.consumibles.filter(consumible => consumible.id != id)
+}
