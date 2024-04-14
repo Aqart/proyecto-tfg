@@ -1,4 +1,4 @@
-import { pool } from '../db' // Importamos el pool de conexión a la base de datos
+import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
 
 const ConsumibleController = {
     // Obtener todos los consumibles

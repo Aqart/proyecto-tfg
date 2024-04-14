@@ -4,7 +4,7 @@
 //El hash de la contraseña generada se devuelve como una promesa.
 //Si se produce un error al generar el hash de la contraseña, se captura y se lanza el error.
 
-const bcrypt = require('bcrypt')
+import bcrypt from 'bcrypt'
 
 async function generateHashedPassword(password) {
     try {
@@ -18,7 +18,7 @@ async function generateHashedPassword(password) {
 }
 
 // Ejemplo de uso
-const password = 'admin' // Define la contraseña que deseas hashear
+const password = 'estaesmiclavesecretaparajwt' // Define la contraseña que deseas hashear
 generateHashedPassword(password)
     .then((hashedPassword) => {
         console.log('Contraseña hasheada:', hashedPassword)

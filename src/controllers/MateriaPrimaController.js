@@ -1,4 +1,4 @@
-import { pool } from '../db' // Importa el pool de conexión a la base de datos
+import { pool } from '../db.js' // Importa el pool de conexión a la base de datos
 
 const MateriaPrimaController = {
     // Obtener todas las materias primas
@@ -24,7 +24,7 @@ const MateriaPrimaController = {
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
                 message: 'Materia prima creada correctamente',
-                id: rows[0].id
+                id: rows[0].id,
             })
         } catch (error) {
             next(error)

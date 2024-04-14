@@ -3,7 +3,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import { pool } from '../db' // Importa el pool de conexión si estás utilizando pools
+import { pool } from '../db.js' // Importa el pool de conexión si estás utilizando pools
 
 const AuthController = {
     // Registro de usuario

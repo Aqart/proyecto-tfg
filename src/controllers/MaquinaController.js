@@ -1,4 +1,4 @@
-import { pool } from '../db' // Importamos el pool de conexión a la base de datos
+import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
 
 const MaquinaController = {
     // Obtener todas las máquinas
@@ -22,7 +22,7 @@ const MaquinaController = {
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
                 message: 'Máquina creada correctamente',
-                id: rows[0].id
+                id: rows[0].id,
             })
         } catch (error) {
             next(error)

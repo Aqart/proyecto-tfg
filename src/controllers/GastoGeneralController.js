@@ -1,4 +1,4 @@
-import { pool } from '../db' // Importamos el pool de conexión a la base de datos
+import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
 
 const GastoGeneralController = {
     // Obtener todos los gastos generales
@@ -26,7 +26,7 @@ const GastoGeneralController = {
 
             res.status(201).json({
                 message: 'Gasto general creado correctamente',
-                id: rows[0].id
+                id: rows[0].id,
             })
         } catch (error) {
             next(error)
