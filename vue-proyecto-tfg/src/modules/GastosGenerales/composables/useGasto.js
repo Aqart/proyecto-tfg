@@ -18,8 +18,8 @@ const useGasto = () => {
     const resp = await store.dispatch('GastosGenerales/createGasto', gasto)
     return resp
   }
-  const editGasto = async (id, gasto) => {
-    const resp = await store.dispatch('GastosGenerales/editGasto', { id: id, gasto: gasto })
+  const editGasto = async (gasto) => {
+    const resp = await store.dispatch('GastosGenerales/editGasto', gasto)
     return resp
   }
 

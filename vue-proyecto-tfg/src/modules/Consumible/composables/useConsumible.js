@@ -18,11 +18,13 @@ const useConsumible = () => {
     return resp
   }
 
-  const editConsumible = async (id, consumible) => {
-    const resp = await store.dispatch('Consumible/editConsumible', {
-      id: id,
-      consumible: consumible
-    })
+  const editConsumible = async (consumible) => {
+    const resp = await store.dispatch('Consumible/editConsumible', consumible)
+    return resp
+  }
+
+  const deleteConsumibles = async (consumibles) => {
+    const resp = await store.dispatch('Consumible/deleteConsumibles', consumibles)
     return resp
   }
 
@@ -30,7 +32,8 @@ const useConsumible = () => {
     getConsumibles,
     createConsumible,
     editConsumible,
-    getConsumible
+    getConsumible,
+    deleteConsumibles
   }
 }
 

@@ -20,6 +20,7 @@
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
+          @click="deletedSelected"
         >
           <FontAwesomeIcon :icon="['fas', 'trash-can']" class="mr-2 hover:text-secondary" />
           Eliminar seleccionados
@@ -129,7 +130,7 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <FormComponent :data="item || {}" @send="getNewData" :tipo="modalTitle" />
+      <FormComponent :data="item || {}" @send="getNewData" :tipo="modalTitle" @close="toggleModalClose" />
     </ModalComponent>
   </div>
 </template>
@@ -224,6 +225,7 @@ export default {
     getNewData(data) {
       if (data) {
         this.newData = data
+        this.$emit('saveData', this.newData, this.modalTitle)
         console.log('getNewData', this.newData)
       }
     },
@@ -238,6 +240,7 @@ export default {
       return (this.modalTitle = name)
     },
     toggleModalOpenNew() {
+      this.cerrarMensaje()
       this.modalTitle = 'Añadir nuevo'
       console.log('toggleModalOpenNew', this.data[0])
       if (this.data.length > 0) {
@@ -258,18 +261,24 @@ export default {
       }
     },
     toggleModalOpenEdit(id) {
+      this.cerrarMensaje()
       this.modalTitle = 'Editar'
       this.itemId = id
       this.getItemById(this.itemId)
       this.showModal = !this.showModal
     },
     toggleModalClose() {
+      this.cerrarMensaje()
       this.showModal = !this.showModal
       this.itemId = null
       this.item = null
     },
     getItemById(id) {
       this.item = this.data.find((item) => item.id === id)
+    },
+    deletedSelected() {
+      console.log('selectedCheckboxes', this.selectedCheckboxes)
+      this.$emit('deleteSelected', this.selectedCheckboxes)
     }
   },
   computed: {

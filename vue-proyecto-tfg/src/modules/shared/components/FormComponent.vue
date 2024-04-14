@@ -12,7 +12,7 @@
         @errorNumber="handleError"
       />
     </div>
-    <ButtonComponent @click="toggleModal" :text="textoBoton" bgColor="bg-secondary" />
+    <ButtonComponent :text="textoBoton" bgColor="bg-secondary" />
   </form>
 </template>
 
@@ -55,6 +55,11 @@ export default {
       return this.tipo === 'Editar' ? 'Modificar' : 'Guardar'
     }
   },
+  watch: {
+    data(newVal){
+      this.form = { ...newVal }
+    }
+  },
   methods: {
     handleError(e) {
       this.error.status = true
@@ -62,16 +67,23 @@ export default {
       console.error(this.error.message)
     },
     toggleModal() {
+      console.log("Está entrando en el toggleModal FormComponent")
+      this.$emit('close')
+    },
+    handleSubmit(){
+      console.log(this.form)
       //si alguno de los campos esta vacio no se envia
       // Comprobamos si this.form se ha inicializado
-      if (!this.form.length || Object.values(this.form).some((el) => el == '')) {
-        this.$emit('send', 'No se pueden enviar campos vacios')
+      if (Object.keys(this.form).length === 0 || Object.values(this.form).some((el) => el == '' || el == null)) {
+        console.log("En lugar del emit Send: Campos vacíos")
+        //this.$emit('send', 'No se pueden enviar campos vacios')
         return
       } else {
-        delete this.form
         this.$emit('send', this.form)
-        this.$emit('close')
+        this.form = {}
+        this.toggleModal()
       }
+
     },
     handleChange(e) {
       if (this.tipo === 'Editar') {
@@ -79,7 +91,10 @@ export default {
       } else {
         delete this.form.id
       }
+      console.log("Form", this.form)
       this.form = { ...this.form, ...e }
+      console.log("cambiado", e)
+      console.log("form después", this.form)
       return this.form
     },
     checkType(type) {
