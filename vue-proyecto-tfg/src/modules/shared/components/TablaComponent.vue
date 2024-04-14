@@ -56,6 +56,7 @@
               <div class="flex items-center">
                 <input
                   @change="selectAllCheckboxes"
+                  v-model="isAllChecked"
                   id="checkbox-all-search"
                   type="checkbox"
                   class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
@@ -130,11 +131,7 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <div v-if="modalTitle === 'Eliminar'" >
-        <div class="p-4">
-          <p>¿Estás seguro de que deseas eliminar los elementos seleccionados?</p>
-        </div>
-      </div>
+      <DeleteConfirmationComponent v-if="modalTitle === 'Eliminar'" :items="selectedItems" :itemType="formattedRoute.toLowerCase()" :total="data.length" @delete="deleteData" @close="toggleModalClose" />
       <FormComponent v-else :data="item || {}" @send="getNewData" :tipo="modalTitle" @close="toggleModalClose" />
     </ModalComponent>
   </div>
@@ -144,7 +141,6 @@
 import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
-//import editConsumible from '@/modules/Consumible/composables/useConsumible'
 
 export default {
   props: {
@@ -159,6 +155,8 @@ export default {
       searchQuery: '',
       show: true,
       selectedCheckboxes: [],
+      selectedItems: [],
+      isAllChecked: false,
       showModal: false,
       itemId: null,
       item: null,
@@ -177,6 +175,9 @@ export default {
     ),
     FormComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/FormComponent.vue')
+    ),
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     )
   },
   setup() {
@@ -285,8 +286,16 @@ export default {
       this.cerrarMensaje();
       this.modalTitle = 'Eliminar'
       this.showModal = !this.showModal
-      console.log('selectedCheckboxes', this.selectedCheckboxes)
-      // this.$emit('deleteSelected', this.selectedCheckboxes)
+
+      // Método para obtener los elementos a eliminar de selectedCheckboxes de data
+      this.selectedItems = this.data.filter((item) => this.selectedCheckboxes.includes(item.id))
+    },
+    deleteData(data) {
+      console.log('deleteData', data)
+      this.$emit('deleteSelected', data)
+      this.selectedCheckboxes = []
+      this.isAllChecked = false
+      this.showModal = !this.showModal
     }
   },
   computed: {
@@ -326,7 +335,6 @@ export default {
 
       if (this.searchQuery) {
         result = result.filter((item) => {
-          // Asegúrate de adaptar esta lógica a tu caso específico
           return Object.values(item).some((value) =>
             value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
           )
