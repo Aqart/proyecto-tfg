@@ -59,6 +59,7 @@ export default {
       this.$emit('changeNumber', { [key]: Number(this.newInputValue) })
     },
     handleError() {
+      console.log('Error', this.error)
       this.error = true
     },
     formatText(text) {
