@@ -26,7 +26,7 @@
             </ButtonComponent>
           </header>
           <main>
-            <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
+            <MensajesComponent v-if="getTipo !== 'success'" :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
             <slot />
           </main>
         </div>

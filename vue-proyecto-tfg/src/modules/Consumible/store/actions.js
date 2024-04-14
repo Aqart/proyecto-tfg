@@ -112,7 +112,10 @@ export const deleteConsumibles = async ({ commit }, consumibles) => {
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
-  for(const id of consumibles) {
+  console.log("Delete del action", consumibles)
+  for(const consumible of consumibles) {
+    const { id } = consumible
+    console.log(id)
     try {
       const response = await authApi.delete(`/consumibles/${id}`, {
         headers: {
@@ -123,7 +126,7 @@ export const deleteConsumibles = async ({ commit }, consumibles) => {
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
       if (response.status === 200 && response.data) {
         // Hacer un mutation que elimine los consumibles de Vuex
-        commit('deleteConsumibles', id)
+        commit('deleteConsumible', id)
         results.push({ id, ok: true, message: response.data.message })
       } else {
         console.error('Error al eliminar consumible:', response.data.message)
