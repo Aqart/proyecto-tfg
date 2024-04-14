@@ -86,7 +86,6 @@ const AuthController = {
 
         try {
             const decoded = await jwt.verify(token, process.env.JWT_SECRET)
-            console.log(decoded)
             req.userId = decoded.userId
             next()
         } catch (err) {
