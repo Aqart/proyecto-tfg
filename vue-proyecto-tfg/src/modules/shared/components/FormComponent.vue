@@ -83,6 +83,7 @@ export default {
       return this.form
     },
     checkType(type) {
+      console.log(type)
       if (type === 'string') {
         return 'InputTextComponent'
       } else if (type === 'number' || type === 'object') {
