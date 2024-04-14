@@ -20,7 +20,7 @@
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
-          @click="deletedSelected"
+          @click="toggleModalDeletedSelected"
         >
           <FontAwesomeIcon :icon="['fas', 'trash-can']" class="mr-2 hover:text-secondary" />
           Eliminar seleccionados
@@ -130,7 +130,12 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <FormComponent :data="item || {}" @send="getNewData" :tipo="modalTitle" @close="toggleModalClose" />
+      <div v-if="modalTitle === 'Eliminar'" >
+        <div class="p-4">
+          <p>¿Estás seguro de que deseas eliminar los elementos seleccionados?</p>
+        </div>
+      </div>
+      <FormComponent v-else :data="item || {}" @send="getNewData" :tipo="modalTitle" @close="toggleModalClose" />
     </ModalComponent>
   </div>
 </template>
@@ -276,9 +281,12 @@ export default {
     getItemById(id) {
       this.item = this.data.find((item) => item.id === id)
     },
-    deletedSelected() {
+    toggleModalDeletedSelected() {
+      this.cerrarMensaje();
+      this.modalTitle = 'Eliminar'
+      this.showModal = !this.showModal
       console.log('selectedCheckboxes', this.selectedCheckboxes)
-      this.$emit('deleteSelected', this.selectedCheckboxes)
+      // this.$emit('deleteSelected', this.selectedCheckboxes)
     }
   },
   computed: {
