@@ -17,6 +17,7 @@
       <div class="relative inline-block text-left flex-shrink-0">
         <a
           class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:ring-2 hover:ring-secondary"
+          :class="disabled"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
@@ -312,6 +313,9 @@ export default {
     }
   },
   computed: {
+    disabled() {
+      return this.selectedCheckboxes.length > 0 ? "" : "pointer-events-none opacity-50 cursor-not-allowed"
+    },
     sortedData() {
       if (!this.sortField) {
         return this.data
