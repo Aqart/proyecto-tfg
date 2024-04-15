@@ -108,3 +108,45 @@ export const editGasto = async ({ commit }, gasto) => {
     console.log('Error al editar el gasto:', error)
   }
 }
+
+
+
+export const deleteGastos = async ({ commit }, gastos) => {
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  const results = []
+
+  // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
+  console.log('Delete del action', gastos)
+  for (const gasto of gastos) {
+    const { id } = gasto
+    console.log(id)
+    try {
+      const response = await authApi.delete(`/gastos-generales/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('idToken')}`
+        }
+      })
+
+      // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+      if (response.status === 200 && response.data) {
+        // Hacer un mutation que elimine los consumibles de Vuex
+        commit('deleteGasto', id)
+        results.push({ id, ok: true, message: response.data.message })
+      } else {
+        console.error('Error al eliminar gasto general:', response.data.message)
+        results.push({ id, ok: false, message: response.data.message })
+      }
+    } catch (error) {
+      console.error('Error al eliminar los consumible:', error.message)
+      results.push({ id, ok: false, message: error.message })
+    }
+  }
+  return results
+}
+
+
+
+
+

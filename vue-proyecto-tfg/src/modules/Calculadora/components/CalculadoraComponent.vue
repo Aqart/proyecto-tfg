@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-3">
     <h1>Calculadora</h1>
     <InputNumberComponent
-      label="Número 1"
+      label="numero"
       placeholder="Introduce un número"
       @changeNumber="handleChange"
       @errorNumber="handleError"
@@ -55,6 +55,7 @@ export default {
     },
     handleChange(e){
       this.numero1 = e
+      console.log('Numero1', this.numero1)
       return this.numero1
     },
     handleError(e) {
