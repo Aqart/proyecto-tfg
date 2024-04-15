@@ -21,5 +21,5 @@ export const setConsumible = (state, data) => {
 }
 
 export const deleteConsumible = (state, id) => {
-  state.consumibles = state.consumibles.filter(consumible => consumible.id != id)
+  state.consumibles = state.consumibles.filter((consumible) => consumible.id != id)
 }

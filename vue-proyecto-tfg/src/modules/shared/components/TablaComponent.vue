@@ -1,22 +1,22 @@
 <template>
   <div class="relative w-full shadow-md flex flex-col mb-10">
-    <div class="flex flex-row flex-wrap bg-stone/75 rounded-t-lg">
-      <h1 class="text-4xl font-bold text-center p-10 text-secondary flex-grow text-shadow-sm">
+    <div class="flex flex-row flex-wrap bg-stoneBackground-2 rounded-t-lg">
+      <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow">
         Listado de {{ formattedRoute }}
       </h1>
       <span
-        class="inline-flex items-center justify-center mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-secondary/80 hover:text-secondary text-bold"
+        class="inline-flex items-center justify-center mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
         @click="toggleModalOpenNew()"
       >
         <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
       </span>
     </div>
     <div
-      class="flex gap-4 items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 px-4 py-4 bg-stone/75"
+      class="flex gap-4 items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 px-4 py-4 bg-stoneBackground-2"
     >
       <div class="relative inline-block text-left flex-shrink-0">
         <a
-          class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:ring-2 hover:ring-secondary"
+          class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:ring-2 hover:ring-secondary"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
@@ -50,7 +50,7 @@
 
     <div class="flex-grow overflow-auto">
       <table class="min-w-full divide-y divide-gray-200 text-left">
-        <thead class="text-lg font-bold text-secondary bg-stone/75 sticky top-0">
+        <thead class="text-lg font-bold text-stoneBackground-5 bg-stoneBackground-2 sticky top-0">
           <tr>
             <th scope="col" class="p-4">
               <div class="flex items-center">
@@ -59,7 +59,7 @@
                   v-model="isAllChecked"
                   id="checkbox-all-search"
                   type="checkbox"
-                  class="w-4 h-4 text-secondary-600 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
+                  class="w-4 h-4 text-stoneBackground-5 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
                 />
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
@@ -90,7 +90,7 @@
           <tr
             v-for="body in searchFilteredData"
             :key="body.id"
-            class="bg-white border-b hover:bg-gray-50"
+            class="bg-gray-50 border-b hover:bg-gray-100"
           >
             <td class="w-4 p-4">
               <div class="flex items-center">
@@ -107,19 +107,19 @@
 
             <template v-for="(el, index) in body">
               <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
-                <div class="text-sm text-black-900 font-bold">
+                <div class="text-sm text-stoneBackgroun-3 font-bold">
                   {{ el }}
                 </div>
               </th>
               <td v-else-if="index !== 'id'" :key="`${el}-td`" class="px-6 py-4">
-                <div class="text-sm text-black-900">
+                <div class="text-sm text-stoneBackgroun-3">
                   {{ el }}
                 </div>
               </td>
             </template>
             <td class="px-6 py-4">
               <span
-                class="text-md text-blue-900 hover:text-secondary cursor-pointer"
+                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer"
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
@@ -131,8 +131,21 @@
       </table>
     </div>
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <DeleteConfirmationComponent v-if="modalTitle === 'Eliminar'" :items="selectedItems" :itemType="formattedRoute.toLowerCase()" :total="data.length" @delete="deleteData" @close="toggleModalClose" />
-      <FormComponent v-else :data="item || {}" @send="getNewData" :tipo="modalTitle" @close="toggleModalClose" />
+      <DeleteConfirmationComponent
+        v-if="modalTitle === 'Eliminar'"
+        :items="selectedItems"
+        :itemType="formattedRoute.toLowerCase()"
+        :total="data.length"
+        @delete="deleteData"
+        @close="toggleModalClose"
+      />
+      <FormComponent
+        v-else
+        :data="item || {}"
+        @send="getNewData"
+        :tipo="modalTitle"
+        @close="toggleModalClose"
+      />
     </ModalComponent>
   </div>
 </template>
@@ -283,7 +296,7 @@ export default {
       this.item = this.data.find((item) => item.id === id)
     },
     toggleModalDeletedSelected() {
-      this.cerrarMensaje();
+      this.cerrarMensaje()
       this.modalTitle = 'Eliminar'
       this.showModal = !this.showModal
 

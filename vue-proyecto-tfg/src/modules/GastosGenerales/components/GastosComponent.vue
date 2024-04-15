@@ -15,24 +15,24 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createGasto , editGasto } = useGasto()
+    const { createGasto, editGasto } = useGasto()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
           console.log('Data to persist', data, type)
           const { ok, message } = await createGasto(data)
-          if(!ok) {
+          if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
           } else {
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
-        } else if(type === 'Editar'){
+        } else if (type === 'Editar') {
           const { ok, message } = await editGasto(data)
           console.log(message)
-          if(!ok) {
+          if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
           } else {
@@ -45,7 +45,6 @@ export default {
         actualizarMensaje('error', 'Error guardando los datos')
         actualizarMostrarMensaje(true)
       }
-      
     }
     return {
       persistData

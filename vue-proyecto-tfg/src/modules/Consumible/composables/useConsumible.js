@@ -24,7 +24,7 @@ const useConsumible = () => {
   }
 
   const deleteConsumibles = async (consumibles) => {
-    console.log("Dentro del useConsumible del delete")
+    console.log('Dentro del useConsumible del delete')
     const resp = await store.dispatch('Consumible/deleteConsumibles', consumibles)
     console.log(resp)
     return resp

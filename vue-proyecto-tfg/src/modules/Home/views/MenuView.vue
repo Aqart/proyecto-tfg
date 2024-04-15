@@ -1,10 +1,17 @@
 <template>
-  <div
-    class="flex flex-col gap-3 sm:flex-row justify-start sm:justify-between items-center w-full sm:w-auto"
-  >
-    <ButtonMenuComponent name="Consumibles" />
-    <ButtonMenuComponent name="Gastos-Generales" />
-    <ButtonMenuComponent name="Maquinas" />
+  <div class="space-y-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <ButtonMenuComponent name="Calcular Costes" path="calculadora" class="w-full p-3" />
+      <ButtonMenuComponent name="Controles horarios" path="controles-horarios" class="w-full p-3" />
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <ButtonMenuComponent name="Consumibles" path="consumibles" class="w-full p-3" />
+      <ButtonMenuComponent name="Gastos-Generales" path="gastos-generales" class="w-full p-3" />
+      <ButtonMenuComponent name="Maquinas" path="maquinas" class="w-full p-3" />
+      <ButtonMenuComponent name="Transportes" path="transportes" class="w-full p-3" />
+      <ButtonMenuComponent name="Trabajadores" path="trabajadores" class="w-full p-3" />
+      <ButtonMenuComponent name="Usuarios" path="users" class="w-full p-3" />
+    </div>
   </div>
 </template>
 

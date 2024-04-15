@@ -40,14 +40,14 @@ export default {
     }
   },
   components: {
-    InputTextComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputTextComponent.vue')
+    InputTextComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputTextComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   computed: {
@@ -56,7 +56,7 @@ export default {
     }
   },
   watch: {
-    data(newVal){
+    data(newVal) {
       this.form = { ...newVal }
     }
   },
@@ -67,15 +67,18 @@ export default {
       console.error(this.error.message)
     },
     toggleModal() {
-      console.log("Está entrando en el toggleModal FormComponent")
+      console.log('Está entrando en el toggleModal FormComponent')
       this.$emit('close')
     },
-    handleSubmit(){
+    handleSubmit() {
       console.log(this.form)
       //si alguno de los campos esta vacio no se envia
       // Comprobamos si this.form se ha inicializado
-      if (Object.keys(this.form).length === 0 || Object.values(this.form).some((el) => el == '' || el == null)) {
-        console.log("En lugar del emit Send: Campos vacíos")
+      if (
+        Object.keys(this.form).length === 0 ||
+        Object.values(this.form).some((el) => el == '' || el == null)
+      ) {
+        console.log('En lugar del emit Send: Campos vacíos')
         //this.$emit('send', 'No se pueden enviar campos vacios')
         return
       } else {
@@ -83,7 +86,6 @@ export default {
         this.form = {}
         this.toggleModal()
       }
-
     },
     handleChange(e) {
       if (this.tipo === 'Editar') {
@@ -91,10 +93,10 @@ export default {
       } else {
         delete this.form.id
       }
-      console.log("Form", this.form)
+      console.log('Form', this.form)
       this.form = { ...this.form, ...e }
-      console.log("cambiado", e)
-      console.log("form después", this.form)
+      console.log('cambiado', e)
+      console.log('form después', this.form)
       return this.form
     },
     checkType(type) {

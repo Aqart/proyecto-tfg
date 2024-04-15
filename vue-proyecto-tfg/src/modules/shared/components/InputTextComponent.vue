@@ -54,7 +54,7 @@ export default {
     updateValue(key, event) {
       this.newInputValue = event.target.value
 
-      console.log("InputText",this.newInputValue)
+      console.log('InputText', this.newInputValue)
 
       this.$emit('changeText', { [key]: this.newInputValue })
     },

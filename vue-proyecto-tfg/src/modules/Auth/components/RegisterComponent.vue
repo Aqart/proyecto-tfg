@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <h1 class="text-5xl text-primaryTitle mb-5">{{ title }}</h1>
+    <h1 class="text-5xl text-stoneBackground-1 mb-5">{{ title }}</h1>
     <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
       Correo Electrónico
     </label>
@@ -48,8 +48,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   setup() {

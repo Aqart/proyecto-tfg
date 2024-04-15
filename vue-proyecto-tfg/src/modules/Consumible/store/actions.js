@@ -112,16 +112,16 @@ export const deleteConsumibles = async ({ commit }, consumibles) => {
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
-  console.log("Delete del action", consumibles)
-  for(const consumible of consumibles) {
+  console.log('Delete del action', consumibles)
+  for (const consumible of consumibles) {
     const { id } = consumible
     console.log(id)
     try {
       const response = await authApi.delete(`/consumibles/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
-      }
-    })
+        }
+      })
 
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
       if (response.status === 200 && response.data) {

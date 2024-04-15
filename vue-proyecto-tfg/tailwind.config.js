@@ -7,10 +7,25 @@ export default {
       colors: {
         bgFrom: '#fff7f0',
         bgTo: '#f1f6fc',
-        primaryTitle: '#B1A090',
         primary: '#D9D9D9',
         secondary: '#6A524B',
-        stone: '#DACEBE'
+        third: '#756B61',
+        fourth: '#F5E0CB',
+        stone: '#DACEBE',
+        stoneBackground: {
+          1: '#BFAE99',
+          2: '#F2EADF',
+          3: '#59544F',
+          4: '#D9D0C7',
+          5: '#A6847C'
+        },
+        stoneBackgroundContrast: {
+          1: '#509396',
+          2: '#A5302F',
+          3: '#4F595A',
+          4: '#2F6A70',
+          5: '#7C97A6'
+        }
       },
       textShadow: {
         default: '0 2px 5px rgba(0, 0, 0, 0.1)'

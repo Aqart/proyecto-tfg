@@ -26,7 +26,12 @@
             </ButtonComponent>
           </header>
           <main>
-            <MensajesComponent v-if="getTipo !== 'success'" :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
+            <MensajesComponent
+              v-if="getTipo !== 'success'"
+              :message="getMensaje"
+              :type="getTipo"
+              :mostrarMensaje="getMostrar"
+            />
             <slot />
           </main>
         </div>
@@ -60,11 +65,11 @@ export default {
   },
 
   components: {
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }

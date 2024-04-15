@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-5xl text-primaryTitle mb-3">{{ title }}</h1>
+    <h1 class="text-5xl text-stoneBackground-1 mb-3">{{ title }}</h1>
     <form @submit.prevent="handleSubmit">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
         Correo Electrónico

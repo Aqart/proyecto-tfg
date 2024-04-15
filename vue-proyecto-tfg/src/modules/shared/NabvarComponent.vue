@@ -1,5 +1,5 @@
 <template>
-  <header class="py-4 text-primaryTitle">
+  <header class="py-4 text-stoneBackground-1">
     <nav class="flex flex-col justify-between gap-10 items-center sm:items-end sm:flex-row">
       <div class="flex items-center gap-3">
         <LogoComponent class="w-10 h-10" />
@@ -14,11 +14,12 @@
           aria-expanded="true"
         >
           Bienvenido,&nbsp;&nbsp;<FontAwesomeIcon
-            class="text-blue-900 font-bold"
+            class="text-stoneBackgroundContrast-1 font-bold"
             :icon="['fas', 'circle-user']"
-          />&nbsp;&nbsp;<span class="first-letter:uppercase font-bold text-blue-900">{{
-            getFormattedEmail
-          }}</span>
+          />&nbsp;&nbsp;<span
+            class="first-letter:uppercase font-bold text-stoneBackgroundContrast-1"
+            >{{ getFormattedEmail }}</span
+          >
           <FontAwesomeIcon :icon="['fas', 'caret-down']" class="text-gray-700 ml-2" />
         </button>
         <Transition name="drop">

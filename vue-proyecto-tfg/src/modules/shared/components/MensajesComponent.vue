@@ -1,16 +1,20 @@
 <template>
   <div class="mb-10 flex justify-around items-center">
     <template v-if="mostrarMensaje">
-
       <!-- Success -->
       <div
         class="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded relative"
         role="alert"
         v-if="type === 'success'"
       >
-        <FontAwesomeIcon :icon="['fas', 'square-check']" class="text-green-600 mr-3 scale-150 hidden sm:inline-block" />
+        <FontAwesomeIcon
+          :icon="['fas', 'square-check']"
+          class="text-green-600 mr-3 scale-150 hidden sm:inline-block"
+        />
         <!-- <strong class="font-bold">¡Éxito!&nbsp;</strong> -->
-        <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{ message }}</span>
+        <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
+          message
+        }}</span>
         <span class="absolute top-0 right-0 sm:px-1 sm:py-1 px-3 py-4 sm:scale-100 scale-150">
           <ButtonComponent
             type="button"
@@ -113,8 +117,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   }
 }
