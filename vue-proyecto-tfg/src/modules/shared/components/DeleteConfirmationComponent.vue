@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="flex justify-between items-center">
+      <ButtonComponent
+        v-if="items.length !== 0"
+        text="Confirmar"
+        @click="confirmDelete"
+        bgColor="bg-secondary"
+      />
+      <ButtonComponent text="Cancelar" @click="toggleModal" otherClasses="bg-red-800 text-white" />
+    </div>
     <div v-if="items.length === 0">
       <p>No hay {{ itemType }} para eliminar</p>
     </div>
@@ -11,15 +20,6 @@
       <ul>
         <li v-for="(item, index) in items" :key="index">{{ item.nombre }}</li>
       </ul>
-    </div>
-    <div class="flex justify-between items-center">
-      <ButtonComponent
-        v-if="items.length !== 0"
-        text="Confirmar"
-        @click="confirmDelete"
-        bgColor="bg-secondary"
-      />
-      <ButtonComponent text="Cancelar" @click="toggleModal" otherClasses="bg-red-800 text-white" />
     </div>
   </div>
 </template>

@@ -1,6 +1,8 @@
 import ConsumiblesRouter from '@/modules/Consumible/router'
 import GastosGeneralesRouter from '@/modules/GastosGenerales/router'
 import MaquinasRouter from '@/modules/Maquinas/router'
+import CalculadoraRouter from '@/modules/Calculadora/router'
+
 
 export default {
   name: 'home',
@@ -18,6 +20,10 @@ export default {
     {
       path: '/maquinas',
       ...MaquinasRouter
+    },
+    {
+      path: '/calculadora',
+      ...CalculadoraRouter
     }
   ]
 }

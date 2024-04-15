@@ -13,6 +13,7 @@ export default {
         fourth: '#F5E0CB',
         stone: '#DACEBE',
         stoneBackground: {
+          // Seleccionar con guión
           1: '#BFAE99',
           2: '#F2EADF',
           3: '#59544F',
