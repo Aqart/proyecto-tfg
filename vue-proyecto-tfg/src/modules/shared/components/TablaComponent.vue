@@ -86,8 +86,8 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
-          <!-- bucle para mostrar los consumibles -->
-
+          
+          <!-- bucle para mostrar los datos -->
           <tr
             v-for="body in searchFilteredData"
             :key="body.id"

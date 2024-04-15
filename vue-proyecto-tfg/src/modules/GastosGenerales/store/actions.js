@@ -139,7 +139,7 @@ export const deleteGastos = async ({ commit }, gastos) => {
         results.push({ id, ok: false, message: response.data.message })
       }
     } catch (error) {
-      console.error('Error al eliminar los consumible:', error.message)
+      console.error('Error al eliminar los gastos generales:', error.message)
       results.push({ id, ok: false, message: error.message })
     }
   }
