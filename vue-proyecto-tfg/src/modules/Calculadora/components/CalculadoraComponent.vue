@@ -1,45 +1,55 @@
 <template>
   <div class="flex flex-col gap-3">
     <h1>Calculadora</h1>
-    <InputNumberComponent
-      label="numero"
-      placeholder="Introduce un número"
-      @changeNumber="handleChange"
-      @errorNumber="handleError"
-    />
 
-    <label for="maquina">Seleccione máquina</label>
-    <select  name="maquina" id="">
-      <option v-for="maquina in getMaquinas" :key="maquina.id" value="maquina.id">{{ maquina.nombre }}</option>
-    </select>
-    <label for="terminacion">Seleccione terminación</label>
-    <select name="terminacion" id="">
-      <option value="">Selecciona terminación</option>
-      <option value="">Solo cortado</option>
-      <option value="">Apomazado</option>
-      <option value="">Envejecido</option>
-      <option value="">Abujardado</option>
-    </select>
+    <form @submit.prevent="handleSubmit">
+      <InputNumberComponent
+        label="Número 1"
+        placeholder="Introduce un número"
+        @changeNumber="handleChange"
+        @errorNumber="handleError"
+      />
 
-    <label for="embalaje">Seleccione embalaje</label>
-    <select name="embalaje" id="">
-      <option value="">embalaje</option>
-      <option value="">Sí</option>
-      <option value="">No</option>
-    </select>
+      <label for="maquina">Seleccione máquina</label>
+      <select name="maquina" ref="maquina">
+        <option v-for="maquina in getMaquinas" :key="maquina.id" :value="maquina.id">
+          {{ maquina.nombre }}
+        </option>
+      </select>
+      <label for="terminacion">Seleccione terminación</label>
+      <select name="terminacion" ref="terminacion">
+        <option value="10">Solo cortado</option>
+        <option value="20">Apomazado</option>
+        <option value="30">Envejecido</option>
+        <option value="40">Abujardado</option>
+      </select>
 
-    <ButtonComponent text="Calcular" bgColor="bg-primary" @click="handleClik" />
+      <label for="embalaje">Seleccione embalaje</label>
+      <select name="embalaje" ref="embalaje">
+        <option value="20">Sí</option>
+        <option value="0">No</option>
+      </select>
+
+      <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
+    </form>
+    <template v-if="typeof sumables === 'number'">
+      <h1>{{ sumables }}</h1>
+    </template>
   </div>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
+import authApi from '@/api/stoneApi'
 
 export default {
   data() {
     return {
       numero1: 0,
+      maquina: null,
+      consumibles: null,
+      sumables: [],
       error: {
         status: false,
         message: ''
@@ -50,12 +60,26 @@ export default {
     ...mapGetters('Maquinas', ['getMaquinas'])
   },
   methods: {
-    handleClick() {
-      console.log('Click')
+    async handleSubmit() {
+      this.maquina = this.$refs.maquina.value
+      await this.getConsumiblesPorMaquina(this.maquina)
+      this.sumables = this.consumibles.map((consumible) => {
+        return consumible.precio
+      })
+      this.sumables.push(this.numero1)
+      this.sumables.push(Number(this.$refs.terminacion.value))
+      this.sumables.push(Number(this.$refs.embalaje.value))
+
+      this.sumables = this.sumables.reduce((a, b) => a + b, 0)
+      console.log(this.sumables)
     },
-    handleChange(e){
+    handleChange(e) {
       this.numero1 = e
-      console.log('Numero1', this.numero1)
+      let sum = 0
+      for (const key in this.numero1) {
+        sum += this.numero1[key]
+      }
+      this.numero1 = sum
       return this.numero1
     },
     handleError(e) {
@@ -63,16 +87,24 @@ export default {
       this.error.message = e
       console.error(this.error.message)
     },
+    async getConsumiblesPorMaquina(id) {
+      const response = await authApi.get(`/maquinas/${id}/consumibles`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('idToken')}`
+        }
+      })
+      this.consumibles = response.data
+    }
   },
   components: {
-    InputTextComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputTextComponent.vue')
+    // InputTextComponent: defineAsyncComponent(
+    //   () => import('@/modules/shared/components/InputTextComponent.vue')
+    // ),
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
-    ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   }
 }
