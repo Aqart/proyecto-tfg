@@ -60,6 +60,7 @@
 import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
 import authApi from '@/api/stoneApi'
+import LoandingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
   data() {
@@ -83,14 +84,16 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      this.maquina = this.$refs.maquina.value
-      await this.getConsumiblesPorMaquina(this.maquina)
-      this.sumables = this.consumibles.map((consumible) => {
-        return consumible.precio
-      })
-      this.sumables.push(this.numero1)
-      this.sumables.push(Number(this.$refs.terminacion.value))
-      this.sumables.push(Number(this.$refs.embalaje.value))
+      try {
+        this.loading = true
+        this.maquina = this.$refs.maquina.value
+        await this.getConsumiblesPorMaquina(this.maquina)
+        this.sumables = this.consumibles.map((consumible) => {
+          return consumible.precio
+        })
+        this.sumables.push(this.numero1)
+        this.sumables.push(Number(this.$refs.terminacion.value))
+        this.sumables.push(Number(this.$refs.embalaje.value))
 
         this.sumables = this.sumables.reduce((a, b) => a + b, 0)
       } catch (e) {
@@ -153,7 +156,8 @@ export default {
     ),
     ButtonComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/ButtonComponent.vue')
-    )
+    ),
+    LoandingComponent
   }
 }
 </script>
