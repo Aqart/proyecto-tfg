@@ -10,7 +10,7 @@ const ConsumibleMaquinaController = {
                 [maquina_id]
             )
 
-            console.log(`Consumibles encontrados:`, rows)
+            
 
             res.status(200).json(rows)
         } catch (error) {

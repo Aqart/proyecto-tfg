@@ -1,7 +1,6 @@
 import authApi from '@/api/stoneApi'
 
 export const fetchGastos = async ({ commit }) => {
-  console.log('fetchGastos')
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -13,7 +12,6 @@ export const fetchGastos = async ({ commit }) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      console.log('Fetch Get', response.data)
 
       // Actualizar el estado con los consumibles obtenidos
       commit('setGastos', response.data)
@@ -38,9 +36,6 @@ export const createGasto = async ({ commit }, gasto) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
-      console.log('RESPONSE DATA', response.status, response.data)
-
-      console.log('Gastos action', gasto)
 
       if (response.data.id) {
         gasto.id = response.data.id
@@ -70,14 +65,13 @@ export const getGastoById = async ({ commit }, id) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      console.log(response.data)
       return response.data
     } else {
       console.error('Error al obtener el gasto:', response.message)
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el consumible:', error)
+    console.log('Error al obtener el gasto:', error)
   }
 }
 
@@ -92,10 +86,8 @@ export const editGasto = async ({ commit }, gasto) => {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
-    console.log('LA DATA', response.data)
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      console.log('Fetch Get', response.data)
 
       // Actualizar el estado con los consumibles obtenidos
       commit('setGasto', { id, gasto })

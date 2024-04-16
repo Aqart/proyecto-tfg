@@ -99,7 +99,7 @@ export default {
         this.sumables = this.sumables.reduce((a, b) => a + b, 0)
       } catch (e) {
         //this.handleError(e)
-        console.log(this.sumables)
+        
       } finally {
         setTimeout(() => {
           this.loading = false

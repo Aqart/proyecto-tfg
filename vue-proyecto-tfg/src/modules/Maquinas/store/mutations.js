@@ -1,6 +1,5 @@
 export const setMaquinas = (state, data) => {
   state.maquinas = data
-  console.log(state)
 }
 export const setNewMaquina = (state, maquina) => {
   console.log("mutation", maquina)

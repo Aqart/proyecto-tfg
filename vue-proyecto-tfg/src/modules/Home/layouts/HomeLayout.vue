@@ -21,6 +21,7 @@ import { RouterView } from 'vue-router'
 import useGasto from '@/modules/GastosGenerales/composables/useGasto'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useMaquina from '@/modules/Maquinas/composables/useMaquina'
+import useTransporte from '@/modules/Transportes/composables/useTransporte'
 import LoadingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
@@ -35,21 +36,23 @@ export default {
     const loading = ref(false)
 
     const obtenerConsumibles = async () => {
-      console.log('Obteniendo consumibles...')
       const { getConsumibles } = useConsumible()
       return await getConsumibles()
     }
 
     const obtenerGastos = async () => {
-      console.log('Obteniendo gastos...')
       const { getGastos } = useGasto()
       return await getGastos()
     }
 
     const obtenerMaquinas = async () => {
-      console.log('Obteniendo máquinas...')
       const { getMaquinas } = useMaquina()
       return await getMaquinas()
+    }
+
+    const obtenerTransportes = async () => {
+      const { getTransportes } = useTransporte()
+      return await getTransportes()
     }
 
     onMounted(async () => {
@@ -58,7 +61,7 @@ export default {
         obtenerMaquinas()
         obtenerGastos()
         obtenerConsumibles()
-        console.log('Datos obtenidos correctamente')
+        obtenerTransportes()
       } catch (error) {
         console.error('Error al obtener los datos:', error)
       } finally {

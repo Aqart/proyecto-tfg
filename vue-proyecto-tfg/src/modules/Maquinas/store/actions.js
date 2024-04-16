@@ -1,7 +1,6 @@
 import authApi from '@/api/stoneApi'
 
 export const fetchMaquinas = async ({ commit }) => {
-  console.log('fetchMaquinas')
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -49,7 +48,6 @@ export const createMaquina = async ({ commit }, maquina) => {
   }
 }
 export const editMaquina = async ({ commit }, maquina) => {
-  console.log('Editar maquina')
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
