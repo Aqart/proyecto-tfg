@@ -8,7 +8,8 @@
       <router-link v-else to="/home" class="text-left text-lg font-bold text-secondary mb-2"
         ><FontAwesomeIcon :icon="['fas', 'house']" />&nbsp;Volver al inicio</router-link
       >
-      <RouterView />
+      <LoadingComponent />
+      <RouterView class="w-full" />
     </main>
     <footer></footer>
   </div>
@@ -25,7 +26,10 @@ export default {
   components: {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
-    MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue'))
+    MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
+    )
   },
   data() {
     return {

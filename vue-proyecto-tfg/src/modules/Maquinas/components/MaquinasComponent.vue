@@ -1,6 +1,8 @@
 <template>
   <div>
-    <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
+    <template>
+      <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
+    </template>
     <TablaComponent :data="getMaquinas" />
   </div>
 </template>
@@ -11,11 +13,11 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
-    TablaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/TablaComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   data() {
@@ -30,4 +32,3 @@ export default {
 }
 </script>
 
-<style></style>

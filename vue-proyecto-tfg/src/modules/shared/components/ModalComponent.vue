@@ -9,10 +9,12 @@
       <Transition name="modal-inner">
         <div
           v-show="modalActive"
-          class="relative w-full max-w-2xl max-h-full bg-stone/90 rounded-lg shadow"
+          class="relative w-full max-w-2xl max-h-full bg-stoneBackground-2 rounded-lg shadow"
         >
           <!-- Modal header -->
-          <header class="flex items-start justify-between p-4 border-b rounded-t">
+          <header
+            class="flex items-start justify-between p-4 border-b rounded-t bg-stoneBackground-2"
+          >
             <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow">
               {{ title }}
             </h3>
@@ -65,11 +67,11 @@ export default {
   },
 
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }

@@ -31,7 +31,10 @@ import {
   faTrashCan,
   faPlus,
   faSquareCheck,
-  faHouse
+  faHouse,
+  faTriangleExclamation,
+  faCircleExclamation,
+  faFilePdf
 } from '@fortawesome/free-solid-svg-icons'
 // import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -50,7 +53,10 @@ library.add(
   faTrashCan,
   faPlus,
   faSquareCheck,
-  faHouse
+  faHouse,
+  faTriangleExclamation,
+  faCircleExclamation,
+  faFilePdf
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')

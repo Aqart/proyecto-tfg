@@ -1,15 +1,23 @@
 <template>
   <div class="relative w-full shadow-md flex flex-col mb-10">
     <div class="flex flex-row flex-wrap bg-stoneBackground-2 rounded-t-lg">
-      <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow">
+      <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow table-title">
         Listado de {{ formattedRoute }}
       </h1>
-      <span
-        class="inline-flex items-center justify-center mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
-        @click="toggleModalOpenNew()"
-      >
-        <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
-      </span>
+      <div class="flex flex-col mt-3">
+        <span
+          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+          @click="toggleModalOpenNew()"
+        >
+          <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
+        </span>
+        <span
+          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+          @click="exportToPDF()"
+        >
+          <FontAwesomeIcon :icon="['fas', 'file-pdf']" class="mr-1" />Exportar a PDF
+        </span>
+      </div>
     </div>
     <div
       class="flex gap-4 items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 px-4 py-4 bg-stoneBackground-2"
@@ -50,10 +58,10 @@
     </div>
 
     <div class="flex-grow overflow-auto">
-      <table class="min-w-full divide-y divide-gray-200 text-left">
+      <table class="min-w-full divide-y divide-gray-200 text-left" id="table">
         <thead class="text-lg font-bold text-stoneBackground-5 bg-stoneBackground-2 sticky top-0">
           <tr>
-            <th scope="col" class="p-4">
+            <th scope="col" class="p-4 no-print">
               <div class="flex items-center">
                 <input
                   @change="selectAllCheckboxes"
@@ -71,18 +79,18 @@
                 <div v-show="sortField === key" class="relative ml-2">
                   <FontAwesomeIcon
                     :icon="['fas', 'sort-up']"
-                    class="absolute w-4 h-4 bottom-[-.4rem]"
+                    class="absolute w-4 h-4 bottom-[-.4rem] no-print"
                     :class="{ 'opacity-50': sortDirection === -1 }"
                   />
                   <FontAwesomeIcon
                     :icon="['fas', 'sort-down']"
-                    class="absolute w-4 h-4 top-[-.4rem]"
+                    class="absolute w-4 h-4 top-[-.4rem] no-print"
                     :class="{ 'opacity-50': sortDirection === 1 }"
                   />
                 </div>
               </button>
             </th>
-            <th scope="col" class="px-6 py-3">Acciones</th>
+            <th scope="col" class="px-6 py-3 no-print">Acciones</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
@@ -93,7 +101,7 @@
             :key="body.id"
             class="bg-gray-50 border-b hover:bg-gray-100"
           >
-            <td class="w-4 p-4">
+            <td class="w-4 p-4 no-print">
               <div class="flex items-center">
                 <input
                   id="checkbox-table-search-1"
@@ -118,13 +126,17 @@
                 </div>
               </td>
             </template>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 no-print">
               <span
-                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer"
+                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
                 <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
+                <span
+                  class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
+                  >Editar</span
+                >
               </span>
             </td>
           </tr>
@@ -155,6 +167,7 @@
 import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
+import html2pdf from 'html2pdf.js'
 
 export default {
   props: {
@@ -231,6 +244,69 @@ export default {
     }
   },
   methods: {
+    async exportToPDF() {
+      // Crea un contenedor para el título y la tabla
+      const container = document.createElement('div')
+
+      // Agrega la tabla al contenedor
+      const originalElement = document.getElementById('table')
+      container.appendChild(originalElement)
+
+      // Crea una copia del contenedor
+      const printableElement = container.cloneNode(true)
+
+      // Elimina las columnas de acciones de la copia
+      const noPrintElements = printableElement.querySelectorAll('.no-print')
+      noPrintElements.forEach((element) => {
+        element.remove()
+      })
+      // Elimina todos los estilos de printableElement, excepto los necesarios para el formato de la tabla
+      const allElements = printableElement.getElementsByTagName('*')
+      for (let i = 0; i < allElements.length; i++) {
+        if (
+          allElements[i].tagName !== 'TABLE' &&
+          allElements[i].tagName !== 'TH' &&
+          allElements[i].tagName !== 'TD'
+        ) {
+          allElements[i].removeAttribute('style')
+          allElements[i].removeAttribute('class')
+        }
+      }
+      // Obtiene el título de la tabla
+      const title = document.querySelector('.table-title').innerText
+
+      // Crea un nuevo elemento para el título
+      const titleElement = document.createElement('h1')
+      titleElement.style.textAlign = 'center'
+      titleElement.style.fontSize = '48px'
+      titleElement.style.paddingBottom = '20px'
+      titleElement.innerText = title
+
+      // Agrega el título al inicio de la copia de la tabla
+      printableElement.prepend(titleElement)
+
+      const date = new Date()
+      const dateStr = date.toLocaleDateString().replace(/\//g, '')
+      const timeStr = date.toLocaleTimeString().replace(/:/g, '')
+      const dateTimeStr = `${dateStr}${timeStr}`
+
+      const formattedRoute =
+        this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
+
+      // Genera el PDF de la copia
+      const opt = {
+        margin: 1,
+        filename: `${formattedRoute}_${dateTimeStr}.pdf`,
+        image: { type: 'webp', quality: 1 },
+        html2canvas: { scale: 5 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      }
+
+      await html2pdf().set(opt).from(printableElement).save()
+      //Recarga la pagina para que vuelva a su estado original
+      location.reload()
+    },
     sortTable(field) {
       if (this.sortField === field) {
         this.sortDirection *= -1
@@ -314,7 +390,9 @@ export default {
   },
   computed: {
     disabled() {
-      return this.selectedCheckboxes.length > 0 ? "" : "pointer-events-none opacity-50 cursor-not-allowed"
+      return this.selectedCheckboxes.length > 0
+        ? ''
+        : 'pointer-events-none opacity-50 cursor-not-allowed'
     },
     sortedData() {
       if (!this.sortField) {
