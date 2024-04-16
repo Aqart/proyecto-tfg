@@ -92,8 +92,15 @@ export default {
       this.sumables.push(Number(this.$refs.terminacion.value))
       this.sumables.push(Number(this.$refs.embalaje.value))
 
-      this.sumables = this.sumables.reduce((a, b) => a + b, 0)
-      console.log(this.sumables)
+        this.sumables = this.sumables.reduce((a, b) => a + b, 0)
+      } catch (e) {
+        //this.handleError(e)
+        
+      } finally {
+        setTimeout(() => {
+          this.loading = false
+        }, 1000)
+      }
     },
     handleChange(e) {
     handleChange(e) {
