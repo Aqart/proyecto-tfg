@@ -2,8 +2,23 @@
   <div class="relative w-full shadow-md flex flex-col mb-10">
     <div class="flex flex-row flex-wrap bg-stoneBackground-2 rounded-t-lg">
       <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow table-title">
+      <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow table-title">
         Listado de {{ formattedRoute }}
       </h1>
+      <div class="flex flex-col mt-3">
+        <span
+          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+          @click="toggleModalOpenNew()"
+        >
+          <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
+        </span>
+        <span
+          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+          @click="exportToPDF()"
+        >
+          <FontAwesomeIcon :icon="['fas', 'file-pdf']" class="mr-1" />Exportar a PDF
+        </span>
+      </div>
       <div class="flex flex-col mt-3">
         <span
           class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
@@ -59,8 +74,10 @@
 
     <div class="flex-grow overflow-auto">
       <table class="min-w-full divide-y divide-gray-200 text-left" id="table">
+      <table class="min-w-full divide-y divide-gray-200 text-left" id="table">
         <thead class="text-lg font-bold text-stoneBackground-5 bg-stoneBackground-2 sticky top-0">
           <tr>
+            <th scope="col" class="p-4 no-print">
             <th scope="col" class="p-4 no-print">
               <div class="flex items-center">
                 <input
@@ -84,17 +101,19 @@
                   <FontAwesomeIcon
                     :icon="['fas', 'sort-up']"
                     class="absolute w-4 h-4 bottom-[-.4rem] no-print"
+                    class="absolute w-4 h-4 bottom-[-.4rem] no-print"
                     :class="{ 'opacity-50': sortDirection === -1 }"
                   />
                   <FontAwesomeIcon
                     :icon="['fas', 'sort-down']"
+                    class="absolute w-4 h-4 top-[-.4rem] no-print"
                     class="absolute w-4 h-4 top-[-.4rem] no-print"
                     :class="{ 'opacity-50': sortDirection === 1 }"
                   />
                 </div>
               </button>
             </th>
-            <th scope="col" class="text-center py-3 no-print">Acciones</th>
+            <th scope="col" class="px-6 py-3 no-print">Acciones</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
@@ -105,6 +124,7 @@
             :key="body.id"
             class="bg-gray-50 border-b hover:bg-gray-100"
           >
+            <td class="w-4 p-4 no-print">
             <td class="w-4 p-4 no-print">
               <div class="flex items-center">
                 <input
@@ -130,13 +150,18 @@
                 </div>
               </td>
             </template>
-            <td class="py-4 no-print text-center">
+            <td class="px-6 py-4 no-print">
               <span
+                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
                 <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
+                <span
+                  class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
+                  >Editar</span
+                >
                 <span
                   class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
                   >Editar</span
@@ -184,6 +209,7 @@
 import useShared from '@/modules/shared/composables/useShared'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
+import html2pdf from 'html2pdf.js'
 import html2pdf from 'html2pdf.js'
 
 export default {
@@ -315,22 +341,17 @@ export default {
 
       // Genera el PDF de la copia
       const opt = {
-        margin: [1, 0.5, 1, 0.5],
+        margin: 1,
         filename: `${formattedRoute}_${dateTimeStr}.pdf`,
         image: { type: 'webp', quality: 1 },
         html2canvas: { scale: 5 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       }
-      try {
-        this.loading = true
-        await html2pdf().set(opt).from(printableElement).save()
-      } catch (e) {
-        console.error('Error al generar el pdf', e)
-      } finally {
-        this.loading = false
-        location.reload()
-      }
+
+      await html2pdf().set(opt).from(printableElement).save()
+      //Recarga la pagina para que vuelva a su estado original
+      location.reload()
     },
     sortTable(field) {
       if (this.sortField === field) {
@@ -413,6 +434,9 @@ export default {
       return this.data.reduce((total, item) => total + item.precio, 0)
     },
     disabled() {
+      return this.selectedCheckboxes.length > 0
+        ? ''
+        : 'pointer-events-none opacity-50 cursor-not-allowed'
       return this.selectedCheckboxes.length > 0
         ? ''
         : 'pointer-events-none opacity-50 cursor-not-allowed'
