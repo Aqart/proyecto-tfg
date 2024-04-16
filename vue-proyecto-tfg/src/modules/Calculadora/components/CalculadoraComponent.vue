@@ -53,7 +53,9 @@
       </template>
       <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
     </form>
-    <LoandingComponent :fullScreen="true" :loading="loading" size="40px" />
+    <template v-if="typeof sumables === 'number'">
+      <h1>{{ sumables }}</h1>
+    </template>
   </div>
 </template>
 
