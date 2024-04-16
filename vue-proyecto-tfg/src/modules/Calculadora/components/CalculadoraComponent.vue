@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-3">
     <h1>Calculadora</h1>
 
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit" class="flex flex-col gap-3">
       <InputNumberComponent
         label="Número 1"
         placeholder="Introduce un número"
@@ -48,11 +48,11 @@
         <option value="0">No</option>
       </select>
 
+      <template v-if="typeof sumables === 'number'">
+        <h1 class="text-center text-4xl">{{ sumables }}€</h1>
+      </template>
       <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
     </form>
-    <template v-if="typeof sumables === 'number'">
-      <h1>{{ sumables }}</h1>
-    </template>
   </div>
 </template>
 
