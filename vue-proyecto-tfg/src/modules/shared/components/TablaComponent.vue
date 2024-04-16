@@ -316,7 +316,7 @@ export default {
 
       // Genera el PDF de la copia
       const opt = {
-        margin: 1,
+        margin: [1, 0.5, 1, 0.5],
         filename: `${formattedRoute}_${dateTimeStr}.pdf`,
         image: { type: 'webp', quality: 1 },
         html2canvas: { scale: 5 },
