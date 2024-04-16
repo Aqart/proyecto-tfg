@@ -53,9 +53,7 @@
       </template>
       <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
     </form>
-    <template v-if="typeof sumables === 'number'">
-      <h1>{{ sumables }}</h1>
-    </template>
+    <LoandingComponent :fullScreen="true" :loading="loading" size="40px" />
   </div>
 </template>
 
@@ -101,7 +99,7 @@ export default {
         this.sumables = this.sumables.reduce((a, b) => a + b, 0)
       } catch (e) {
         //this.handleError(e)
-        
+        console.log(this.sumables)
       } finally {
         setTimeout(() => {
           this.loading = false
