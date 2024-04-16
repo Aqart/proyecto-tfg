@@ -21,7 +21,7 @@ async function generateHashedPassword(password) {
 const password = 'estaesmiclavesecretaparajwt' // Define la contraseña que deseas hashear
 generateHashedPassword(password)
     .then((hashedPassword) => {
-        console.log('Contraseña hasheada:', hashedPassword)
+       
     })
     .catch((error) => {
         console.error('Error:', error)

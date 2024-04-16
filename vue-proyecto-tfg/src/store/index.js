@@ -5,6 +5,7 @@ import Consumible from '@/modules/Consumible/store'
 import GastosGenerales from '@/modules/GastosGenerales/store'
 import Shared from '@/modules/shared/store'
 import Maquinas from '@/modules/Maquinas/store'
+import Transportes from '@/modules/Transportes/store'
 
 const store = createStore({
   modules: {
@@ -12,7 +13,8 @@ const store = createStore({
     Consumible,
     GastosGenerales,
     Shared,
-    Maquinas
+    Maquinas,
+    Transportes
   }
 })
 
