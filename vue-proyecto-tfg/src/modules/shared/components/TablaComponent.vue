@@ -74,8 +74,12 @@
               </div>
             </th>
             <th v-for="key in filteredHeader" :key="key" scope="col" class="px-6 py-3">
-              <button @click="sortTable(key)" class="flex items-center justify-start w-full">
-                <div v-html="formatIndex(key)"></div>
+              <button
+                @click="sortTable(key)"
+                class="flex items-center w-full"
+                :class="key !== 'nombre' ? 'justify-center' : 'justify-start'"
+              >
+                <div v-html="formatIndex(key)" :class="key !== 'nombre' ? 'text-center' : ''"></div>
                 <div v-show="sortField === key" class="relative ml-2">
                   <FontAwesomeIcon
                     :icon="['fas', 'sort-up']"
@@ -90,7 +94,7 @@
                 </div>
               </button>
             </th>
-            <th scope="col" class="px-6 py-3 no-print">Acciones</th>
+            <th scope="col" class="text-center py-3 no-print">Acciones</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
@@ -121,12 +125,12 @@
                 </div>
               </th>
               <td v-else-if="index !== 'id'" :key="`${el}-td`" class="px-6 py-4">
-                <div class="text-sm text-stoneBackgroun-3">
+                <div class="text-sm text-center text-stoneBackgroun-3">
                   {{ el }}
                 </div>
               </td>
             </template>
-            <td class="px-6 py-4 no-print">
+            <td class="py-4 no-print text-center">
               <span
                 class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 @click="toggleModalOpenEdit(body.id)"
@@ -140,9 +144,22 @@
               </span>
             </td>
           </tr>
+          <tr
+            v-if="filteredHeader.includes('precio')"
+            class="bg-gray-50 border-b hover:bg-gray-100"
+          >
+            <td
+              :colspan="filteredHeader.length * 2"
+              class="text-center font-bold py-3 text-stoneBackgroundContrast-2 text-2xl"
+            >
+              <span class="text-stoneBackgroundContrast-3">Total:&nbsp;</span>
+              {{ totalPrecio }}€
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+    <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
       <DeleteConfirmationComponent
         v-if="modalTitle === 'Eliminar'"
@@ -190,7 +207,8 @@ export default {
       newData: {},
       formType: 'Editar',
       sortField: null,
-      sortDirection: 1
+      sortDirection: 1,
+      loading: false
     }
   },
   components: {
@@ -205,6 +223,9 @@ export default {
     ),
     DeleteConfirmationComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    ),
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
@@ -302,10 +323,15 @@ export default {
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       }
-
-      await html2pdf().set(opt).from(printableElement).save()
-      //Recarga la pagina para que vuelva a su estado original
-      location.reload()
+      try {
+        this.loading = true
+        await html2pdf().set(opt).from(printableElement).save()
+      } catch (e) {
+        console.error('Error al generar el pdf', e)
+      } finally {
+        this.loading = false
+        location.reload()
+      }
     },
     sortTable(field) {
       if (this.sortField === field) {
@@ -389,6 +415,9 @@ export default {
     }
   },
   computed: {
+    totalPrecio() {
+      return this.data.reduce((total, item) => total + item.precio, 0)
+    },
     disabled() {
       return this.selectedCheckboxes.length > 0
         ? ''
