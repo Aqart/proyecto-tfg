@@ -53,6 +53,7 @@
       </template>
       <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
     </form>
+    <LoandingComponent :fullScreen="true" :loading="loading" size="40px" />
   </div>
 </template>
 
