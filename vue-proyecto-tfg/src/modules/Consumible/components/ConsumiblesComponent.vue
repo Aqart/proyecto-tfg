@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div>
+    <template v-if="getMostrar">
       <MensajesComponent
         v-if="getTipo === 'success'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
       />
-    </div>
+    </template>
     <TablaComponent
       :data="getConsumibles"
       @saveData="persistData"
@@ -87,11 +87,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

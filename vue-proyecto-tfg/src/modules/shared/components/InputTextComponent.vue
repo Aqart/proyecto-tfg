@@ -2,7 +2,7 @@
   <div>
     <label
       :for="value"
-      class="block mb-2 text-xl font-medium text-gray-900 first-letter:uppercase text-shadow"
+      class="block mb-2 text-xl font-medium text-stoneBackground-3 first-letter:uppercase text-shadow"
     >
       {{ formattedLabel }}
     </label>
