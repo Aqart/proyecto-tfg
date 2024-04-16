@@ -25,12 +25,16 @@ export default {
           2: '#A5302F',
           3: '#4F595A',
           4: '#2F6A70',
-          5: '#7C97A6'
+          5: '#7C97A6',
+          6: '#F0CA00',
         }
       },
       textShadow: {
         default: '0 2px 5px rgba(0, 0, 0, 0.1)'
         // puedes añadir más variantes si lo necesitas
+      },
+      width: {
+        '90': '90%',
       }
     }
   },
