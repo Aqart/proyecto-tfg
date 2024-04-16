@@ -113,7 +113,7 @@
                 </div>
               </button>
             </th>
-            <th scope="col" class="px-6 py-3 no-print">Acciones</th>
+            <th scope="col" class="text-center py-3 no-print">Acciones</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
@@ -150,7 +150,7 @@
                 </div>
               </td>
             </template>
-            <td class="px-6 py-4 no-print">
+            <td class="py-4 no-print text-center">
               <span
                 class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
@@ -348,10 +348,15 @@ export default {
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       }
-
-      await html2pdf().set(opt).from(printableElement).save()
-      //Recarga la pagina para que vuelva a su estado original
-      location.reload()
+      try {
+        this.loading = true
+        await html2pdf().set(opt).from(printableElement).save()
+      } catch (e) {
+        console.error('Error al generar el pdf', e)
+      } finally {
+        this.loading = false
+        location.reload()
+      }
     },
     sortTable(field) {
       if (this.sortField === field) {
