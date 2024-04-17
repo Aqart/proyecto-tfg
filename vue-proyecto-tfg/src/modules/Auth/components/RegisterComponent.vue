@@ -28,7 +28,9 @@
       name="roles"
       id="roles"
     >
-      <option value="ADMIN" selected>Admin</option>
+      <option value="" selected disabled hidden>Elige una opción</option>
+      <option value="ADMIN">Admin</option>
+      <option value="TRABAJADORES">Trabajador</option>
     </select>
 
     <ButtonComponent text="Registrar" bgColor="bg-primary" />

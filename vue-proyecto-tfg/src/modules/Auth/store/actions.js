@@ -11,6 +11,7 @@ export const createUser = async (user) => {
     return { ok: false, message: '....' }
   }
   try {
+    console.log('BODY', user)
     await authApi.post(
       '/registro',
       { email, roles, password },
@@ -32,13 +33,16 @@ export const loginUser = async ({ dispatch, commit }, user) => {
   const { email, password } = user
   try {
     const { data } = await authApi.post('/login', { email, password })
-
     const isExpired = await dispatch('isTokenExpired')
     if (!isExpired) {
-      commit('loginUser', { email: email, idToken: localStorage.getItem('idToken') })
+      commit('loginUser', {
+        email: email,
+        idToken: localStorage.getItem('idToken'),
+        roles: data.roles
+      })
     } else {
       delete user.password
-      commit('loginUser', { email: email, idToken: data.token })
+      commit('loginUser', { email: email, idToken: data.token, roles: data.roles })
     }
 
     return { ok: true, message: '....' }

@@ -9,7 +9,7 @@ const AuthController = {
     // Registro de usuario
     registrarUsuario: async (req, res, next) => {
         const { email, roles, password } = req.body
-
+        console.log('BODY', req.body)
         try {
             // Verifica si el usuario ya existe en la base de datos
             const [existingUser] = await pool.query(
@@ -70,7 +70,9 @@ const AuthController = {
                 { expiresIn: '4h' }
             )
 
-            res.status(200).json({ token })
+            const { roles } = user[0]
+
+            res.status(200).json({ token, roles })
         } catch (error) {
             next(error)
         }
