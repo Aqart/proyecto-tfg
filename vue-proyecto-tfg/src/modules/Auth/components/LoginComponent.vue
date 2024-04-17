@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <MensajesComponent type="error" message="mensaje" mostrarMensaje="true" /> -->
     <h1 class="text-5xl text-stoneBackground-1 mb-3">{{ title }}</h1>
     <form @submit.prevent="handleSubmit">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
@@ -36,6 +37,7 @@
           name="password"
           id="password"
           placeholder="•••••••••"
+          autocomplete="current-password"
         />
       </div>
       <ButtonComponent text="Acceder" bgColor="bg-primary" :icon="['fas', 'right-to-bracket']" />
@@ -44,9 +46,8 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import useAuth from '../composables/useAuth'
-import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue'
 import { useRouter } from 'vue-router'
 
 export default {
@@ -57,26 +58,35 @@ export default {
     }
   },
   components: {
-    ButtonComponent
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
+    )
   },
   setup() {
-    const router = useRouter()
-
-    const { loginUser } = useAuth()
     const userForm = ref({
       email: '',
       password: ''
     })
-    return {
-      userForm,
-      handleSubmit: async () => {
-        const { ok, message } = await loginUser(userForm.value)
-        console.log(userForm.value)
-        console.log(ok, message)
+    const errorMessage = ref({
+      show: true,
+      message: 'error'
+    })
 
-        router.push({ name: 'home' })
+    const router = useRouter()
+    const { loginUser } = useAuth()
+
+    const handleSubmit = () => {
+      console.log('userForm', userForm.value)
+      const { ok, message } = loginUser(userForm.value)
+      if (!ok) {
+        errorMessage.value.show = false
+        errorMessage.value.message = message
+        console.log('errorMessage', errorMessage.value.show)
       }
+      router.push('/home')
     }
+
+    return { userForm, errorMessage, handleSubmit }
   }
 }
 </script>
