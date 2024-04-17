@@ -91,6 +91,7 @@ export default {
     },
     openLoader(){
       return this.items.length === this.total
+      
     }
   }
 }
