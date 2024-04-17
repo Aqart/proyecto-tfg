@@ -1,46 +1,35 @@
 import { test, expect } from '@playwright/test'
 
-test('Login incorrecto no accede a la web', async ({ page }) => {
-  await page.goto('http://localhost:5173/consumibles')
-  await expect(page).toHaveURL('http://localhost:5173/login')
-  await page.goto('http://localhost:5173/maquinas')
-  await expect(page).toHaveURL('http://localhost:5173/login')
-  await page.goto('http://localhost:5173/gastos-generales')
-  await expect(page).toHaveURL('http://localhost:5173/login')
-  await page.goto('http://localhost:5173/home')
-  await expect(page).toHaveURL('http://localhost:5173/login')
-  //cerrar el navegador
-  await page.close()
+test('Login, con campos vacíos', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Acceder' }).click()
+
+  await expect(page.getByRole('alert')).toBeVisible()
+  await expect(page.getByRole('alert')).toContainText('Debes rellenar todos los campos')
+  await page.waitForTimeout(7000)
+  await expect(page.getByRole('alert')).toBeHidden()
 })
 
-test('Login correcto accede a la web', async ({ page }) => {
-  await page.goto('http://localhost:5173/login')
-  await page.getByPlaceholder('email@email.es').click()
-  await page.getByPlaceholder('email@email.es').fill('admin@admin.es')
-  await page.getByPlaceholder('•••••••••').click()
-  await page.getByPlaceholder('•••••••••').fill('admin')
+test('Login, con credenciales erroneas', async ({ page }) => {
+  await page.goto('/')
+  await page.getByPlaceholder('email@email.es').fill('error@error.es')
+  await page.getByPlaceholder('•••••••••').fill('error')
   await page.getByRole('button', { name: 'Acceder' }).click()
-  await expect(page).toHaveURL('http://localhost:5173/home')
-  await expect(page).not.toHaveURL('http://localhost:5173/login')
-  await page.goto('http://localhost:5173/consumibles')
-  await expect(page).toHaveURL('http://localhost:5173/consumibles')
-  await page.goto('http://localhost:5173/maquinas')
-  await expect(page).toHaveURL('http://localhost:5173/maquinas')
-  await page.goto('http://localhost:5173/gastos-generales')
-  await expect(page).toHaveURL('http://localhost:5173/gastos-generales')
-
-  //cerrar el navegador
-  await page.close()
+  await expect(page.getByRole('alert')).toBeVisible()
+  await expect(page.getByRole('alert')).toContainText('Email o Contraseña inválidos')
+  await page.waitForTimeout(7000)
+  await expect(page.getByRole('alert')).toBeHidden()
 })
 
-test('Logout cierra la sesión', async ({ page }) => {
-  await page.goto('http://localhost:5173/login')
-  await page.getByPlaceholder('email@email.es').click()
+test('Login, con credenciales correctas', async ({ page }) => {
+  await page.goto('/')
   await page.getByPlaceholder('email@email.es').fill('admin@admin.es')
-  await page.getByPlaceholder('•••••••••').click()
   await page.getByPlaceholder('•••••••••').fill('admin')
   await page.getByRole('button', { name: 'Acceder' }).click()
-  await page.locator('#options-menu').click()
-  await page.getByRole('menuitem', { name: 'Desconectar' }).click()
-  await expect(page).toHaveURL('http://localhost:5173/login')
+  await expect(page).toHaveURL('/home')
+})
+
+test.afterAll(async ({ page }) => {
+  //cerrar navegador
+  await page.close()
 })

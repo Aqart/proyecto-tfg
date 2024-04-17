@@ -1,6 +1,10 @@
 <template>
   <div>
-    <!-- <MensajesComponent type="error" message="mensaje" mostrarMensaje="true" /> -->
+    <MensajesComponent
+      :type="errorMessage.type"
+      :message="errorMessage.message"
+      :mostrarMensaje="errorMessage.show"
+    />
     <h1 class="text-5xl text-stoneBackground-1 mb-3">{{ title }}</h1>
     <form @submit.prevent="handleSubmit">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
@@ -60,6 +64,9 @@ export default {
   components: {
     ButtonComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/ButtonComponent.vue')
+    ),
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   setup() {
@@ -68,22 +75,39 @@ export default {
       password: ''
     })
     const errorMessage = ref({
-      show: true,
-      message: 'error'
+      type: '',
+      show: false,
+      message: ''
     })
 
     const router = useRouter()
     const { loginUser } = useAuth()
 
-    const handleSubmit = () => {
-      console.log('userForm', userForm.value)
-      const { ok, message } = loginUser(userForm.value)
-      if (!ok) {
-        errorMessage.value.show = false
-        errorMessage.value.message = message
-        console.log('errorMessage', errorMessage.value.show)
+    const handleSubmit = async () => {
+      if (!userForm.value.email || !userForm.value.password) {
+        errorMessage.value.type = 'warning'
+        errorMessage.value.show = true
+        errorMessage.value.message = 'Debes rellenar todos los campos'
+        setTimeout(() => {
+          errorMessage.value.show = !errorMessage.value.show
+        }, 6 * 1000)
+        return
       }
-      router.push('/home')
+
+      const { ok, message } = await loginUser(userForm.value)
+
+      if (!ok) {
+        errorMessage.value.type = 'error'
+        errorMessage.value.show = !ok
+        errorMessage.value.message = message
+      }
+      if (errorMessage.value.show) {
+        setTimeout(() => {
+          errorMessage.value.show = !errorMessage.value.show
+        }, 6 * 1000)
+      } else {
+        router.push('/home')
+      }
     }
 
     return { userForm, errorMessage, handleSubmit }

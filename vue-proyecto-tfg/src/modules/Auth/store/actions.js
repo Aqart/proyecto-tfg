@@ -11,7 +11,7 @@ export const createUser = async (user) => {
     return { ok: false, message: '....' }
   }
   try {
-    const { data } = await authApi.post(
+    await authApi.post(
       '/registro',
       { email, roles, password },
       {
@@ -20,7 +20,7 @@ export const createUser = async (user) => {
         }
       }
     )
-    
+
     return { ok: true, message: '....' }
   } catch (error) {
     console.log(error)
@@ -29,31 +29,26 @@ export const createUser = async (user) => {
 }
 
 export const loginUser = async ({ dispatch, commit }, user) => {
-  console.log('USER', user)
   const { email, password } = user
   try {
     const { data } = await authApi.post('/login', { email, password })
-    
 
     const isExpired = await dispatch('isTokenExpired')
     if (!isExpired) {
-      
       commit('loginUser', { email: email, idToken: localStorage.getItem('idToken') })
     } else {
-      
       delete user.password
       commit('loginUser', { email: email, idToken: data.token })
     }
 
     return { ok: true, message: '....' }
   } catch (error) {
-    console.error(error)
+    console.log(error)
     return { ok: false, message: 'Email o Contraseña inválidos' }
   }
 }
 
 export const logoutUser = ({ commit }) => {
-  
   // Borra el token del almacenamiento local
   localStorage.removeItem('idToken')
 
