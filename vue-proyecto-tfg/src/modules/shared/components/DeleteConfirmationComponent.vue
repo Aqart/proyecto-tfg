@@ -35,9 +35,9 @@
           <li v-for="(item, index) in items" 
               :key="index"
               class="text-center flex items-center justify-center bg-stoneBackground-4 py-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1 max-h-12 overflow-y-auto"
-              :class="{ 'col-span-2': item.nombre.length > 30 }"
+              :class="{ 'col-span-full': (item.nombre + ' ' + item.apellido1).length > 30 || items.length === 1 }"
           >
-            {{ item.nombre }}
+            {{ item.nombre + " " + item.apellido1 }}
           </li>
         </ul>
       </div>

@@ -14,7 +14,7 @@ export const setResponse = (state, data) => {
 export const setTransporte = (state, data) => {
   state.Transportes = state.Transportes.map((Transporte) => {
     if (Transporte.id == data.id) {
-      return { ...Transporte, nombre: data.Transporte.nombre, precio: data.Transporte.precio }
+      return { ...Transporte, ...data.Transporte }
     }
     return Transporte
   })
