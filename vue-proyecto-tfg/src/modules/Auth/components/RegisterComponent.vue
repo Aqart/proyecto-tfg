@@ -1,6 +1,9 @@
 <template>
   <div>
     <LoadingComponent :fullScreen="true" size="40px" :loading="loading" />
+    <router-link to="/home" class="text-center text-lg font-bold text-secondary mb-4"
+      ><FontAwesomeIcon :icon="['fas', 'house']" />&nbsp;Volver al inicio</router-link
+    >
     <form @submit.prevent="handleSubmit">
       <MensajesComponent
         :type="messages.type"
@@ -50,6 +53,7 @@
 <script>
 import useAuth from '../composables/useAuth'
 import { defineAsyncComponent, ref } from 'vue'
+import router from '../router'
 
 export default {
   props: {
