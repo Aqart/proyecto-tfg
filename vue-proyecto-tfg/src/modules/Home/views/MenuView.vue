@@ -12,7 +12,7 @@
       <ButtonMenuComponent name="Consumibles" path="consumibles" class="w-full p-3" />
       <ButtonMenuComponent name="Gastos-Generales" path="gastos-generales" class="w-full p-3" />
       <ButtonMenuComponent name="Maquinas" path="maquinas" class="w-full p-3" />
-      <ButtonMenuComponent name="Transportes" path="transportes" class="w-full p-3" />
+      <ButtonMenuComponent name="Transportes" path="Transportes" class="w-full p-3" />
       <ButtonMenuComponent name="Trabajadores" path="trabajadores" class="w-full p-3" />
       <ButtonMenuComponent name="Usuarios" path="users" class="w-full p-3" />
     </div>

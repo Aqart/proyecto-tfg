@@ -1,12 +1,12 @@
 import authApi from '@/api/stoneApi'
 
-export const fetchConsumibles = async ({ commit }) => {
-  
+export const fetchTransportes = async ({ commit }) => {
+  console.log('fetchTransportes')
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get('/consumibles', {
+    const response = await authApi.get('/transportes', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -14,22 +14,22 @@ export const fetchConsumibles = async ({ commit }) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      // Actualizar el estado con los consumibles obtenidos
-      commit('setConsumibles', response.data)
+      // Actualizar el estado con los Consumibles obtenidos
+      commit('setTransportes', response.data)
     } else {
-      console.error('Error al obtener los consumibles:', response.message)
+      console.error('Error al obtener los Transportes:', response.message)
     }
   } catch (error) {
-    console.error('Error al obtener los consumibles:', error.message)
+    console.error('Error al obtener los Transportes:', error.message)
   }
 }
 
-export const createConsumible = async ({ commit }, consumible) => {
+export const createTransporte = async ({ commit }, Transporte) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/consumibles', consumible, {
+    const response = await authApi.post('/Transportes', Transporte, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -38,86 +38,86 @@ export const createConsumible = async ({ commit }, consumible) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
       if (response.data.id) {
-        consumible.id = response.data.id
+        Transporte.id = response.data.id
       }
 
       // Actualizar el estado con los consumibles obtenidos
       //commit('setResponse', response.data)
 
-      commit('setNewConsumible', consumible)
+      commit('setNewTransporte', Transporte)
       return { ok: true, message: response.data.message }
     } else {
-      console.error('Error al obtener los consumibles:', response.message)
+      console.error('Error al obtener los Transportes:', response.message)
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.error('Error al crear el consumible:', error.message)
+    console.error('Error al crear el Transportes:', error.message)
   }
 }
 
-export const getConsumibleById = async ({ commit }, id) => {
+export const getTransporteById = async ({ commit }, id) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get(`/consumibles/${id}`, {
+    const response = await authApi.get(`/Transportes/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      
+      console.log(response.data)
       return response.data
     } else {
-      console.error('Error al obtener el consumible:', response.message)
+      console.error('Error al obtener el Transporte:', response.message)
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el consumible:', error)
+    console.log('Error al obtener el Transporte:', error)
   }
 }
 
-export const editConsumible = async ({ commit }, consumible) => {
+export const editTransporte = async ({ commit }, Transporte) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
-  const { id } = consumible
+  const { id } = Transporte
   try {
-    const response = await authApi.put(`/consumibles/${id}`, consumible, {
+    const response = await authApi.put(`/Transportes/${id}`, Transporte, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
-    
+    console.log('LA DATA', response.data)
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Hacer un mutation que actualice los consumibles de Vuex
-      commit('setConsumible', { id, consumible })
+      commit('setTransporte', { id, Transporte })
 
       return { ok: true, message: response.data.message }
     } else {
-      console.error('Error al editar consumible:', response.data.message)
+      console.error('Error al editar Transporte:', response.data.message)
       return { ok: false, message: response.data.message }
     }
   } catch (error) {
-    console.error('Error al editar el consumible:', error.message)
+    console.error('Error al editar el Transporte:', error.message)
   }
 }
 
-export const deleteConsumibles = async ({ commit }, consumibles) => {
+export const deleteTransportes = async ({ commit }, Transportes) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
-  
-  for (const consumible of consumibles) {
-    const { id } = consumible
-    
+  console.log('Delete del action', Transportes)
+  for (const Transporte of Transportes) {
+    const { id } = Transporte
+    console.log(id)
     try {
-      const response = await authApi.delete(`/consumibles/${id}`, {
+      const response = await authApi.delete(`/Transportes/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
@@ -126,14 +126,14 @@ export const deleteConsumibles = async ({ commit }, consumibles) => {
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
       if (response.status === 200 && response.data) {
         // Hacer un mutation que elimine los consumibles de Vuex
-        commit('deleteConsumible', id)
+        commit('deleteTransporte', id)
         results.push({ id, ok: true, message: response.data.message })
       } else {
-        console.error('Error al eliminar consumible:', response.data.message)
+        console.error('Error al eliminar Transporte:', response.data.message)
         results.push({ id, ok: false, message: response.data.message })
       }
     } catch (error) {
-      console.error('Error al eliminar los consumible:', error.message)
+      console.error('Error al eliminar los Transporte:', error.message)
       results.push({ id, ok: false, message: error.message })
     }
   }

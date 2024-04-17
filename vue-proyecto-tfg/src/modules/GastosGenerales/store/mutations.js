@@ -1,5 +1,4 @@
 export const setGastos = (state, data) => {
-  console.log(data)
   state.gastos = data
 }
 

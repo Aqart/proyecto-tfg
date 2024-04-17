@@ -67,7 +67,7 @@ export default {
 
     onMounted(async () => {
       const gasto = await getGasto(router.currentRoute.value.params.id)
-      console.log('edit cons', gasto)
+      
       gastoForm.value.nombre = gasto.nombre
       gastoForm.value.precio = gasto.precio
       gastoOriginal.value = { nombre: gasto.nombre, precio: gasto.precio }
@@ -104,7 +104,7 @@ export default {
           return
         }
 
-        console.log('Datos del form', gastoForm.value)
+        // Realiza la petición para editar el consumible
 
         const { ok, message } = await editGasto(
           router.currentRoute.value.params.id,

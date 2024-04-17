@@ -3,7 +3,7 @@ export const setConsumibles = (state, data) => {
 }
 
 export const setNewConsumible = (state, consumible) => {
-  console.log('MUTATION', state.consumibles)
+  
   state.consumibles.push(consumible)
 }
 

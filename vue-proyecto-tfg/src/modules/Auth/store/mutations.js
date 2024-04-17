@@ -14,7 +14,7 @@ export const loginUser = (state, { email, idToken }) => {
 // En vue-proyecto-tfg/src/modules/Auth/store/mutations.js
 export const logoutUser = (state) => {
   // Borra el token del almacenamiento local
-  console.log('logoutUser')
+  
   localStorage.removeItem('idToken')
   state.idToken = null
   state.email = null
