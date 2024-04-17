@@ -1,9 +1,18 @@
 <template>
   <div>
-    <template>
-      <MensajesComponent :message="getMensaje" :type="getTipo" :mostrarMensaje="getMostrar" />
-    </template>
-    <TablaComponent :data="getGastos" @saveData="persistData" />
+    <div>
+      <MensajesComponent 
+        v-if="getTipo === 'success'" 
+        :message="getMensaje" 
+        :type="getTipo" 
+        :mostrarMensaje="getMostrar" 
+      />
+    </div>
+    <TablaComponent 
+      :data="getGastos" 
+      @saveData="persistData" 
+      @deleteSelected="deleteGastosSeleccionados"
+    />
   </div>
 </template>
 
@@ -15,7 +24,7 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createGasto, editGasto } = useGasto()
+    const { createGasto, editGasto, deleteGastos } = useGasto()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -44,8 +53,24 @@ export default {
         actualizarMostrarMensaje(true)
       }
     }
+
+    const deleteGastosSeleccionados = async (arrayData) => {
+      console.log('Data to delete', arrayData)
+      try {
+        const results = await deleteGastos(arrayData)
+
+        console.log('Array con los resultados del borrado', results)
+
+      } catch (error) {
+        console.error('Error deleting data', error)
+        actualizarMensaje('error', 'Error eliminando los datos')
+        actualizarMostrarMensaje(true)
+      }
+    }
+
     return {
-      persistData
+      persistData,
+      deleteGastosSeleccionados
     }
   },
   computed: {

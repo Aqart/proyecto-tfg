@@ -439,7 +439,24 @@ export default {
       })
     },
     formattedRoute() {
-      return this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
+      const route =  this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
+      console.log(route)
+      switch(route){
+        case 'Consumibles':
+          return 'Consumibles'
+        case 'Gastos-generales':
+          return 'Gastos generales'
+        case 'Maquinas':
+          return 'Máquinas'
+        case 'Trabajadores':
+          return 'Trabajadores'
+        case 'Transportes':
+          return 'Transportes'
+        case 'Usuarios':
+          return 'Usuarios'
+        default:
+          return route
+      }
     },
     filteredHeader() {
       if (this.data && this.data.length > 0) {
