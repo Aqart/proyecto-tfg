@@ -24,7 +24,7 @@ export const createUser = async ({ state }, user) => {
 
     return { ok: true, message: data.message }
   } catch (data) {
-    return { ok: false, message: data.message }
+    return { ok: false, message: 'El usuario ya existe' }
   }
 }
 
