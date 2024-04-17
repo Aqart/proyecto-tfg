@@ -6,6 +6,7 @@ import GastosGenerales from '@/modules/GastosGenerales/store'
 import Shared from '@/modules/shared/store'
 import Maquinas from '@/modules/Maquinas/store'
 import Transportes from '@/modules/Transportes/store'
+import Trabajadores from '@/modules/Trabajadores/store'
 
 const store = createStore({
   modules: {
@@ -14,7 +15,8 @@ const store = createStore({
     GastosGenerales,
     Shared,
     Maquinas,
-    Transportes
+    Transportes,
+    Trabajadores
   }
 })
 

@@ -22,6 +22,7 @@ import useGasto from '@/modules/GastosGenerales/composables/useGasto'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'
+import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import LoadingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
@@ -55,6 +56,11 @@ export default {
       return await getTransportes()
     }
 
+    const obtenerTrabajadores = async () => {
+      const { getTrabajadores } = useTrabajadores()
+      return await getTrabajadores()
+    }
+
     onMounted(async () => {
       try {
         loading.value = true
@@ -62,6 +68,7 @@ export default {
         obtenerGastos()
         obtenerConsumibles()
         obtenerTransportes()
+        obtenerTrabajadores()
       } catch (error) {
         console.error('Error al obtener los datos:', error)
       } finally {
