@@ -232,7 +232,6 @@ export default {
     const { actualizarMostrarMensaje } = useShared()
 
     const cerrarMensaje = () => {
-      console.log('Cerrar Mensaje se está haciendo')
       actualizarMostrarMensaje(false)
     }
 
@@ -348,7 +347,6 @@ export default {
       if (data) {
         this.newData = data
         this.$emit('saveData', this.newData, this.modalTitle)
-        console.log('getNewData', this.newData)
       }
     },
     selectAllCheckboxes(event) {
@@ -364,18 +362,15 @@ export default {
     toggleModalOpenNew() {
       this.cerrarMensaje()
       this.modalTitle = 'Añadir nuevo'
-      console.log('toggleModalOpenNew', this.data[0])
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data
         this.item = Object.keys(this.data[0]).reduce((obj, key) => {
-          console.log(typeof this.data[0][key])
           if (typeof this.data[0][key] == 'string') {
             obj[key] = ''
           } else if (typeof this.data[0][key] == 'number') {
             obj[key] = null
           }
 
-          console.log('dataTypes', obj)
           return obj
         }, {})
 
@@ -407,7 +402,6 @@ export default {
       this.selectedItems = this.data.filter((item) => this.selectedCheckboxes.includes(item.id))
     },
     deleteData(data) {
-      console.log('deleteData', data)
       this.$emit('deleteSelected', data)
       this.selectedCheckboxes = []
       this.isAllChecked = false

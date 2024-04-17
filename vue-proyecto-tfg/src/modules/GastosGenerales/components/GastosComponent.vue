@@ -20,7 +20,6 @@ export default {
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
-          console.log('Data to persist', data, type)
           const { ok, message } = await createGasto(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -31,7 +30,6 @@ export default {
           }
         } else if (type === 'Editar') {
           const { ok, message } = await editGasto(data)
-          console.log(message)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)

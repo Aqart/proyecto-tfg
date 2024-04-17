@@ -9,9 +9,9 @@
       />
     </template>
     <TablaComponent
-      :data="getConsumibles"
+      :data="getTransportes"
       @saveData="persistData"
-      @deleteSelected="deleteConsumiblesSeleccionados"
+      @deleteSelected="deleteTransportesSeleccionados"
     />
   </div>
 </template>
@@ -19,18 +19,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
-import useConsumible from '@/modules/Consumible/composables/useConsumible'
+import useTransporte from '@/modules/Transportes/composables/useTransporte'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createConsumible, editConsumible, deleteConsumibles } = useConsumible()
+    const { createTransporte, editTransporte, deleteTransportes } = useTransporte()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
-          
-          const { ok, message } = await createConsumible(data)
+          const { ok, message } = await createTransporte(data)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -39,8 +38,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar') {
-          
-          const { ok, message } = await editConsumible(data)
+          const { ok, message } = await editTransporte(data)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -56,10 +54,11 @@ export default {
       }
     }
 
-    const deleteConsumiblesSeleccionados = async (arrayData) => {
-      
+    const deleteTransportesSeleccionados = async (arrayData) => {
+      console.log('Data to delete', arrayData)
       try {
-        const results = await deleteConsumibles(arrayData)
+        const results = await deleteTransportes(arrayData)
+
         console.log('Array con los resultados del borrado', results)
 
         // if(!ok) {
@@ -78,11 +77,11 @@ export default {
 
     return {
       persistData,
-      deleteConsumiblesSeleccionados
+      deleteTransportesSeleccionados
     }
   },
   computed: {
-    ...mapGetters('Consumible', ['getConsumibles']),
+    ...mapGetters('Transportes', ['getTransportes']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
