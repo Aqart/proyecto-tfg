@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 // export const myAction = async ({ commit }) => {
 
 // }
-export const createUser = async ({ state }, user) => {
+export const createUser = async (user) => {
   const { email, roles, password } = user
   if (localStorage.getItem('idToken') === null) {
     //this.$router.push({ name: 'login' })
@@ -29,6 +29,7 @@ export const createUser = async ({ state }, user) => {
 }
 
 export const loginUser = async ({ dispatch, commit }, user) => {
+  console.log('USER', user)
   const { email, password } = user
   try {
     const { data } = await authApi.post('/login', { email, password })
@@ -47,7 +48,7 @@ export const loginUser = async ({ dispatch, commit }, user) => {
     return { ok: true, message: '....' }
   } catch (error) {
     console.error(error)
-    return { ok: false, message: '....' }
+    return { ok: false, message: 'Email o Contraseña inválidos' }
   }
 }
 
