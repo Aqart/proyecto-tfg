@@ -30,12 +30,12 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="overflow-y-auto max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80">
         <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 list-none pl-0">
           <li v-for="(item, index) in items" 
               :key="index"
               class="text-center flex items-center justify-center bg-stoneBackground-4 py-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1 max-h-12 overflow-y-auto"
-              :class="{ 'col-span-2': item.nombre.length > 20 }"
+              :class="{ 'col-span-2': item.nombre.length > 30 }"
           >
             {{ item.nombre }}
           </li>
