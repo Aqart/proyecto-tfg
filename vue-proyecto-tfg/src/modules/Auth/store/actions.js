@@ -4,15 +4,15 @@ import { jwtDecode } from 'jwt-decode'
 // export const myAction = async ({ commit }) => {
 
 // }
-export const createUser = async (user) => {
+export const createUser = async ({ state }, user) => {
   const { email, roles, password } = user
   if (localStorage.getItem('idToken') === null) {
     //this.$router.push({ name: 'login' })
-    return { ok: false, message: '....' }
+    return { ok: false, message: '...' }
   }
   try {
-    console.log('BODY', user)
-    await authApi.post(
+    console.log('usuario', user)
+    const { data } = await authApi.post(
       '/registro',
       { email, roles, password },
       {
@@ -22,10 +22,9 @@ export const createUser = async (user) => {
       }
     )
 
-    return { ok: true, message: '....' }
-  } catch (error) {
-    console.log(error)
-    return { ok: false, message: '....' }
+    return { ok: true, message: data.message }
+  } catch (data) {
+    return { ok: false, message: data.message }
   }
 }
 
