@@ -5,7 +5,14 @@
   >
     <div
       class="absolute top-0 left-0 w-full h-1/2 rounded-t-lg bg-stoneBackground-1 shadow-sm"
-    ></div>
+      :style="{
+        backgroundImage: `url(/src/assets/images/resources/${image}.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }"
+    >
+      <div class="w-full h-full bg-transparent" :style="{ backdropFilter: 'blur(1px)' }"></div>
+    </div>
     <div
       class="relative w-32 h-32 rounded-full bg-stoneBackground-4 border border-stoneBackground-1 shadow-sm"
     >
@@ -35,6 +42,10 @@ export default {
     icon: {
       type: Array,
       default: null
+    },
+    image: {
+      type: String,
+      required: true
     }
   }
 }
