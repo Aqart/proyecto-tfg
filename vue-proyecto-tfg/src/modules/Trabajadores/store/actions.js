@@ -1,7 +1,6 @@
 import authApi from '@/api/stoneApi'
 
 export const fetchTrabajadores = async ({ commit }) => {
-  
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -84,7 +83,7 @@ export const editConsumible = async ({ commit }, trabajador) => {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
-    
+
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Hacer un mutation que actualice los consumibles de Vuex
@@ -107,10 +106,10 @@ export const deleteTrabajadores = async ({ commit }, trabajadores) => {
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
-  
+
   for (const trabajador of trabajadores) {
     const { id } = trabajador
-    
+
     try {
       const response = await authApi.delete(`/trabajadores/${id}`, {
         headers: {

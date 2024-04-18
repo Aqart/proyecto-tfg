@@ -5,7 +5,19 @@ export default {
     {
       path: '/calculadora',
       name: 'calculadora',
-      component: () => import('@/modules/Calculadora/views/CalculadoraView.vue')
+      component: () => import('@/modules/Calculadora/views/CalculadoraView.vue'),
+      children: [
+        {
+          path: '/calculadora/tabla',
+          name: 'calculadora-tabla',
+          component: () => import('@/modules/Calculadora/components/TablaStoneComponent.vue')
+        },
+        {
+          path: '/calculadora/losa',
+          name: 'calculadora-losa',
+          component: () => import('@/modules/Calculadora/components/LosaStoneComponent.vue')
+        }
+      ]
     }
   ]
 }

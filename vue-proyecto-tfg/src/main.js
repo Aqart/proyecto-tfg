@@ -35,7 +35,10 @@ import {
   faTriangleExclamation,
   faCircleExclamation,
   faFilePdf,
-  faCircleInfo
+  faCircleInfo,
+  faMap,
+  faChevronRight,
+  faRoute
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -60,6 +63,9 @@ library.add(
   faFilePdf,
   faCircleInfo,
   faCircleQuestion,
+  faMap,
+  faChevronRight,
+  faRoute
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')

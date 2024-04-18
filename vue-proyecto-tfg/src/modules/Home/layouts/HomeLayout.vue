@@ -5,9 +5,10 @@
     </header>
     <main class="flex flex-col justify-between mt-10">
       <MenuView v-if="$route.path === '/home'" />
-      <router-link v-else to="/home" class="text-left text-lg font-bold text-secondary mb-4"
+      <!-- <router-link v-else to="/home" class="text-left text-lg font-bold text-secondary mb-4"
         ><FontAwesomeIcon :icon="['fas', 'house']" />&nbsp;Volver al inicio</router-link
-      >
+      > -->
+      <RouterMapComponent class="text-center sm:text-left text-lg font-bold text-secondary mb-5" />
       <LoadingComponent :fullScreen="true" size="48px" :loading="loading" />
       <RouterView class="w-full" />
     </main>
@@ -30,6 +31,9 @@ export default {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
+    RouterMapComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/RouterMapComponent.vue')
+    ),
     LoadingComponent
   },
   setup() {

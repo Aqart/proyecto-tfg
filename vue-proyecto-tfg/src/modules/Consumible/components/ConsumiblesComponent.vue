@@ -29,7 +29,6 @@ export default {
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
-          
           const { ok, message } = await createConsumible(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -39,7 +38,6 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar') {
-          
           const { ok, message } = await editConsumible(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -57,7 +55,6 @@ export default {
     }
 
     const deleteConsumiblesSeleccionados = async (arrayData) => {
-      
       try {
         const results = await deleteConsumibles(arrayData)
         console.log('Array con los resultados del borrado', results)

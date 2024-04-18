@@ -73,7 +73,13 @@
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
             </th>
-            <th v-for="key in filteredHeader" :key="key" scope="col" class="px-6 py-3">
+            <th
+              v-for="key in formattedHeader"
+              :key="key"
+              :colspan="key === 'Apellidos' ? 2 : 1"
+              scope="col"
+              class="px-6 py-3"
+            >
               <button
                 @click="sortTable(key)"
                 class="flex items-center w-full"
@@ -117,18 +123,26 @@
                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
               </div>
             </td>
-
             <template v-for="(el, index) in body">
               <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
                 <div class="text-sm text-stoneBackgroun-3 font-bold">
                   {{ el }}
                 </div>
               </th>
-              <td v-else-if="index !== 'id'" :key="`${el}-td`" class="px-6 py-4">
+              <td v-else-if="index !== 'id'" :key="`${el}-td-${index}`" class="px-6 py-4">
                 <div class="text-sm text-center text-stoneBackgroun-3">
                   {{ el }}
                 </div>
               </td>
+              <!-- <td
+                v-else-if="index !== 'apellido1'"
+                :key="`${el}-td-${index}-apellidos`"
+                class="px-6 py-4"
+              >
+                <div class="text-sm text-center text-stoneBackgroun-3">
+                  {{ el }} {{ body.precio }}
+                </div>
+              </td> -->
             </template>
             <td class="py-4 no-print text-center">
               <span
@@ -208,7 +222,8 @@ export default {
       formType: 'Editar',
       sortField: null,
       sortDirection: 1,
-      loading: false
+      loading: false,
+      apellidos: ''
     }
   },
   components: {
@@ -247,7 +262,13 @@ export default {
       if (formattedIndex.includes('m3')) {
         formattedIndex = formattedIndex.replace('m3', 'm<sup>3</sup>')
       }
+      if (formattedIndex.includes('Apellido1')) {
+        formattedIndex = 'Apellidos'
+      }
 
+      if (formattedIndex.includes('Apellido2')) {
+        formattedIndex = ''
+      }
       return formattedIndex
     }
     const showDropdown = ref(false)
@@ -409,6 +430,17 @@ export default {
     }
   },
   computed: {
+    formattedHeader() {
+      return this.filteredHeader
+        .map((key) => {
+          if (key === 'apellido1') {
+            return 'Apellidos'
+          } else if (key !== 'apellido2') {
+            return key
+          }
+        })
+        .filter(Boolean) // elimina los valores undefined
+    },
     totalPrecio() {
       return this.data.reduce((total, item) => total + item.precio, 0)
     },
@@ -439,9 +471,9 @@ export default {
       })
     },
     formattedRoute() {
-      const route =  this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
+      const route = this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
       console.log(route)
-      switch(route){
+      switch (route) {
         case 'Consumibles':
           return 'Consumibles'
         case 'Gastos-generales':

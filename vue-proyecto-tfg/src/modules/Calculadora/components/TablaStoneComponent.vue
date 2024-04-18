@@ -1,7 +1,6 @@
 <template>
   <div class="flex flex-col gap-3">
-    <h1>Calculadora</h1>
-
+    <h1>Calcular tabla</h1>
     <form @submit.prevent="handleSubmit" class="flex flex-col gap-3">
       <InputNumberComponent
         label="Número 1"
@@ -78,7 +77,6 @@ export default {
         this.sumables = this.sumables.reduce((a, b) => a + b, 0)
       } catch (e) {
         //this.handleError(e)
-        
       } finally {
         setTimeout(() => {
           this.loading = false
