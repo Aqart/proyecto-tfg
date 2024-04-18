@@ -3,7 +3,12 @@
     <div
       class="flex flex-col sm:grid sm:grid-cols-2 gap-3 justify-center sm:justify-start items-center sm:items-start"
     >
-      <ButtonMenuComponent name="Calcular Costes" path="calculadora" class="w-full p-3" />
+      <ButtonMenuComponent
+        name="Calcular Costes"
+        path="calculadora"
+        class="w-full p-3"
+        :icon="['fas', 'map']"
+      />
       <ButtonMenuComponent name="Controles horarios" path="controles-horarios" class="w-full p-3" />
     </div>
     <div

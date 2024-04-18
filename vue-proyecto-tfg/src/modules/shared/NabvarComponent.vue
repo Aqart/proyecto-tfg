@@ -1,5 +1,5 @@
 <template>
-  <header class="py-4 text-stoneBackground-1">
+  <header class="py-4 text-stoneBackground-3">
     <nav class="flex flex-col justify-between gap-10 items-center sm:items-end sm:flex-row">
       <div class="flex items-center gap-3">
         <LogoComponent class="w-10 h-10" />

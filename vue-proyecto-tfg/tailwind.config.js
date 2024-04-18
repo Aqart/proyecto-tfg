@@ -4,6 +4,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
   theme: {
     extend: {
+      fontFamily: {
+        lexend: ['Lexend', 'sans-serif']
+      },
       colors: {
         bgFrom: '#fff7f0',
         bgTo: '#f1f6fc',
@@ -26,7 +29,7 @@ export default {
           3: '#4F595A',
           4: '#2F6A70',
           5: '#7C97A6',
-          6: '#F0CA00',
+          6: '#F0CA00'
         }
       },
       textShadow: {
@@ -34,7 +37,7 @@ export default {
         // puedes añadir más variantes si lo necesitas
       },
       width: {
-        '90': '90%',
+        90: '90%'
       }
     }
   },
