@@ -9,6 +9,7 @@
     <div
       class="relative w-32 h-32 rounded-full bg-stoneBackground-4 border border-stoneBackground-1 shadow-sm"
     >
+    
       <FontAwesomeIcon
         :icon="icon"
         class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-stoneBackground-3 text-6xl"
@@ -19,7 +20,7 @@
     </div>
   </router-link>
 </template>
-<!-- ... Resto del código ... -->
+<!-- ... Resto del código  ... -->
 
 <script>
 export default {
