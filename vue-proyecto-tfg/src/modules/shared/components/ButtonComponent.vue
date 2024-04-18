@@ -60,6 +60,10 @@ export default {
         classes += 'hover:bg-stoneBackgroundContrast-4 hover:text-stoneBackground-2 ring-2 ring-stoneBackgroundContrast-4'
       }
 
+      if(this.bgColor === 'bg-stoneBackground-2 text-stoneBackground-3'){
+        classes += 'hover:bg-stoneBackground-3 hover:text-stoneBackground-2 ring-2 ring-stoneBackground-3'
+      }
+
       classes += ` ${this.otherClasses} ease-in-out transition-all duration-75`
       return classes
     }

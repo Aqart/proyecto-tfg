@@ -21,11 +21,18 @@ const useGasto = () => {
     return resp
   }
 
+  const deleteGastos = async (gastos) => {
+    const resp = await store.dispatch('GastosGenerales/deleteGastos', gastos)
+    console.log(resp)
+    return resp
+  }
+
   return {
     getGastos,
     createGasto,
     editGasto,
-    getGasto
+    getGasto,
+    deleteGastos
   }
 }
 
