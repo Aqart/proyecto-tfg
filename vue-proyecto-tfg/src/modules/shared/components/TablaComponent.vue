@@ -182,6 +182,7 @@
         :total="data.length"
         @delete="deleteData"
         @close="toggleModalClose"
+        @deselectItem="deselectCheckbox"
       />
       <FormComponent
         v-else
@@ -376,6 +377,9 @@ export default {
       } else {
         this.selectedCheckboxes = []
       }
+    },
+    deselectCheckbox(id){
+      this.selectedCheckboxes = this.selectedCheckboxes.filter((item) => item !== id)
     },
     modalName(name) {
       return (this.modalTitle = name)
