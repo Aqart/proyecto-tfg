@@ -26,7 +26,17 @@ import {
   faCircleInfo,
   faMap,
   faChevronRight,
-  faRoute
+  faRoute,
+  faTrowelBricks,
+  faTruck,
+  faUsers,
+  faBucket,
+  faPersonDigging,
+  faBolt,
+  faOilWell,
+  faListCheck,
+  faCalculator,
+  faDroplet
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -53,7 +63,17 @@ library.add(
   faCircleQuestion,
   faMap,
   faChevronRight,
-  faRoute
+  faRoute,
+  faTrowelBricks,
+  faTruck,
+  faUsers,
+  faBucket,
+  faPersonDigging,
+  faBolt,
+  faOilWell,
+  faListCheck,
+  faCalculator,
+  faDroplet
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')

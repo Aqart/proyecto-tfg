@@ -13,7 +13,7 @@
       <ButtonMenuComponent
         name="Controles horarios"
         path="controles-horarios"
-        :icon="['fas', 'map']"
+        :icon="['fas', 'fa-list-check']"
         image="fondo-9"
       />
     </div>
@@ -23,33 +23,34 @@
       <ButtonMenuComponent
         name="Consumibles"
         path="consumibles"
-        :icon="['fas', 'map']"
+        :icon="['fas', 'fa-droplet']"
         image="fondo-9"
       />
       <ButtonMenuComponent
         name="Gastos-Generales"
         path="gastos-generales"
-        :icon="['fas', 'map']"
+        :icon="['fas', 'fa-bolt']"
         image="fondo-5"
       />
-      <ButtonMenuComponent name="Maquinas" path="maquinas" :icon="['fas', 'map']" image="fondo-6" />
       <ButtonMenuComponent
-        name="Transportes"
-        path="Transportes"
-        :icon="['fas', 'map']"
-        image="fondo-8"
+        name="Maquinas"
+        path="maquinas"
+        :icon="['fas', 'fa-oil-well']"
+        image="fondo-6"
       />
+      <ButtonMenuComponent name="Transportes" path="Transportes" :icon="['fas', 'fa-truck']" />
+      image="fondo-8" />
       <ButtonMenuComponent
         name="Trabajadores"
         path="trabajadores"
-        :icon="['fas', 'map']"
+        :icon="['fas', 'fa-person-digging']"
         image="fondo-3"
       />
       <ButtonMenuComponent
         name="Usuarios"
         path="users"
         class="w-full p-3"
-        :icon="['fas', 'map']"
+        :icon="['fas', 'fa-users']"
         image="fondo-4"
       />
     </div>
