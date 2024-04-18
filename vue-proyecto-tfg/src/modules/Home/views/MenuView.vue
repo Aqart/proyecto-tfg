@@ -8,7 +8,7 @@
         path="calculadora"
         class="w-full p-3"
         :icon="['fas', 'calculator']"
-        image="fondo-2"
+        image="fondo-7"
       />
       <ButtonMenuComponent
         name="Controles horarios"
@@ -24,7 +24,7 @@
         name="Consumibles"
         path="consumibles"
         :icon="['fas', 'fa-droplet']"
-        image="fondo-9"
+        image="fondo"
       />
       <ButtonMenuComponent
         name="Gastos-Generales"
@@ -38,7 +38,12 @@
         :icon="['fas', 'fa-oil-well']"
         image="fondo-6"
       />
-      <ButtonMenuComponent name="Transportes" path="Transportes" :icon="['fas', 'fa-truck']" />
+      <ButtonMenuComponent
+        name="Transportes"
+        path="Transportes"
+        :icon="['fas', 'fa-truck']"
+        image="fondo-8"
+      />
       <ButtonMenuComponent
         name="Trabajadores"
         path="trabajadores"
