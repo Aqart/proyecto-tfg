@@ -48,7 +48,7 @@
                 text="X"
                 bgColor="bg-transparent"
                 otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105"
-                @click="deleteItem(item.id)"
+                @click="deselectItem(item.id)"
               />
             </div>
           </li>
@@ -111,8 +111,9 @@ export default {
     openLoader(){
       return this.listItems.length === this.total
     },
-    deleteItem(id){
+    deselectItem(id){
       this.listItems = this.listItems.filter(item => item.id !== id);
+      this.$emit('deselectItem', id)
       console.log(id)
       // this.$emit('delete', id)
     }
