@@ -7,7 +7,7 @@
         name="Calcular Costes"
         path="calculadora"
         class="w-full p-3"
-        :icon="['fas', 'map']"
+        :icon="['fas', 'calculator']"
         image="fondo-2"
       />
       <ButtonMenuComponent
@@ -39,7 +39,6 @@
         image="fondo-6"
       />
       <ButtonMenuComponent name="Transportes" path="Transportes" :icon="['fas', 'fa-truck']" />
-      image="fondo-8" />
       <ButtonMenuComponent
         name="Trabajadores"
         path="trabajadores"
