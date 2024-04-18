@@ -8,7 +8,9 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-bgFrom to-bgTo flex flex-col items-center">
+  <div
+    class="min-h-screen bg-gradient-to-br from-bgFrom to-bgTo flex flex-col items-center font-lexend"
+  >
     <RouterView />
   </div>
 </template>

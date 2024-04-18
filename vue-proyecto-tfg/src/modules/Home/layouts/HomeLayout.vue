@@ -7,7 +7,7 @@
       <MenuView v-if="$route.path === '/home'" />
       <RouterMapComponent
         v-else
-        class="text-center sm:text-left text-lg font-bold text-secondary mb-5"
+        class="text-center sm:text-left text-lg font-bold font-lexend text-secondary mb-5"
       />
       <LoadingComponent :fullScreen="true" size="48px" :loading="loading" />
       <RouterView class="w-full" />
