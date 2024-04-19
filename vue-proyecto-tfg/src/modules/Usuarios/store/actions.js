@@ -72,7 +72,7 @@ export const getUsuarioById = async ({ commit }, id) => {
   }
 }
 
-export const editConsumible = async ({ commit }, Usuario) => {
+export const editUsuario = async ({ commit }, Usuario) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }

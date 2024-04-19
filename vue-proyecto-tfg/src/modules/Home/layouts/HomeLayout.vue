@@ -1,9 +1,9 @@
 <template>
   <div class="container max-w-6xl">
-    <header class="mt-5">
+    <header class="mt-5 sm:mx-3">
       <NabvarComponent />
     </header>
-    <main class="flex flex-col justify-between my-10">
+    <main class="flex flex-col justify-between my-10 sm:mx-3">
       <MenuView v-if="$route.path === '/home'" />
       <RouterMapComponent
         v-else
