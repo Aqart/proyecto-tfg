@@ -1,9 +1,11 @@
 <template>
   <header class="py-4 text-stoneBackground-3">
-    <nav class="flex flex-col justify-between gap-10 items-center sm:items-end sm:flex-row">
+    <nav class="flex flex-col justify-between gap-10 items-center sm:items-end sm:flex-row sm:mx-2">
       <div class="flex items-center gap-3">
         <LogoComponent class="w-10 h-10" />
-        <router-link to="/" class="text-5xl sm:text-4xl md:text-5xl font-bold text-shadow"
+        <router-link
+          to="/"
+          class="text-2xl lg:text-5xl md:text-4xl sm:text-4xl font-bold text-shadow"
           >Transforstone App</router-link
         >
       </div>

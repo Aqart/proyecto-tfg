@@ -13,7 +13,8 @@ export default {
   children: [
     {
       path: '/consumibles',
-      ...ConsumiblesRouter
+      ...ConsumiblesRouter,
+      meta: { requiresRole: 'ADMIN' }
     },
     {
       path: '/gastos-generales',
