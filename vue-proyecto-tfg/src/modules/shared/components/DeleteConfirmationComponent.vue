@@ -55,17 +55,17 @@
         </ul>
       </div>
     </div>
-    <div class="flex w-90 mx-auto gap-9 pr-5 pl-5">
+    <div class="flex w-90 mx-auto gap-9 pr-4 pl-4">
       <!-- <LoadingComponent v-if="openLoader" :fullscreen="false" /> -->
       <ButtonComponent
         :hidden="listItems.length === 0"
         text="Confirmar"
         @click="confirmDelete"
-        bgColor="bg-stoneBackground-2 text-stoneBackgroundContrast-4"
+        bgColor="bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-2 hover:text-secondary"
       />
       <ButtonComponent text="Cancelar" 
         @click="toggleModal" 
-        bgColor="bg-stoneBackground-2 text-stoneBackground-3"
+        bgColor="bg-secondary text-stone hover:bg-stone hover:ring-2 hover:ring-secondary hover:bg-stoneBackground-5"
       />
     </div>
   </div>
