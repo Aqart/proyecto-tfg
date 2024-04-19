@@ -183,6 +183,7 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
+      <!-- <RegisterComponent :title="modalTitle" /> -->
       <DeleteConfirmationComponent
         v-if="modalTitle === 'Eliminar'"
         :items="selectedItems"
@@ -247,6 +248,9 @@ export default {
     ),
     DeleteConfirmationComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    ),
+    RegisterComponent: defineAsyncComponent(() =>
+      import('@/modules/Auth/components/RegisterComponent.vue')
     ),
     LoadingComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/LoadingComponent.vue')
