@@ -6,7 +6,6 @@
       <ButtonMenuComponent
         name="Calcular Costes"
         path="calculadora"
-        class="w-full p-3"
         :icon="['fas', 'calculator']"
         image="fondo-7"
       />
@@ -27,7 +26,7 @@
         image="fondo"
       />
       <ButtonMenuComponent
-        name="Gastos-Generales"
+        name="Gastos Generales"
         path="gastos-generales"
         :icon="['fas', 'fa-bolt']"
         image="fondo-5"
@@ -53,7 +52,6 @@
       <ButtonMenuComponent
         name="Usuarios"
         path="users"
-        class="w-full p-3"
         :icon="['fas', 'fa-users']"
         image="fondo-4"
       />
