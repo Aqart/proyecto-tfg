@@ -15,7 +15,7 @@
           <header
             class="flex items-start justify-between p-4 border-b rounded-t bg-stoneBackground-2"
           >
-            <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow">
+            <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow pt-1 pl-2">
               {{ title }}
             </h3>
             <ButtonComponent

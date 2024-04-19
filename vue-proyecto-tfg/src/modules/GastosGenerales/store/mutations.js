@@ -18,3 +18,7 @@ export const setResponse = (state, data) => {
 export const setNewGasto = (state, gasto) => {
   state.gastos.push(gasto)
 }
+
+export const deleteGasto = (state, id) => {
+  state.gastos = state.gastos.filter((gasto) => gasto.id != id)
+}

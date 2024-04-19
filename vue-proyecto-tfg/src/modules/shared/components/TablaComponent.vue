@@ -182,6 +182,7 @@
         :total="data.length"
         @delete="deleteData"
         @close="toggleModalClose"
+        @deselectItem="deselectCheckbox"
       />
       <FormComponent
         v-else
@@ -377,6 +378,9 @@ export default {
         this.selectedCheckboxes = []
       }
     },
+    deselectCheckbox(id){
+      this.selectedCheckboxes = this.selectedCheckboxes.filter((item) => item !== id)
+    },
     modalName(name) {
       return (this.modalTitle = name)
     },
@@ -410,6 +414,7 @@ export default {
       this.showModal = !this.showModal
       this.itemId = null
       this.item = null
+      this.selectedItems = []
     },
     getItemById(id) {
       this.item = this.data.find((item) => item.id === id)
@@ -418,7 +423,6 @@ export default {
       this.cerrarMensaje()
       this.modalTitle = 'Eliminar'
       this.showModal = !this.showModal
-
       // Método para obtener los elementos a eliminar de selectedCheckboxes de data
       this.selectedItems = this.data.filter((item) => this.selectedCheckboxes.includes(item.id))
     },
