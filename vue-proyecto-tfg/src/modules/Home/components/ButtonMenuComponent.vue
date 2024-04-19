@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="`/${path.toLowerCase()}`"
-    class="relative flex flex-row sm:items-center sm:justify-center items-start justify-center bg-stoneBackground-4 font-bold text-secondary rounded-lg border-secondary hover:ring-2 hover:ring-secondary hover:ring-offset-2 w-4/5 sm:w-full sm:h-96 h-24 text-center text-lg sm:text-2xl group"
+    class="relative flex flex-row sm:items-center sm:justify-center items-start justify-center bg-stoneBackground-4 font-bold text-secondary rounded-lg border-secondary hover:ring-2 hover:ring-secondary hover:ring-offset-2 w-full sm:h-96 h-24 text-center text-lg sm:text-2xl group"
   >
     <div
       class="absolute top-0 left-0 w-full h-1/2 rounded-t-lg bg-stoneBackground-1 shadow-sm"
