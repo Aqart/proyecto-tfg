@@ -24,9 +24,8 @@ const useTrabajadores = () => {
   }
 
   const deleteTrabajadores = async (trabajadores) => {
-    
     const resp = await store.dispatch('Trabajadores/deleteTrabajadores', trabajadores)
-    
+
     return resp
   }
 

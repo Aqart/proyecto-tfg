@@ -10,6 +10,7 @@ import ConsumibleController from './controllers/ConsumibleController.js'
 import GastoGeneralController from './controllers/GastoGeneralController.js'
 import MateriaPrimaController from './controllers/MateriaPrimaController.js'
 import TransporteController from './controllers/TransporteController.js'
+
 //Relaciones
 import ConsumibleMaquinaController from './controllers/Relations/ConsumibleMaquinaController.js'
 import TransporteMateriaPrimaController from './controllers/Relations/TransporteMateriaPrimaController.js'
@@ -141,6 +142,12 @@ app.delete(
     '/transportes/:transporte_id/materias-primas/:materia_prima_id',
     TransporteMateriaPrimaController.desasociarMateriaPrimaTransporte
 )
+
+//Endpoints para Usuarios
+app.get('/usuarios', AuthController.obtenerTodos)
+app.get('/usuarios/:id', AuthController.obtenerPorId)
+app.put('/usuarios/:id', AuthController.actualizar)
+app.delete('/usuarios/:id', AuthController.eliminar)
 
 // Manejador de errores para rutas no encontradas
 app.use((req, res, next) => {

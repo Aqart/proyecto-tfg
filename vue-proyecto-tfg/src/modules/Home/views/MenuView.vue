@@ -51,7 +51,7 @@
       />
       <ButtonMenuComponent
         name="Usuarios"
-        path="users"
+        path="usuarios"
         :icon="['fas', 'fa-users']"
         image="fondo-4"
       />

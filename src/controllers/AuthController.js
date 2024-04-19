@@ -9,7 +9,6 @@ const AuthController = {
     // Registro de usuario
     registrarUsuario: async (req, res, next) => {
         const { email, roles, password } = req.body
-        console.log('BODY', req.body)
         try {
             // Verifica si el usuario ya existe en la base de datos
             const [existingUser] = await pool.query(
@@ -92,6 +91,72 @@ const AuthController = {
             next()
         } catch (err) {
             return res.status(401).json({ message: 'Token inválido' })
+        }
+    },
+
+    obtenerTodos: async (req, res) => {
+        try {
+            const [rows, fields] = await pool.query(
+                'SELECT id,email,roles FROM user'
+            )
+            res.status(200).json(rows)
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los usuarios' })
+        }
+    },
+    // Método para obtener un usuario por su id
+    obtenerPorId: async (req, res) => {
+        try {
+            const id = req.params.id
+            const [rows, fields] = await pool.query(
+                'SELECT id,email,roles FROM user WHERE id = ?',
+                [id]
+            )
+            res.status(200).json(rows[0])
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener el usuario' })
+        }
+    },
+    // Método para actualizar un usuario
+    actualizar: async (req, res) => {
+        const { email, roles, password } = req.body
+        // Verifica si el usuario ya existe en la base de datos
+        const [existingUser] = await pool.query(
+            'SELECT * FROM user WHERE email = ?',
+            [email]
+        )
+        if (existingUser.length > 0) {
+            return res
+                .status(400)
+                .json({ message: 'El nombre de usuario ya existe' })
+        }
+        try {
+            const id = req.params.id
+            const { email, password, roles } = req.body
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const [rows, fields] = await pool.query(
+                'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
+                [email, roles, hashedPassword, id]
+            )
+            res.status(200).json({
+                message: 'Usuario actualizado correctamente',
+                body: { user: { email, roles } },
+            })
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar el usuario' })
+        }
+    },
+    // Método para eliminar un usuario
+    eliminar: async (req, res) => {
+        try {
+            const id = req.params.id
+            const [rows, fields] = await pool.query(
+                'DELETE FROM user WHERE id = ?',
+                [id]
+            )
+            res.status(200).json({ message: 'Usuario eliminado correctamente' })
+        } catch (error) {
+            res.status(500).json({ message: 'Error al eliminar el usuario' })
         }
     },
 }

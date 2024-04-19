@@ -6,16 +6,6 @@ export default {
       path: '/transportes',
       name: 'list-transportes',
       component: () => import('@/modules/Transportes/views/TransportesView.vue')
-    },
-    {
-      path: '/transportes/add',
-      name: 'add-Transporte',
-      component: () => import('@/modules/Transportes/views/AddTransportesView.vue')
-    },
-    {
-      path: '/transportes/edit/:id',
-      name: 'edit-Transporte',
-      component: () => import('@/modules/Transportes/views/EditTransportesView.vue')
     }
   ]
 }

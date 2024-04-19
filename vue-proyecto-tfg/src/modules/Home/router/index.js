@@ -4,7 +4,7 @@ import MaquinasRouter from '@/modules/Maquinas/router'
 import CalculadoraRouter from '@/modules/Calculadora/router'
 import TransportesRouter from '@/modules/Transportes/router'
 import TrabajadoresRouter from '@/modules/Trabajadores/router'
-
+import UsuariosRouter from '@/modules/Usuarios/router'
 
 export default {
   name: 'home',
@@ -34,6 +34,10 @@ export default {
     {
       path: '/trabajadores',
       ...TrabajadoresRouter
+    },
+    {
+      path: '/usuarios',
+      ...UsuariosRouter
     }
   ]
 }

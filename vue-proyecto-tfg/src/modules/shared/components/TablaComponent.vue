@@ -80,12 +80,16 @@
               scope="col"
               class="px-6 py-3"
             >
+              <!--Si key es igual a nombre o email justificar al inicio si no al centro-->
               <button
                 @click="sortTable(key)"
                 class="flex items-center w-full"
-                :class="key !== 'nombre' ? 'justify-center' : 'justify-start'"
+                :class="key !== 'nombre' && key !== 'email' ? 'justify-center' : 'justify-start'"
               >
-                <div v-html="formatIndex(key)" :class="key !== 'nombre' ? 'text-center' : ''"></div>
+                <div
+                  v-html="formatIndex(key)"
+                  :class="key !== 'nombre' || key !== 'email' ? 'text-center' : ''"
+                ></div>
                 <div v-show="sortField === key" class="relative ml-2">
                   <FontAwesomeIcon
                     :icon="['fas', 'sort-up']"
@@ -124,7 +128,11 @@
               </div>
             </td>
             <template v-for="(el, index) in body">
-              <th v-if="index === 'nombre'" :key="`${el}-th`" class="px-6 py-4">
+              <th
+                v-if="index === 'nombre' || index === 'email'"
+                :key="`${el}-th`"
+                class="px-6 py-4"
+              >
                 <div class="text-sm text-stoneBackgroun-3 font-bold">
                   {{ el }}
                 </div>
@@ -378,7 +386,7 @@ export default {
         this.selectedCheckboxes = []
       }
     },
-    deselectCheckbox(id){
+    deselectCheckbox(id) {
       this.selectedCheckboxes = this.selectedCheckboxes.filter((item) => item !== id)
     },
     modalName(name) {

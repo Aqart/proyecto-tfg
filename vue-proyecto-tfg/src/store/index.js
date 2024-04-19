@@ -7,6 +7,7 @@ import Shared from '@/modules/shared/store'
 import Maquinas from '@/modules/Maquinas/store'
 import Transportes from '@/modules/Transportes/store'
 import Trabajadores from '@/modules/Trabajadores/store'
+import Usuarios from '@/modules/Usuarios/store'
 
 const store = createStore({
   modules: {
@@ -16,7 +17,8 @@ const store = createStore({
     Shared,
     Maquinas,
     Transportes,
-    Trabajadores
+    Trabajadores,
+    Usuarios
   }
 })
 
