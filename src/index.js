@@ -8,14 +8,14 @@ import AuthController from './controllers/AuthController.js'
 import TrabajadorController from './controllers/TrabajadorController.js'
 import MaquinaController from './controllers/MaquinaController.js'
 import ConsumibleController from './controllers/ConsumibleController.js'
-import GastoGeneralController from './controllers/GastoGeneralController.js'
+import GastoEnergeticoController from './controllers/GastoEnergeticoController.js'
 import MateriaPrimaController from './controllers/MateriaPrimaController.js'
 import TransporteController from './controllers/TransporteController.js'
 
 //Relaciones
 import ConsumibleMaquinaController from './controllers/Relations/ConsumibleMaquinaController.js'
 import TransporteMateriaPrimaController from './controllers/Relations/TransporteMateriaPrimaController.js'
-import GastoGeneralMaquinaController from './controllers/Relations/GastoGeneralMaquinaController.js'
+import GastoEnergeticoMaquinaController from './controllers/Relations/GastoEnergeticoMaquinaController.js'
 import TrabajadorMaquinaController from './controllers/Relations/TrabajadorMaquinaController.js'
 
 const app = express()
@@ -74,8 +74,8 @@ app.get(
     TrabajadorMaquinaController.obtenerTrabajadoresPorMaquina
 )
 app.get(
-    '/maquinas/:maquina_id/gastos-generales',
-    GastoGeneralMaquinaController.obtenerGastosPorMaquina
+    '/maquinas/:maquina_id/gastos-energeticos',
+    GastoEnergeticoMaquinaController.obtenerGastosPorMaquina
 )
 app.get(
     '/maquinas/:maquina_id/consumibles',
@@ -83,7 +83,7 @@ app.get(
 )
 app.get(
     '/maquinas/:maquina_id/',
-    GastoGeneralMaquinaController.obtenerMaquinasPorGasto
+    GastoEnergeticoMaquinaController.obtenerMaquinasPorGasto
 )
 
 // Endpoints para Consumibles
@@ -105,23 +105,23 @@ app.delete(
     ConsumibleMaquinaController.desasociarConsumibleMaquina
 )
 
-// Endpoints para Gastos Generales
-app.get('/gastos-generales', GastoGeneralController.obtenerTodos)
-app.post('/gastos-generales', GastoGeneralController.crear)
-app.get('/gastos-generales/:id', GastoGeneralController.obtenerPorId)
-app.put('/gastos-generales/:id', GastoGeneralController.actualizar)
-app.delete('/gastos-generales/:id', GastoGeneralController.eliminar)
+// Endpoints para Gastos Energeticos
+app.get('/gastos-energeticos', GastoEnergeticoController.obtenerTodos)
+app.post('/gastos-energeticos', GastoEnergeticoController.crear)
+app.get('/gastos-energeticos/:id', GastoEnergeticoController.obtenerPorId)
+app.put('/gastos-energeticos/:id', GastoEnergeticoController.actualizar)
+app.delete('/gastos-energeticos/:id', GastoEnergeticoController.eliminar)
 app.get(
-    '/gastos-generales/:gasto_id/maquinas',
-    GastoGeneralMaquinaController.obtenerMaquinasPorGasto
+    '/gastos-energeticos/:gasto_id/maquinas',
+    GastoEnergeticoMaquinaController.obtenerMaquinasPorGasto
 )
 app.post(
-    '/gastos-generales/:gasto_id/maquinas/:maquina_id',
-    GastoGeneralMaquinaController.asociarGastoMaquina
+    '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
+    GastoEnergeticoMaquinaController.asociarGastoMaquina
 )
 app.delete(
-    '/gastos-generales/:gasto_id/maquinas/:maquina_id',
-    GastoGeneralMaquinaController.desasociarGastoMaquina
+    '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
+    GastoEnergeticoMaquinaController.desasociarGastoMaquina
 )
 
 // Endpoints para Materias Primas

@@ -1,7 +1,7 @@
 import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
 
-const GastoGeneralController = {
-    // Obtener todos los gastos generales
+const GastoEnergeticoController = {
+    // Obtener todos los gastos energéticos
     obtenerTodos: async (req, res, next) => {
         try {
             const [rows, fields] = await pool.query(
@@ -25,7 +25,7 @@ const GastoGeneralController = {
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
 
             res.status(201).json({
-                message: 'Gasto general creado correctamente',
+                message: 'Gasto energético creado correctamente',
                 id: rows[0].id,
             })
         } catch (error) {
@@ -44,7 +44,7 @@ const GastoGeneralController = {
             if (rows.length === 0) {
                 return res
                     .status(404)
-                    .json({ message: 'Gasto general no encontrado' })
+                    .json({ message: 'Gasto energético no encontrado' })
             }
             res.status(200).json(rows[0])
         } catch (error) {
@@ -62,7 +62,7 @@ const GastoGeneralController = {
                 [nombre, precio, id]
             )
             res.status(200).json({
-                message: 'Gasto general actualizado correctamente',
+                message: 'Gasto energético actualizado correctamente',
             })
         } catch (error) {
             next(error)
@@ -75,7 +75,7 @@ const GastoGeneralController = {
         try {
             await pool.query('DELETE FROM gasto_general WHERE id = ?', [id])
             res.status(200).json({
-                message: 'Gasto general eliminado correctamente',
+                message: 'Gasto energético eliminado correctamente',
             })
         } catch (error) {
             next(error)
@@ -83,4 +83,4 @@ const GastoGeneralController = {
     },
 }
 
-export default GastoGeneralController
+export default GastoEnergeticoController

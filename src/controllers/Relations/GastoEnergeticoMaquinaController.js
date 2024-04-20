@@ -1,7 +1,7 @@
 import { pool } from '../../db.js' // Importa el pool de conexión a la base de datos
 
-const GastoGeneralMaquinaController = {
-    // Obtener todos los gastos generales asociados a una máquina
+const GastoEnergeticoMaquinaController = {
+    // Obtener todos los gastos energéticos asociados a una máquina
     obtenerGastosPorMaquina: async (req, res, next) => {
         const { maquina_id } = req.params
         try {
@@ -38,7 +38,7 @@ const GastoGeneralMaquinaController = {
                 [gasto_id, maquina_id]
             )
             res.status(201).json({
-                message: 'Gasto general asociado a máquina correctamente',
+                message: 'Gasto energético asociado a máquina correctamente',
             })
         } catch (error) {
             next(error)
@@ -54,7 +54,7 @@ const GastoGeneralMaquinaController = {
                 [gasto_id, maquina_id]
             )
             res.status(200).json({
-                message: 'Gasto general desasociado de máquina correctamente',
+                message: 'Gasto energético desasociado de máquina correctamente',
             })
         } catch (error) {
             next(error)
@@ -62,4 +62,4 @@ const GastoGeneralMaquinaController = {
     },
 }
 
-export default GastoGeneralMaquinaController
+export default GastoEnergeticoMaquinaController

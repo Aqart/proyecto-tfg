@@ -10,7 +10,7 @@ import { defineAsyncComponent } from 'vue'
 export default {
   components: {
     GastosComponent: defineAsyncComponent(
-      () => import('@/modules/GastosGenerales/components/GastosComponent.vue')
+      () => import('@/modules/GastosEnergeticos/components/GastosComponent.vue')
     )
   }
 }
