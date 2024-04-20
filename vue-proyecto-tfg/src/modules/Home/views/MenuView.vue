@@ -26,8 +26,8 @@
         image="fondo"
       />
       <ButtonMenuComponent
-        name="Gastos Generales"
-        path="gastos-generales"
+        name="Gastos Energéticos"
+        path="gastos-energeticos"
         :icon="['fas', 'fa-bolt']"
         image="fondo-5"
       />

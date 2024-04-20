@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 import Auth from '@/modules/Auth/store'
 import Consumible from '@/modules/Consumible/store'
-import GastosGenerales from '@/modules/GastosGenerales/store'
+import GastosEnergeticos from '@/modules/GastosEnergeticos/store'
 import Shared from '@/modules/shared/store'
 import Maquinas from '@/modules/Maquinas/store'
 import Transportes from '@/modules/Transportes/store'
@@ -13,7 +13,7 @@ const store = createStore({
   modules: {
     Auth,
     Consumible,
-    GastosGenerales,
+    GastosEnergeticos,
     Shared,
     Maquinas,
     Transportes,

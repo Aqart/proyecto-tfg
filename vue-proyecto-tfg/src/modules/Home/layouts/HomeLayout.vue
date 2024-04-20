@@ -19,7 +19,7 @@
 <script>
 import { defineAsyncComponent, ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'

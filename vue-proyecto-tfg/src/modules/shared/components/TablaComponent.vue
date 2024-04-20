@@ -492,8 +492,8 @@ export default {
       switch (route) {
         case 'Consumibles':
           return 'Consumibles'
-        case 'Gastos-generales':
-          return 'Gastos generales'
+        case 'Gastos-energeticos':
+          return 'Gastos energéticos'
         case 'Maquinas':
           return 'Máquinas'
         case 'Trabajadores':

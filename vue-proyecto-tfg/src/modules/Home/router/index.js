@@ -1,5 +1,5 @@
 import ConsumiblesRouter from '@/modules/Consumible/router'
-import GastosGeneralesRouter from '@/modules/GastosGenerales/router'
+import GastosEnergeticosRouter from '@/modules/GastosEnergeticos/router'
 import MaquinasRouter from '@/modules/Maquinas/router'
 import CalculadoraRouter from '@/modules/Calculadora/router'
 import TransportesRouter from '@/modules/Transportes/router'
@@ -17,8 +17,8 @@ export default {
       meta: { requiresRole: 'ADMIN' }
     },
     {
-      path: '/gastos-generales',
-      ...GastosGeneralesRouter
+      path: '/gastos-energeticos',
+      ...GastosEnergeticosRouter
     },
     {
       path: '/maquinas',

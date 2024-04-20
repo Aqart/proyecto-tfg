@@ -5,7 +5,7 @@ export const fetchGastos = async ({ commit }) => {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get('/gastos-generales', {
+    const response = await authApi.get('/gastos-energeticos', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -28,7 +28,7 @@ export const createGasto = async ({ commit }, gasto) => {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/gastos-generales', gasto, {
+    const response = await authApi.post('/gastos-energeticos', gasto, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -58,7 +58,7 @@ export const getGastoById = async ({ commit }, id) => {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get(`/gastos-generales/${id}`, {
+    const response = await authApi.get(`/gastos-energeticos/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -81,7 +81,7 @@ export const editGasto = async ({ commit }, gasto) => {
   }
   const { id } = gasto
   try {
-    const response = await authApi.put(`/gastos-generales/${id}`, gasto, {
+    const response = await authApi.put(`/gastos-energeticos/${id}`, gasto, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -114,7 +114,7 @@ export const deleteGastos = async ({ commit }, gastos) => {
     const { id } = gasto
     console.log(id)
     try {
-      const response = await authApi.delete(`/gastos-generales/${id}`, {
+      const response = await authApi.delete(`/gastos-energeticos/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
@@ -126,11 +126,11 @@ export const deleteGastos = async ({ commit }, gastos) => {
         commit('deleteGasto', id)
         results.push({ id, ok: true, message: response.data.message })
       } else {
-        console.error('Error al eliminar gasto general:', response.data.message)
+        console.error('Error al eliminar gasto energético:', response.data.message)
         results.push({ id, ok: false, message: response.data.message })
       }
     } catch (error) {
-      console.error('Error al eliminar los gastos generales:', error.message)
+      console.error('Error al eliminar los gastos energéticos:', error.message)
       results.push({ id, ok: false, message: error.message })
     }
   }
