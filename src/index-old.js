@@ -72,12 +72,12 @@ app.get('/consumibles/:id', ConsumibleController.obtenerPorId)
 app.put('/consumibles/:id', ConsumibleController.actualizar)
 app.delete('/consumibles/:id', ConsumibleController.eliminar)
 
-// Endpoints para Gastos Generales
-app.get('/gastos-generales', GastoGeneralController.obtenerTodos)
-app.post('/gastos-generales', GastoGeneralController.crear)
-app.get('/gastos-generales/:id', GastoGeneralController.obtenerPorId)
-app.put('/gastos-generales/:id', GastoGeneralController.actualizar)
-app.delete('/gastos-generales/:id', GastoGeneralController.eliminar)
+// Endpoints para Gastos Energeticos
+app.get('/gastos-energeticos', GastoGeneralController.obtenerTodos)
+app.post('/gastos-energeticos', GastoGeneralController.crear)
+app.get('/gastos-energeticos/:id', GastoGeneralController.obtenerPorId)
+app.put('/gastos-energeticos/:id', GastoGeneralController.actualizar)
+app.delete('/gastos-energeticos/:id', GastoGeneralController.eliminar)
 
 // Endpoints para Materias Primas
 app.get('/materias-primas', MateriaPrimaController.obtenerTodas)

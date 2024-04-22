@@ -1,9 +1,9 @@
 <template>
   <div class="container max-w-6xl">
-    <header class="mt-5">
+    <header class="mt-5 sm:mx-3">
       <NabvarComponent />
     </header>
-    <main class="flex flex-col justify-between my-10">
+    <main class="flex flex-col justify-between my-10 sm:mx-3">
       <MenuView v-if="$route.path === '/home'" />
       <RouterMapComponent
         v-else
@@ -19,7 +19,7 @@
 <script>
 import { defineAsyncComponent, ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'

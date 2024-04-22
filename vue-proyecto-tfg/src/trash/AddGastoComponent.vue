@@ -7,7 +7,7 @@
       type="text"
       name="nombre"
       id="nombre"
-      placeholder="Nombre del gasto general"
+      placeholder="Nombre del gasto energético"
     />
 
     <label for="precio" class="block mb-2 text-sm font-medium text-gray-900"> Precio </label>
@@ -17,19 +17,19 @@
       type="number"
       name="precio"
       id="precio"
-      placeholder="Precio del gasto general"
+      placeholder="Precio del gasto energético"
       step="0.01"
       min="0"
     />
 
-    <ButtonComponent text="Añadir gasto general" type="submit" bg-color="bg-primary" />
+    <ButtonComponent text="Añadir gasto energético" type="submit" bg-color="bg-primary" />
   </form>
 </template>
 
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useShared from '@/modules/shared/composables/useShared'
 import ButtonComponent from '@/modules/shared/components/ButtonComponent.vue'
 
@@ -60,7 +60,7 @@ export default {
           actualizarMostrarMensaje(true)
         }
 
-        router.push('/gastos-generales')
+        router.push('/gastos-energeticos')
       }
     }
   },

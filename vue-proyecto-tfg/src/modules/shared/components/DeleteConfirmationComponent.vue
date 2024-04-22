@@ -42,22 +42,33 @@
       <div
         class="max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-2"
       >
-        <!-- grid grid-cols-2 gap-3 sm:grid-cols-3 -->
-        <ul class="grid grid-cols-2 sm:grid-cols-3 gap-3 list-none pl-0">
+        <ul class="grid grid-cols-2 md:grid-cols-3 gap-3 list-none pl-0">
           <li
-            v-for="(item, index) in listItems"
-            :key="index"
-            class="flex flex-col items-center justify-center text-center bg-stoneBackground-4 py-3 px-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1"
+            v-for="item in listItems"
+            :key="item.id"
+            class="bg-stoneBackground-4 py-3 px-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1"
             :class="{
               'col-span-full':
-                (item.nombre + ' ' + (item.apellido1 || '')).length > 30 || listItems.length === 1
+                (item.nombre + ' ' + (item.email || '')).length > 30 ||
+                (item.email && item.email.length > 30) ||
+                listItems.length === 1
             }"
           >
-            <div class="flex justify-center w-full">
-              <span class="w-90" v-if="item.apellido1">{{
-                item.nombre + ' ' + item.apellido1
-              }}</span>
-              <span class="w-90" v-else>{{ item.nombre }}</span>
+            <div class="flex flex-row items-center justify-between">
+              <div class="align-middle">
+                <template v-for="(el, index) in item">
+                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
+                    el
+                  }}</span>
+                  <span
+                    :key="`${el}-del`"
+                    class="text-wrap"
+                    v-if="index == 'apellido1'"
+                    v-html="`&nbsp;${el}`"
+                  ></span>
+                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'email'">{{ el }}</span>
+                </template>
+              </div>
               <ButtonComponent
                 type="button"
                 text="X"
@@ -68,15 +79,39 @@
             </div>
           </li>
         </ul>
+
+        <!-- <ul class="grid grid-cols-2 sm:grid-cols-3 gap-3 list-none pl-0">
+          <li
+            v-for="(item, index) in listItems"
+            :key="index"
+            class="flex flex-col items-center justify-center text-center bg-stoneBackground-4 py-3 px-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1"
+            :class="{
+              'col-span-full':
+                (item.nombre + ' ' + (item.apellido1 || '') || (item.email)).length > 30 || listItems.length === 1
+            }"
+          >
+            <div class="flex justify-center w-full">
+              <span class="w-90" v-if="item.apellido1">{{ item.nombre + " " + item.apellido1 }}</span>
+              <span class="w-90" v-else>{{ item.nombre }}</span>
+              <ButtonComponent
+                type="button"
+                text="X"
+                bgColor="bg-transparent"
+                otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105"
+                @click="deselectItem(item.id)"
+              />
+            </div>
+          </li>
+        </ul> -->
       </div>
     </div>
-    <div class="flex w-90 mx-auto gap-9 pr-5 pl-5">
+    <div class="flex w-90 mx-auto gap-9 pr-4 pl-4">
       <!-- <LoadingComponent v-if="openLoader" :fullscreen="false" /> -->
       <ButtonComponent
         :hidden="listItems.length === 0"
         text="Confirmar"
         @click="confirmDelete"
-        bgColor="bg-stoneBackground-2 text-stoneBackgroundContrast-4"
+        bgColor="bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-2 hover:text-secondary"
       />
       <ButtonComponent
         text="Cancelar"
@@ -111,8 +146,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {

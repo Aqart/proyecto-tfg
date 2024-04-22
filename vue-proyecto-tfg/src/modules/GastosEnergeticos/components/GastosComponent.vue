@@ -19,7 +19,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
-import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
@@ -73,7 +73,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('GastosGenerales', ['getGastos']),
+    ...mapGetters('GastosEnergeticos', ['getGastos']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {

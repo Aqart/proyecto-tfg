@@ -39,7 +39,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { defineAsyncComponent, computed } from 'vue'
-import useGasto from '@/modules/GastosGenerales/composables/useGasto'
+import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
@@ -119,7 +119,7 @@ export default {
           actualizarMostrarMensaje(true)
         }
 
-        router.push('/gastos-generales')
+        router.push('/gastos-energeticos')
       }
 
       // handleClose

@@ -183,6 +183,7 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
+      <!-- <RegisterComponent :title="modalTitle" /> -->
       <DeleteConfirmationComponent
         v-if="modalTitle === 'Eliminar'"
         :items="selectedItems"
@@ -236,20 +237,23 @@ export default {
     }
   },
   components: {
-    SearchIconComponent: defineAsyncComponent(
-      () => import('@/assets/images/SearchIconComponent.vue')
+    SearchIconComponent: defineAsyncComponent(() =>
+      import('@/assets/images/SearchIconComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     ),
-    DeleteConfirmationComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
-    LoadingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    RegisterComponent: defineAsyncComponent(() =>
+      import('@/modules/Auth/components/RegisterComponent.vue')
+    ),
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
@@ -488,8 +492,8 @@ export default {
       switch (route) {
         case 'Consumibles':
           return 'Consumibles'
-        case 'Gastos-generales':
-          return 'Gastos generales'
+        case 'Gastos-energeticos':
+          return 'Gastos energéticos'
         case 'Maquinas':
           return 'Máquinas'
         case 'Trabajadores':
