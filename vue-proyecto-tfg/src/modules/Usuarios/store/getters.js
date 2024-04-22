@@ -1,4 +1,5 @@
 export const getUsuarios = (state) => {
+  console.log(state.usuarios)
   return state.usuarios
 }
 

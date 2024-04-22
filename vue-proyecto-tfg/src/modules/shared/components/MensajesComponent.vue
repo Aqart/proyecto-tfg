@@ -3,13 +3,13 @@
     <template v-if="mostrarMensaje">
       <!-- Success -->
       <div
-        class="bg-green-50 border border-green-300 text-green-700 px-4 py-3 rounded flex flex-row justify-between items-center relative shadow-sm"
+        class="flex flex-row items-center justify-between px-4 py-3 text-sm text-green-800 border border-green-600 rounded-lg bg-green-50 bg-opacity-20 shadow-sm"
         role="alert"
         v-if="type === 'success'"
       >
         <FontAwesomeIcon
           :icon="['fas', 'square-check']"
-          class="text-green-600 mr-3 scale-150 hidden sm:inline-block"
+          class="text-green-700 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
         />
         <!-- <strong class="font-bold">¡Éxito!&nbsp;</strong> -->
         <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
@@ -26,13 +26,13 @@
 
       <!-- Error -->
       <div
-        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex flex-row justify-between items-center relative shadow-sm"
+        class="bg-red-100 border border-stoneBackgroundContrast-2 text-stoneBackgroundContrast-2 px-4 py-3 rounded-lg flex flex-row justify-between items-center bg-opacity-20 shadow-sm"
         role="alert"
         v-if="type === 'error'"
       >
         <FontAwesomeIcon
           :icon="['fas', 'circle-exclamation']"
-          class="mr-3 scale-150 hidden sm:inline-block"
+          class="mr-3 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
         />
         <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
           message
@@ -48,13 +48,13 @@
 
       <!-- Warning -->
       <div
-        class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded flex flex-row justify-between items-center relative shadow-sm"
+        class="bg-yellow-50 border border-stoneBackgroundContrast-6 text-stoneBackgroundContrast-6 px-4 py-3 rounded-lg flex flex-row justify-between items-center bg-opacity-20 shadow-sm"
         role="alert"
         v-if="type === 'warning'"
       >
         <FontAwesomeIcon
           :icon="['fas', 'triangle-exclamation']"
-          class="mr-3 scale-150 hidden sm:inline-block"
+          class="mr-3 scale-125 hidden sm:inline-block"
         />
         <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
           message
@@ -73,7 +73,6 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   props: {
@@ -90,18 +89,25 @@ export default {
       required: true
     }
   },
-  setup() {
-    const { actualizarMostrarMensaje } = useShared()
-
-    const cerrarMensaje = () => {
-      actualizarMostrarMensaje(false)
-    }
-
-    setTimeout(cerrarMensaje, 10 * 1000)
-
+  data() {
     return {
-      cerrarMensaje
+      mostrar: false
     }
+  },
+  watch: {
+    mostrarMensaje(newVal) {
+      console.log(newVal)
+      this.mostrar = newVal;
+    }
+  },
+  methods: {
+    cerrarMensaje() {
+      this.mostrar = false;
+    },
+  },
+  mounted() {
+    setTimeout(this.cerrarMensaje, 10 * 1000)
+    this.mostrar = this.mostrarMensaje;
   },
   components: {
     ButtonComponent: defineAsyncComponent(() =>
