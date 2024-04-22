@@ -1,17 +1,18 @@
 <template>
   <div>
     <div>
-      <MensajesComponent 
-        v-if="getTipo === 'success'"   
-        :message="getMensaje" 
-        :type="getTipo" 
-        :mostrarMensaje="getMostrar" />
-      </div>
-      <TablaComponent 
-        :data="getMaquinas"
-        @saveData="persistData"
-        @deleteSelected="deleteMaquinasSeleccionadas"
+      <MensajesComponent
+        v-if="getTipo === 'success'"
+        :message="getMensaje"
+        :type="getTipo"
+        :mostrarMensaje="getMostrar"
       />
+    </div>
+    <TablaComponent
+      :data="getMaquinas"
+      @saveData="persistData"
+      @deleteSelected="deleteMaquinasSeleccionadas"
+    />
   </div>
 </template>
 
@@ -22,7 +23,7 @@ import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
-  setup(){
+  setup() {
     const { createMaquina, editMaquina, deleteMaquinas } = useMaquina()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
@@ -83,7 +84,6 @@ export default {
     MensajesComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/MensajesComponent.vue')
     )
-  },
+  }
 }
 </script>
-

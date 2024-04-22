@@ -22,7 +22,7 @@ export default {
       name: 'auth-logout',
       beforeEnter(to, from, next) {
         store.dispatch('Auth/logoutUser')
-        
+
         next('/login')
       }
     }

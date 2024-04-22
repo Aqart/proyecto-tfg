@@ -67,7 +67,7 @@ export default {
 
     onMounted(async () => {
       const gasto = await getGasto(router.currentRoute.value.params.id)
-      
+
       gastoForm.value.nombre = gasto.nombre
       gastoForm.value.precio = gasto.precio
       gastoOriginal.value = { nombre: gasto.nombre, precio: gasto.precio }

@@ -12,7 +12,6 @@ export const fetchGastos = async ({ commit }) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-
       // Actualizar el estado con los consumibles obtenidos
       commit('setGastos', response.data)
     } else {
@@ -36,7 +35,6 @@ export const createGasto = async ({ commit }, gasto) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
-
       if (response.data.id) {
         gasto.id = response.data.id
       }
@@ -88,7 +86,6 @@ export const editGasto = async ({ commit }, gasto) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-
       // Actualizar el estado con los consumibles obtenidos
       commit('setGasto', { id, gasto })
       return { ok: true, message: response.data.message }
@@ -100,7 +97,6 @@ export const editGasto = async ({ commit }, gasto) => {
     console.log('Error al editar el gasto:', error)
   }
 }
-
 
 export const deleteGastos = async ({ commit }, gastos) => {
   if (localStorage.getItem('idToken') === null) {

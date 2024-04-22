@@ -54,7 +54,6 @@ export default {
     updateValue(key, event) {
       this.newInputValue = event.target.value
 
-
       this.$emit('changeText', { [key]: this.newInputValue })
     },
     formatText(text) {

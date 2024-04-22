@@ -100,11 +100,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

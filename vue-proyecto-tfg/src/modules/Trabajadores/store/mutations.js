@@ -3,7 +3,6 @@ export const setTrabajadores = (state, data) => {
 }
 
 export const setNewTrabajador = (state, trabajador) => {
-  
   state.trabajadores.push(trabajador)
 }
 
