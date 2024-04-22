@@ -249,9 +249,9 @@ export default {
     DeleteConfirmationComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
-    RegisterComponent: defineAsyncComponent(() =>
-      import('@/modules/Auth/components/RegisterComponent.vue')
-    ),
+    // RegisterComponent: defineAsyncComponent(() =>
+    //   import('@/modules/Auth/components/RegisterComponent.vue')
+    // ),
     LoadingComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/LoadingComponent.vue')
     )
