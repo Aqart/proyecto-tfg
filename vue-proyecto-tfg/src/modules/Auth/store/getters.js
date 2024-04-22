@@ -9,3 +9,8 @@ export const isLoggedIn = (state) => {
 export const getEmail = (state) => {
   return state.email
 }
+
+export const getRoles = (state) => {
+  console.log('Roooles', state.roles)
+  return state.roles
+}

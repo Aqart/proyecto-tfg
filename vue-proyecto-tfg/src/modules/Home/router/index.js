@@ -14,8 +14,7 @@ export default {
   children: [
     {
       path: '/consumibles',
-      ...ConsumiblesRouter,
-      meta: { requiresRole: 'ADMIN' }
+      ...ConsumiblesRouter
     },
     {
       path: '/gastos-energeticos',

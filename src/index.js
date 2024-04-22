@@ -1,7 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import cookieParser from 'cookie-parser'
 
 //Controladores
 import AuthController from './controllers/AuthController.js'
@@ -25,22 +24,12 @@ app.use(cors())
 
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON
 app.use(bodyParser.json())
-app.use(cookieParser())
 
 // Endpoint para registrar un usuario
 app.post('/registro', AuthController.registrarUsuario)
 
 // Endpoint para iniciar sesión
 app.post('/login', AuthController.iniciarSesion)
-
-app.get('/verificar', (req, res) => {
-    const userRole = req.cookies.userRole
-    if (userRole) {
-        res.status(200).json({ message: 'Cookie verificada', userRole })
-    } else {
-        res.status(400).json({ message: 'No se encontró la cookie' })
-    }
-})
 
 // Middleware para verificar el token JWT en las rutas protegidas
 app.use(AuthController.verificarToken)

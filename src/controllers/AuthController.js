@@ -71,9 +71,6 @@ const AuthController = {
 
             const { roles } = user[0]
 
-            // Establece la cookie con el rol del usuario
-            res.cookie('userRole', roles, { secure: true, httpOnly: true })
-
             res.status(200).json({ token, roles })
         } catch (error) {
             next(error)
@@ -93,8 +90,6 @@ const AuthController = {
             req.userId = decoded.userId
             next()
         } catch (err) {
-            // Si el token es inválido o ha expirado, elimina la cookie
-            res.cookie('userRole', '', { expires: new Date(0) })
             return res.status(401).json({ message: 'Token inválido' })
         }
     },
