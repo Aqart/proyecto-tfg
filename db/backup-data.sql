@@ -118,20 +118,20 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `gasto_general`
+-- Estructura de tabla para la tabla `gasto_energetico`
 --
 
-CREATE TABLE `gasto_general` (
+CREATE TABLE `gasto_energetico` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `precio` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `gasto_general`
+-- Volcado de datos para la tabla `gasto_energetico`
 --
 
-INSERT INTO `gasto_general` (`id`, `nombre`, `precio`) VALUES
+INSERT INTO `gasto_energetico` (`id`, `nombre`, `precio`) VALUES
 (1, 'Mantenimiento de maquinaria', 502),
 (2, 'Electricidad', 300),
 (3, 'Suministros de oficina', 100),
@@ -142,19 +142,19 @@ INSERT INTO `gasto_general` (`id`, `nombre`, `precio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `gasto_general_maquina`
+-- Estructura de tabla para la tabla `gasto_energetico_maquina`
 --
 
-CREATE TABLE `gasto_general_maquina` (
-  `gasto_general_id` int(11) NOT NULL,
+CREATE TABLE `gasto_energetico_maquina` (
+  `gasto_energetico_id` int(11) NOT NULL,
   `maquina_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `gasto_general_maquina`
+-- Volcado de datos para la tabla `gasto_energetico_maquina`
 --
 
-INSERT INTO `gasto_general_maquina` (`gasto_general_id`, `maquina_id`) VALUES
+INSERT INTO `gasto_energetico_maquina` (`gasto_energetico_id`, `maquina_id`) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -362,17 +362,17 @@ ALTER TABLE `doctrine_migration_versions`
   ADD PRIMARY KEY (`version`);
 
 --
--- Indices de la tabla `gasto_general`
+-- Indices de la tabla `gasto_energetico`
 --
-ALTER TABLE `gasto_general`
+ALTER TABLE `gasto_energetico`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `gasto_general_maquina`
+-- Indices de la tabla `gasto_energetico_maquina`
 --
-ALTER TABLE `gasto_general_maquina`
-  ADD PRIMARY KEY (`gasto_general_id`,`maquina_id`),
-  ADD KEY `IDX_E7EDB15BBD6D563C` (`gasto_general_id`),
+ALTER TABLE `gasto_energetico_maquina`
+  ADD PRIMARY KEY (`gasto_energetico_id`,`maquina_id`),
+  ADD KEY `IDX_E7EDB15BBD6D563C` (`gasto_energetico_id`),
   ADD KEY `IDX_E7EDB15B41420729` (`maquina_id`);
 
 --
@@ -433,9 +433,9 @@ ALTER TABLE `consumible`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT de la tabla `gasto_general`
+-- AUTO_INCREMENT de la tabla `gasto_energetico`
 --
-ALTER TABLE `gasto_general`
+ALTER TABLE `gasto_energetico`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
@@ -480,11 +480,11 @@ ALTER TABLE `consumible_maquina`
   ADD CONSTRAINT `FK_2DFD25099AA59506` FOREIGN KEY (`consumible_id`) REFERENCES `consumible` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `gasto_general_maquina`
+-- Filtros para la tabla `gasto_energetico_maquina`
 --
-ALTER TABLE `gasto_general_maquina`
+ALTER TABLE `gasto_energetico_maquina`
   ADD CONSTRAINT `FK_E7EDB15B41420729` FOREIGN KEY (`maquina_id`) REFERENCES `maquina` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_E7EDB15BBD6D563C` FOREIGN KEY (`gasto_general_id`) REFERENCES `gasto_general` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_E7EDB15BBD6D563C` FOREIGN KEY (`gasto_energetico_id`) REFERENCES `gasto_energetico` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `trabajador_maquina`

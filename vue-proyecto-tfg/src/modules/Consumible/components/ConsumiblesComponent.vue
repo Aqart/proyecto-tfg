@@ -1,11 +1,11 @@
 <template>
   <div>
-    <template>
+    <template v-if="getMostrar">
       <MensajesComponent
-        v-if="tipo === 'success'"
-        :message="mensaje"
-        :type="tipo"
-        :mostrarMensaje="mostrar"
+        v-if="getTipo === 'success'"
+        :message="getMensaje"
+        :type="getTipo"
+        :mostrarMensaje="getMostrar"
       />
     </template>
     <TablaComponent
@@ -20,54 +20,37 @@
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
-// import useShared from '@/modules/shared/composables/useShared'
+import useShared from '@/modules/shared/composables/useShared'
 
 export default {
-  data(){
-    return {
-      mostrar: false,
-      tipo: '',
-      mensaje: '',
-    }
-  },
   setup() {
     const { createConsumible, editConsumible, deleteConsumibles } = useConsumible()
-    // const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+    const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
           const { ok, message } = await createConsumible(data)
           if (!ok) {
-            this.tipo = 'error';
-            this.mostrar = true;
-            this.mensaje = message;
-            //actualizarMensaje('error', message)
-            //actualizarMostrarMensaje(true)
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
           } else {
-            this.tipo = 'success';
-            this.mostrar = true;
-            this.mensaje = message;
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
           }
-
         } else if (type === 'Editar') {
           const { ok, message } = await editConsumible(data)
           if (!ok) {
-            this.tipo = 'error';
-            this.mostrar = true;
-            this.mensaje = message;
-            //actualizarMensaje('error', message)
-            //actualizarMostrarMensaje(true)
+            actualizarMensaje('error', message)
+            actualizarMostrarMensaje(true)
           } else {
-            this.tipo = 'success';
-            this.mostrar = true;
-            this.mensaje = message;
+            actualizarMensaje('success', message)
+            actualizarMostrarMensaje(true)
           }
-          
         }
       } catch (error) {
         console.error('Error persisting data', error)
-        // actualizarMensaje('error', 'Error guardando los datos')
-        // actualizarMostrarMensaje(true)
+        actualizarMensaje('error', 'Error guardando los datos')
+        actualizarMostrarMensaje(true)
       }
     }
 
@@ -85,8 +68,8 @@ export default {
         // }
       } catch (error) {
         console.error('Error deleting data', error)
-        // actualizarMensaje('error', 'Error eliminando los datos')
-        // actualizarMostrarMensaje(true)
+        actualizarMensaje('error', 'Error eliminando los datos')
+        actualizarMostrarMensaje(true)
       }
     }
 

@@ -5,7 +5,7 @@ const GastoEnergeticoController = {
     obtenerTodos: async (req, res, next) => {
         try {
             const [rows, fields] = await pool.query(
-                'SELECT * FROM gasto_general'
+                'SELECT * FROM gasto_energetico'
             )
             res.status(200).json(rows)
         } catch (error) {
@@ -13,12 +13,12 @@ const GastoEnergeticoController = {
         }
     },
 
-    // Crear un nuevo gasto general
+    // Crear un nuevo gasto energetico
     crear: async (req, res, next) => {
         const { nombre, precio } = req.body
         try {
             await pool.query(
-                'INSERT INTO gasto_general (nombre, precio) VALUES (?, ?)',
+                'INSERT INTO gasto_energetico (nombre, precio) VALUES (?, ?)',
                 [nombre, precio]
             )
 
@@ -33,12 +33,12 @@ const GastoEnergeticoController = {
         }
     },
 
-    // Obtener un gasto general por su ID
+    // Obtener un gasto energetico por su ID
     obtenerPorId: async (req, res, next) => {
         const { id } = req.params
         try {
             const [rows, fields] = await pool.query(
-                'SELECT * FROM gasto_general WHERE id = ?',
+                'SELECT * FROM gasto_energetico WHERE id = ?',
                 [id]
             )
             if (rows.length === 0) {
@@ -52,13 +52,13 @@ const GastoEnergeticoController = {
         }
     },
 
-    // Actualizar un gasto general
+    // Actualizar un gasto energetico
     actualizar: async (req, res, next) => {
         const { id } = req.params
         const { nombre, precio } = req.body
         try {
             await pool.query(
-                'UPDATE gasto_general SET nombre = ?, precio = ? WHERE id = ?',
+                'UPDATE gasto_energetico SET nombre = ?, precio = ? WHERE id = ?',
                 [nombre, precio, id]
             )
             res.status(200).json({
@@ -69,11 +69,11 @@ const GastoEnergeticoController = {
         }
     },
 
-    // Eliminar un gasto general
+    // Eliminar un gasto energetico
     eliminar: async (req, res, next) => {
         const { id } = req.params
         try {
-            await pool.query('DELETE FROM gasto_general WHERE id = ?', [id])
+            await pool.query('DELETE FROM gasto_energetico WHERE id = ?', [id])
             res.status(200).json({
                 message: 'Gasto energético eliminado correctamente',
             })

@@ -32,7 +32,7 @@
       >
         <FontAwesomeIcon
           :icon="['fas', 'circle-exclamation']"
-          class="mr-3 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
+          class="text-stoneBackgroundContrast-2 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
         />
         <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
           message
@@ -54,7 +54,7 @@
       >
         <FontAwesomeIcon
           :icon="['fas', 'triangle-exclamation']"
-          class="mr-3 scale-125 hidden sm:inline-block"
+          class="text-stoneBackgroundContrast-6 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
         />
         <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
           message
@@ -73,6 +73,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   props: {
@@ -89,25 +90,18 @@ export default {
       required: true
     }
   },
-  data() {
+  setup() {
+    const { actualizarMostrarMensaje } = useShared()
+
+    const cerrarMensaje = () => {
+      actualizarMostrarMensaje(false)
+    }
+
+    setTimeout(cerrarMensaje, 10 * 1000)
+
     return {
-      mostrar: false
+      cerrarMensaje
     }
-  },
-  watch: {
-    mostrarMensaje(newVal) {
-      console.log(newVal)
-      this.mostrar = newVal;
-    }
-  },
-  methods: {
-    cerrarMensaje() {
-      this.mostrar = false;
-    },
-  },
-  mounted() {
-    setTimeout(this.cerrarMensaje, 10 * 1000)
-    this.mostrar = this.mostrarMensaje;
   },
   components: {
     ButtonComponent: defineAsyncComponent(
