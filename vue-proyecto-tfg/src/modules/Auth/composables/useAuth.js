@@ -14,9 +14,15 @@ const useAuth = () => {
     return resp
   }
 
+  const getRoles = async () => {
+    const resp = await store.getters['Auth/getRoles']
+    return resp
+  }
+
   return {
     createUser,
-    loginUser
+    loginUser,
+    getRoles
   }
 }
 

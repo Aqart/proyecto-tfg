@@ -5,10 +5,11 @@ export const loginUser = (state, { email, idToken, roles }) => {
   if (idToken) {
     localStorage.setItem('idToken', idToken)
     localStorage.setItem('email', email)
+    localStorage.setItem('roles', roles)
     // Obtiene el token del almacenamiento local después de guardarlo
     state.idToken = localStorage.getItem('idToken')
     state.email = localStorage.getItem('email')
-    state.roles = roles
+    state.roles = localStorage.getItem('roles')
   }
   console.log('STATE', state)
 }
@@ -17,6 +18,9 @@ export const loginUser = (state, { email, idToken, roles }) => {
 export const logoutUser = (state) => {
   // Borra el token del almacenamiento local
   localStorage.removeItem('idToken')
+  localStorage.removeItem('email')
+  localStorage.removeItem('roles')
+
   state.idToken = null
   state.email = null
   state.roles = null

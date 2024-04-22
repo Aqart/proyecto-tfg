@@ -28,21 +28,12 @@ export const createUser = async ({ state }, user) => {
   }
 }
 
-export const loginUser = async ({ dispatch, commit }, user) => {
+export const loginUser = async ({ commit }, user) => {
   const { email, password } = user
   try {
     const { data } = await authApi.post('/login', { email, password })
-    const isExpired = await dispatch('isTokenExpired')
-    if (!isExpired) {
-      commit('loginUser', {
-        email: email,
-        idToken: localStorage.getItem('idToken'),
-        roles: data.roles
-      })
-    } else {
-      delete user.password
-      commit('loginUser', { email: email, idToken: data.token, roles: data.roles })
-    }
+    delete user.password
+    commit('loginUser', { email: email, idToken: data.token, roles: data.roles })
 
     return { ok: true, message: '....' }
   } catch (error) {
