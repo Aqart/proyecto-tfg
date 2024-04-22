@@ -54,7 +54,7 @@
                 listItems.length === 1
             }"
           >
-            <div class="flex flex-row items-center justify-between">
+            <div class="grid grid-cols-2">
               <div class="align-middle">
                 <template v-for="(el, index) in item">
                   <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
@@ -73,36 +73,12 @@
                 type="button"
                 text="X"
                 bgColor="bg-transparent"
-                otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105"
+                otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 justify-self-end ml-2"
                 @click="deselectItem(item.id)"
               />
             </div>
           </li>
         </ul>
-
-        <!-- <ul class="grid grid-cols-2 sm:grid-cols-3 gap-3 list-none pl-0">
-          <li
-            v-for="(item, index) in listItems"
-            :key="index"
-            class="flex flex-col items-center justify-center text-center bg-stoneBackground-4 py-3 px-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1"
-            :class="{
-              'col-span-full':
-                (item.nombre + ' ' + (item.apellido1 || '') || (item.email)).length > 30 || listItems.length === 1
-            }"
-          >
-            <div class="flex justify-center w-full">
-              <span class="w-90" v-if="item.apellido1">{{ item.nombre + " " + item.apellido1 }}</span>
-              <span class="w-90" v-else>{{ item.nombre }}</span>
-              <ButtonComponent
-                type="button"
-                text="X"
-                bgColor="bg-transparent"
-                otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105"
-                @click="deselectItem(item.id)"
-              />
-            </div>
-          </li>
-        </ul> -->
       </div>
     </div>
     <div class="flex w-90 mx-auto gap-9 pr-4 pl-4">
@@ -111,12 +87,11 @@
         :hidden="listItems.length === 0"
         text="Confirmar"
         @click="confirmDelete"
-        bgColor="bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-2 hover:text-secondary"
+        bgColor="bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5"
       />
-      <ButtonComponent
-        text="Cancelar"
-        @click="toggleModal"
-        bgColor="bg-stoneBackground-2 text-stoneBackground-3"
+      <ButtonComponent text="Cancelar" 
+        @click="toggleModal" 
+        bgColor="bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5"
       />
     </div>
   </div>

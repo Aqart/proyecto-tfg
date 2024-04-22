@@ -183,9 +183,11 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <!-- <RegisterComponent :title="modalTitle" /> -->
+      <!-- <RegisterComponent v-if="modalType === 'register'"
+        :title="modalTitle"
+      /> -->
       <DeleteConfirmationComponent
-        v-if="modalTitle === 'Eliminar'"
+        v-if="modalType === 'delete'"
         :items="selectedItems"
         :itemType="formattedRoute.toLowerCase()"
         :total="data.length"
@@ -194,7 +196,7 @@
         @deselectItem="deselectCheckbox"
       />
       <FormComponent
-        v-else
+        v-if="modalType === 'form'"
         :data="item || {}"
         @send="getNewData"
         :tipo="modalTitle"
@@ -226,6 +228,7 @@ export default {
       selectedItems: [],
       isAllChecked: false,
       showModal: false,
+      modalType: null,
       itemId: null,
       item: null,
       newData: {},
@@ -252,8 +255,8 @@ export default {
     // RegisterComponent: defineAsyncComponent(() =>
     //   import('@/modules/Auth/components/RegisterComponent.vue')
     // ),
-    LoadingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
@@ -398,7 +401,14 @@ export default {
     },
     toggleModalOpenNew() {
       this.cerrarMensaje()
-      this.modalTitle = 'Añadir nuevo'
+      // Cuando abre el modal tiene que comprobar la ruta de la que viene para asignar el título
+      const formattedRoute = this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
+      if(formattedRoute == 'usuarios'){
+        this.modalTitle = 'Añadir nuevo usuario'
+      } else {
+        this.modalTitle = 'Añadir nuevo'
+      }
+      this.modalType = 'form'
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data
         this.item = Object.keys(this.data[0]).reduce((obj, key) => {
@@ -407,16 +417,20 @@ export default {
           } else if (typeof this.data[0][key] == 'number') {
             obj[key] = null
           }
-
           return obj
         }, {})
-
-        this.showModal = !this.showModal
       }
+      this.showModal = !this.showModal
     },
     toggleModalOpenEdit(id) {
       this.cerrarMensaje()
-      this.modalTitle = 'Editar'
+      const formattedRoute = this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
+      if(formattedRoute == 'usuarios'){
+        this.modalTitle = 'Editar usuario'
+      } else {
+        this.modalTitle = 'Editar'
+      }
+      this.modalType = 'form'
       this.itemId = id
       this.getItemById(this.itemId)
       this.showModal = !this.showModal
@@ -424,6 +438,8 @@ export default {
     toggleModalClose() {
       this.cerrarMensaje()
       this.showModal = !this.showModal
+      this.modalTitle = ''
+      this.modalType = null
       this.itemId = null
       this.item = null
       this.selectedItems = []
@@ -434,6 +450,7 @@ export default {
     toggleModalDeletedSelected() {
       this.cerrarMensaje()
       this.modalTitle = 'Eliminar'
+      this.modalType = 'delete'
       this.showModal = !this.showModal
       // Método para obtener los elementos a eliminar de selectedCheckboxes de data
       this.selectedItems = this.data.filter((item) => this.selectedCheckboxes.includes(item.id))
@@ -443,6 +460,7 @@ export default {
       this.selectedCheckboxes = []
       this.isAllChecked = false
       this.showModal = !this.showModal
+      this.modalType = null
     }
   },
   computed: {
@@ -488,7 +506,6 @@ export default {
     },
     formattedRoute() {
       const route = this.$route.path.slice(1).charAt(0).toUpperCase() + this.$route.path.slice(2)
-      console.log(route)
       switch (route) {
         case 'Consumibles':
           return 'Consumibles'
