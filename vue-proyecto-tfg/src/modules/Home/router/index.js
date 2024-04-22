@@ -5,6 +5,7 @@ import CalculadoraRouter from '@/modules/Calculadora/router'
 import TransportesRouter from '@/modules/Transportes/router'
 import TrabajadoresRouter from '@/modules/Trabajadores/router'
 import UsuariosRouter from '@/modules/Usuarios/router'
+import ControlesHorariosRouter from '@/modules/ControlesHorarios/router'
 
 export default {
   name: 'home',
@@ -39,6 +40,10 @@ export default {
     {
       path: '/usuarios',
       ...UsuariosRouter
+    },
+    {
+      path: '/controles-horarios',
+      ...ControlesHorariosRouter
     }
   ]
 }
