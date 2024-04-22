@@ -29,7 +29,6 @@ export default {
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
-          
           const { ok, message } = await createTrabajador(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -39,7 +38,6 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar') {
-          
           const { ok, message } = await editTrabajador(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -57,7 +55,6 @@ export default {
     }
 
     const deleteTrabajadoresSeleccionados = async (arrayData) => {
-      
       try {
         const results = await deleteTrabajadores(arrayData)
         console.log('Array con los resultados del borrado', results)
@@ -86,11 +83,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

@@ -76,7 +76,7 @@ export default {
         Object.keys(this.form).length === 0 ||
         Object.values(this.form).some((el) => el == '' || el == null)
       ) {
-      //this.$emit('send', 'No se pueden enviar campos vacios')
+        //this.$emit('send', 'No se pueden enviar campos vacios')
         return
       } else {
         this.$emit('send', this.form)

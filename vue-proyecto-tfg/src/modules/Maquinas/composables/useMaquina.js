@@ -18,7 +18,6 @@ const useMaquina = () => {
     return resp
   }
 
-
   const deleteMaquinas = async (maquinas) => {
     const resp = await store.dispatch('Maquinas/deleteMaquinas', maquinas)
     console.log(resp)

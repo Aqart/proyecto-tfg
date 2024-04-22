@@ -9,8 +9,8 @@ import { defineAsyncComponent } from 'vue'
 
 export default {
   components: {
-    UsuariosComponent: defineAsyncComponent(() =>
-      import('@/modules/Usuarios/components/UsuariosComponent.vue')
+    UsuariosComponent: defineAsyncComponent(
+      () => import('@/modules/Usuarios/components/UsuariosComponent.vue')
     )
   }
 }

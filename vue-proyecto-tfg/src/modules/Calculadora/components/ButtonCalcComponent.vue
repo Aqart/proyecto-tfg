@@ -26,8 +26,8 @@ export default {
     }
   },
   components: {
-    CustomIconComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/CustomIconComponent.vue')
+    CustomIconComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/CustomIconComponent.vue')
     )
   }
 }

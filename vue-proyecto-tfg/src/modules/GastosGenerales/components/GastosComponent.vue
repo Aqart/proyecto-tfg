@@ -1,16 +1,16 @@
 <template>
   <div>
     <div>
-      <MensajesComponent 
-        v-if="getTipo === 'success'" 
-        :message="getMensaje" 
-        :type="getTipo" 
-        :mostrarMensaje="getMostrar" 
+      <MensajesComponent
+        v-if="getTipo === 'success'"
+        :message="getMensaje"
+        :type="getTipo"
+        :mostrarMensaje="getMostrar"
       />
     </div>
-    <TablaComponent 
-      :data="getGastos" 
-      @saveData="persistData" 
+    <TablaComponent
+      :data="getGastos"
+      @saveData="persistData"
       @deleteSelected="deleteGastosSeleccionados"
     />
   </div>
@@ -60,7 +60,6 @@ export default {
         const results = await deleteGastos(arrayData)
 
         console.log('Array con los resultados del borrado', results)
-
       } catch (error) {
         console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
@@ -78,11 +77,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

@@ -3,7 +3,6 @@ export const setConsumibles = (state, data) => {
 }
 
 export const setNewConsumible = (state, consumible) => {
-  
   state.consumibles.push(consumible)
 }
 
