@@ -100,11 +100,11 @@ export default {
         Object.keys(this.form).length === 0 ||
         Object.values(this.form).some((el) => el == '' || el == null)
       ) {
-      //this.$emit('send', 'No se pueden enviar campos vacios')
+        //this.$emit('send', 'No se pueden enviar campos vacios')
         // Introducir los métodos de los mensajes
-        this.error.status = true;
-        this.error.message = 'No se pueden enviar campos vacíos';
-        console.error(this.error.message);
+        this.error.status = true
+        this.error.message = 'No se pueden enviar campos vacíos'
+        console.error(this.error.message)
         return
       } else {
         this.$emit('send', this.form)

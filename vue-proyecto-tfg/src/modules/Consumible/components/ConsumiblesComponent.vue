@@ -57,17 +57,23 @@ export default {
     const deleteConsumiblesSeleccionados = async (arrayData) => {
       try {
         const results = await deleteConsumibles(arrayData)
-        const failedResults = results.filter(result => result.ok === false);
+        const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
-          const dataFailedPromises = failedResults.map(result => getConsumible(result.id));
-          const dataFailed = await Promise.all(dataFailedPromises);
-          const nombres = dataFailed.map(result => result.nombre).join(', ')
-          actualizarMensaje('error', `Los siguientes consumibles no se pudieron eliminar: ${nombres}`)
+          const dataFailedPromises = failedResults.map((result) => getConsumible(result.id))
+          const dataFailed = await Promise.all(dataFailedPromises)
+          const nombres = dataFailed.map((result) => result.nombre).join(', ')
+          actualizarMensaje(
+            'error',
+            `Los siguientes consumibles no se pudieron eliminar: ${nombres}`
+          )
           actualizarMostrarMensaje(true)
         } else {
-          const nombresSuccess = arrayData.map(result => result.nombre).join(', ')
-          console.log(nombresSuccess);
-          actualizarMensaje('success', `Los siguientes consumibles se han eliminado correctamente: ${nombresSuccess}`)
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          console.log(nombresSuccess)
+          actualizarMensaje(
+            'success',
+            `Los siguientes consumibles se han eliminado correctamente: ${nombresSuccess}`
+          )
           actualizarMostrarMensaje(true)
         }
       } catch (error) {
