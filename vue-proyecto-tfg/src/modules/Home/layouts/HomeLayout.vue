@@ -33,8 +33,8 @@ export default {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
-    RouterMapComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/RouterMapComponent.vue')
+    RouterMapComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/RouterMapComponent.vue')
     ),
     LoadingComponent
   },

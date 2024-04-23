@@ -15,10 +15,8 @@
       />
     </div>
     <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
-    <InputPasswordComponent
-      v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'"
-    />
-      <!-- <label
+    <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
+    <!-- <label
         for="password"
         title="Introduce una nueva contraseña para el usuario"
         class="block mb-2 text-xl font-medium text-stoneBackground-3 first-letter:uppercase text-shadow"
@@ -102,8 +100,8 @@ export default {
         Object.keys(this.form).length === 0 ||
         Object.values(this.form).some((el) => el == '' || el == null)
       ) {
-      //this.$emit('send', 'No se pueden enviar campos vacios')
-        
+        //this.$emit('send', 'No se pueden enviar campos vacios')
+
         return
       } else {
         this.$emit('send', this.form)

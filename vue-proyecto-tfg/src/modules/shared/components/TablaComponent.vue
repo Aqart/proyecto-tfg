@@ -255,8 +255,8 @@ export default {
     // RegisterComponent: defineAsyncComponent(() =>
     //   import('@/modules/Auth/components/RegisterComponent.vue')
     // ),
-    LoadingComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/LoadingComponent.vue')
+    LoadingComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
@@ -402,8 +402,9 @@ export default {
     toggleModalOpenNew() {
       this.cerrarMensaje()
       // Cuando abre el modal tiene que comprobar la ruta de la que viene para asignar el título
-      const formattedRoute = this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
-      if(formattedRoute == 'usuarios'){
+      const formattedRoute =
+        this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
+      if (formattedRoute == 'usuarios') {
         this.modalTitle = 'Añadir nuevo usuario'
       } else {
         this.modalTitle = 'Añadir nuevo'
@@ -424,8 +425,9 @@ export default {
     },
     toggleModalOpenEdit(id) {
       this.cerrarMensaje()
-      const formattedRoute = this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
-      if(formattedRoute == 'usuarios'){
+      const formattedRoute =
+        this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
+      if (formattedRoute == 'usuarios') {
         this.modalTitle = 'Editar usuario'
       } else {
         this.modalTitle = 'Editar'

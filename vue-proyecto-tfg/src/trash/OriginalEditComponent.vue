@@ -137,11 +137,11 @@ export default {
     }
   },
   components: {
-    ModalComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/FormComponent.vue')
     )
   }
 }
