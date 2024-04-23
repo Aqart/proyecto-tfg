@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
 
     // Redirigir basándose en el rol
     if (to.path === '/login' && store.state.Auth.roles) {
-      next('/home') // Redirige a la página de inicio si el usuario ya está autenticado
+      next('') // Redirige a la página de inicio si el usuario ya está autenticado
     } else if (store.state.Auth.roles && store.state.Auth.roles.includes('ADMIN')) {
       next()
     } else if (
