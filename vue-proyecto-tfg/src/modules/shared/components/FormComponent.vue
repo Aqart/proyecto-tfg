@@ -88,7 +88,7 @@ export default {
     handleError(e) {
       this.error.status = true
       this.error.message = e
-      console.error(this.error.message)
+      console.error("Dentro del handleError", this.error.message)
     },
     toggleModal() {
       this.$emit('close')
@@ -102,10 +102,10 @@ export default {
       ) {
         //this.$emit('send', 'No se pueden enviar campos vacios')
         // Introducir los métodos de los mensajes
-        this.error.status = true
-        this.error.message = 'No se pueden enviar campos vacíos'
-        console.error(this.error.message)
-        return
+        // this.error.status = true
+        // this.error.message = 'No se pueden enviar campos vacíos'
+        // console.error(this.error.message)
+        // return
       } else {
         this.$emit('send', this.form)
         this.form = {}
