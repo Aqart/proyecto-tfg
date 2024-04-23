@@ -25,3 +25,7 @@ export const logoutUser = (state) => {
   state.email = null
   state.roles = null
 }
+
+export const setRoles = (state, roles) => {
+  state.roles = roles
+}
