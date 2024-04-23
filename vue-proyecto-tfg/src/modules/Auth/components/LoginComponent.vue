@@ -22,6 +22,7 @@
           type="email"
           class="pl-10 bg-transparent w-full py-2.5"
           placeholder="email@email.es"
+          autocomplete="email"
         />
       </div>
       <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
@@ -62,11 +63,11 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   setup() {
