@@ -6,7 +6,7 @@
     <div
       class="absolute top-0 left-0 w-full h-1/2 rounded-t-lg bg-stoneBackground-1 shadow-sm"
       :style="{
-        backgroundImage: `url(src/assets/images/resources/${image}.jpg)`,
+        backgroundImage: `url(${image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }"

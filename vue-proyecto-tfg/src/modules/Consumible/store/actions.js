@@ -82,7 +82,7 @@ export const editConsumible = async ({ commit }, consumible) => {
   }
   const { id } = consumible
   try {
-    const response = await authApi.put(`/consumibles/${id}`, consumible, {
+    const response = await authApi.put(`/consumibls/${id}`, consumible, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }

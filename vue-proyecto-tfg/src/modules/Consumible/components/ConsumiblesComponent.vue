@@ -24,7 +24,7 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createConsumible, editConsumible, deleteConsumibles } = useConsumible()
+    const { createConsumible, editConsumible, deleteConsumibles, getConsumible } = useConsumible()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -56,17 +56,27 @@ export default {
 
     const deleteConsumiblesSeleccionados = async (arrayData) => {
       try {
-        await deleteConsumibles(arrayData)
-
-        // if(!ok) {
-        //   actualizarMensaje('error', message)
-        //   actualizarMostrarMensaje(true)
-        // } else {
-        //   actualizarMensaje('success', message)
-        //   actualizarMostrarMensaje(true)
-        // }
+        const results = await deleteConsumibles(arrayData)
+        const failedResults = results.filter((result) => result.ok === false)
+        if (failedResults.length > 0) {
+          const dataFailedPromises = failedResults.map((result) => getConsumible(result.id))
+          const dataFailed = await Promise.all(dataFailedPromises)
+          const nombres = dataFailed.map((result) => result.nombre).join(', ')
+          actualizarMensaje(
+            'error',
+            `Los siguientes consumibles no se pudieron eliminar: ${nombres}`
+          )
+          actualizarMostrarMensaje(true)
+        } else {
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          console.log(nombresSuccess)
+          actualizarMensaje(
+            'success',
+            `Los siguientes consumibles se han eliminado correctamente: ${nombresSuccess}`
+          )
+          actualizarMostrarMensaje(true)
+        }
       } catch (error) {
-        console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
         actualizarMostrarMensaje(true)
       }

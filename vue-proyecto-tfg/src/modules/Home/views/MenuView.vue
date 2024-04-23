@@ -7,13 +7,13 @@
         name="Calcular Costes"
         path="calculadora"
         :icon="['fas', 'calculator']"
-        image="fondo-7"
+        :image="fondo7"
       />
       <ButtonMenuComponent
         name="Controles horarios"
         path="controles-horarios"
         :icon="['fas', 'fa-list-check']"
-        image="fondo-9"
+        :image="fondo9"
       />
     </div>
     <div
@@ -23,37 +23,37 @@
         name="Consumibles"
         path="consumibles"
         :icon="['fas', 'fa-droplet']"
-        image="fondo"
+        :image="fondo"
       />
       <ButtonMenuComponent
         name="Gastos Energéticos"
         path="gastos-energeticos"
         :icon="['fas', 'fa-bolt']"
-        image="fondo-5"
+        :image="fondo5"
       />
       <ButtonMenuComponent
         name="Maquinas"
         path="maquinas"
         :icon="['fas', 'fa-oil-well']"
-        image="fondo-6"
+        :image="fondo6"
       />
       <ButtonMenuComponent
         name="Transportes"
         path="Transportes"
         :icon="['fas', 'fa-truck']"
-        image="fondo-8"
+        :image="fondo8"
       />
       <ButtonMenuComponent
         name="Trabajadores"
         path="trabajadores"
         :icon="['fas', 'fa-person-digging']"
-        image="fondo-3"
+        :image="fondo3"
       />
       <ButtonMenuComponent
         name="Usuarios"
         path="usuarios"
         :icon="['fas', 'fa-users']"
-        image="fondo-4"
+        :image="fondo4"
       />
     </div>
   </div>
@@ -61,7 +61,28 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import fondo from '@/assets/images/resources/fondo.jpg'
+import fondo3 from '@/assets/images/resources/fondo-3.jpg'
+import fondo4 from '@/assets/images/resources/fondo-4.jpg'
+import fondo5 from '@/assets/images/resources/fondo-5.jpg'
+import fondo6 from '@/assets/images/resources/fondo-6.jpg'
+import fondo7 from '@/assets/images/resources/fondo-7.jpg'
+import fondo8 from '@/assets/images/resources/fondo-8.jpg'
+import fondo9 from '@/assets/images/resources/fondo-9.jpg'
+
 export default {
+  data() {
+    return {
+      fondo,
+      fondo3,
+      fondo4,
+      fondo5,
+      fondo6,
+      fondo7,
+      fondo8,
+      fondo9
+    }
+  },
   components: {
     ButtonMenuComponent: defineAsyncComponent(
       () => import('@/modules/Home/components/ButtonMenuComponent.vue')
