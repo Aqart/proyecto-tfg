@@ -11,6 +11,5 @@ export const getEmail = (state) => {
 }
 
 export const getRoles = (state) => {
-  console.log('Roooles', state.roles)
   return state.roles
 }

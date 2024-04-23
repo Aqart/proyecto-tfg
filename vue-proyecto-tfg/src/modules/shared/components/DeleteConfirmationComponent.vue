@@ -89,8 +89,9 @@
         @click="confirmDelete"
         bgColor="bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5"
       />
-      <ButtonComponent text="Cancelar" 
-        @click="toggleModal" 
+      <ButtonComponent
+        text="Cancelar"
+        @click="toggleModal"
         bgColor="bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5"
       />
     </div>
@@ -121,17 +122,15 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {
     confirmDelete() {
-      console.log('confirmDelete', this.listItems)
       this.$emit('delete', this.listItems)
     },
     toggleModal() {
-      console.log(this.listItems)
       this.$emit('close')
     },
     openLoader() {
@@ -140,7 +139,7 @@ export default {
     deselectItem(id) {
       this.listItems = this.listItems.filter((item) => item.id !== id)
       this.$emit('deselectItem', id)
-      console.log(id)
+
       // this.$emit('delete', id)
     }
   },

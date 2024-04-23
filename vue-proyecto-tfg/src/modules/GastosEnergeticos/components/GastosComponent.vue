@@ -55,11 +55,8 @@ export default {
     }
 
     const deleteGastosSeleccionados = async (arrayData) => {
-      console.log('Data to delete', arrayData)
       try {
-        const results = await deleteGastos(arrayData)
-
-        console.log('Array con los resultados del borrado', results)
+        await deleteGastos(arrayData)
       } catch (error) {
         console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
@@ -77,11 +74,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

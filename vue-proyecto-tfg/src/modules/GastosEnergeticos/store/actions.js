@@ -105,10 +105,8 @@ export const deleteGastos = async ({ commit }, gastos) => {
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
-  console.log('Delete del action', gastos)
   for (const gasto of gastos) {
     const { id } = gasto
-    console.log(id)
     try {
       const response = await authApi.delete(`/gastos-energeticos/${id}`, {
         headers: {

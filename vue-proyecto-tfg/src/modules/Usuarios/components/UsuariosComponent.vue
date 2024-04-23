@@ -56,8 +56,7 @@ export default {
 
     const deleteUsuariosSeleccionados = async (arrayData) => {
       try {
-        const results = await deleteUsuarios(arrayData)
-        console.log('Array con los resultados del borrado', results)
+        await deleteUsuarios(arrayData)
 
         // if(!ok) {
         //   actualizarMensaje('error', message)
@@ -83,11 +82,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

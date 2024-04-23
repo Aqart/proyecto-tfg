@@ -11,7 +11,6 @@ export const loginUser = (state, { email, idToken, roles }) => {
     state.email = localStorage.getItem('email')
     state.roles = localStorage.getItem('roles')
   }
-  console.log('STATE', state)
 }
 
 // En vue-proyecto-tfg/src/modules/Auth/store/mutations.js

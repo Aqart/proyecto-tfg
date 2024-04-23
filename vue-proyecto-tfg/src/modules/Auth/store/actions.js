@@ -12,7 +12,6 @@ export const createUser = async ({ state }, user) => {
     return { ok: false, message: '...' }
   }
   try {
-    console.log('usuario', user)
     const { data } = await authApi.post(
       '/registro',
       { email, roles, password },
@@ -85,8 +84,6 @@ export const obtenerRoles = async ({ commit }) => {
   try {
     const email = localStorage.getItem('email')
     const token = localStorage.getItem('idToken')
-    console.log('TOKEN', token)
-    console.log('EMAIL', email)
     const { data } = await authApi.post(
       '/roles',
       { email },

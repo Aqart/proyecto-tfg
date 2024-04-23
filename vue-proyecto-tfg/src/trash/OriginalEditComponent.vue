@@ -47,10 +47,6 @@ export default {
     }
   },
   methods: {
-    handleFormSubmit(formValues) {
-      // Lógica para manejar los valores del formulario
-      console.log('Form values', formValues)
-    },
     handleClose() {
       this.showModal = !this.showModal
       setTimeout(() => {
@@ -141,11 +137,11 @@ export default {
     }
   },
   components: {
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     )
   }
 }

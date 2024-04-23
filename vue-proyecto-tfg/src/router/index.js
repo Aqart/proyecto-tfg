@@ -25,7 +25,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const isTokenExpired = await store.dispatch('Auth/isTokenExpired')
-  console.log('isTokenExpired', isTokenExpired)
+
   if (requiresAuth && isTokenExpired) {
     next('/login')
   } else {

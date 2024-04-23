@@ -1,7 +1,6 @@
 import authApi from '@/api/stoneApi'
 
 export const fetchTransportes = async ({ commit }) => {
-  console.log('fetchTransportes')
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -67,7 +66,6 @@ export const getTransporteById = async ({ commit }, id) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      console.log(response.data)
       return response.data
     } else {
       console.error('Error al obtener el Transporte:', response.message)
@@ -89,7 +87,6 @@ export const editTransporte = async ({ commit }, Transporte) => {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
-    console.log('LA DATA', response.data)
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Hacer un mutation que actualice los consumibles de Vuex
@@ -112,10 +109,8 @@ export const deleteTransportes = async ({ commit }, Transportes) => {
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
-  console.log('Delete del action', Transportes)
   for (const Transporte of Transportes) {
     const { id } = Transporte
-    console.log(id)
     try {
       const response = await authApi.delete(`/Transportes/${id}`, {
         headers: {

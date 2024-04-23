@@ -55,11 +55,8 @@ export default {
     }
 
     const deleteTransportesSeleccionados = async (arrayData) => {
-      console.log('Data to delete', arrayData)
       try {
-        const results = await deleteTransportes(arrayData)
-
-        console.log('Array con los resultados del borrado', results)
+        await deleteTransportes(arrayData)
 
         // if(!ok) {
         //   actualizarMensaje('error', message)
@@ -85,11 +82,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     ),
-    TablaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/TablaComponent.vue')
+    TablaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/TablaComponent.vue')
     )
   }
 }

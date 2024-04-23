@@ -3,7 +3,6 @@ export const setTransportes = (state, data) => {
 }
 
 export const setNewTransporte = (state, Transporte) => {
-  console.log('MUTATION', state.Transportes)
   state.Transportes.push(Transporte)
 }
 
