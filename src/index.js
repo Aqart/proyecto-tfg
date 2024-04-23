@@ -8,6 +8,7 @@ import TrabajadorController from './controllers/TrabajadorController.js'
 import MaquinaController from './controllers/MaquinaController.js'
 import ConsumibleController from './controllers/ConsumibleController.js'
 import GastoEnergeticoController from './controllers/GastoEnergeticoController.js'
+import GastoGeneralController from './controllers/GastoGeneralController.js'
 import MateriaPrimaController from './controllers/MateriaPrimaController.js'
 import TransporteController from './controllers/TransporteController.js'
 
@@ -113,6 +114,14 @@ app.delete(
     '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
     GastoEnergeticoMaquinaController.desasociarGastoMaquina
 )
+
+// Endpoints para Gastos Generales
+app.get('/gastos-generales', GastoGeneralController.obtenerTodos)
+app.post('/gastos-generales', GastoGeneralController.crear)
+app.get('/gastos-generales/:id', GastoGeneralController.obtenerPorId)
+app.put('/gastos-generales/:id', GastoGeneralController.actualizar)
+app.delete('/gastos-generales/:id', GastoGeneralController.eliminar)
+
 
 // Endpoints para Materias Primas
 app.get('/materias-primas', MateriaPrimaController.obtenerTodas)

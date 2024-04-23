@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 14-04-2024 a las 15:08:24
+-- Tiempo de generación: 23-04-2024 a las 20:06:43
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -15,11 +15,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */
-
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `proyecto-tfg`
+-- Base de datos: `proyecto-tfg-datos`
 --
 
 -- --------------------------------------------------------
@@ -44,20 +43,7 @@ INSERT INTO `consumible` (`id`, `nombre`, `precio`) VALUES
 (3, 'Disco de corte', 15),
 (4, 'Martillo de mano', 10),
 (5, 'Guantes de seguridad', 5),
-(6, 'consumible100', 12),
-(7, 'consu200', 12),
-(8, 'consu300', 12),
-(9, 'consu400', 12),
-(10, 'Categoría 5', 13),
-(11, 'cat1000', 12),
-(12, 'consu3000', 12234),
-(13, 'cat4000', 43),
-(14, 'cat5000', 434),
-(15, 'Categoría 5444', 12),
-(16, 'otromas', 12),
-(17, 'qwdqwdqd', 123),
-(18, 'Categoría 5099', 9789),
-(19, 'Categoría 53', 123);
+(24, 'Consumibles Tela', 4000);
 
 -- --------------------------------------------------------
 
@@ -160,6 +146,30 @@ INSERT INTO `gasto_energetico_maquina` (`gasto_energetico_id`, `maquina_id`) VAL
 (3, 3),
 (4, 4),
 (5, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gasto_general`
+--
+
+CREATE TABLE `gasto_general` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `precio` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `gasto_general`
+--
+
+INSERT INTO `gasto_general` (`id`, `nombre`, `precio`) VALUES
+(1, 'Mantenimiento de maquinaria', 502),
+(2, 'Rotura de tejado', 300),
+(3, 'Suministros de oficina', 100),
+(4, 'Publicidad', 200),
+(5, 'Servicios públicos', 400),
+(6, 'Felipe', 2342342);
 
 -- --------------------------------------------------------
 
@@ -335,7 +345,8 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`) VALUES
 (10, 'prueba21@admin.es', 'USER', '$2b$10$XaaHTUEvDUGrJ8Na2ooWCO7gsk3FvXXbAFstSqQZ.0aVgCNkhZpKe'),
 (11, 'prueba22@admin.es', 'USER', '$2b$10$7AvFQCvszCu/P./G52c/V..IRCdN9V2kZ0hy0wBESql/rw7hWIOYC'),
 (12, 'prueba23@admin.es', 'USER', '$2b$10$oFWyYJmfVTn2ELEP5fPtKeVP2pw1reN5fOHOytMVZOumqt96j.s4C'),
-(13, 'prueba26@admin.es', 'USER', '$2b$10$ygkrccybhmJjIFWnc9X1u.CUV4vLoCurizfgCj1WkNf6LaOdRNOd.');
+(13, 'prueba26@admin.es', 'USER', '$2b$10$ygkrccybhmJjIFWnc9X1u.CUV4vLoCurizfgCj1WkNf6LaOdRNOd.'),
+(14, 'trabajador@trabajador.es', 'TRABAJADORES', '$2b$10$fD6IeKwzv3OcoavLjjUS1u.ELJXpngOwhR8LV.23rLZFlnoazhSFy');
 
 --
 -- Índices para tablas volcadas
@@ -374,6 +385,12 @@ ALTER TABLE `gasto_energetico_maquina`
   ADD PRIMARY KEY (`gasto_energetico_id`,`maquina_id`),
   ADD KEY `IDX_E7EDB15BBD6D563C` (`gasto_energetico_id`),
   ADD KEY `IDX_E7EDB15B41420729` (`maquina_id`);
+
+--
+-- Indices de la tabla `gasto_general`
+--
+ALTER TABLE `gasto_general`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `maquina`
@@ -430,12 +447,18 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `consumible`
 --
 ALTER TABLE `consumible`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `gasto_energetico`
 --
 ALTER TABLE `gasto_energetico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `gasto_general`
+--
+ALTER TABLE `gasto_general`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
@@ -466,18 +489,11 @@ ALTER TABLE `transporte`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `consumible_maquina`
---
-ALTER TABLE `consumible_maquina`
-  ADD CONSTRAINT `FK_2DFD250941420729` FOREIGN KEY (`maquina_id`) REFERENCES `maquina` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_2DFD25099AA59506` FOREIGN KEY (`consumible_id`) REFERENCES `consumible` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `gasto_energetico_maquina`
@@ -485,20 +501,6 @@ ALTER TABLE `consumible_maquina`
 ALTER TABLE `gasto_energetico_maquina`
   ADD CONSTRAINT `FK_E7EDB15B41420729` FOREIGN KEY (`maquina_id`) REFERENCES `maquina` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_E7EDB15BBD6D563C` FOREIGN KEY (`gasto_energetico_id`) REFERENCES `gasto_energetico` (`id`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `trabajador_maquina`
---
-ALTER TABLE `trabajador_maquina`
-  ADD CONSTRAINT `FK_5BAEF7AE41420729` FOREIGN KEY (`maquina_id`) REFERENCES `maquina` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_5BAEF7AEEC3656E` FOREIGN KEY (`trabajador_id`) REFERENCES `trabajador` (`id`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `transporte_materia_prima`
---
-ALTER TABLE `transporte_materia_prima`
-  ADD CONSTRAINT `FK_66BC5E924FC919A` FOREIGN KEY (`transporte_id`) REFERENCES `transporte` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_66BC5E934282814` FOREIGN KEY (`materia_prima_id`) REFERENCES `materia_prima` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
