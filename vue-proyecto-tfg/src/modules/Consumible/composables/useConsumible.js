@@ -25,7 +25,6 @@ const useConsumible = () => {
 
   const deleteConsumibles = async (consumibles) => {
     const resp = await store.dispatch('Consumible/deleteConsumibles', consumibles)
-
     return resp
   }
 
