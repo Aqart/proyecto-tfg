@@ -2,7 +2,6 @@ export const setMaquinas = (state, data) => {
   state.maquinas = data
 }
 export const setNewMaquina = (state, maquina) => {
-  console.log('mutation', maquina)
   state.maquinas.push(maquina)
 }
 export const setResponse = (state, data) => {

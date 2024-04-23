@@ -159,6 +159,18 @@ const AuthController = {
             res.status(500).json({ message: 'Error al eliminar el usuario' })
         }
     },
+    obtenerRoles: async (req, res) => {
+        try {
+            const email = req.body.email
+            const [rows, fields] = await pool.query(
+                'SELECT roles FROM user WHERE email = ?',
+                [email]
+            )
+            res.status(200).json(rows)
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener los roles' })
+        }
+    },
 }
 
 export default AuthController

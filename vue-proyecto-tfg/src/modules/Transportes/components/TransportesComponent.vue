@@ -55,11 +55,8 @@ export default {
     }
 
     const deleteTransportesSeleccionados = async (arrayData) => {
-      console.log('Data to delete', arrayData)
       try {
-        const results = await deleteTransportes(arrayData)
-
-        console.log('Array con los resultados del borrado', results)
+        await deleteTransportes(arrayData)
 
         // if(!ok) {
         //   actualizarMensaje('error', message)

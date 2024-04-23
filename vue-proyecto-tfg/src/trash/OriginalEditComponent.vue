@@ -47,10 +47,6 @@ export default {
     }
   },
   methods: {
-    handleFormSubmit(formValues) {
-      // Lógica para manejar los valores del formulario
-      console.log('Form values', formValues)
-    },
     handleClose() {
       this.showModal = !this.showModal
       setTimeout(() => {

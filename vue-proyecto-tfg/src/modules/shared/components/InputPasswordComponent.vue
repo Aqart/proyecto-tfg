@@ -6,8 +6,8 @@
     >
       Nueva contraseña
     </label>
-    <span class="block mb-2 text-xs font-light text-gray-400 " :style="{ fontSize: '11px' }">
-        Introduce una nueva contraseña para el usuario
+    <span class="block mb-2 text-xs font-light text-gray-400" :style="{ fontSize: '11px' }">
+      Introduce una nueva contraseña para el usuario
     </span>
     <input
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     value: {
@@ -51,7 +50,6 @@ export default {
   methods: {
     updateValue(key, event) {
       this.newInputValue = event.target.value
-
 
       this.$emit('changeText', { [key]: this.newInputValue })
     },

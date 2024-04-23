@@ -25,7 +25,7 @@ import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'
 import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import useUsuarios from '@/modules/Usuarios/composables/useUsuarios'
-import useAuth from '@/modules/Auth/composables/useAuth'
+//import useAuth from '@/modules/Auth/composables/useAuth'
 import LoadingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
@@ -33,18 +33,13 @@ export default {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
-    RouterMapComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/RouterMapComponent.vue')
+    RouterMapComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/RouterMapComponent.vue')
     ),
     LoadingComponent
   },
   setup() {
     const loading = ref(false)
-
-    const obtenerRoles = async () => {
-      const { getRoles } = useAuth()
-      return await getRoles()
-    }
 
     const obtenerConsumibles = async () => {
       const { getConsumibles } = useConsumible()
@@ -78,7 +73,7 @@ export default {
     onMounted(async () => {
       try {
         loading.value = true
-        obtenerRoles()
+        //obtenerRoles()
         obtenerMaquinas()
         obtenerGastos()
         obtenerConsumibles()

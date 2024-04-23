@@ -15,7 +15,7 @@ const useAuth = () => {
   }
 
   const getRoles = async () => {
-    const resp = await store.getters['Auth/getRoles']
+    const resp = await store.dispatch('Auth/obtenerRoles')
     return resp
   }
 

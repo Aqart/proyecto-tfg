@@ -15,10 +15,8 @@
       />
     </div>
     <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
-    <InputPasswordComponent
-      v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'"
-    />
-      <!-- <label
+    <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
+    <!-- <label
         for="password"
         title="Introduce una nueva contraseña para el usuario"
         class="block mb-2 text-xl font-medium text-stoneBackground-3 first-letter:uppercase text-shadow"

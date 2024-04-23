@@ -55,11 +55,8 @@ export default {
     }
 
     const deleteGastosSeleccionados = async (arrayData) => {
-      console.log('Data to delete', arrayData)
       try {
-        const results = await deleteGastos(arrayData)
-
-        console.log('Array con los resultados del borrado', results)
+        await deleteGastos(arrayData)
       } catch (error) {
         console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')

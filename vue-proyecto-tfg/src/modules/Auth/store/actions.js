@@ -1,5 +1,6 @@
 import authApi from '@/api/stoneApi'
 import { jwtDecode } from 'jwt-decode'
+import router from '@/router'
 
 // export const myAction = async ({ commit }) => {
 
@@ -11,7 +12,6 @@ export const createUser = async ({ state }, user) => {
     return { ok: false, message: '...' }
   }
   try {
-    console.log('usuario', user)
     const { data } = await authApi.post(
       '/registro',
       { email, roles, password },
@@ -28,12 +28,21 @@ export const createUser = async ({ state }, user) => {
   }
 }
 
-export const loginUser = async ({ commit }, user) => {
+export const loginUser = async ({ dispatch, commit }, user) => {
   const { email, password } = user
   try {
     const { data } = await authApi.post('/login', { email, password })
-    delete user.password
-    commit('loginUser', { email: email, idToken: data.token, roles: data.roles })
+    const isExpired = await dispatch('isTokenExpired')
+    if (!isExpired) {
+      commit('loginUser', {
+        email: email,
+        idToken: localStorage.getItem('idToken'),
+        roles: data.roles
+      })
+    } else {
+      delete user.password
+      commit('loginUser', { email: email, idToken: data.token, roles: data.roles })
+    }
 
     return { ok: true, message: '....' }
   } catch (error) {
@@ -50,8 +59,14 @@ export const logoutUser = ({ commit }) => {
   commit('logoutUser')
 }
 
-export const isTokenExpired = ({ state }) => {
+export const isTokenExpired = ({ state, commit }) => {
   const token = state.idToken
+  if (token !== localStorage.getItem('idToken')) {
+    commit('logoutUser')
+    router.push({ name: 'auth-login' })
+    return
+  }
+
   if (token) {
     try {
       const decodedToken = jwtDecode(token)
@@ -63,4 +78,23 @@ export const isTokenExpired = ({ state }) => {
     }
   }
   return true
+}
+
+export const obtenerRoles = async ({ commit }) => {
+  try {
+    const email = localStorage.getItem('email')
+    const token = localStorage.getItem('idToken')
+    const { data } = await authApi.post(
+      '/roles',
+      { email },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    commit('setRoles', data[0].roles)
+  } catch (error) {
+    console.log(error)
+  }
 }

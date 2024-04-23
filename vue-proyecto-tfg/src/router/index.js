@@ -25,16 +25,35 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const isTokenExpired = await store.dispatch('Auth/isTokenExpired')
+
   if (requiresAuth && isTokenExpired) {
     next('/login')
   } else {
     const rutaFrom = from.matched[1] ? from.matched[1].path : from.path
-    console.log('ROLE', rutaFrom, to.path, from.matched[0], from.matched[1])
 
     if (rutaFrom !== to.path) {
       store.commit('Shared/setMostrar', false)
     }
-    next()
+
+    if (to.path !== '/login' && store.state.Auth.roles === null && localStorage.getItem('email')) {
+      await store.dispatch('Auth/obtenerRoles')
+    }
+
+    // Redirigir basándose en el rol
+    if (to.path === '/login' && store.state.Auth.roles) {
+      next('/home') // Redirige a la página de inicio si el usuario ya está autenticado
+    } else if (store.state.Auth.roles && store.state.Auth.roles.includes('ADMIN')) {
+      next()
+    } else if (
+      to.path !== '/logout' &&
+      store.state.Auth.roles &&
+      store.state.Auth.roles.includes('TRABAJADORES') &&
+      to.path !== '/controles-horarios'
+    ) {
+      next('/controles-horarios')
+    } else {
+      next()
+    }
   }
 })
 

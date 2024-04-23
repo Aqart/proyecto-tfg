@@ -36,6 +36,7 @@ app.use(AuthController.verificarToken)
 
 // Rutas protegidas
 
+app.post('/roles', AuthController.obtenerRoles)
 // Endpoints para Trabajadores
 app.get('/trabajadores', TrabajadorController.obtenerTodos)
 app.post('/trabajadores', TrabajadorController.crear)

@@ -24,9 +24,7 @@ const useTransporte = () => {
   }
 
   const deleteTransportes = async (Transportes) => {
-    console.log('Dentro del useTransporte del delete')
     const resp = await store.dispatch('Transportes/deleteTransportes', Transportes)
-    console.log(resp)
     return resp
   }
 

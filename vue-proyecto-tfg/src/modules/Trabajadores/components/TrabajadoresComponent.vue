@@ -56,8 +56,7 @@ export default {
 
     const deleteTrabajadoresSeleccionados = async (arrayData) => {
       try {
-        const results = await deleteTrabajadores(arrayData)
-        console.log('Array con los resultados del borrado', results)
+        await deleteTrabajadores(arrayData)
 
         // if(!ok) {
         //   actualizarMensaje('error', message)

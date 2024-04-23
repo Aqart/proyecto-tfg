@@ -56,8 +56,7 @@ export default {
 
     const deleteUsuariosSeleccionados = async (arrayData) => {
       try {
-        const results = await deleteUsuarios(arrayData)
-        console.log('Array con los resultados del borrado', results)
+        await deleteUsuarios(arrayData)
 
         // if(!ok) {
         //   actualizarMensaje('error', message)

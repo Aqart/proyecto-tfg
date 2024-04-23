@@ -23,7 +23,6 @@ const useGasto = () => {
 
   const deleteGastos = async (gastos) => {
     const resp = await store.dispatch('GastosEnergeticos/deleteGastos', gastos)
-    console.log(resp)
     return resp
   }
 
