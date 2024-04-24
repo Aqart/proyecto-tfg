@@ -6,6 +6,7 @@ import GastosEnergeticos from '@/modules/GastosEnergeticos/store'
 import GastosGenerales from '@/modules/GastosGenerales/store'
 import Shared from '@/modules/shared/store'
 import Maquinas from '@/modules/Maquinas/store'
+import MateriaPrima from '@/modules/MateriaPrima/store'
 import Transportes from '@/modules/Transportes/store'
 import Trabajadores from '@/modules/Trabajadores/store'
 import Usuarios from '@/modules/Usuarios/store'
@@ -18,6 +19,7 @@ const store = createStore({
     GastosGenerales,
     Shared,
     Maquinas,
+    MateriaPrima,
     Transportes,
     Trabajadores,
     Usuarios
