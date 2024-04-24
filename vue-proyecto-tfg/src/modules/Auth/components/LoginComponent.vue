@@ -22,6 +22,7 @@
           type="email"
           class="pl-10 bg-transparent w-full py-2.5"
           placeholder="email@email.es"
+          autocomplete="email"
         />
       </div>
       <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
@@ -62,17 +63,19 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   setup() {
+    const formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
     const userForm = ref({
       email: '',
-      password: ''
+      password: '',
+      ultima_conexion: formattedDate
     })
     const errorMessage = ref({
       type: '',
@@ -80,10 +83,16 @@ export default {
       message: ''
     })
 
+    console.log(userForm.value.ultima_conexion)
     const router = useRouter()
     const { loginUser } = useAuth()
 
     const handleSubmit = async () => {
+      errorMessage.value = {
+        type: '',
+        show: false,
+        message: ''
+      }
       if (!userForm.value.email || !userForm.value.password) {
         errorMessage.value.type = 'warning'
         errorMessage.value.show = true
@@ -93,7 +102,6 @@ export default {
         }, 6 * 1000)
         return
       }
-
       const { ok, message } = await loginUser(userForm.value)
 
       if (!ok) {

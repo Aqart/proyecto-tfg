@@ -1,7 +1,7 @@
 // export const myAction = ( state ) => {
 
 // }
-export const loginUser = (state, { email, idToken, roles }) => {
+export const loginUser = (state, { email, idToken, roles, someThingRequired }) => {
   if (idToken) {
     localStorage.setItem('idToken', idToken)
     localStorage.setItem('email', email)
@@ -10,6 +10,7 @@ export const loginUser = (state, { email, idToken, roles }) => {
     state.idToken = localStorage.getItem('idToken')
     state.email = localStorage.getItem('email')
     state.roles = localStorage.getItem('roles')
+    state.someThingRequired = someThingRequired
   }
 }
 
@@ -23,6 +24,7 @@ export const logoutUser = (state) => {
   state.idToken = null
   state.email = null
   state.roles = null
+  state.someThingRequired = null
 }
 
 export const setRoles = (state, roles) => {

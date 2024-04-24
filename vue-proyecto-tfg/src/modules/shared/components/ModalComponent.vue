@@ -19,6 +19,7 @@
               {{ title }}
             </h3>
             <ButtonComponent
+              v-if="button"
               type="button"
               text="X"
               otherClasses="text-xl text-gray-400 bg-transparent rounded-lg w-6 h-6 ms-auto inline-flex justify-center items-center"
@@ -55,6 +56,10 @@ export default {
     modalActive: {
       type: Boolean,
       required: true
+    },
+    button: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -67,11 +72,11 @@ export default {
   },
 
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }
