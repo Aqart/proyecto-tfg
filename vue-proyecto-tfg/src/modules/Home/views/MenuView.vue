@@ -7,18 +7,24 @@
         name="Calcular Costes"
         path="calculadora"
         :icon="['fas', 'calculator']"
-        :image="fondo7"
+        :image="fondo11"
       />
       <ButtonMenuComponent
         name="Controles horarios"
         path="controles-horarios"
         :icon="['fas', 'fa-list-check']"
-        :image="fondo9"
+        :image="fondo12"
       />
     </div>
     <div
       class="flex flex-col sm:grid sm:grid-cols-3 gap-3 justify-center sm:justify-start items-center sm:items-start"
     >
+      <ButtonMenuComponent
+        name="Maquinas"
+        path="maquinas"
+        :icon="['fas', 'fa-oil-well']"
+        :image="fondo6"
+      />
       <ButtonMenuComponent
         name="Consumibles"
         path="consumibles"
@@ -32,10 +38,10 @@
         :image="fondo5"
       />
       <ButtonMenuComponent
-        name="Maquinas"
-        path="maquinas"
-        :icon="['fas', 'fa-oil-well']"
-        :image="fondo6"
+        name="Gastos Generales"
+        path="gastos-generales"
+        :icon="['fas', 'fa-euro-sign']"
+        :image="fondo10"
       />
       <ButtonMenuComponent
         name="Transportes"
@@ -69,6 +75,9 @@ import fondo6 from '@/assets/images/resources/fondo-6.jpg'
 import fondo7 from '@/assets/images/resources/fondo-7.jpg'
 import fondo8 from '@/assets/images/resources/fondo-8.jpg'
 import fondo9 from '@/assets/images/resources/fondo-9.jpg'
+import fondo10 from '@/assets/images/resources/fondo-10.jpg'
+import fondo11 from '@/assets/images/resources/fondo-11.jpg'
+import fondo12 from '@/assets/images/resources/fondo-12.jpg'
 
 export default {
   data() {
@@ -80,12 +89,15 @@ export default {
       fondo6,
       fondo7,
       fondo8,
-      fondo9
+      fondo9,
+      fondo10,
+      fondo11,
+      fondo12
     }
   },
   components: {
-    ButtonMenuComponent: defineAsyncComponent(
-      () => import('@/modules/Home/components/ButtonMenuComponent.vue')
+    ButtonMenuComponent: defineAsyncComponent(() =>
+      import('@/modules/Home/components/ButtonMenuComponent.vue')
     )
   }
 }
