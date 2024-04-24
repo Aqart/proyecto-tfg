@@ -1,11 +1,11 @@
 import authApi from '@/api/stoneApi'
 
-export const fetchConsumibles = async ({ commit }) => {
+export const fetchMateriasPrimas = async ({ commit }) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get('/consumibles', {
+    const response = await authApi.get('/materias-primas', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -14,21 +14,21 @@ export const fetchConsumibles = async ({ commit }) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Actualizar el estado con los consumibles obtenidos
-      commit('setConsumibles', response.data)
+      commit('setMateriasPrimas', response.data)
     } else {
-      console.error('Error al obtener los consumibles:', response.message)
+      console.error('Error al obtener las materias primas:', response.message)
     }
   } catch (error) {
-    console.error('Error al obtener los consumibles:', error.message)
+    console.error('Error al obtener las materias primas:', error.message)
   }
 }
 
-export const createConsumible = async ({ commit }, consumible) => {
+export const createMateriaPrima = async ({ commit }, materiaPrima) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/consumibles', consumible, {
+    const response = await authApi.post('/materias-primas', materiaPrima, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -37,29 +37,29 @@ export const createConsumible = async ({ commit }, consumible) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
       if (response.data.id) {
-        consumible.id = response.data.id
+        materiaPrima.id = response.data.id
       }
 
-      // Actualizar el estado con los consumibles obtenidos
+      // Actualizar el estado con las materiaPrimas obtenidas
       //commit('setResponse', response.data)
 
-      commit('setNewConsumible', consumible)
+      commit('setNewMateriaPrima', materiaPrima)
       return { ok: true, message: response.data.message }
     } else {
-      console.error('Error al obtener los consumibles:', response.message)
+      console.error('Error al obtener las materias primas:', response.message)
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.error('Error al crear el consumible:', error.message)
+    console.error('Error al crear la materia prima:', error.message)
   }
 }
 
-export const getConsumibleById = async ({ commit }, id) => {
+export const getMateriaPrimaById = async ({ commit }, id) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get(`/consumibles/${id}`, {
+    const response = await authApi.get(`/materias-primas/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -68,21 +68,21 @@ export const getConsumibleById = async ({ commit }, id) => {
     if (response.status === 200 && response.data) {
       return response.data
     } else {
-      console.error('Error al obtener el consumible:', response.message)
+      console.error('Error al obtener la materia prima:', response.message)
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el consumible:', error)
+    console.log('Error al obtener la materia prima:', error)
   }
 }
 
-export const editConsumible = async ({ commit }, consumible) => {
+export const editMateriaPrima = async ({ commit }, materiaPrima) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
-  const { id } = consumible
+  const { id } = materiaPrima
   try {
-    const response = await authApi.put(`/consumibles/${id}`, consumible, {
+    const response = await authApi.put(`/materias-primas/${id}`, materiaPrima, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -90,20 +90,20 @@ export const editConsumible = async ({ commit }, consumible) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      // Hacer un mutation que actualice los consumibles de Vuex
-      commit('setConsumible', { id, consumible })
+      // Hacer un mutation que actualice las materias primas de Vuex
+      commit('setMateriaPrima', { id, materiaPrima })
 
       return { ok: true, message: response.data.message }
     } else {
-      console.error('Error al editar consumible:', response.data.message)
+      console.error('Error al editar materia prima:', response.data.message)
       return { ok: false, message: response.data.message }
     }
   } catch (error) {
-    console.error('Error al editar el consumible:', error.message)
+    console.error('Error al editar el materia prima:', error.message)
   }
 }
 
-export const deleteConsumibles = async ({ commit }, consumibles) => {
+export const deleteMateriasPrimas = async ({ commit }, materiasPrimas) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -111,11 +111,11 @@ export const deleteConsumibles = async ({ commit }, consumibles) => {
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
 
-  for (const consumible of consumibles) {
-    const { id } = consumible
+  for (const materiaPrima of materiasPrimas) {
+    const { id } = materiaPrima
 
     try {
-      const response = await authApi.delete(`/consumibles/${id}`, {
+      const response = await authApi.delete(`/materias-primas/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
@@ -123,15 +123,14 @@ export const deleteConsumibles = async ({ commit }, consumibles) => {
 
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
       if (response.status === 200 && response.data) {
-        // Hacer un mutation que elimine los consumibles de Vuex
-        commit('deleteConsumible', id)
+        commit('deleteMateriaPrima', id)
         results.push({ id, ok: true, message: response.data.message })
       } else {
-        console.error('Error al eliminar consumible:', response.data.message)
+        console.error('Error al eliminar materia prima:', response.data.message)
         results.push({ id, ok: false, message: response.data.message })
       }
     } catch (error) {
-      console.error('Error al eliminar los consumibles:', error.message)
+      console.error('Error al eliminar las materias primas:', error.message)
       results.push({ id, ok: false, message: error.message })
     }
   }
