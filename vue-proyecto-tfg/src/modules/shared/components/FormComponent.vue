@@ -88,7 +88,7 @@ export default {
     handleError(e) {
       this.error.status = true
       this.error.message = e
-      console.error("Dentro del handleError", this.error.message)
+      console.error('Dentro del handleError', this.error.message)
     },
     toggleModal() {
       this.$emit('close')

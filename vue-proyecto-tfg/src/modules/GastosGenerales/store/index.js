@@ -3,7 +3,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 import * as mutations from './mutations'
 
-const GastosEnergeticosModule = {
+const GastosGeneralesModule = {
   namespaced: true,
   actions,
   getters,
@@ -11,4 +11,4 @@ const GastosEnergeticosModule = {
   state
 }
 
-export default GastosEnergeticosModule
+export default GastosGeneralesModule

@@ -1,9 +1,9 @@
-export const setGastos = (state, data) => {
-  state.gastos = data
+export const setGastosGen = (state, data) => {
+  state.gastosGenerales = data
 }
 
-export const setGasto = (state, data) => {
-  state.gastos = state.gastos.map((gasto) => {
+export const setGastoGen = (state, data) => {
+  state.gastosGenerales = state.gastosGenerales.map((gasto) => {
     if (gasto.id == data.id) {
       return { ...gasto, ...data.gasto }
     }
@@ -11,14 +11,14 @@ export const setGasto = (state, data) => {
   })
 }
 
-export const setResponse = (state, data) => {
+export const setResponseGen = (state, data) => {
   state.response = data
 }
 
-export const setNewGasto = (state, gasto) => {
-  state.gastos.push(gasto)
+export const setNewGastoGen = (state, gasto) => {
+  state.gastosGenerales.push(gasto)
 }
 
-export const deleteGasto = (state, id) => {
-  state.gastos = state.gastos.filter((gasto) => gasto.id != id)
+export const deleteGastoGen = (state, id) => {
+  state.gastosGenerales = state.gastosGenerales.filter((gasto) => gasto.id != id)
 }

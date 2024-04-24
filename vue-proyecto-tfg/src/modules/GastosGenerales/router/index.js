@@ -1,11 +1,11 @@
 export default {
-  name: 'GastosEnergeticos',
-  component: () => import('@/modules/GastosEnergeticos/layouts/GastosLayout.vue'),
+  name: 'GastosGenerales',
+  component: () => import('@/modules/GastosGenerales/layouts/GastosGenLayout.vue'),
   children: [
     {
-      path: '/gastos-energeticos',
-      name: 'GastosEnergeticos',
-      component: () => import('@/modules/GastosEnergeticos/views/GastosView.vue')
+      path: '/gastos-generales',
+      name: 'GastosGenerales',
+      component: () => import('@/modules/GastosGenerales/views/GastosGenView.vue')
     }
   ]
 }

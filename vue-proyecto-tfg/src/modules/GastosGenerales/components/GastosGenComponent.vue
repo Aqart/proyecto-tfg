@@ -9,7 +9,7 @@
       />
     </div>
     <TablaComponent
-      :data="getGastos"
+      :data="getGastosGenerales"
       @saveData="persistData"
       @deleteSelected="deleteGastosSeleccionados"
     />
@@ -19,17 +19,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
-import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
+import useGastoGeneral from '@/modules/GastosGenerales/composables/useGastoGeneral'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createGasto, editGasto, deleteGastos } = useGasto()
+    const { createGastoGeneral, editGastoGeneral, deleteGastosGenerales } = useGastoGeneral()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
-          const { ok, message } = await createGasto(data)
+          const { ok, message } = await createGastoGeneral(data)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -38,7 +38,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar') {
-          const { ok, message } = await editGasto(data)
+          const { ok, message } = await editGastoGeneral(data)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -48,7 +48,6 @@ export default {
           }
         }
       } catch (error) {
-        console.error('Error persisting data', error)
         actualizarMensaje('error', 'Error guardando los datos')
         actualizarMostrarMensaje(true)
       }
@@ -56,9 +55,8 @@ export default {
 
     const deleteGastosSeleccionados = async (arrayData) => {
       try {
-        await deleteGastos(arrayData)
+        await deleteGastosGenerales(arrayData)
       } catch (error) {
-        console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
         actualizarMostrarMensaje(true)
       }
@@ -70,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('GastosEnergeticos', ['getGastos']),
+    ...mapGetters('GastosGenerales', ['getGastosGenerales']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
