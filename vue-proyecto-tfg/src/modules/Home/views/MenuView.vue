@@ -44,6 +44,12 @@
         :image="fondo10"
       />
       <ButtonMenuComponent
+        name="Materias Primas"
+        path="materias-primas"
+        :icon="['fas', 'fa-gem']"
+        :image="fondo7"
+      />
+      <ButtonMenuComponent
         name="Transportes"
         path="Transportes"
         :icon="['fas', 'fa-truck']"

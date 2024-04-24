@@ -1,6 +1,6 @@
 export default {
   name: 'materias-primas',
-  component: () => import('@/modules/Consumible/layouts/ConsumibleLayout.vue'),
+  component: () => import('@/modules/MateriaPrima/layouts/MateriaPrima.vue'),
   children: [
     {
       path: '/materias-primas',

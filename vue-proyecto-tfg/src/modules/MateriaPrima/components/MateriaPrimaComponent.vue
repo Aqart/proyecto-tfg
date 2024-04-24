@@ -9,9 +9,9 @@
       />
     </template>
     <TablaComponent
-      :data="getConsumibles"
+      :data="getMateriasPrimas"
       @saveData="persistData"
-      @deleteSelected="deleteConsumiblesSeleccionados"
+      @deleteSelected="deleteMateriasPrimasSeleccionadas"
     />
   </div>
 </template>
@@ -19,17 +19,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
-import useConsumible from '@/modules/Consumible/composables/useConsumible'
+import useMateriaPrima from '@/modules/MateriaPrima/composables/useMateriaPrima'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createConsumible, editConsumible, deleteConsumibles, getConsumible } = useConsumible()
+    const { createMateriaPrima, editMateriaPrima, deleteMateriasPrimas, getMateriaPrima } = useMateriaPrima()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
-          const { ok, message } = await createConsumible(data)
+          const { ok, message } = await createMateriaPrima(data)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -38,7 +38,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar') {
-          const { ok, message } = await editConsumible(data)
+          const { ok, message } = await editMateriaPrima(data)
           if (!ok) {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
@@ -54,17 +54,17 @@ export default {
       }
     }
 
-    const deleteConsumiblesSeleccionados = async (arrayData) => {
+    const deleteMateriasPrimasSeleccionadas = async (arrayData) => {
       try {
-        const results = await deleteConsumibles(arrayData)
+        const results = await deleteMateriasPrimas(arrayData)
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
-          const dataFailedPromises = failedResults.map((result) => getConsumible(result.id))
+          const dataFailedPromises = failedResults.map((result) => getMateriaPrima(result.id))
           const dataFailed = await Promise.all(dataFailedPromises)
           const nombres = dataFailed.map((result) => result.nombre).join(', ')
           actualizarMensaje(
             'error',
-            `Los siguientes consumibles no se pudieron eliminar: ${nombres}`
+            `Las siguientes materias primas no se pudieron eliminar: ${nombres}`
           )
           actualizarMostrarMensaje(true)
         } else {
@@ -72,7 +72,7 @@ export default {
           console.log(nombresSuccess)
           actualizarMensaje(
             'success',
-            `Los siguientes consumibles se han eliminado correctamente: ${nombresSuccess}`
+            `Las siguientes materias primas se han eliminado correctamente: ${nombresSuccess}`
           )
           actualizarMostrarMensaje(true)
         }
@@ -84,11 +84,11 @@ export default {
 
     return {
       persistData,
-      deleteConsumiblesSeleccionados
+      deleteMateriasPrimasSeleccionadas
     }
   },
   computed: {
-    ...mapGetters('Consumible', ['getConsumibles']),
+    ...mapGetters('MateriaPrima', ['getMateriasPrimas']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {

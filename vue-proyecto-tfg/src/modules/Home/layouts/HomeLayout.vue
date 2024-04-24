@@ -90,6 +90,7 @@ import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useGastoGeneral from '@/modules/GastosGenerales/composables/useGastoGeneral'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useMaquina from '@/modules/Maquinas/composables/useMaquina'
+import useMateriaPrima from '@/modules/MateriaPrima/composables/useMateriaPrima'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'
 import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import useUsuarios from '@/modules/Usuarios/composables/useUsuarios'
@@ -148,6 +149,11 @@ export default {
       return await getMaquinas()
     }
 
+    const obtenerMateriasPrimas = async () => {
+      const { getMateriasPrimas } = useMateriaPrima()
+      return await getMateriasPrimas()
+    }
+
     const obtenerTransportes = async () => {
       const { getTransportes } = useTransporte()
       return await getTransportes()
@@ -177,6 +183,7 @@ export default {
         obtenerGastos()
         obtenerGastosGenerales()
         obtenerConsumibles()
+        obtenerMateriasPrimas()
         obtenerTransportes()
         obtenerTrabajadores()
         obtenerUsuarios()
