@@ -87,6 +87,7 @@
 import { defineAsyncComponent, ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
+import useGastoGeneral from '@/modules/GastosGenerales/composables/useGastoGeneral'
 import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'
@@ -101,14 +102,14 @@ export default {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
-    RouterMapComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/RouterMapComponent.vue')
+    RouterMapComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/RouterMapComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ModalComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoadingComponent
   },
@@ -135,6 +136,11 @@ export default {
     const obtenerGastos = async () => {
       const { getGastos } = useGasto()
       return await getGastos()
+    }
+
+    const obtenerGastosGenerales = async () => {
+      const { getGastosGenerales } = useGastoGeneral()
+      return await getGastosGenerales()
     }
 
     const obtenerMaquinas = async () => {
@@ -169,6 +175,7 @@ export default {
         }
         obtenerMaquinas()
         obtenerGastos()
+        obtenerGastosGenerales()
         obtenerConsumibles()
         obtenerTransportes()
         obtenerTrabajadores()
