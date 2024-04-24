@@ -33,17 +33,27 @@ export const loginUser = async ({ dispatch, commit }, user) => {
   try {
     const { data } = await authApi.post('/login', { email, password })
     const isExpired = await dispatch('isTokenExpired')
+
     if (!isExpired) {
       commit('loginUser', {
         email: email,
         idToken: localStorage.getItem('idToken'),
-        roles: data.roles
+        roles: data.roles,
+        someThingRequired: data.something_required
       })
     } else {
-      delete user.password
-      commit('loginUser', { email: email, idToken: data.token, roles: data.roles })
+      commit('loginUser', {
+        email: email,
+        idToken: data.token,
+        roles: data.roles,
+        someThingRequired: data.something_required
+      })
     }
-
+    if (data.something_required === 'NOT') {
+      console.log('user antes de lastLoginConnection', user)
+      await dispatch('lastLoginConnection', user)
+    }
+    delete user.password
     return { ok: true, message: '....' }
   } catch (error) {
     console.log(error)
@@ -96,5 +106,51 @@ export const obtenerRoles = async ({ commit }) => {
     commit('setRoles', data[0].roles)
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const changePassword = async ({ state, dispatch }, user) => {
+  const { email, oldPassword, newPassword } = user
+  const token = localStorage.getItem('idToken')
+  try {
+    const { data } = await authApi.post(
+      'usuarios/editar/password',
+      { email, oldPassword, newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    user.password = newPassword
+    delete user.newPassword
+    delete user.oldPassword
+
+    await dispatch('lastLoginConnection', user)
+
+    return { ok: true, message: data.message }
+  } catch (error) {
+    console.log(error)
+    return { ok: false, message: 'Contraseña incorrecta' }
+  }
+}
+
+export const lastLoginConnection = async ({ state }, user) => {
+  const { email, password } = user
+  const token = localStorage.getItem('idToken')
+  try {
+    const { data } = await authApi.post(
+      '/usuarios/editar/ultimaconexion',
+      { email, password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    return { ok: true, message: data.message }
+  } catch (error) {
+    console.log(error)
+    return { ok: false, message: 'Error al obtener la última conexión' }
   }
 }

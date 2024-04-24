@@ -122,7 +122,6 @@ app.get('/gastos-generales/:id', GastoGeneralController.obtenerPorId)
 app.put('/gastos-generales/:id', GastoGeneralController.actualizar)
 app.delete('/gastos-generales/:id', GastoGeneralController.eliminar)
 
-
 // Endpoints para Materias Primas
 app.get('/materias-primas', MateriaPrimaController.obtenerTodas)
 app.post('/materias-primas', MateriaPrimaController.crear)
@@ -158,6 +157,8 @@ app.get('/usuarios', AuthController.obtenerTodos)
 app.get('/usuarios/:id', AuthController.obtenerPorId)
 app.put('/usuarios/:id', AuthController.actualizar)
 app.delete('/usuarios/:id', AuthController.eliminar)
+app.post('/usuarios/editar/password', AuthController.editarPassword)
+app.post('/usuarios/editar/ultimaconexion', AuthController.editarUltimaConexion)
 
 // Manejador de errores para rutas no encontradas
 app.use((req, res, next) => {

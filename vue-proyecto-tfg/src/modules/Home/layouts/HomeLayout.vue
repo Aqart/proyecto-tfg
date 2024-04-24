@@ -3,7 +3,74 @@
     <header class="mt-5 sm:mx-3">
       <NabvarComponent />
     </header>
-    <main class="flex flex-col justify-between my-10 sm:mx-3">
+    <ModalComponent
+      v-if="showModal"
+      title="Debería cambiar su contraseña"
+      :modalActive="showModal"
+      @close="showModal = false"
+    >
+      <form @submit.prevent="handleSubmit" class="mx-5 mb-10">
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
+          Contraseña actual
+        </label>
+        <div
+          class="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-blue-500 focus-within:border-blue-500 block w-full mb-3"
+        >
+          <FontAwesomeIcon
+            :icon="['fas', 'lock']"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          />
+          <input
+            v-model="userForm.oldPassword"
+            class="pl-10 bg-transparent w-full py-2.5"
+            type="password"
+            name="password"
+            placeholder="•••••••••"
+            autocomplete="current-password"
+          />
+        </div>
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
+          Nueva contraseña
+        </label>
+        <div
+          class="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-blue-500 focus-within:border-blue-500 block w-full mb-3"
+        >
+          <FontAwesomeIcon
+            :icon="['fas', 'lock']"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          />
+          <input
+            v-model="userForm.newPassword"
+            class="pl-10 bg-transparent w-full py-2.5"
+            type="password"
+            name="password"
+            placeholder="•••••••••"
+            autocomplete="current-password"
+          />
+        </div>
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
+          Repite contraseña
+        </label>
+        <div
+          class="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-blue-500 focus-within:border-blue-500 block w-full"
+        >
+          <FontAwesomeIcon
+            :icon="['fas', 'lock']"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          />
+          <input
+            v-model="userForm.repeatedPassword"
+            class="pl-10 bg-transparent w-full py-2.5"
+            type="password"
+            name="password"
+            placeholder="•••••••••"
+            autocomplete="current-password"
+          />
+        </div>
+        <ButtonComponent text="Cambiar" bgColor="bg-secondary" @click="handleModalSubmit" />
+      </form>
+    </ModalComponent>
+    <main v-else class="flex flex-col justify-between my-10 sm:mx-3">
       <MenuView v-if="$route.path === '/home'" />
       <RouterMapComponent
         v-else
@@ -25,21 +92,40 @@ import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useTransporte from '@/modules/Transportes/composables/useTransporte'
 import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import useUsuarios from '@/modules/Usuarios/composables/useUsuarios'
-//import useAuth from '@/modules/Auth/composables/useAuth'
+import useAuth from '@/modules/Auth/composables/useAuth'
 import LoadingComponent from '@/modules/shared/components/LoadingComponent.vue'
+import store from '@/store'
 
 export default {
   components: {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
-    RouterMapComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/RouterMapComponent.vue')
+    RouterMapComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/RouterMapComponent.vue')
+    ),
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
+    ),
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoadingComponent
   },
   setup() {
     const loading = ref(false)
+
+    const showModal = ref(false)
+
+    const userForm = ref({
+      email: store.state.Auth.email,
+      oldPassword: '',
+      newPassword: '',
+      repeatedPassword: ''
+    })
+
+    const someThingRequired = store.state.Auth.someThingRequired
+    console.log(someThingRequired)
 
     const obtenerConsumibles = async () => {
       const { getConsumibles } = useConsumible()
@@ -69,11 +155,18 @@ export default {
       const { getUsuarios } = useUsuarios()
       return await getUsuarios()
     }
+    const { changePassword } = useAuth()
+
+    const resetPassword = async (user) => {
+      return await changePassword(user)
+    }
 
     onMounted(async () => {
       try {
         loading.value = true
-        //obtenerRoles()
+        if (someThingRequired === 'CHANGE_PASSWORD') {
+          showModal.value = true
+        }
         obtenerMaquinas()
         obtenerGastos()
         obtenerConsumibles()
@@ -83,15 +176,52 @@ export default {
       } catch (error) {
         console.error('Error al obtener los datos:', error)
       } finally {
-        //esperar 3 segundos para que se vea el loading
+        //esperar 1 segundos para que se vea el loading
         setTimeout(() => {
           loading.value = false
         }, 1000)
       }
     })
 
+    const handleSubmit = async () => {
+      if (
+        !userForm.value.oldPassword ||
+        !userForm.value.newPassword ||
+        !userForm.value.repeatedPassword
+      ) {
+        console.log('Debes rellenar todos los campos')
+        showModal.value = true
+      } else {
+        if (userForm.value.newPassword !== userForm.value.repeatedPassword) {
+          console.log('Las contraseñas no coinciden', userForm.value.email)
+          showModal.value = true
+        } else {
+          userForm.value = {
+            email: userForm.value.email,
+            oldPassword: userForm.value.oldPassword,
+            newPassword: userForm.value.newPassword
+          }
+          console.log('Cambiar contraseña', userForm.value)
+          const { ok, message } = await resetPassword(userForm.value)
+          console.log(ok, message)
+        }
+      }
+    }
+
+    const handleModalSubmit = async () => {
+      try {
+        await handleSubmit()
+      } catch (error) {
+        console.error('Error en handleSubmit:', error)
+        // Maneja el error de la manera que prefieras...
+      }
+      showModal.value = false
+    }
     return {
-      loading
+      loading,
+      showModal,
+      userForm,
+      handleModalSubmit
     }
   }
 }

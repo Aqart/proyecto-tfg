@@ -19,10 +19,18 @@ const useAuth = () => {
     return resp
   }
 
+  const changePassword = async (user) => {
+    console.log('User', user)
+    const resp = await store.dispatch('Auth/changePassword', user)
+    console.log('Respuesta', resp)
+    return resp
+  }
+
   return {
     createUser,
     loginUser,
-    getRoles
+    getRoles,
+    changePassword
   }
 }
 
