@@ -7,16 +7,14 @@
       {{ label }}
     </label>
     <select
+      v-model="selected"
+      @change="handleChange"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-      type="number"
-      step="0.01"
-      min="0"
-      v-if="value === 0 || value === null ? handleError : value"
-      :value="newValue"
-      @input="(event) => updateValue(label, event)"
-      :name="value"
-      :placeholder="`Selecciona ${formattedPlaceholder}`"
     >
+    <option disabled value="">{{ placeholder }}</option>
+    <option v-for="(option, index) in options" :key="index" :value="option.value">
+      {{ option.nombre }}
+    </option>
     </select>
   </div>
 </template>
@@ -30,28 +28,21 @@ export default {
     },
     placeholder: {
       type: String,
-      default: 'Numero'
+      default: 'Seleccione una máquina relacionada'
     },
     label: {
       type: String,
       required: true
+    },
+    options: {  // Aquí estás recibiendo las opciones
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      newInputValue: this.value,
+      selected: this.value,
       error: false
-    }
-  },
-  computed: {
-    newValue() {
-      return this.newInputValue
-    },
-    formattedPlaceholder() {
-      return this.formatText(this.placeholder)
-    },
-    formattedLabel() {
-      return this.formatText(this.label)
     }
   },
   methods: {

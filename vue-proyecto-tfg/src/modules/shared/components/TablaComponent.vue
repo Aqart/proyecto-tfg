@@ -200,6 +200,7 @@
         :data="item || {}"
         @send="getNewData"
         :tipo="modalTitle"
+        :maquinas="getMaquinas"
         @close="toggleModalClose"
       />
     </ModalComponent>

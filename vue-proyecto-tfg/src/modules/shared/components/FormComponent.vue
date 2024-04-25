@@ -16,9 +16,9 @@
 
       <SelectComponent
         v-else-if="index === 'id_maquina'"
-        :label="index"
+        :label="'Selecciona máquina'"
         :options="maquinas"
-        :value="el"
+        :value="tipo === 'Editar' ? el : 0"
         @change="handleChange"
       />
 
@@ -58,6 +58,10 @@ export default {
     tipo: {
       type: String,
       required: true
+    },
+    maquinas: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
