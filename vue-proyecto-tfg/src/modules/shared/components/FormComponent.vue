@@ -4,7 +4,7 @@
       <!-- Hay que hacer un input password que ofrezca introducir una nueva contraseña -->
       <!--  && (index !== 'password' && tipo === 'Editar') -->
       <component
-        v-if="index !== 'id'"
+        v-if="index !== 'id' && index !== 'id_maquina'"
         :is="checkType(typeof el)"
         :label="index"
         :placeholder="index"
@@ -13,6 +13,15 @@
         @changeNumber="handleChange"
         @errorNumber="handleError"
       />
+
+      <SelectComponent
+        v-else-if="index === 'id_maquina'"
+        :label="index"
+        :options="maquinas"
+        :value="el"
+        @change="handleChange"
+      />
+
     </div>
     <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
     <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
@@ -72,6 +81,9 @@ export default {
     ),
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
+    ),
+    SelectComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectComponent.vue')
     )
   },
   computed: {
