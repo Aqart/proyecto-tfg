@@ -4,7 +4,9 @@ const TrabajadorController = {
     // Obtener todos los trabajadores
     obtenerTodos: async (req, res, next) => {
         try {
-            const [rows, fields] = await pool.query('SELECT * FROM trabajador')
+            const [rows, fields] = await pool.query(
+                'SELECT * FROM trabajador_costes'
+            )
             res.status(200).json(rows)
         } catch (error) {
             next(error)
@@ -34,7 +36,7 @@ const TrabajadorController = {
         const { id } = req.params
         try {
             const [rows, fields] = await pool.query(
-                'SELECT * FROM trabajador WHERE id = ?',
+                'SELECT * FROM trabajador_costes WHERE id = ?',
                 [id]
             )
             if (rows.length === 0) {

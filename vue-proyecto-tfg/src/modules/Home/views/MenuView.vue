@@ -102,8 +102,8 @@ export default {
     }
   },
   components: {
-    ButtonMenuComponent: defineAsyncComponent(() =>
-      import('@/modules/Home/components/ButtonMenuComponent.vue')
+    ButtonMenuComponent: defineAsyncComponent(
+      () => import('@/modules/Home/components/ButtonMenuComponent.vue')
     )
   }
 }

@@ -24,7 +24,8 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createMateriaPrima, editMateriaPrima, deleteMateriasPrimas, getMateriaPrima } = useMateriaPrima()
+    const { createMateriaPrima, editMateriaPrima, deleteMateriasPrimas, getMateriaPrima } =
+      useMateriaPrima()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
