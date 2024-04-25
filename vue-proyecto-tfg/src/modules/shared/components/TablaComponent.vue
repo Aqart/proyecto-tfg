@@ -128,8 +128,17 @@
               </div>
             </td>
             <template v-for="(el, index) in body">
+              <td
+                v-if="index === 'id_maquina'"
+                :key="`${el}-td-${index}-maquina`"
+                class="px-6 py-4"
+              >
+                <div class="text-sm text-center text-stoneBackgroun-3">
+                  {{ getMaquinas.find((maquina) => maquina.id === el).nombre }}
+                </div>
+              </td>
               <th
-                v-if="index === 'nombre' || index === 'email'"
+                v-else-if="index === 'nombre' || index === 'email'"
                 :key="`${el}-th`"
                 class="px-6 py-4"
               >
@@ -142,15 +151,6 @@
                   {{ el }}
                 </div>
               </td>
-              <!-- <td
-                v-else-if="index !== 'apellido1'"
-                :key="`${el}-td-${index}-apellidos`"
-                class="px-6 py-4"
-              >
-                <div class="text-sm text-center text-stoneBackgroun-3">
-                  {{ el }} {{ body.precio }}
-                </div>
-              </td> -->
             </template>
             <td class="py-4 no-print text-center">
               <span
@@ -200,6 +200,7 @@
         :data="item || {}"
         @send="getNewData"
         :tipo="modalTitle"
+        :maquinas="getMaquinas"
         @close="toggleModalClose"
       />
     </ModalComponent>
@@ -208,6 +209,7 @@
 
 <script>
 import useShared from '@/modules/shared/composables/useShared'
+import { mapGetters } from 'vuex'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
 import html2pdf from 'html2pdf.js'
@@ -240,23 +242,23 @@ export default {
     }
   },
   components: {
-    SearchIconComponent: defineAsyncComponent(
-      () => import('@/assets/images/SearchIconComponent.vue')
+    SearchIconComponent: defineAsyncComponent(() =>
+      import('@/assets/images/SearchIconComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     ),
-    DeleteConfirmationComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
     // RegisterComponent: defineAsyncComponent(() =>
     //   import('@/modules/Auth/components/RegisterComponent.vue')
     // ),
-    LoadingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
@@ -271,6 +273,11 @@ export default {
       formattedIndex =
         formattedIndex.charAt(0).toUpperCase() + formattedIndex.slice(1).toLowerCase()
 
+      if (formattedIndex.includes('Id ')) {
+        formattedIndex = formattedIndex.replace('Id ', '')
+        formattedIndex =
+          formattedIndex.charAt(0).toUpperCase() + formattedIndex.slice(1).toLowerCase()
+      }
       if (formattedIndex.includes('m2')) {
         formattedIndex = formattedIndex.replace('m2', 'm<sup>2</sup>')
       }
@@ -285,6 +292,7 @@ export default {
       if (formattedIndex.includes('Apellido2')) {
         formattedIndex = ''
       }
+
       return formattedIndex
     }
     const showDropdown = ref(false)
@@ -464,8 +472,15 @@ export default {
       this.showModal = !this.showModal
       this.modalType = null
     }
+    // async maquinaById(id) {
+    //   const maquina = await this.getMaquinas().find((maquina) => maquina.id === id)
+    //   console.log(maquina)
+    //   return maquina
+    // }
   },
   computed: {
+    ...mapGetters('Maquinas', ['getMaquinas']),
+
     formattedHeader() {
       return this.filteredHeader
         .map((key) => {
@@ -513,8 +528,12 @@ export default {
           return 'Consumibles'
         case 'Gastos-energeticos':
           return 'Gastos energéticos'
+        case 'Gastos-generales':
+          return 'Gastos generales'
         case 'Maquinas':
           return 'Máquinas'
+        case 'Materias-primas':
+          return 'Materias primas'
         case 'Trabajadores':
           return 'Trabajadores'
         case 'Transportes':
