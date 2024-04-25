@@ -20,7 +20,7 @@
       class="flex flex-col sm:grid sm:grid-cols-3 gap-3 justify-center sm:justify-start items-center sm:items-start"
     >
       <ButtonMenuComponent
-        name="Maquinas"
+        name="Máquinas"
         path="maquinas"
         :icon="['fas', 'fa-oil-well']"
         :image="fondo6"

@@ -513,8 +513,12 @@ export default {
           return 'Consumibles'
         case 'Gastos-energeticos':
           return 'Gastos energéticos'
+        case 'Gastos-generales':
+          return 'Gastos generales'
         case 'Maquinas':
           return 'Máquinas'
+        case 'Materias-primas':
+          return 'Materias primas'
         case 'Trabajadores':
           return 'Trabajadores'
         case 'Transportes':
