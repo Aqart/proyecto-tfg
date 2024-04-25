@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-04-2024 a las 19:32:29
+-- Tiempo de generación: 25-04-2024 a las 19:56:29
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -186,7 +186,7 @@ CREATE TABLE `USER` (
   `password` varchar(255) DEFAULT NULL,
   `numero_trabajador` int(11) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `ultima_conexion` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ultima_conexion` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `roles` enum('ADMIN','TRABAJADOR') DEFAULT 'TRABAJADOR'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -195,8 +195,8 @@ CREATE TABLE `USER` (
 --
 
 INSERT INTO `USER` (`id`, `email`, `password`, `numero_trabajador`, `fecha_registro`, `ultima_conexion`, `roles`) VALUES
-(1, 'admin@admin.es', '$2b$10$Yo/a7hQKYmnd5QhqwYTI2uoumkTQKKQ5oQgAkKtU8bc05TMhbgS1G', 1, '2024-04-25 17:30:52', '2024-04-25 17:30:52', 'ADMIN'),
-(2, 'emple@emple.es', '$2b$10$s6wAe/MudNYT0GID5ScLOO6dfN3HIl7HdDIntkpfoowrYmf5P9bQK', 2, '2024-04-25 17:30:52', '2024-04-25 17:30:52', 'TRABAJADOR');
+(1, 'admin@admin.es', '$2b$10$hloTBmbT6YGMb99dGRUXGehBZMFU4OIimB7L5lfTDwYgJFriOkklq', 1, '2024-04-25 17:48:12', '2024-04-25 15:48:12', 'ADMIN'),
+(2, 'emple@emple.es', '$2b$10$s6wAe/MudNYT0GID5ScLOO6dfN3HIl7HdDIntkpfoowrYmf5P9bQK', 2, '2024-04-25 17:47:27', NULL, 'TRABAJADOR');
 
 --
 -- Índices para tablas volcadas

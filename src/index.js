@@ -12,12 +12,6 @@ import GastoGeneralController from './controllers/GastoGeneralController.js'
 import MateriaPrimaController from './controllers/MateriaPrimaController.js'
 import TransporteController from './controllers/TransporteController.js'
 
-//Relaciones
-import ConsumibleMaquinaController from './controllers/Relations/ConsumibleMaquinaController.js'
-import TransporteMateriaPrimaController from './controllers/Relations/TransporteMateriaPrimaController.js'
-import GastoEnergeticoMaquinaController from './controllers/Relations/GastoEnergeticoMaquinaController.js'
-import TrabajadorMaquinaController from './controllers/Relations/TrabajadorMaquinaController.js'
-
 const app = express()
 
 // Middleware para habilitar CORS
@@ -44,15 +38,6 @@ app.post('/trabajadores', TrabajadorController.crear)
 app.get('/trabajadores/:id', TrabajadorController.obtenerPorId)
 app.put('/trabajadores/:id', TrabajadorController.actualizar)
 app.delete('/trabajadores/:id', TrabajadorController.eliminar)
-app.post(
-    '/trabajadores/:trabajador_id/maquinas/:maquina_id',
-    TrabajadorMaquinaController.asociarTrabajadorMaquina
-)
-
-app.get(
-    '/trabajadores/:trabajador_id/maquinas',
-    TrabajadorMaquinaController.obtenerMaquinasPorTrabajador
-)
 
 // Endpoints para Máquinas
 app.get('/maquinas', MaquinaController.obtenerTodas)
@@ -60,22 +45,6 @@ app.post('/maquinas', MaquinaController.crear)
 app.get('/maquinas/:id', MaquinaController.obtenerPorId)
 app.put('/maquinas/:id', MaquinaController.actualizar)
 app.delete('/maquinas/:id', MaquinaController.eliminar)
-app.get(
-    '/maquinas/:maquina_id/trabajadores',
-    TrabajadorMaquinaController.obtenerTrabajadoresPorMaquina
-)
-app.get(
-    '/maquinas/:maquina_id/gastos-energeticos',
-    GastoEnergeticoMaquinaController.obtenerGastosPorMaquina
-)
-app.get(
-    '/maquinas/:maquina_id/consumibles',
-    ConsumibleMaquinaController.obtenerConsumiblesPorMaquina
-)
-app.get(
-    '/maquinas/:maquina_id/',
-    GastoEnergeticoMaquinaController.obtenerMaquinasPorGasto
-)
 
 // Endpoints para Consumibles
 app.get('/consumibles', ConsumibleController.obtenerTodos)
@@ -83,18 +52,6 @@ app.post('/consumibles', ConsumibleController.crear)
 app.get('/consumibles/:id', ConsumibleController.obtenerPorId)
 app.put('/consumibles/:id', ConsumibleController.actualizar)
 app.delete('/consumibles/:id', ConsumibleController.eliminar)
-app.get(
-    '/consumibles/:consumible_id/maquinas',
-    ConsumibleMaquinaController.obtenerMaquinasPorConsumible
-)
-app.post(
-    '/consumibles/:consumible_id/maquinas/:maquina_id',
-    ConsumibleMaquinaController.asociarConsumibleMaquina
-)
-app.delete(
-    '/consumibles/:consumible_id/maquinas/:maquina_id',
-    ConsumibleMaquinaController.desasociarConsumibleMaquina
-)
 
 // Endpoints para Gastos Energeticos
 app.get('/gastos-energeticos', GastoEnergeticoController.obtenerTodos)
@@ -102,18 +59,6 @@ app.post('/gastos-energeticos', GastoEnergeticoController.crear)
 app.get('/gastos-energeticos/:id', GastoEnergeticoController.obtenerPorId)
 app.put('/gastos-energeticos/:id', GastoEnergeticoController.actualizar)
 app.delete('/gastos-energeticos/:id', GastoEnergeticoController.eliminar)
-app.get(
-    '/gastos-energeticos/:gasto_id/maquinas',
-    GastoEnergeticoMaquinaController.obtenerMaquinasPorGasto
-)
-app.post(
-    '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
-    GastoEnergeticoMaquinaController.asociarGastoMaquina
-)
-app.delete(
-    '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
-    GastoEnergeticoMaquinaController.desasociarGastoMaquina
-)
 
 // Endpoints para Gastos Generales
 app.get('/gastos-generales', GastoGeneralController.obtenerTodos)
@@ -128,10 +73,6 @@ app.post('/materias-primas', MateriaPrimaController.crear)
 app.get('/materias-primas/:id', MateriaPrimaController.obtenerPorId)
 app.put('/materias-primas/:id', MateriaPrimaController.actualizar)
 app.delete('/materias-primas/:id', MateriaPrimaController.eliminar)
-app.get(
-    '/materias-primas/:materia_prima_id/transportes',
-    TransporteMateriaPrimaController.obtenerTransportesPorMateriaPrima
-)
 
 // Endpoints para Transportes
 app.get('/transportes', TransporteController.obtenerTodos)
@@ -139,18 +80,6 @@ app.post('/transportes', TransporteController.crear)
 app.get('/transportes/:id', TransporteController.obtenerPorId)
 app.put('/transportes/:id', TransporteController.actualizar)
 app.delete('/transportes/:id', TransporteController.eliminar)
-app.get(
-    '/transportes/:transporte_id/materias-primas',
-    TransporteMateriaPrimaController.obtenerMateriasPrimasPorTransporte
-)
-app.post(
-    '/transportes/:transporte_id/materias-primas/:materia_prima_id',
-    TransporteMateriaPrimaController.asociarMateriaPrimaTransporte
-)
-app.delete(
-    '/transportes/:transporte_id/materias-primas/:materia_prima_id',
-    TransporteMateriaPrimaController.desasociarMateriaPrimaTransporte
-)
 
 //Endpoints para Usuarios
 app.get('/usuarios', AuthController.obtenerTodos)
