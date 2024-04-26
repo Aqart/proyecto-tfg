@@ -59,22 +59,16 @@ export default {
   },
   methods: {
     toggleTelar() {
-      this.isOpenPulidora = false
       this.isOpenTelar = !this.isOpenTelar
-      //TODO: ARREGLAR PARA QUE LO ENVIE A LOS FORMULARIOS
-      if (this.isOpenTelar) {
-        this.fechaActual = this.getFechaActual()
-        this.horaActual = this.getHoraActual()
-      }
+      this.$nextTick(() => {
+        if (this.isOpenTelar) {
+          this.$refs.telarAccordion.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      })
     },
     togglePulidora() {
       this.isOpenTelar = false
       this.isOpenPulidora = !this.isOpenPulidora
-      //TODO: ARREGLAR PARA QUE LO ENVIE A LOS FORMULARIOS
-      if (this.isOpenPulidora) {
-        this.fechaActual = this.getFechaActual()
-        this.horaActual = this.getHoraActual()
-      }
     }
   }
 }

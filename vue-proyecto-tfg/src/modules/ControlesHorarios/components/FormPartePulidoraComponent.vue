@@ -1,16 +1,16 @@
 <template>
   <form class="text-xl mx-10">
     <div class="grid grid-cols-1 gap-6">
-      <div class="flex flex-row justify-between items-start">
-        <div class="flex flex-col justify-between items-start gap-2 h-full">
+      <div class="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0">
+        <div class="flex flex-col justify-between items-start h-full gap-5 sm:gap-0">
           <div class="mt-4">
             <label for="fecha" class="block text-xl font-medium text-gray-700">Fecha inicio</label>
             <input
               type="date"
               name="fecha"
               id="fecha"
-              v-model="fechaActual"
-              class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
+              v-model="fechaInicioActual"
+              class="my-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
             />
           </div>
           <div>
@@ -19,20 +19,20 @@
               type="time"
               name="hora"
               id="hora"
-              v-model="horaActual"
-              class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
+              v-model="horaInicioActual"
+              class="my-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
             />
           </div>
         </div>
-        <div class="flex flex-col justify-between items-start gap-2 h-full">
+        <div class="flex flex-col justify-between items-start h-full gap-5 sm:gap-0">
           <div class="mt-4">
             <label for="fecha" class="block text-xl font-medium text-gray-700">Fecha final</label>
             <input
               type="date"
               name="fecha"
               id="fecha"
-              v-model="fechaActual"
-              class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
+              v-model="fechaFinActual"
+              class="my-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
             />
           </div>
           <div>
@@ -41,8 +41,8 @@
               type="time"
               name="hora"
               id="hora"
-              v-model="horaActual"
-              class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
+              v-model="horaFinActual"
+              class="my-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
             />
           </div>
         </div>
@@ -90,7 +90,7 @@
           name="observaciones"
           id="observaciones"
           rows="3"
-          class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
+          class="my-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
         />
       </div>
       <div class="flex flex-row gap-2">
@@ -107,8 +107,10 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      fechaActual: '',
-      horaActual: ''
+      fechaInicioActual: '',
+      horaInicioActual: '',
+      fechaFinActual: '',
+      horaFinActual: ''
     }
   },
   components: {
@@ -116,7 +118,21 @@ export default {
       () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
+  created() {
+    this.fechaInicioActual = this.getFechaActual()
+    this.horaInicioActual = this.getHoraActual()
+    this.fechaFinActual = this.getFechaActual()
+    this.horaFinActual = this.getHoraActual()
+  },
   methods: {
+    setHoraFin() {
+      const horaFin = this.getHoraActual()
+      if (horaFin > this.horaInicioActual) {
+        this.horaFinActual = horaFin
+      } else {
+        alert('La hora de finalización debe ser mayor que la hora de inicio')
+      }
+    },
     getFechaActual() {
       const fecha = new Date()
       const año = fecha.getFullYear()
