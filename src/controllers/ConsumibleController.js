@@ -16,7 +16,7 @@ const ConsumibleController = {
         const { nombre, precio } = req.body
         try {
             await pool.query(
-                'INSERT INTO consumible (nombre, precio) VALUES (?, ?)',
+                'INSERT INTO consumible (nombre, precio, id_maquina) VALUES (?, ?, ?)',
                 [nombre, precio]
             )
 
@@ -57,7 +57,7 @@ const ConsumibleController = {
         const { nombre, precio } = req.body
         try {
             await pool.query(
-                'UPDATE consumible SET nombre = ?, precio = ? WHERE id = ?',
+                'UPDATE consumible SET nombre = ?, precio = ?, id_maquina = ? WHERE id = ?',
                 [nombre, precio, id]
             )
             res.status(200).json({

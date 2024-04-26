@@ -18,11 +18,21 @@
         v-else-if="index === 'id_maquina'"
         :label="'Selecciona máquina'"
         :options="maquinas"
-        :value="tipo === 'Editar' ? el : 0"
+        :value="el"
         @change="handleChange"
       />
-
+      
     </div>
+    <label for="maquina">Seleccione máquina</label>
+    <select
+        name="maquina"
+        ref="maquina"
+      >
+        <option value="" selected disabled hidden>Selecciona máquina</option>
+        <option v-for="(maquina, index) in maquinas" :key="index" :value="maquina.id">
+          {{ maquina.nombre }}
+        </option>
+    </select>
     <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
     <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
     <!-- <label

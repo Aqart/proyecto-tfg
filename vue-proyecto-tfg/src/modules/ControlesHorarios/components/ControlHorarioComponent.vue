@@ -50,11 +50,11 @@ export default {
     }
   },
   components: {
-    FormParteTelar: defineAsyncComponent(() =>
-      import('@/modules/ControlesHorarios/components/FormParteTelarComponent.vue')
+    FormParteTelar: defineAsyncComponent(
+      () => import('@/modules/ControlesHorarios/components/FormParteTelarComponent.vue')
     ),
-    FormPartePulidora: defineAsyncComponent(() =>
-      import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
+    FormPartePulidora: defineAsyncComponent(
+      () => import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
     )
   },
   methods: {
@@ -84,7 +84,11 @@ export default {
 /* Transicion cuando aparece y desaparece el modal */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s 0.1s, transform 0.5s, max-height 0.5s, padding 0.5s;
+  transition:
+    opacity 0.3s 0.1s,
+    transform 0.5s,
+    max-height 0.5s,
+    padding 0.5s;
 }
 .fade-enter-from,
 .fade-leave-to {

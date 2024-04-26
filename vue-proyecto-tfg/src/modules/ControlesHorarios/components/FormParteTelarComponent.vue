@@ -112,8 +112,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {
@@ -137,5 +137,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
