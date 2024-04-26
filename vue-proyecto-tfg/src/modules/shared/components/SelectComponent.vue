@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     handleChange() {
-      this.$emit('change', this.selected)
+      this.$emit('changeSelect', this.selected)
     }
   },
   watch: {
