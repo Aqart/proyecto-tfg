@@ -10,10 +10,10 @@
         :image="fondo11"
       />
       <ButtonMenuComponent
-        name="Controles horarios"
-        path="controles-horarios"
-        :icon="['fas', 'fa-list-check']"
-        :image="fondo12"
+        name="Generador de partes"
+        path="generador-partes"
+        :icon="['fas', 'fa-clipboard-list']"
+        :image="fondo8"
       />
     </div>
     <div
@@ -53,7 +53,7 @@
         name="Transportes"
         path="Transportes"
         :icon="['fas', 'fa-truck']"
-        :image="fondo8"
+        :image="fondo12"
       />
       <ButtonMenuComponent
         name="Trabajadores"
@@ -66,6 +66,12 @@
         path="usuarios"
         :icon="['fas', 'fa-users']"
         :image="fondo4"
+      />
+      <ButtonMenuComponent
+        name="Listado de partes"
+        path="listado-partes"
+        :icon="['fas', 'fa-list-check']"
+        :image="fondo9"
       />
     </div>
   </div>

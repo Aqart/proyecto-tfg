@@ -47,10 +47,10 @@ router.beforeEach(async (to, from, next) => {
     } else if (
       to.path !== '/logout' &&
       store.state.Auth.roles &&
-      store.state.Auth.roles.includes('TRABAJADORES') &&
-      to.path !== '/controles-horarios'
+      store.state.Auth.roles.includes('TRABAJADOR') &&
+      to.path !== '/generador-partes'
     ) {
-      next('/controles-horarios')
+      next('/generador-partes')
     } else {
       next()
     }

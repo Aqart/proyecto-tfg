@@ -1,10 +1,10 @@
 export default {
-  name: 'controles-horarios',
+  name: 'generador-partes',
   component: () => import('@/modules/ControlesHorarios/layouts/ControlesHorariosLayout.vue'),
   children: [
     {
-      path: '/controles-horarios',
-      name: 'controles-horarios',
+      path: '/generador-partes',
+      name: 'generador-partes',
       component: () => import('@/modules/ControlesHorarios/views/ControlHorarioView.vue')
     }
   ]
