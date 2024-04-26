@@ -51,7 +51,7 @@ export default {
       ...UsuariosRouter
     },
     {
-      path: '/controles-horarios',
+      path: '/generador-partes',
       ...ControlesHorariosRouter
     }
   ]

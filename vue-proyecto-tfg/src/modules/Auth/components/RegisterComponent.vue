@@ -42,7 +42,7 @@
       >
         <option value="" selected disabled hidden>Elige una opción</option>
         <option value="ADMIN">Admin</option>
-        <option value="TRABAJADORES">Trabajador</option>
+        <option value="TRABAJADOR">Trabajador</option>
       </select>
 
       <ButtonComponent text="Registrar" bgColor="bg-primary" />

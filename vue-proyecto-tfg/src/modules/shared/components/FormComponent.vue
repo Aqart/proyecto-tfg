@@ -18,10 +18,10 @@
         v-else-if="index === 'id_maquina'"
         :label="'Selecciona máquina'"
         :options="maquinas"
-        :value="tipo === 'Editar' ? el : 0"
-        @change="handleChange"
+        :value="el"
+        @changeSelect="handleSelectChange"
       />
-
+      
     </div>
     <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
     <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
@@ -119,10 +119,11 @@ export default {
         //this.$emit('send', 'No se pueden enviar campos vacios')
         // Introducir los métodos de los mensajes
         // this.error.status = true
-        // this.error.message = 'No se pueden enviar campos vacíos'
-        // console.error(this.error.message)
+        this.error.message = 'No se pueden enviar campos vacíos'
+        console.error(this.error.message)
         // return
       } else {
+        console.log("Datos que se envían", this.form)
         this.$emit('send', this.form)
         this.form = {}
         this.toggleModal()
@@ -134,10 +135,13 @@ export default {
       } else {
         delete this.form.id
       }
-
       this.form = { ...this.form, ...e }
-
       return this.form
+    },
+    handleSelectChange(value){
+      console.log("Valor", value)
+      this.form.id_maquina = value;
+      console.log("Form", this.form)
     },
     checkType(type) {
       if (type === 'string') {
