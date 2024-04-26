@@ -13,11 +13,11 @@ const ConsumibleController = {
 
     // Crear un nuevo consumible
     crear: async (req, res, next) => {
-        const { nombre, precio } = req.body
+        const { nombre, precio, id_maquina } = req.body
         try {
             await pool.query(
-                'INSERT INTO consumible (nombre, precio) VALUES (?, ?)',
-                [nombre, precio]
+                'INSERT INTO consumible (nombre, precio, id_maquina) VALUES (?, ?, ?)',
+                [nombre, precio, id_maquina]
             )
 
             // Obtener el ID del último consumible insertado
@@ -54,11 +54,11 @@ const ConsumibleController = {
     // Actualizar un consumible
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, precio } = req.body
+        const { nombre, precio, id_maquina } = req.body
         try {
             await pool.query(
-                'UPDATE consumible SET nombre = ?, precio = ? WHERE id = ?',
-                [nombre, precio, id]
+                'UPDATE consumible SET nombre = ?, precio = ?, id_maquina = ? WHERE id = ?',
+                [nombre, precio, id_maquina, id]
             )
             res.status(200).json({
                 message: 'Consumible actualizado correctamente',
