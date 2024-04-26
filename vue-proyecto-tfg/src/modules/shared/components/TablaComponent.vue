@@ -80,7 +80,6 @@
               scope="col"
               class="px-6 py-3"
             >
-              <!--Si key es igual a nombre o email justificar al inicio si no al centro-->
               <button
                 @click="sortTable(key)"
                 class="flex items-center w-full"
@@ -129,7 +128,16 @@
             </td>
             <template v-for="(el, index) in body">
               <td
-                v-if="index === 'id_maquina'"
+                v-if="index === 'fecha_registro' || index === 'ultima_conexion'"
+                :key="`${el}-td-${index}-date`"
+                class="px-6 py-4"
+              >
+                <div class="text-sm text-center text-stoneBackgroun-3">
+                  {{ new Date(el).toLocaleString() }}
+                </div>
+              </td>
+              <td
+                v-else-if="index === 'id_maquina'"
                 :key="`${el}-td-${index}-maquina`"
                 class="px-6 py-4"
               >
@@ -241,23 +249,23 @@ export default {
     }
   },
   components: {
-    SearchIconComponent: defineAsyncComponent(
-      () => import('@/assets/images/SearchIconComponent.vue')
+    SearchIconComponent: defineAsyncComponent(() =>
+      import('@/assets/images/SearchIconComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     ),
-    DeleteConfirmationComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
     // RegisterComponent: defineAsyncComponent(() =>
     //   import('@/modules/Auth/components/RegisterComponent.vue')
     // ),
-    LoadingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
