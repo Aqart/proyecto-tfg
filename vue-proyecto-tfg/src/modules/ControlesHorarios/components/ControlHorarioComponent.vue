@@ -13,7 +13,7 @@
         </button>
         <transition name="fade">
           <div v-if="isOpenTelar" class="p-5">
-            <p>Formulario de partes del telar...</p>
+            <FormParteTelar />
           </div>
         </transition>
       </div>
@@ -30,7 +30,7 @@
         </button>
         <transition name="fade">
           <div v-if="isOpenPulidora" class="p-5">
-            <p>Formulario de partes de la pulidora....</p>
+            <FormPartePulidora />
           </div>
         </transition>
       </div>
@@ -39,21 +39,42 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 export default {
   data() {
     return {
       isOpenTelar: false,
-      isOpenPulidora: false
+      isOpenPulidora: false,
+      fechaActual: '',
+      horaActual: ''
     }
+  },
+  components: {
+    FormParteTelar: defineAsyncComponent(() =>
+      import('@/modules/ControlesHorarios/components/FormParteTelarComponent.vue')
+    ),
+    FormPartePulidora: defineAsyncComponent(() =>
+      import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
+    )
   },
   methods: {
     toggleTelar() {
       this.isOpenPulidora = false
       this.isOpenTelar = !this.isOpenTelar
+      //TODO: ARREGLAR PARA QUE LO ENVIE A LOS FORMULARIOS
+      if (this.isOpenTelar) {
+        this.fechaActual = this.getFechaActual()
+        this.horaActual = this.getHoraActual()
+      }
     },
     togglePulidora() {
       this.isOpenTelar = false
       this.isOpenPulidora = !this.isOpenPulidora
+      //TODO: ARREGLAR PARA QUE LO ENVIE A LOS FORMULARIOS
+      if (this.isOpenPulidora) {
+        this.fechaActual = this.getFechaActual()
+        this.horaActual = this.getHoraActual()
+      }
     }
   }
 }
