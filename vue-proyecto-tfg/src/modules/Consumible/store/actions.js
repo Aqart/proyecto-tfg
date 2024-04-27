@@ -28,7 +28,7 @@ export const createConsumible = async ({ commit }, consumible) => {
     return { ok: false, message: '....' }
   }
   try {
-    console.log("Action", consumible)
+    console.log('Action', consumible)
     const response = await authApi.post('/consumibles', consumible, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
