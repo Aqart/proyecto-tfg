@@ -16,12 +16,11 @@
 
       <SelectComponent
         v-else-if="index === 'id_maquina'"
-        :label="'Selecciona máquina'"
+        :label="'Máquina'"
         :options="maquinas"
         :value="el"
         @changeSelect="handleSelectChange"
       />
-      
     </div>
     <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
     <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
@@ -42,7 +41,22 @@
         id="password"
         placeholder="•••••••••"
       /> -->
-    <ButtonComponent :text="textoBoton" bgColor="bg-secondary" />
+    <!-- <div>
+      <MensajesComponent
+        :type="error.status ? 'error' : 'success'"
+        :message="error.message"
+        :mostrarMensaje="error.status"
+      />
+    </div> -->
+    <div class="flex flex-row items-center gap-4">
+      <ButtonComponent :text="textoBoton" bgColor="bg-secondary" 
+        class="hover:bg-opacity-80"
+      />
+      <ButtonComponent :text="'Cancelar'" bgColor="bg-primary"
+        class="hover:ring-2 hover:ring-primary hover:bg-opacity-80"
+        @click="toggleModal"
+      />
+    </div>
   </form>
 </template>
 
@@ -69,6 +83,7 @@ export default {
       form: { ...this.data },
       error: {
         status: false,
+        type: '',
         message: ''
       }
     }
@@ -109,6 +124,18 @@ export default {
     toggleModal() {
       this.$emit('close')
     },
+    objectsAreEqual(obj1, obj2){
+      for (let prop in obj1) {
+        if (typeof obj1[prop] === 'string' && typeof obj2[prop] === 'string') {
+          if (obj1[prop].trim() !== obj2[prop].trim()) {
+            return false
+          }
+        } else if (obj1[prop] !== obj2[prop]) {
+          return false
+        }
+      }
+      return true
+    },
     handleSubmit() {
       //si alguno de los campos esta vacio no se envia
       // Comprobamos si this.form se ha inicializado
@@ -118,12 +145,18 @@ export default {
       ) {
         //this.$emit('send', 'No se pueden enviar campos vacios')
         // Introducir los métodos de los mensajes
-        // this.error.status = true
+        this.error.status = true
+        this.error.type = 'warning'
         this.error.message = 'No se pueden enviar campos vacíos'
-        console.error(this.error.message)
+        this.$emit('errorForm', this.error)
         // return
+      } else if(this.objectsAreEqual(this.form, this.data)) {
+        this.error.status = true
+        this.error.type = 'warning'
+        this.error.message = 'No se ha modificado ningún campo'
+        this.$emit('errorForm', this.error)
       } else {
-        console.log("Datos que se envían", this.form)
+        console.log('Datos que se envían', this.form)
         this.$emit('send', this.form)
         this.form = {}
         this.toggleModal()
@@ -135,13 +168,20 @@ export default {
       } else {
         delete this.form.id
       }
+
+      // Accede a la primera propiedad de e
+      let firstProp = Object.keys(e)[0]
+      if (typeof e[firstProp] === 'string') {
+        e[firstProp] = e[firstProp].trim()
+      }
+
       this.form = { ...this.form, ...e }
       return this.form
     },
-    handleSelectChange(value){
-      console.log("Valor", value)
-      this.form.id_maquina = value;
-      console.log("Form", this.form)
+    handleSelectChange(value) {
+      console.log('Valor', value)
+      this.form.id_maquina = value
+      console.log('Form', this.form)
     },
     checkType(type) {
       if (type === 'string') {

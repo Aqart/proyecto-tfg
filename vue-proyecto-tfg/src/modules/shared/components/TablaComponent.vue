@@ -190,7 +190,10 @@
       </table>
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
-    <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
+    <ModalComponent 
+      :title="modalTitle" 
+      :modalActive="showModal"
+      @close="toggleModalClose">
       <!-- <RegisterComponent v-if="modalType === 'register'"
         :title="modalTitle"
       /> -->
@@ -209,6 +212,7 @@
         @send="getNewData"
         :tipo="modalTitle"
         :maquinas="getMaquinas"
+        @errorForm="handleError"
         @close="toggleModalClose"
       />
     </ModalComponent>
@@ -270,10 +274,15 @@ export default {
     )
   },
   setup() {
-    const { actualizarMostrarMensaje } = useShared()
+    const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
 
     const cerrarMensaje = () => {
       actualizarMostrarMensaje(false)
+    }
+
+    const handleError = (error) =>{
+      actualizarMensaje(error.type, error.message)
+      actualizarMostrarMensaje(error.status)
     }
 
     const formatIndex = (index) => {
@@ -313,7 +322,8 @@ export default {
       cerrarMensaje,
       formatIndex,
       showDropdown,
-      toggleDropdown
+      toggleDropdown,
+      handleError
     }
   },
   methods: {

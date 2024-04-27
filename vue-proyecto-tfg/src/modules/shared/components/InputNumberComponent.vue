@@ -38,8 +38,7 @@ export default {
   },
   data() {
     return {
-      newInputValue: this.value,
-      error: false
+      newInputValue: this.value
     }
   },
   computed: {
@@ -59,8 +58,8 @@ export default {
       this.$emit('changeNumber', { [key]: Number(this.newInputValue) })
     },
     handleError() {
-      console.log('Error', this.error)
-      this.error = true
+      console.log('Error de campo vacío InputNumer')
+      this.$emit('errorNumber', 'Este campo no puede estar vacio')
     },
     formatText(text) {
       let formattedText = text.replace(/_/g, ' ')
