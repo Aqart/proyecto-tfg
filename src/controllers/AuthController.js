@@ -109,7 +109,7 @@ const AuthController = {
     obtenerTodos: async (req, res) => {
         try {
             const [rows, fields] = await pool.query(
-                'SELECT id,email,roles,fecha_registro,ultima_conexion FROM user'
+                'SELECT id,numero_trabajador,email,roles,fecha_registro,ultima_conexion FROM user'
             )
             res.status(200).json(rows)
         } catch (error) {
