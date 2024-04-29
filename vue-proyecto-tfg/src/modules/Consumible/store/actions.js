@@ -10,7 +10,6 @@ export const fetchConsumibles = async ({ commit }) => {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
-
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Actualizar el estado con los consumibles obtenidos

@@ -190,10 +190,7 @@
       </table>
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
-    <ModalComponent 
-      :title="modalTitle" 
-      :modalActive="showModal"
-      @close="toggleModalClose">
+    <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
       <!-- <RegisterComponent v-if="modalType === 'register'"
         :title="modalTitle"
       /> -->
@@ -280,7 +277,7 @@ export default {
       actualizarMostrarMensaje(false)
     }
 
-    const handleError = (error) =>{
+    const handleError = (error) => {
       actualizarMensaje(error.type, error.message)
       actualizarMostrarMensaje(error.status)
     }

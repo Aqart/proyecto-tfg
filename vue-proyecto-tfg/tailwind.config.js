@@ -30,7 +30,7 @@ export default {
           3: '#4F595A',
           4: '#2F6A70',
           5: '#7C97A6',
-          6: '#F0CA00'
+          6: '#DCB039 '
         }
       },
       textShadow: {

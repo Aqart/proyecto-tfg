@@ -58,7 +58,6 @@ export default {
       try {
         await deleteGastos(arrayData)
       } catch (error) {
-        console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
         actualizarMostrarMensaje(true)
       }
