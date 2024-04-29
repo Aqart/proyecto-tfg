@@ -12,7 +12,7 @@
       @change="handleChange"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 shadow-sm"
     >
-      <option :value="null" selected disabled hidden >
+      <option :value="null" selected disabled hidden>
         {{ placeholder }}
       </option>
       <option v-for="(option, index) in options" :key="index" :value="option.id">

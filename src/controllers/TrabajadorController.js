@@ -15,11 +15,11 @@ const TrabajadorController = {
 
     // Crear un nuevo trabajador
     crear: async (req, res, next) => {
-        const { nombre, apellido1, apellido2, precio, produccion } = req.body
+        const { nombre, apellidos, precio, id_maquina } = req.body
         try {
             await pool.query(
-                'INSERT INTO trabajador (nombre, apellido1, apellido2, precio, produccion) VALUES (?, ?, ?, ?, ?)',
-                [nombre, apellido1, apellido2, precio, produccion]
+                'INSERT INTO trabajador_costes (nombre, apellidos, precio, id_maquina) VALUES (?, ?, ?, ?)',
+                [nombre, apellidos, precio, id_maquina]
             )
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
@@ -53,11 +53,11 @@ const TrabajadorController = {
     // Actualizar un trabajador
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, apellido1, apellido2, precio, produccion } = req.body
+        const { nombre, apellidos, precio, id_maquina } = req.body
         try {
             await pool.query(
-                'UPDATE trabajador SET nombre = ?, apellido1 = ?, apellido2 = ?, precio = ?, produccion = ? WHERE id = ?',
-                [nombre, apellido1, apellido2, precio, produccion, id]
+                'UPDATE trabajador_costes SET nombre = ?, apellidos = ?, precio = ?, id_maquina = ? WHERE id = ?',
+                [nombre, apellidos, precio, id_maquina, id]
             )
             res.status(200).json({
                 message: 'Trabajador actualizado correctamente',
@@ -71,7 +71,7 @@ const TrabajadorController = {
     eliminar: async (req, res, next) => {
         const { id } = req.params
         try {
-            await pool.query('DELETE FROM trabajador WHERE id = ?', [id])
+            await pool.query('DELETE FROM trabajador_costes WHERE id = ?', [id])
             res.status(200).json({
                 message: 'Trabajador eliminado correctamente',
             })

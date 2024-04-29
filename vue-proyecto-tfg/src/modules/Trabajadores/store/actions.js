@@ -72,7 +72,7 @@ export const getTrabajadorById = async ({ commit }, id) => {
   }
 }
 
-export const editConsumible = async ({ commit }, trabajador) => {
+export const editTrabajador = async ({ commit }, trabajador) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }

@@ -49,10 +49,10 @@
       />
     </div> -->
     <div class="flex flex-row items-center gap-4">
-      <ButtonComponent :text="textoBoton" bgColor="bg-secondary" 
-        class="hover:bg-opacity-80"
-      />
-      <ButtonComponent :text="'Cancelar'" bgColor="bg-primary"
+      <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
+      <ButtonComponent
+        :text="'Cancelar'"
+        bgColor="bg-primary"
         class="hover:ring-2 hover:ring-primary hover:bg-opacity-80"
         @click="toggleModal"
       />
@@ -124,7 +124,7 @@ export default {
     toggleModal() {
       this.$emit('close')
     },
-    objectsAreEqual(obj1, obj2){
+    objectsAreEqual(obj1, obj2) {
       for (let prop in obj1) {
         if (typeof obj1[prop] === 'string' && typeof obj2[prop] === 'string') {
           if (obj1[prop].trim() !== obj2[prop].trim()) {
@@ -150,7 +150,7 @@ export default {
         this.error.message = 'No se pueden enviar campos vacíos'
         this.$emit('errorForm', this.error)
         // return
-      } else if(this.objectsAreEqual(this.form, this.data)) {
+      } else if (this.objectsAreEqual(this.form, this.data)) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'No se ha modificado ningún campo'
