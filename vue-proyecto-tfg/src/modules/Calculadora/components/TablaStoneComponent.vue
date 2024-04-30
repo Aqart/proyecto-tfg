@@ -9,6 +9,12 @@
         @errorNumber="handleError"
       />
 
+      <SelectMaquinaComponent 
+        :maquinasSeleccionadas="maquinas" 
+        :options="getMaquinas"
+        @addMaquina="addMaquinasArray"
+      />
+
       <label for="maquina">Seleccione máquina</label>
       <select name="maquina" ref="maquina">
         <option v-for="maquina in getMaquinas" :key="maquina.id" :value="maquina.id">
@@ -50,6 +56,7 @@ export default {
       numero1: 0,
       maquina: null,
       consumibles: null,
+      maquinas: [],
       sumables: [],
       error: {
         status: false,
@@ -83,6 +90,11 @@ export default {
         }, 1000)
       }
     },
+    addMaquinasArray(maquinaId){
+      let maquina = this.getMaquinas.find(m => m.id === maquinaId)
+      console.log("TablaStone", maquina)
+      this.maquinas.push(maquina)
+    },
     handleChange(e) {
       this.numero1 = e
       let sum = 0
@@ -110,6 +122,9 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
+    SelectMaquinaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    ),
     InputNumberComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/InputNumberComponent.vue')
     ),
