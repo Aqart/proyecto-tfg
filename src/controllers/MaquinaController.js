@@ -13,11 +13,11 @@ const MaquinaController = {
 
     // Crear una nueva máquina
     crear: async (req, res, next) => {
-        const { nombre, produccion_m2, energia_consumida } = req.body
+        const { nombre, produccion_m2 } = req.body
         try {
             await pool.query(
-                'INSERT INTO maquina (nombre, produccion_m2, energia_consumida) VALUES (?, ?, ?)',
-                [nombre, produccion_m2, energia_consumida]
+                'INSERT INTO maquina (nombre, produccion_m2) VALUES (?, ?)',
+                [nombre, produccion_m2]
             )
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
@@ -51,11 +51,11 @@ const MaquinaController = {
     // Actualizar una máquina
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, produccion_m2, energia_consumida } = req.body
+        const { nombre, produccion_m2 } = req.body
         try {
             await pool.query(
-                'UPDATE maquina SET nombre = ?, produccion_m2 = ?, energia_consumida = ? WHERE id = ?',
-                [nombre, produccion_m2, energia_consumida, id]
+                'UPDATE maquina SET nombre = ?, produccion_m2 = ? WHERE id = ?',
+                [nombre, produccion_m2, id]
             )
             res.status(200).json({
                 message: 'Máquina actualizada correctamente',

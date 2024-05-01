@@ -142,7 +142,10 @@
                 class="px-6 py-4"
               >
                 <div class="text-sm text-center text-stoneBackgroun-3">
-                  {{ getMaquinas.find((maquina) => maquina.id === el).nombre }}
+                  {{ 
+                    el !== null ?  
+                      getMaquinas.find((maquina) => maquina.id === el).nombre : 'Sin máquina asociada'
+                  }}
                 </div>
               </td>
               <th

@@ -12,7 +12,8 @@
       @change="handleChange"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 shadow-sm"
     >
-      <option :value="null" selected disabled hidden>
+      <option v-if="nullOption !== ''" :value="null">{{ nullOption }}</option>
+      <option :value="'placeholder'" :selected="!isEditing" disabled hidden>
         {{ placeholder }}
       </option>
       <option v-for="(option, index) in options" :key="index" :value="option.id">
@@ -31,7 +32,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: 'Seleccione una máquina relacionada'
+      default: 'Seleccione una opción'
     },
     label: {
       type: String,
@@ -40,11 +41,19 @@ export default {
     options: {
       type: Array,
       default: () => []
+    },
+    nullOption: {
+      type: String,
+      default: ''
+    },
+    isEditing: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      selected: this.value
+      selected: this.isEditing ? this.value : 'placeholder'
     }
   },
   methods: {
@@ -53,6 +62,9 @@ export default {
     }
   },
   watch: {
+    isEditing(newVal) {
+      this.selected = newVal ? this.value : 'placeholder';
+    },
     value(newValue) {
       this.selected = newValue
     }

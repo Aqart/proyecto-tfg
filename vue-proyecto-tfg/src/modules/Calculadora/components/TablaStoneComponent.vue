@@ -9,8 +9,8 @@
         @errorNumber="handleError"
       />
 
-      <SelectMaquinaComponent 
-        :maquinasSeleccionadas="maquinas" 
+      <SelectMaquinaComponent
+        :maquinasSeleccionadas="maquinas"
         :options="getMaquinas"
         @addMaquina="addMaquinasArray"
       />
@@ -90,9 +90,9 @@ export default {
         }, 1000)
       }
     },
-    addMaquinasArray(maquinaId){
-      let maquina = this.getMaquinas.find(m => m.id === maquinaId)
-      console.log("TablaStone", maquina)
+    addMaquinasArray(maquinaId) {
+      let maquina = this.getMaquinas.find((m) => m.id === maquinaId)
+      console.log('TablaStone', maquina)
       this.maquinas.push(maquina)
     },
     handleChange(e) {

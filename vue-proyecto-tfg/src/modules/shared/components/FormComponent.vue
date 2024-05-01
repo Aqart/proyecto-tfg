@@ -19,6 +19,9 @@
         :label="'Máquina'"
         :options="maquinas"
         :value="el"
+        :placeholder="'Seleccione una máquina relacionada'"
+        :nullOption="'Sin máquina asociada'"
+        :isEditing="tipo === 'Editar' ? true : false"
         @changeSelect="handleSelectChange"
       />
     </div>
@@ -141,7 +144,9 @@ export default {
       // Comprobamos si this.form se ha inicializado
       if (
         Object.keys(this.form).length === 0 ||
-        Object.values(this.form).some((el) => el == '' || el == null)
+        Object.entries(this.form).some(
+          ([key, value]) => key !== 'id_maquina' && (value == '' || value == null)
+        )
       ) {
         //this.$emit('send', 'No se pueden enviar campos vacios')
         // Introducir los métodos de los mensajes

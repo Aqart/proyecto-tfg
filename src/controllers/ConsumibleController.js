@@ -17,7 +17,7 @@ const ConsumibleController = {
         try {
             await pool.query(
                 'INSERT INTO consumible (nombre, precio, id_maquina) VALUES (?, ?, ?)',
-                [nombre, precio, id_maquina]
+                [nombre, precio, id_maquina || null]
             )
 
             // Obtener el ID del último consumible insertado
@@ -58,7 +58,7 @@ const ConsumibleController = {
         try {
             await pool.query(
                 'UPDATE consumible SET nombre = ?, precio = ?, id_maquina = ? WHERE id = ?',
-                [nombre, precio, id_maquina, id]
+                [nombre, precio, id_maquina || null, id]
             )
             res.status(200).json({
                 message: 'Consumible actualizado correctamente',
