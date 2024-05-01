@@ -1,5 +1,6 @@
 <template>
   <div class="mt-4">
+    <!-- AñADIR QUE SI NO SE SELECCIONA NINGUNA MÁQUINA MANDE UN MENSAJE DE ERROR -->
     <h2 v-if="maquinasSeleccionadas.length > 0">Máquinas seleccionadas:</h2>
     <div v-for="(maquina, index) in maquinasSeleccionadas" :key="index" class="grid grid-cols-2">
       <div class="align-middle">
@@ -27,7 +28,10 @@
         </select>
       </div>
       <div class="pl-4 w-1/4">
-        <ButtonComponent :text="'Añadir'" bgColor="bg-secondary"      class="hover:bg-opacity-80" 
+        <ButtonComponent
+          :text="'Añadir'"
+          bgColor="bg-secondary"
+          class="hover:bg-opacity-80"
           @click="addMaquina"
         />
       </div>
@@ -65,7 +69,7 @@ export default {
     },
     addMaquina() {
       if (this.selected) {
-        console.log("SelectMaquinaComponent", this.selected)
+        console.log('SelectMaquinaComponent', this.selected)
         this.$emit('addMaquina', this.selected)
         this.selected = null
       }
@@ -79,8 +83,8 @@ export default {
       handler(newValue) {
         console.log(newValue)
       },
-      deep: true,
-    },
+      deep: true
+    }
   }
 }
 </script>

@@ -42,7 +42,7 @@
       <div
         class="max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-2"
       >
-        <ul class="grid grid-cols-2 md:grid-cols-3 gap-3 list-none pl-0">
+        <ul class="flex flex-wrap items-center justify-evenly gap-3 list-none pl-0">
           <li
             v-for="item in listItems"
             :key="item.id"
@@ -54,7 +54,7 @@
                 listItems.length === 1
             }"
           >
-            <div class="grid grid-cols-2">
+            <div class="flex">
               <div class="align-middle">
                 <template v-for="(el, index) in item">
                   <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
