@@ -2,7 +2,7 @@
   <div>
     <div>
       <MensajesComponent
-        v-if="getTipo === 'success'"
+        v-if="getTipo !== 'warning'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -24,7 +24,7 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createGasto, editGasto, deleteGastos } = useGasto()
+    const { createGasto, editGasto, deleteGastos, getGasto } = useGasto()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -56,7 +56,36 @@ export default {
 
     const deleteGastosSeleccionados = async (arrayData) => {
       try {
-        await deleteGastos(arrayData)
+        const results = await deleteGastos(arrayData)
+        const failedResults = results.filter((result) => result.ok === false)
+        if (failedResults.length > 0) {
+          const dataFailedPromises = failedResults.map(async (result) => {
+              return await getGasto(result.id);
+          })
+          const dataFailed = await Promise.all(dataFailedPromises)
+          console.log("dataFailed: ", dataFailed[0].ok)
+          if(!dataFailed[0].ok){
+            actualizarMensaje(
+              'error',
+              'Error accediendo a los gastos energéticos'
+            )
+            actualizarMostrarMensaje(true)
+          } else {
+            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            actualizarMensaje(
+              'error',
+              `Los siguientes gastos energéticos no se pudieron eliminar: ${nombres}`
+            )
+            actualizarMostrarMensaje(true)
+          }
+        } else {
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          actualizarMensaje(
+            'success',
+            `Los siguientes gastos energéticos se han eliminado: ${nombresSuccess}`
+          )
+          actualizarMostrarMensaje(true)
+        }
       } catch (error) {
         actualizarMensaje('error', 'Error eliminando los datos')
         actualizarMostrarMensaje(true)

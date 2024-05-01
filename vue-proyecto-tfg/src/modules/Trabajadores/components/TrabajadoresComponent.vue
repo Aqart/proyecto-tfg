@@ -2,7 +2,7 @@
   <div>
     <template v-if="getMostrar">
       <MensajesComponent
-        v-if="getTipo === 'success'"
+        v-if="getTipo !== 'warning'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -24,7 +24,7 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createTrabajador, editTrabajador, deleteTrabajadores } = useTrabajadores()
+    const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador } = useTrabajadores()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -56,15 +56,37 @@ export default {
 
     const deleteTrabajadoresSeleccionados = async (arrayData) => {
       try {
-        await deleteTrabajadores(arrayData)
-
-        // if(!ok) {
-        //   actualizarMensaje('error', message)
-        //   actualizarMostrarMensaje(true)
-        // } else {
-        //   actualizarMensaje('success', message)
-        //   actualizarMostrarMensaje(true)
-        // }
+        const results = await deleteTrabajadores(arrayData)
+        const failedResults = results.filter((result) => result.ok === false)
+        if (failedResults.length > 0) {
+          const dataFailedPromises = failedResults.map(async (result) => {
+              return await getTrabajador(result.id);
+          })
+          const dataFailed = await Promise.all(dataFailedPromises)
+          console.log("dataFailed: ", dataFailed[0].ok)
+          if(!dataFailed[0].ok){
+            actualizarMensaje(
+              'error',
+              'Error accediendo a los trabajadores'
+            )
+            actualizarMostrarMensaje(true)
+          } else {
+            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            actualizarMensaje(
+              'error',
+              `Los siguientes trabajadores no se pudieron eliminar: ${nombres}`
+            )
+            actualizarMostrarMensaje(true)
+          }
+        } else {
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          console.log(nombresSuccess)
+          actualizarMensaje(
+            'success',
+            `Los siguientes trabajadores se han eliminado: ${nombresSuccess}`
+          )
+          actualizarMostrarMensaje(true)
+        }
       } catch (error) {
         console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')

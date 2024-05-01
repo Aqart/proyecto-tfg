@@ -66,6 +66,7 @@ export const getMateriaPrimaById = async ({ commit }, id) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
+      response.data.ok = true
       return response.data
     } else {
       console.error('Error al obtener la materia prima:', response.message)
@@ -73,6 +74,7 @@ export const getMateriaPrimaById = async ({ commit }, id) => {
     }
   } catch (error) {
     console.log('Error al obtener la materia prima:', error)
+    return { ok: false, message: 'Error en el acceso a materias primas' }
   }
 }
 

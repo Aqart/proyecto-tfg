@@ -23,11 +23,18 @@ const useMaquina = () => {
     return resp
   }
 
+  const getMaquina = async (id) => {
+    const resp = await store.dispatch('Maquinas/getMaquinaById', id)
+    return resp
+  
+  }
+
   return {
     getMaquinas,
     createMaquina,
     editMaquina,
-    deleteMaquinas
+    deleteMaquinas,
+    getMaquina
   }
 }
 
