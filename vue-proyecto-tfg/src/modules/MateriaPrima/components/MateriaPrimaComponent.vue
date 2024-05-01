@@ -2,7 +2,7 @@
   <div>
     <template v-if="getMostrar">
       <MensajesComponent
-        v-if="getTipo === 'success'"
+        v-if="getTipo !== 'warning'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -60,14 +60,25 @@ export default {
         const results = await deleteMateriasPrimas(arrayData)
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
-          const dataFailedPromises = failedResults.map((result) => getMateriaPrima(result.id))
+          const dataFailedPromises = failedResults.map(async (result) => {
+              return await getMateriaPrima(result.id);
+          })
           const dataFailed = await Promise.all(dataFailedPromises)
-          const nombres = dataFailed.map((result) => result.nombre).join(', ')
-          actualizarMensaje(
-            'error',
-            `Las siguientes materias primas no se pudieron eliminar: ${nombres}`
-          )
-          actualizarMostrarMensaje(true)
+          console.log("dataFailed: ", dataFailed[0].ok)
+          if(!dataFailed[0].ok){
+            actualizarMensaje(
+              'error',
+              'Error accediendo a las materias primas'
+            )
+            actualizarMostrarMensaje(true)
+          } else {
+            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            actualizarMensaje(
+              'error',
+              `Las siguientes materias primas no se pudieron eliminar: ${nombres}`
+            )
+            actualizarMostrarMensaje(true)
+          }
         } else {
           const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
           console.log(nombresSuccess)

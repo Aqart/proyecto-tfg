@@ -2,7 +2,7 @@
   <div>
     <div>
       <MensajesComponent
-        v-if="getTipo === 'success'"
+        v-if="getTipo !== 'warning'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -24,7 +24,7 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createGastoGeneral, editGastoGeneral, deleteGastosGenerales } = useGastoGeneral()
+    const { createGastoGeneral, editGastoGeneral, deleteGastosGenerales, getGastoGeneral } = useGastoGeneral()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -55,7 +55,37 @@ export default {
 
     const deleteGastosSeleccionados = async (arrayData) => {
       try {
-        await deleteGastosGenerales(arrayData)
+        const results = await deleteGastosGenerales(arrayData)
+        const failedResults = results.filter((result) => result.ok === false)
+        if (failedResults.length > 0) {
+          const dataFailedPromises = failedResults.map(async (result) => {
+              return await getGastoGeneral(result.id);
+          })
+          const dataFailed = await Promise.all(dataFailedPromises)
+          console.log("dataFailed: ", dataFailed[0].ok)
+          if(!dataFailed[0].ok){
+            actualizarMensaje(
+              'error',
+              'Error accediendo a los gastos generales'
+            )
+            actualizarMostrarMensaje(true)
+          } else {
+            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            actualizarMensaje(
+              'error',
+              `Los siguientes gastos generales no se pudieron eliminar: ${nombres}`
+            )
+            actualizarMostrarMensaje(true)
+          }
+        } else {
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          console.log(nombresSuccess)
+          actualizarMensaje(
+            'success',
+            `Los siguientes consumibles se han eliminado: ${nombresSuccess}`
+          )
+          actualizarMostrarMensaje(true)
+        }
       } catch (error) {
         actualizarMensaje('error', 'Error eliminando los datos')
         actualizarMostrarMensaje(true)

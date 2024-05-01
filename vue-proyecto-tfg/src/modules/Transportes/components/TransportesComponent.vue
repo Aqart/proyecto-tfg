@@ -2,7 +2,7 @@
   <div>
     <template v-if="getMostrar">
       <MensajesComponent
-        v-if="getTipo === 'success'"
+        v-if="getTipo !== 'warning'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -24,7 +24,7 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createTransporte, editTransporte, deleteTransportes } = useTransporte()
+    const { createTransporte, editTransporte, deleteTransportes, getTransporte } = useTransporte()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -56,15 +56,37 @@ export default {
 
     const deleteTransportesSeleccionados = async (arrayData) => {
       try {
-        await deleteTransportes(arrayData)
-
-        // if(!ok) {
-        //   actualizarMensaje('error', message)
-        //   actualizarMostrarMensaje(true)
-        // } else {
-        //   actualizarMensaje('success', message)
-        //   actualizarMostrarMensaje(true)
-        // }
+        const results = await deleteTransportes(arrayData)
+        const failedResults = results.filter((result) => result.ok === false)
+        if (failedResults.length > 0) {
+          const dataFailedPromises = failedResults.map(async (result) => {
+              return await getTransporte(result.id);
+          })
+          const dataFailed = await Promise.all(dataFailedPromises)
+          console.log("dataFailed: ", dataFailed[0].ok)
+          if(!dataFailed[0].ok){
+            actualizarMensaje(
+              'error',
+              'Error accediendo a los transportes'
+            )
+            actualizarMostrarMensaje(true)
+          } else {
+            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            actualizarMensaje(
+              'error',
+              `Los siguientes transportes no se pudieron eliminar: ${nombres}`
+            )
+            actualizarMostrarMensaje(true)
+          }
+        } else {
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          console.log(nombresSuccess)
+          actualizarMensaje(
+            'success',
+            `Los siguientes transportes se han eliminado: ${nombresSuccess}`
+          )
+          actualizarMostrarMensaje(true)
+        }
       } catch (error) {
         console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
