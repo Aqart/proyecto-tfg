@@ -13,6 +13,7 @@
         :maquinasSeleccionadas="maquinas"
         :options="getMaquinas"
         @addMaquina="addMaquinasArray"
+        @removeMaquina="removeMaquinasArray"
       />
 
       <label for="maquina">Seleccione máquina</label>
@@ -92,8 +93,10 @@ export default {
     },
     addMaquinasArray(maquinaId) {
       let maquina = this.getMaquinas.find((m) => m.id === maquinaId)
-      console.log('TablaStone', maquina)
       this.maquinas.push(maquina)
+    },
+    removeMaquinasArray(maquinaId) {
+      this.maquinas = this.maquinas.filter((m) => m.id !== maquinaId)
     },
     handleChange(e) {
       this.numero1 = e

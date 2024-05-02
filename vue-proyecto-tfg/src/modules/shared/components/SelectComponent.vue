@@ -63,7 +63,7 @@ export default {
   },
   watch: {
     isEditing(newVal) {
-      this.selected = newVal ? this.value : 'placeholder';
+      this.selected = newVal ? this.value : 'placeholder'
     },
     value(newValue) {
       this.selected = newValue

@@ -60,15 +60,12 @@ export default {
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
           const dataFailedPromises = failedResults.map(async (result) => {
-              return await getTransporte(result.id);
+            return await getTransporte(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log("dataFailed: ", dataFailed[0].ok)
-          if(!dataFailed[0].ok){
-            actualizarMensaje(
-              'error',
-              'Error accediendo a los transportes'
-            )
+          console.log('dataFailed: ', dataFailed[0].ok)
+          if (!dataFailed[0].ok) {
+            actualizarMensaje('error', 'Error accediendo a los transportes')
             actualizarMostrarMensaje(true)
           } else {
             const nombres = dataFailed.map((result) => result.nombre).join(', ')

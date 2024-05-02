@@ -1,37 +1,58 @@
 <template>
   <div class="mt-4">
     <!-- AñADIR QUE SI NO SE SELECCIONA NINGUNA MÁQUINA MANDE UN MENSAJE DE ERROR -->
-    <h2 v-if="maquinasSeleccionadas.length > 0">Máquinas seleccionadas:</h2>
-    <div v-for="(maquina, index) in maquinasSeleccionadas" :key="index" class="grid grid-cols-2">
-      <div class="align-middle">
-        {{ maquina.nombre }}
+    <div>
+      <h2
+        class="block text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+      >
+            Máquinas seleccionadas:
+      </h2>
+  
+      <div
+          v-if="maquinasSeleccionadas.length > 0"
+          class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-5 bg-primary rounded-lg bg-opacity-50"
+        >
+        <div class="flex flex-wrap items-center justify-evenly gap-3 list-none pl-0">
+          <div v-for="(maquina, index) in maquinasSeleccionadas" :key="index" 
+            class="flex items-center bg-stoneBackgroundContrast-5 py-2 px-4 rounded-md text-sm font-semibold text-stoneBackgroundContrast-3 bg-opacity-30">
+              <span>{{ maquina.nombre }}</span>
+              <ButtonComponent
+                type="button"
+                text="X"
+                bgColor="bg-transparent"
+                otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 justify-self-end ml-2"
+                @click="removeMaquina(maquina.id)"
+              />
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center">
+      <div v-if="errorMessage" class="inline-block text-sm mt-3 bg-primary bg-opacity-20 text-stoneBackgroundContrast-2 text-opacity-80 px-3 py-1 rounded-sm text-center">
+        <FontAwesomeIcon
+          :icon="['fas', 'triangle-exclamation']"
+          class="text-stoneBackgroundContrast-2 scale-125 flex-shrink-0 inline w-3 h-3 me-1"
+        />
+        {{ errorMessage }}
       </div>
     </div>
     <div class="flex items-center">
-      <div class="flex-auto">
-        <label
-          for="máquinas"
-          class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
-        >
-          Seleccione máquinas
-        </label>
-        <select
-          v-model="selected"
-          name="máquinas"
-          @change="handleChange"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-3 mb-4 shadow-sm"
-        >
-          <option :value="null" selected disabled hidden>Seleccione máquina</option>
-          <option v-for="(option, index) in options" :key="index" :value="option.id">
-            {{ option.nombre }}
-          </option>
-        </select>
-      </div>
+      <select
+        v-model="selected"
+        name="máquinas"
+        @change="handleChange"
+        class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-3 shadow-sm"
+      >
+        <option :value="null" selected disabled hidden>Seleccione máquina</option>
+        <option v-for="(option, index) in options" :key="index" :value="option.id">
+          {{ option.nombre }}
+        </option>
+      </select>
       <div class="pl-4 w-1/4">
         <ButtonComponent
           :text="'Añadir'"
-          bgColor="bg-secondary"
-          class="hover:bg-opacity-80"
+          bgColor="bg-primary"
+          class="hover:bg-opacity-70"
           @click="addMaquina"
         />
       </div>
@@ -55,7 +76,8 @@ export default {
   },
   data() {
     return {
-      selected: null
+      selected: null,
+      errorMessage: ''
     }
   },
   components: {
@@ -69,10 +91,26 @@ export default {
     },
     addMaquina() {
       if (this.selected) {
-        console.log('SelectMaquinaComponent', this.selected)
-        this.$emit('addMaquina', this.selected)
-        this.selected = null
+        if (!this.maquinasSeleccionadas.some(maquina => maquina.id === this.selected)) {
+          this.$emit('addMaquina', this.selected)
+          this.selected = null
+          this.errorMessage = ''
+        } else {
+          this.errorMessage = "La máquina está seleccionada"
+          setTimeout(() => {
+            this.errorMessage = ''
+          }, 6000)
+        }
+      } else {
+        this.errorMessage = "No ha seleccionado ninguna máquina"
+        setTimeout(() => {
+          this.errorMessage = ''
+        }, 6000)
       }
+    },
+    removeMaquina(id){
+      this.$emit('removeMaquina', id)
+      this.errorMessage = ''
     }
   },
   watch: {

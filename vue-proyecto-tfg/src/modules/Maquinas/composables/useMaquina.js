@@ -26,7 +26,6 @@ const useMaquina = () => {
   const getMaquina = async (id) => {
     const resp = await store.dispatch('Maquinas/getMaquinaById', id)
     return resp
-  
   }
 
   return {

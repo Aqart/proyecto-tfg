@@ -24,7 +24,8 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador } = useTrabajadores()
+    const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador } =
+      useTrabajadores()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -60,15 +61,12 @@ export default {
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
           const dataFailedPromises = failedResults.map(async (result) => {
-              return await getTrabajador(result.id);
+            return await getTrabajador(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log("dataFailed: ", dataFailed[0].ok)
-          if(!dataFailed[0].ok){
-            actualizarMensaje(
-              'error',
-              'Error accediendo a los trabajadores'
-            )
+          console.log('dataFailed: ', dataFailed[0].ok)
+          if (!dataFailed[0].ok) {
+            actualizarMensaje('error', 'Error accediendo a los trabajadores')
             actualizarMostrarMensaje(true)
           } else {
             const nombres = dataFailed.map((result) => result.nombre).join(', ')
