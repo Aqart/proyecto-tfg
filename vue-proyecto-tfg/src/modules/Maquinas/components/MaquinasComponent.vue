@@ -2,7 +2,7 @@
   <div>
     <div>
       <MensajesComponent
-        v-if="getTipo === 'error'"
+        v-if="getTipo !== 'warning'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
