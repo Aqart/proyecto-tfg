@@ -60,15 +60,12 @@ export default {
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
           const dataFailedPromises = failedResults.map(async (result) => {
-              return await getMaquina(result.id);
+            return await getMaquina(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log("dataFailed: ", dataFailed[0].ok)
-          if(!dataFailed[0].ok){
-            actualizarMensaje(
-              'error',
-              'Error accediendo a las máquinas'
-            )
+          console.log('dataFailed: ', dataFailed[0].ok)
+          if (!dataFailed[0].ok) {
+            actualizarMensaje('error', 'Error accediendo a las máquinas')
             actualizarMostrarMensaje(true)
           } else {
             const nombres = dataFailed.map((result) => result.nombre).join(', ')
