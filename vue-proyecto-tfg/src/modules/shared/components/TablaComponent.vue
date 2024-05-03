@@ -133,7 +133,15 @@
                 class="px-6 py-4"
               >
                 <div class="text-sm text-center text-stoneBackgroun-3">
-                  {{ new Date(el).toLocaleString() }}
+                  {{
+                    new Date(el).toLocaleString('es-ES', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })
+                  }}
                 </div>
               </td>
               <td
