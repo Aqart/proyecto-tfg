@@ -12,7 +12,7 @@
         v-if="maquinasSeleccionadas.length > 0"
         class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-5 bg-stone rounded-lg bg-opacity-20"
       >
-        <div class="flex flex-row items-center justify-evenly gap-3 list-none pl-0">
+        <div class="flex flex-row items-start justify-start gap-3 list-none pl-2">
           <div
             v-for="(maquina, index) in maquinasSeleccionadas"
             :key="index"
