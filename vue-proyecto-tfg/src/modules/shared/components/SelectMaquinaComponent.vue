@@ -10,13 +10,13 @@
 
       <div
         v-if="maquinasSeleccionadas.length > 0"
-        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden py-5 bg-primary rounded-lg bg-opacity-50"
+        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-5 bg-stone rounded-lg bg-opacity-20"
       >
-        <div class="flex flex-row items-start justify-start gap-3 list-none pl-2">
+        <div class="flex flex-row items-center justify-evenly gap-3 list-none pl-0">
           <div
             v-for="(maquina, index) in maquinasSeleccionadas"
             :key="index"
-            class="flex items-center bg-stoneBackgroundContrast-5 py-2 px-4 rounded-md text-sm font-semibold text-stoneBackgroundContrast-3 bg-opacity-30"
+            class="flex items-center bg-stoneBackground-2 bg-opacity-50 py-2 px-4 rounded-md text-sm font-semibold text-secondary border border-stone border-opacity-50"
           >
             <span>{{ index + 1 + ': ' + maquina.nombre }}</span>
             <ButtonComponent
@@ -49,13 +49,14 @@
         @change="handleChange"
         class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-3 shadow-sm"
       >
-        <option :value="null" selected disabled hidden>Seleccione máquina</option>
+        <option :value="null" selected disabled hidden>Seleccione máquina de corte</option>
         <option v-for="(option, index) in options" :key="index" :value="option.id">
           {{ option.nombre }}
         </option>
       </select>
       <div class="pl-4 w-1/4">
         <ButtonComponent
+          type="button"
           :text="'Añadir'"
           bgColor="bg-primary"
           class="hover:bg-opacity-70"

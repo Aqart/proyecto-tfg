@@ -11,7 +11,6 @@
       type="number"
       step="0.01"
       min="0"
-      v-if="value === 0 || value === null ? handleError : value"
       :value="newValue"
       @input="(event) => updateValue(label, event)"
       :name="value"
@@ -25,7 +24,7 @@ export default {
   props: {
     value: {
       type: Number,
-      default: 0
+      default: null
     },
     placeholder: {
       type: String,
@@ -79,6 +78,11 @@ export default {
     error(newValue) {
       if (newValue) {
         this.$emit('errorNumber', 'Este campo no puede estar vacio')
+      }
+    },
+    value(newValue) {
+      if (newValue === 0 || newValue === null) {
+        this.handleError();
       }
     }
   }

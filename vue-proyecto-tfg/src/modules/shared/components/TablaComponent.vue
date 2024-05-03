@@ -68,7 +68,7 @@
                   v-model="isAllChecked"
                   id="checkbox-all-search"
                   type="checkbox"
-                  class="w-4 h-4 text-stoneBackground-5 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
+                  class="accent-stoneBackground-5 w-4 h-4 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
                 />
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
@@ -121,7 +121,7 @@
                   type="checkbox"
                   :value="body.id"
                   v-model="selectedCheckboxes"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  class="accent-stoneBackground-5 w-4 h-4 border-stoneBackground-3 rounded"
                 />
                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
               </div>
