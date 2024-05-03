@@ -5,20 +5,20 @@
       <h2
         class="block text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
       >
-        Máquinas seleccionadas:
+        Máquinas usadas en el proceso:
       </h2>
 
       <div
         v-if="maquinasSeleccionadas.length > 0"
-        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-5 bg-primary rounded-lg bg-opacity-50"
+        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden py-5 bg-primary rounded-lg bg-opacity-50"
       >
-        <div class="flex flex-wrap items-center justify-evenly gap-3 list-none pl-0">
+        <div class="flex flex-row items-start justify-start gap-3 list-none pl-2">
           <div
             v-for="(maquina, index) in maquinasSeleccionadas"
             :key="index"
             class="flex items-center bg-stoneBackgroundContrast-5 py-2 px-4 rounded-md text-sm font-semibold text-stoneBackgroundContrast-3 bg-opacity-30"
           >
-            <span>{{ maquina.nombre }}</span>
+            <span>{{ index + 1 + ': ' + maquina.nombre }}</span>
             <ButtonComponent
               type="button"
               text="X"
@@ -87,8 +87,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {
