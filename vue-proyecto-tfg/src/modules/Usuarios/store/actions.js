@@ -24,8 +24,7 @@ export const fetchUsuarios = async ({ commit }) => {
 }
 
 export const createUsuario = async ({ commit }, usuario) => {
-  const { email, roles, password } = usuario
-  const numero_trabajador = usuario.numWorker
+  const { numero_trabajador, email, roles, password } = usuario
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -38,10 +37,9 @@ export const createUsuario = async ({ commit }, usuario) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
-      if (response.data.id) {
-        usuario.id = response.data.id
-      }
-      commit('setNewUsuario', usuario)
+      console.log('Usuario creado:', response)
+      // Actualiza el objeto usuario con la respuesta de la API
+      commit('setNewUsuario', response.data.user)
       return { ok: true, message: response.data.message }
     } else {
       console.error('Error al obtener los usuarios:', response.message)

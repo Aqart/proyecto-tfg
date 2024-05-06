@@ -26,13 +26,26 @@ const AuthController = {
             const hashedPassword = await bcrypt.hash(password, 10)
 
             // Inserta el usuario en la base de datos
-            await pool.query(
+            const result = await pool.query(
                 'INSERT INTO user (numero_trabajador, email,roles,password) VALUES (?, ?, ?, ?)',
                 [numero_trabajador, email, roles, hashedPassword]
             )
 
+            console.log(result)
+            // Obtiene el ID del usuario creado
+            const userId = result[0].insertId;
+
+            console.log(userId)
+
+            // Obtiene los detalles del usuario creado
+            const [user] = await pool.query(
+                'SELECT id, numero_trabajador, email, roles, fecha_registro, ultima_conexion FROM user WHERE id = ?',
+                [userId]
+            )
+
             res.status(201).json({
                 message: 'Usuario registrado correctamente',
+                user: user[0],
             })
         } catch (error) {
             next(error)
