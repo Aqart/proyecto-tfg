@@ -156,11 +156,11 @@ export default {
     }
   },
   components: {
-    SelectMaquinaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoandingComponent
   }
@@ -202,7 +202,9 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
+  box-shadow:
+    1px 1px 10px #aaaaaa,
+    -1px -1px 10px #ffffff;
 }
 
 .input + .check::before {
