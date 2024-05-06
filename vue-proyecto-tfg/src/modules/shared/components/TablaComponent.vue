@@ -132,7 +132,10 @@
                 :key="`${el}-td-${index}-date`"
                 class="px-6 py-4"
               >
-                <div class="text-sm text-center text-stoneBackgroun-3">
+                <div v-if="index === 'ultima_conexion' && el === null">
+                  <div class="text-sm text-center text-stoneBackgroun-3">Sin última conexión</div>
+                </div>
+                <div v-else class="text-sm text-center text-stoneBackgroun-3">
                   {{
                     new Date(el).toLocaleString('es-ES', {
                       day: '2-digit',
@@ -203,9 +206,14 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <!-- <RegisterComponent v-if="modalType === 'register'"
-        :title="modalTitle"
-      /> -->
+      <UsuariosFormComponent
+        v-if="modalType === 'register'"
+        :data="item || {}"
+        :tipo="modalTitle"
+        @send="getNewData"
+        @errorForm="handleError"
+        @close="toggleModalClose"
+      />
       <DeleteConfirmationComponent
         v-if="modalType === 'delete'"
         :items="selectedItems"
@@ -275,9 +283,9 @@ export default {
     DeleteConfirmationComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
-    // RegisterComponent: defineAsyncComponent(() =>
-    //   import('@/modules/Auth/components/RegisterComponent.vue')
-    // ),
+    UsuariosFormComponent: defineAsyncComponent(
+      () => import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
+    ),
     LoadingComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/LoadingComponent.vue')
     )
@@ -440,11 +448,12 @@ export default {
       const formattedRoute =
         this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
       if (formattedRoute == 'usuarios') {
+        this.modalType = 'register'
         this.modalTitle = 'Añadir nuevo usuario'
       } else {
         this.modalTitle = 'Añadir nuevo'
+        this.modalType = 'form'
       }
-      this.modalType = 'form'
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data
         this.item = Object.keys(this.data[0]).reduce((obj, key) => {
@@ -464,10 +473,11 @@ export default {
         this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
       if (formattedRoute == 'usuarios') {
         this.modalTitle = 'Editar usuario'
+        this.modalType = 'register'
       } else {
         this.modalTitle = 'Editar'
+        this.modalType = 'form'
       }
-      this.modalType = 'form'
       this.itemId = id
       this.getItemById(this.itemId)
       this.showModal = !this.showModal

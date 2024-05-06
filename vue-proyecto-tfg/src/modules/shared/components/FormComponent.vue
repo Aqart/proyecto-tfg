@@ -1,8 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit" class="px-10 pb-10">
     <div v-for="(el, index) in data" :key="index">
-      <!-- Hay que hacer un input password que ofrezca introducir una nueva contraseña -->
-      <!--  && (index !== 'password' && tipo === 'Editar') -->
       <component
         v-if="index !== 'id' && index !== 'id_maquina'"
         :is="checkType(typeof el)"
@@ -25,32 +23,6 @@
         @changeSelect="handleSelectChange"
       />
     </div>
-    <!-- Problema a la hora de resetear los campos cuando se cambia el modal -->
-    <InputPasswordComponent v-if="tipo === 'Añadir nuevo usuario' || tipo === 'Editar usuario'" />
-    <!-- <label
-        for="password"
-        title="Introduce una nueva contraseña para el usuario"
-        class="block mb-2 text-xl font-medium text-stoneBackground-3 first-letter:uppercase text-shadow"
-      >
-        Nueva contraseña
-      </label>
-      <span class="block mb-2 text-xs font-light text-gray-400 " :style="{ fontSize: '11px' }">
-        Introduce una nueva contraseña para el usuario
-      </span>
-      <input
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 shadow-sm"
-        type="password"
-        name="password"
-        id="password"
-        placeholder="•••••••••"
-      /> -->
-    <!-- <div>
-      <MensajesComponent
-        :type="error.status ? 'error' : 'success'"
-        :message="error.message"
-        :mostrarMensaje="error.status"
-      />
-    </div> -->
     <div class="flex flex-row items-center gap-4">
       <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
       <ButtonComponent
@@ -148,8 +120,6 @@ export default {
           ([key, value]) => key !== 'id_maquina' && (value == '' || value == null)
         )
       ) {
-        //this.$emit('send', 'No se pueden enviar campos vacios')
-        // Introducir los métodos de los mensajes
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'No se pueden enviar campos vacíos'

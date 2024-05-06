@@ -28,7 +28,7 @@ export default {
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
-        if (type === 'Añadir nuevo') {
+        if (type === 'Añadir nuevo usuario') {
           const { ok, message } = await createUsuario(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -37,7 +37,7 @@ export default {
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
-        } else if (type === 'Editar') {
+        } else if (type === 'Editar usuario') {
           const { ok, message } = await editUsuario(data)
           if (!ok) {
             actualizarMensaje('error', message)
