@@ -8,7 +8,8 @@ import { pool } from '../db.js' // Importa el pool de conexión si estás utiliz
 const AuthController = {
     // Registro de usuario
     registrarUsuario: async (req, res, next) => {
-        const { email, roles, password } = req.body
+        console.log("Body", req.body)
+        const { numero_trabajador, email, roles, password } = req.body
         try {
             // Verifica si el usuario ya existe en la base de datos
             const [existingUser] = await pool.query(
@@ -26,8 +27,8 @@ const AuthController = {
 
             // Inserta el usuario en la base de datos
             await pool.query(
-                'INSERT INTO user (email,roles,password) VALUES (?,?, ?)',
-                [email, roles, hashedPassword]
+                'INSERT INTO user (numero_trabajador, email,roles,password) VALUES (?, ?, ?, ?)',
+                [numero_trabajador, email, roles, hashedPassword]
             )
 
             res.status(201).json({
@@ -121,7 +122,7 @@ const AuthController = {
         try {
             const id = req.params.id
             const [rows, fields] = await pool.query(
-                'SELECT id,email,roles FROM user WHERE id = ?',
+                'SELECT id,email,roles,numero_trabajador FROM user WHERE id = ?',
                 [id]
             )
             res.status(200).json(rows[0])

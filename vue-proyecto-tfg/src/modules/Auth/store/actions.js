@@ -7,6 +7,8 @@ import router from '@/router'
 // }
 export const createUser = async ({ state }, user) => {
   const { email, roles, password } = user
+  const numero_trabajador = user.numWorker
+
   if (localStorage.getItem('idToken') === null) {
     //this.$router.push({ name: 'login' })
     return { ok: false, message: '...' }
@@ -14,7 +16,7 @@ export const createUser = async ({ state }, user) => {
   try {
     const { data } = await authApi.post(
       '/registro',
-      { email, roles, password },
+      { numero_trabajador, email, roles, password },
       {
         headers: {
           Athorization: `Bearer ${localStorage.getItem('idToken')}`

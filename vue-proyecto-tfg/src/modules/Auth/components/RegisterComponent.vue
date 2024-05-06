@@ -12,11 +12,23 @@
       />
       <h1 class="text-5xl text-stoneBackground-1 mb-5">{{ title }}</h1>
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
+        Nº de trabajador
+      </label>
+      <input
+        v-model="userForm.numWorker"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-3"
+        type="number"
+        name="numWorker"
+        id="numWorker"
+        min="1"
+        placeholder="Número de trabajador"
+      />
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
         Correo Electrónico
       </label>
       <input
         v-model="userForm.email"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-3"
         type="email"
         name="email"
         id="email"
@@ -27,7 +39,7 @@
       </label>
       <input
         v-model="userForm.password"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-3"
         type="password"
         name="password"
         id="password"
@@ -36,7 +48,7 @@
       <label for="roles" class="block mb-2 text-sm font-medium text-gray-900"> Roles </label>
       <select
         v-model="userForm.roles"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-3"
         name="roles"
         id="roles"
       >
@@ -76,6 +88,7 @@ export default {
     const loading = ref(false)
     const { createUser } = useAuth()
     const userForm = ref({
+      numWorker: null,
       email: '',
       password: '',
       roles: ''
@@ -90,6 +103,7 @@ export default {
     const handleSubmit = async () => {
       try {
         if (
+          userForm.value.numWorker === null ||
           userForm.value.email === '' ||
           userForm.value.password === '' ||
           userForm.value.roles === ''

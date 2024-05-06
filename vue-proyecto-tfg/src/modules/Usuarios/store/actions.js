@@ -24,11 +24,13 @@ export const fetchUsuarios = async ({ commit }) => {
 }
 
 export const createUsuario = async ({ commit }, usuario) => {
+  const { email, roles, password } = usuario
+  const numero_trabajador = usuario.numWorker
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/usuarios', usuario, {
+    const response = await authApi.post('/registro', { numero_trabajador, email, roles, password }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }

@@ -82,7 +82,7 @@ export default {
     },
     value(newValue) {
       if (newValue === 0 || newValue === null) {
-        this.handleError();
+        this.handleError()
       }
     }
   }
