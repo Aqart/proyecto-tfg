@@ -10,13 +10,13 @@
 
       <div
         v-if="maquinasSeleccionadas.length > 0"
-        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-5 bg-stone rounded-lg bg-opacity-20"
+        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden py-5 bg-stone rounded-lg bg-opacity-20"
       >
         <div class="flex flex-row items-start justify-start gap-3 list-none pl-2">
           <div
             v-for="(maquina, index) in maquinasSeleccionadas"
             :key="index"
-            class="flex items-center bg-stoneBackground-2 bg-opacity-50 py-2 px-4 rounded-md text-sm font-semibold text-secondary border border-stone border-opacity-50"
+            class="flex items-center bg-stoneBackground-2 shadow py-2 px-4 rounded-md text-md font-bold text-stoneBackgroundContrast-1 border border-stone border-opacity-50"
           >
             <span>{{ index + 1 + ': ' + maquina.nombre }}</span>
             <ButtonComponent
@@ -47,7 +47,7 @@
         v-model="selected"
         name="máquinas"
         @change="handleChange"
-        class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-3 shadow-sm"
+        class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-3 shadow-sm"
       >
         <option :value="null" selected disabled hidden>Seleccione máquina de corte</option>
         <option v-for="(option, index) in options" :key="index" :value="option.id">
@@ -88,8 +88,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {

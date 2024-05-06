@@ -17,12 +17,12 @@
 
       <label
         for="terminacion"
-        class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+        class="block mb-2 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
       >
         Terminación
       </label>
       <ul
-        class="items-center w-full text-sm text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
+        class="items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
       >
         <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
           <div class="flex items-center ps-3">
@@ -31,9 +31,9 @@
               type="radio"
               value="10"
               name="terminacion"
-              class="accent-stoneBackground-5 w-4 h-4 text-stone bg-stone border-stoneBackground-5"
+              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
             />
-            <label for="soloCortado" class="w-full py-3 ms-2 text-sm font-medium text-secondary"
+            <label for="soloCortado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
               >Solo cortado</label
             >
           </div>
@@ -45,9 +45,9 @@
               type="radio"
               value="20"
               name="terminacion"
-              class="accent-stoneBackground-5 w-4 h-4 text-stone bg-stone border-stoneBackground-3"
+              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
             />
-            <label for="apomazado" class="w-full py-3 ms-2 text-sm font-medium text-secondary"
+            <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
               >Apomazado</label
             >
           </div>
@@ -59,9 +59,9 @@
               type="radio"
               value="30"
               name="terminacion"
-              class="accent-stoneBackground-5 w-4 h-4 text-stone bg-stone border-stoneBackground-3"
+              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
             />
-            <label for="envejecido" class="w-full py-3 ms-2 text-sm font-medium text-secondary"
+            <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
               >Envejecido</label
             >
           </div>
@@ -73,9 +73,9 @@
               type="radio"
               value="40"
               name="terminacion"
-              class="accent-stoneBackground-5 w-4 h-4 text-stone bg-stone border-stoneBackground-3"
+              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
             />
-            <label for="abujardado" class="w-full py-3 ms-2 text-sm text-seconsary"
+            <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
               >Abujardado</label
             >
           </div>
@@ -84,7 +84,7 @@
 
       <label
         for="embalaje"
-        class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+        class="block mb-2 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
       >
         Embalaje
       </label>
@@ -100,29 +100,17 @@
           />
           <label
             for="embalado"
-            c
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow"
           >
             <div class="block">
               <div class="w-full text-lg font-semibold">Embalado</div>
-              <div class="w-full text-sm">Conlleva cargo extra</div>
+              <div class="w-full text-lg">Conlleva cargo extra</div>
             </div>
-            <!-- En lugar de la flecha incluir un icono de FontAwesome -->
-            <svg
-              class="w-5 h-5 ms-3 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
+            <!-- Círculo -->
+            <div class="h-5 w-5 flex items-center justify-center bg-gray-200 rounded-full">
+              <!-- Punto del radio -->
+              <div class="h-3 w-3 bg-stone rounded-full"></div>
+            </div>
           </label>
         </li>
         <li>
@@ -135,37 +123,23 @@
           />
           <label
             for="hosting-big"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow"
           >
             <div class="block">
               <div class="w-full text-lg font-semibold">No embalado</div>
-              <div class="w-full text-sm">No conlleva cargo extra</div>
+              <div class="w-full text-lg">No conlleva cargo extra</div>
             </div>
             <!-- En lugar de la flecha incluir un icono de FontAwesome -->
-            <svg
-              class="w-5 h-5 ms-3 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
+            <!-- Círculo -->
+            <div class="h-5 w-5 flex items-center justify-center bg-gray-200 rounded-full">
+              <!-- Punto del radio -->
+              <div
+                class="h-3 w-3 bg-stone rounded-full peer-checked:bg-stone peer-checked:opacity-100 peer-checked:delay-75 transition-opacity duration-300"
+              ></div>
+            </div>
           </label>
         </li>
       </ul>
-
-      <label for="embalaje">Seleccione embalaje</label>
-      <select name="embalaje" ref="embalaje">
-        <option value="20">Sí</option>
-        <option value="0">No</option>
-      </select>
 
       <template v-if="typeof sumables === 'number'">
         <h1 class="text-center text-4xl">{{ sumables }}€</h1>
@@ -256,14 +230,14 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoandingComponent
   }

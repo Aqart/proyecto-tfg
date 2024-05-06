@@ -69,6 +69,37 @@
         </div>
       </div>
 
+      <div class="relative">
+        <div
+          @click="toggleOptions"
+          class="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline cursor-pointer"
+        >
+          {{ selectedOption ? selectedOption.label : 'Select an option' }}
+          <svg
+            class="fill-current h-4 w-4 inline-block ml-2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 12l-4-4h8z" />
+          </svg>
+        </div>
+        <transition name="fade">
+          <div
+            v-if="showOptions"
+            class="absolute z-10 bg-white border border-gray-400 w-full mt-1 rounded shadow"
+          >
+            <div
+              v-for="option in options"
+              @click="selectOption(option)"
+              :key="option.value"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+            >
+              {{ option.label }}
+            </div>
+          </div>
+        </transition>
+      </div>
+
       <template v-if="typeof sumables === 'number'">
         <h1 class="text-center text-4xl">{{ sumables }}€</h1>
       </template>
@@ -97,13 +128,27 @@ export default {
         status: false,
         message: ''
       },
-      loading: false
+      loading: false,
+      showOptions: false,
+      options: [
+        { label: 'Option 1', value: 'option1' },
+        { label: 'Option 2', value: 'option2' },
+        { label: 'Option 3', value: 'option3' }
+      ]
     }
   },
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas'])
   },
   methods: {
+    toggleOptions() {
+      this.showOptions = !this.showOptions
+    },
+    selectOption(option) {
+      this.selectedOption = option
+      this.showOptions = false
+      this.$emit('input', option)
+    },
     async handleSubmit() {
       try {
         this.loading = true
@@ -156,11 +201,11 @@ export default {
     }
   },
   components: {
-    SelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoandingComponent
   }
@@ -202,9 +247,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow:
-    1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
 }
 
 .input + .check::before {
