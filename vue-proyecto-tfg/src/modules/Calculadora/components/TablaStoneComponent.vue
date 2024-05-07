@@ -68,38 +68,19 @@
           </div>
         </div>
       </div>
-
-      <div class="relative">
-        <div
-          @click="toggleOptions"
-          class="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline cursor-pointer"
-        >
-          {{ selectedOption ? selectedOption.label : 'Select an option' }}
-          <svg
-            class="fill-current h-4 w-4 inline-block ml-2"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 12l-4-4h8z" />
-          </svg>
+      <div class="flex items-start">
+        <div class="w-3/4">
+          <CustomSelectComponent message="Seleccione una máquina" :options="getMaquinas" />
         </div>
-        <transition name="fade">
-          <div
-            v-if="showOptions"
-            class="absolute z-10 bg-white border border-gray-400 w-full mt-1 rounded shadow"
-          >
-            <div
-              v-for="option in options"
-              @click="selectOption(option)"
-              :key="option.value"
-              class="px-4 py-2 cursor-pointer hover:bg-gray-100"
-            >
-              {{ option.label }}
-            </div>
-          </div>
-        </transition>
+        <div class="w-1/4 pl-4">
+          <ButtonComponent
+            type="button"
+            :text="'Añadir'"
+            bgColor="bg-primary"
+            @click="addMaquina"
+          />
+        </div>
       </div>
-
       <template v-if="typeof sumables === 'number'">
         <h1 class="text-center text-4xl">{{ sumables }}€</h1>
       </template>
@@ -128,13 +109,7 @@ export default {
         status: false,
         message: ''
       },
-      loading: false,
-      showOptions: false,
-      options: [
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
-        { label: 'Option 3', value: 'option3' }
-      ]
+      loading: false
     }
   },
   computed: {
@@ -206,6 +181,9 @@ export default {
     ),
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
+    ),
+    CustomSelectComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/CustomSelectComponent.vue')
     ),
     LoandingComponent
   }
