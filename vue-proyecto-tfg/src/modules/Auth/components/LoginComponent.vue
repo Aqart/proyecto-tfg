@@ -63,15 +63,15 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   setup() {
-    const formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+    const formattedDate = new Date().toLocaleString().slice(0, 19).replace('T', ' ')
     const userForm = ref({
       email: '',
       password: '',

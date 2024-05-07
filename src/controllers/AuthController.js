@@ -8,7 +8,7 @@ import { pool } from '../db.js' // Importa el pool de conexión si estás utiliz
 const AuthController = {
     // Registro de usuario
     registrarUsuario: async (req, res, next) => {
-        console.log("Body", req.body)
+        console.log('Body', req.body)
         const { numero_trabajador, email, roles, password } = req.body
         try {
             // Verifica si el usuario ya existe en la base de datos
@@ -33,7 +33,7 @@ const AuthController = {
 
             console.log(result)
             // Obtiene el ID del usuario creado
-            const userId = result[0].insertId;
+            const userId = result[0].insertId
 
             console.log(userId)
 
@@ -164,16 +164,16 @@ const AuthController = {
                 // Si se proporcionó un nuevo password, lo hashea y lo actualiza
                 const hashedPassword = await bcrypt.hash(password, 10)
                 const [rows, fields] = await pool.query(
-                  'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
-                  [email, roles, hashedPassword, id]
+                    'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
+                    [email, roles, hashedPassword, id]
                 )
-              } else {
+            } else {
                 // Si no se proporcionó un nuevo password, simplemente actualiza los otros campos
                 const [rows, fields] = await pool.query(
-                  'UPDATE user SET email = ?, roles = ? WHERE id = ?',
-                  [email, roles, id]
+                    'UPDATE user SET email = ?, roles = ? WHERE id = ?',
+                    [email, roles, id]
                 )
-              }
+            }
             // const hashedPassword = await bcrypt.hash(password, 10)
             // const [rows, fields] = await pool.query(
             //     'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
@@ -254,7 +254,7 @@ const AuthController = {
                     .status(401)
                     .json({ message: 'Credenciales inválidas' })
             }
-            //TIPO DE FORMATO FECHA TIMESTAMP
+            //TIPO DE FORMATO FECHA TIMESTAMP ESPAÑA
             const lastConnection = new Date()
                 .toISOString()
                 .slice(0, 19)
