@@ -1,53 +1,71 @@
 <template>
   <form @submit.prevent="handleSubmit" class="px-10 pb-10">
-    <label for="email" class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3">
-        Nº de trabajador
-      </label>
-      <input
-        v-model="form.numero_trabajador"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-        type="number"
-        name="numWorker"
-        id="numWorker"
-        min="1"
-        placeholder="Número de trabajador"
-      />
-      <label for="email" class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3">
-        Correo Electrónico
-      </label>
-      <input
-        v-model="form.email"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-        type="email"
-        name="email"
-        id="email"
-        placeholder="email@email.es"
-      />
-      <label for="password" class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3">
-        {{ labelPassword }}
-      </label>
-      <span v-if="tipo === 'Editar usuario'" class="block mb-2 text-xs font-light text-gray-400 " :style="{ fontSize: '11px' }">
-        Introduce una nueva contraseña para el usuario
-      </span>
-      <input
-        v-model="form.password"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-        type="password"
-        name="password"
-        id="password"
-        placeholder="•••••••••"
-      />
-      <label for="roles" class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"> Roles </label>
-      <select
-        v-model="form.roles"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-        name="roles"
-        id="roles"
-      >
-        <option value="" selected disabled hidden>Elige una opción</option>
-        <option value="ADMIN">Admin</option>
-        <option value="TRABAJADOR">Trabajador</option>
-      </select>
+    <label
+      for="email"
+      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+    >
+      Nº de trabajador
+    </label>
+    <input
+      v-model="form.numero_trabajador"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      type="number"
+      name="numWorker"
+      id="numWorker"
+      min="1"
+      placeholder="Número de trabajador"
+    />
+    <label
+      for="email"
+      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+    >
+      Correo Electrónico
+    </label>
+    <input
+      v-model="form.email"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      type="email"
+      name="email"
+      id="email"
+      placeholder="email@email.es"
+    />
+    <label
+      for="password"
+      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+    >
+      {{ labelPassword }}
+    </label>
+    <span
+      v-if="tipo === 'Editar usuario'"
+      class="block mb-2 text-xs font-light text-gray-400"
+      :style="{ fontSize: '11px' }"
+    >
+      Introduce una nueva contraseña para el usuario
+    </span>
+    <input
+      v-model="form.password"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      type="password"
+      name="password"
+      id="password"
+      placeholder="•••••••••"
+    />
+    <label
+      for="roles"
+      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+    >
+      Roles
+    </label>
+    <select
+      v-model="form.roles"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      name="roles"
+      id="roles"
+    >
+      <option value="" selected disabled hidden>Elige una opción</option>
+      <option value="ADMIN">Admin</option>
+      <option value="TRABAJADOR">Trabajador</option>
+    </select>
     <div class="flex flex-row items-center gap-4">
       <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
       <ButtonComponent
@@ -72,7 +90,7 @@ export default {
     tipo: {
       type: String,
       required: true
-    },
+    }
   },
   data() {
     return {
@@ -124,33 +142,33 @@ export default {
       }
       return true
     },
-    handleSubmit(){
-      const isEmpty = (value) => value === '' || value === 0 || value === null;
+    handleSubmit() {
+      const isEmpty = (value) => value === '' || value === 0 || value === null
 
-      const requiredFields = ['numero_trabajador', 'email', 'roles'];
-      if (this.tipo === 'Añadir nuevo usuario') requiredFields.push('password');
+      const requiredFields = ['numero_trabajador', 'email', 'roles']
+      if (this.tipo === 'Añadir nuevo usuario') requiredFields.push('password')
 
-      const hasEmptyFields = requiredFields.some(field => isEmpty(this.form[field]));
+      const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
 
       if (hasEmptyFields) {
         this.error = {
           status: true,
           type: 'warning',
           message: 'No se pueden enviar campos vacíos'
-        };
-        this.$emit('errorForm', this.error);
+        }
+        this.$emit('errorForm', this.error)
       } else if (this.tipo === 'Editar usuario' && this.objectsAreEqual(this.form, this.data)) {
         this.error = {
           status: true,
           type: 'warning',
           message: 'No se ha modificado ningún campo'
-        };
-        this.$emit('errorForm', this.error);
+        }
+        this.$emit('errorForm', this.error)
       } else {
-        console.log('Datos que se envían', this.form);
-        this.$emit('send', this.form);
-        this.form = {};
-        this.toggleModal();
+        console.log('Datos que se envían', this.form)
+        this.$emit('send', this.form)
+        this.form = {}
+        this.toggleModal()
       }
     }
   }

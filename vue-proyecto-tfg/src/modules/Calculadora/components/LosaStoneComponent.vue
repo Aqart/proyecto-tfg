@@ -230,14 +230,14 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoandingComponent
   }
