@@ -68,7 +68,7 @@ export default {
             actualizarMensaje('error', 'Error accediendo a los usuarios')
             actualizarMostrarMensaje(true)
           } else {
-            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            const nombres = dataFailed.map((result) => result.email).join(', ')
             actualizarMensaje(
               'error',
               `Los siguientes usuarios no se pudieron eliminar: ${nombres}`
@@ -76,7 +76,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else {
-          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          const nombresSuccess = arrayData.map((result) => result.email).join(', ')
           console.log(nombresSuccess)
           actualizarMensaje(
             'success',

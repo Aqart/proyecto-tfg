@@ -71,7 +71,7 @@ export default {
     )
   },
   setup() {
-    const formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+    const formattedDate = new Date().toLocaleString().slice(0, 19).replace('T', ' ')
     const userForm = ref({
       email: '',
       password: '',

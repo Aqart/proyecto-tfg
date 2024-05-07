@@ -8,7 +8,6 @@ import { pool } from '../db.js' // Importa el pool de conexión si estás utiliz
 const AuthController = {
     // Registro de usuario
     registrarUsuario: async (req, res, next) => {
-        console.log("Body", req.body)
         const { numero_trabajador, email, roles, password } = req.body
         try {
             // Verifica si el usuario ya existe en la base de datos
@@ -31,12 +30,9 @@ const AuthController = {
                 [numero_trabajador, email, roles, hashedPassword]
             )
 
-            console.log(result)
             // Obtiene el ID del usuario creado
             const userId = result[0].insertId;
-
-            console.log(userId)
-
+            
             // Obtiene los detalles del usuario creado
             const [user] = await pool.query(
                 'SELECT id, numero_trabajador, email, roles, fecha_registro, ultima_conexion FROM user WHERE id = ?',
@@ -52,7 +48,6 @@ const AuthController = {
         }
     },
 
-    // Inicio de sesión
     // Inicio de sesión
     iniciarSesion: async (req, res, next) => {
         const { email, password } = req.body
@@ -236,6 +231,7 @@ const AuthController = {
     },
     editarUltimaConexion: async (req, res) => {
         try {
+            console.log('Conexion editar back', req.body)
             const { email, password } = req.body
             // Busca al usuario en la base de datos
             const [user] = await pool.query(
@@ -255,13 +251,12 @@ const AuthController = {
                     .json({ message: 'Credenciales inválidas' })
             }
             //TIPO DE FORMATO FECHA TIMESTAMP
-            const lastConnection = new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ')
+            const date = new Date();
+            const spainDate = date.toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
+            const lastConnection = spainDate.replace(/\//g, '-').replace(',', '');
             console.log(lastConnection)
             const [rows, fields] = await pool.query(
-                'UPDATE user SET ultima_conexion = ? WHERE email = ?',
+                'UPDATE user SET ultima_conexion = STR_TO_DATE(?, "%d-%m-%Y %H:%i:%s") WHERE email = ?',
                 [lastConnection, email]
             )
             console.log(rows)
