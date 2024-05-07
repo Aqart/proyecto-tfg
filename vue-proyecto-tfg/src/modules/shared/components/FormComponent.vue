@@ -11,14 +11,12 @@
         @changeNumber="handleChange"
         @errorNumber="handleError"
       />
-
       <SelectComponent
         v-else-if="index === 'id_maquina'"
         :label="'Máquina'"
         :options="maquinas"
         :value="el"
         :placeholder="'Seleccione una máquina relacionada'"
-        :nullOption="'Sin máquina asociada'"
         :isEditing="tipo === 'Editar' ? true : false"
         @changeSelect="handleSelectChange"
       />
