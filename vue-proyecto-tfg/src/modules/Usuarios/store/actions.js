@@ -29,11 +29,15 @@ export const createUsuario = async ({ commit }, usuario) => {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/registro', { numero_trabajador, email, roles, password }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+    const response = await authApi.post(
+      '/registro',
+      { numero_trabajador, email, roles, password },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('idToken')}`
+        }
       }
-    })
+    )
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
@@ -55,7 +59,7 @@ export const getUsuarioById = async ({ commit }, id) => {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.get(`/Usuarios/${id}`, {
+    const response = await authApi.get(`/usuarios/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -74,13 +78,13 @@ export const getUsuarioById = async ({ commit }, id) => {
   }
 }
 
-export const editUsuario = async ({ commit }, Usuario) => {
+export const editUsuario = async ({ commit }, usuario) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
-  const { id } = Usuario
+  const { id } = usuario
   try {
-    const response = await authApi.put(`/Usuarios/${id}`, Usuario, {
+    const response = await authApi.put(`/usuarios/${id}`, usuario, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -89,19 +93,19 @@ export const editUsuario = async ({ commit }, Usuario) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Hacer un mutation que actualice los consumibles de Vuex
-      commit('setUsuario', { id, Usuario })
+      commit('setUsuario', { id, usuario })
 
       return { ok: true, message: response.data.message }
     } else {
-      console.error('Error al editar Usuario:', response.data.message)
+      console.error('Error al editar usuario:', response.data.message)
       return { ok: false, message: response.data.message }
     }
   } catch (error) {
-    console.error('Error al editar el Usuario (persistencia):', error.message)
+    console.error('Error al editar el usuario (persistencia):', error.message)
   }
 }
 
-export const deleteUsuarios = async ({ commit }, Usuarios) => {
+export const deleteUsuarios = async ({ commit }, usuarios) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -109,11 +113,11 @@ export const deleteUsuarios = async ({ commit }, Usuarios) => {
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
 
-  for (const Usuario of Usuarios) {
-    const { id } = Usuario
+  for (const usuario of usuarios) {
+    const { id } = usuario
 
     try {
-      const response = await authApi.delete(`/Usuarios/${id}`, {
+      const response = await authApi.delete(`/usuarios/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }

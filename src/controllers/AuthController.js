@@ -148,8 +148,8 @@ const AuthController = {
         const { email, roles, password } = req.body
         // Verifica si el usuario ya existe en la base de datos
         const [existingUser] = await pool.query(
-            'SELECT * FROM user WHERE email = ?',
-            [email]
+            'SELECT * FROM user WHERE email = ? AND id != ?',
+            [email, req.params.id]
         )
         if (existingUser.length > 0) {
             return res
@@ -159,11 +159,26 @@ const AuthController = {
         try {
             const id = req.params.id
             const { email, password, roles } = req.body
-            const hashedPassword = await bcrypt.hash(password, 10)
-            const [rows, fields] = await pool.query(
-                'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
-                [email, roles, hashedPassword, id]
-            )
+            // COMPROBAR QUE ESTA OPCIÓN FUNCIONA
+            if (password) {
+                // Si se proporcionó un nuevo password, lo hashea y lo actualiza
+                const hashedPassword = await bcrypt.hash(password, 10)
+                const [rows, fields] = await pool.query(
+                  'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
+                  [email, roles, hashedPassword, id]
+                )
+              } else {
+                // Si no se proporcionó un nuevo password, simplemente actualiza los otros campos
+                const [rows, fields] = await pool.query(
+                  'UPDATE user SET email = ?, roles = ? WHERE id = ?',
+                  [email, roles, id]
+                )
+              }
+            // const hashedPassword = await bcrypt.hash(password, 10)
+            // const [rows, fields] = await pool.query(
+            //     'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
+            //     [email, roles, hashedPassword, id]
+            // )
             res.status(200).json({
                 message: 'Usuario actualizado correctamente',
                 body: { user: { email, roles } },
