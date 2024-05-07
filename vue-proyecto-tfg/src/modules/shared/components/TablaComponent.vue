@@ -273,23 +273,23 @@ export default {
     }
   },
   components: {
-    SearchIconComponent: defineAsyncComponent(
-      () => import('@/assets/images/SearchIconComponent.vue')
+    SearchIconComponent: defineAsyncComponent(() =>
+      import('@/assets/images/SearchIconComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     ),
-    DeleteConfirmationComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
-    UsuariosFormComponent: defineAsyncComponent(
-      () => import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
+    UsuariosFormComponent: defineAsyncComponent(() =>
+      import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
     ),
-    LoadingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {

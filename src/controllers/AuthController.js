@@ -159,16 +159,16 @@ const AuthController = {
                 // Si se proporcionó un nuevo password, lo hashea y lo actualiza
                 const hashedPassword = await bcrypt.hash(password, 10)
                 const [rows, fields] = await pool.query(
-                  'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
-                  [email, roles, hashedPassword, id]
+                    'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
+                    [email, roles, hashedPassword, id]
                 )
-              } else {
+            } else {
                 // Si no se proporcionó un nuevo password, simplemente actualiza los otros campos
                 const [rows, fields] = await pool.query(
-                  'UPDATE user SET email = ?, roles = ? WHERE id = ?',
-                  [email, roles, id]
+                    'UPDATE user SET email = ?, roles = ? WHERE id = ?',
+                    [email, roles, id]
                 )
-              }
+            }
             // const hashedPassword = await bcrypt.hash(password, 10)
             // const [rows, fields] = await pool.query(
             //     'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
