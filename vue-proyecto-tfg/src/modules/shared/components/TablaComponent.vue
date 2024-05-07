@@ -132,8 +132,10 @@
                 :key="`${el}-td-${index}-date`"
                 class="px-6 py-4"
               >
-                <div v-if="index === 'ultima_conexion' && el === null">
-                  <div class="text-sm text-center text-stoneBackgroun-3">Sin última conexión</div>
+                <div v-if="el === null">
+                  <div class="text-sm text-center text-stoneBackgroun-3">
+                    Registro sin completar
+                  </div>
                 </div>
                 <div v-else class="text-sm text-center text-stoneBackgroun-3">
                   {{
