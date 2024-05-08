@@ -100,16 +100,11 @@
           />
           <label
             for="embalado"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow"
+            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
           >
             <div class="block">
               <div class="w-full text-lg font-semibold">Embalado</div>
               <div class="w-full text-lg">Conlleva cargo extra</div>
-            </div>
-            <!-- Círculo -->
-            <div class="h-5 w-5 flex items-center justify-center bg-gray-200 rounded-full">
-              <!-- Punto del radio -->
-              <div class="h-3 w-3 bg-stone rounded-full"></div>
             </div>
           </label>
         </li>
@@ -120,22 +115,15 @@
             name="embalaje"
             value="hosting-big"
             class="hidden peer"
+            checked
           />
           <label
             for="hosting-big"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow"
+            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
           >
             <div class="block">
               <div class="w-full text-lg font-semibold">No embalado</div>
               <div class="w-full text-lg">No conlleva cargo extra</div>
-            </div>
-            <!-- En lugar de la flecha incluir un icono de FontAwesome -->
-            <!-- Círculo -->
-            <div class="h-5 w-5 flex items-center justify-center bg-gray-200 rounded-full">
-              <!-- Punto del radio -->
-              <div
-                class="h-3 w-3 bg-stone rounded-full peer-checked:bg-stone peer-checked:opacity-100 peer-checked:delay-75 transition-opacity duration-300"
-              ></div>
             </div>
           </label>
         </li>
