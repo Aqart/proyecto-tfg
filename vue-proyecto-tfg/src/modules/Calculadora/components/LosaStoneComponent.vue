@@ -5,7 +5,19 @@
       <InputNumberComponent
         label="Grosor de la Losa"
         placeholder="el grosor en centímetros"
-        @changeNumber="handleChange"
+        @changeNumber="handleChangeGrosor"
+        @errorNumber="handleError"
+      />
+      <InputNumberComponent
+        label="Largo de la Losa"
+        placeholder="el grosor en centímetros"
+        @changeNumber="handleChangeLargo"
+        @errorNumber="handleError"
+      />
+      <InputNumberComponent
+        label="Ancho de la Losa"
+        placeholder="el grosor en centímetros"
+        @changeNumber="handleChangeAncho"
         @errorNumber="handleError"
       />
       <SelectMaquinaComponent
@@ -29,9 +41,11 @@
             <input
               id="soloCortado"
               type="radio"
-              value="10"
+              v-model="terminacion"
+              value="0"
               name="terminacion"
               class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
+              checked
             />
             <label for="soloCortado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
               >Solo cortado</label
@@ -43,8 +57,10 @@
             <input
               id="apomazado"
               type="radio"
+              v-model="terminacion"
               value="20"
               name="terminacion"
+              
               class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
             />
             <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -57,8 +73,10 @@
             <input
               id="envejecido"
               type="radio"
+              v-model="terminacion"
               value="30"
               name="terminacion"
+              
               class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
             />
             <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -71,8 +89,10 @@
             <input
               id="abujardado"
               type="radio"
+              v-model="terminacion"
               value="40"
               name="terminacion"
+              
               class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
             />
             <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -91,6 +111,7 @@
       <ul class="grid w-full gap-6 md:grid-cols-2">
         <li>
           <input
+            v-model="embalaje"
             type="radio"
             id="embalado"
             name="embalaje"
@@ -110,15 +131,16 @@
         </li>
         <li>
           <input
+            v-model="embalaje"
             type="radio"
-            id="hosting-big"
+            id="noEmbalado"
             name="embalaje"
-            value="hosting-big"
+            value="0"
             class="hidden peer"
             checked
           />
           <label
-            for="hosting-big"
+            for="noEmbalado"
             class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
           >
             <div class="block">
@@ -141,15 +163,19 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
-import authApi from '@/api/stoneApi'
 import LoandingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
   data() {
     return {
-      numero1: 0,
+      grosor: 0,
+      largo: 0,
+      ancho: 0,
+      embalaje: 0,
+      terminacion: 0,
       maquina: null,
       consumibles: null,
+      trabajadores: null,
       maquinas: [],
       sumables: [],
       error: {
@@ -160,20 +186,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Maquinas', ['getMaquinas'])
+    ...mapGetters('Maquinas', ['getMaquinas']),
+    ...mapGetters('Consumible', ['getConsumibles'])
   },
   methods: {
     async handleSubmit() {
       try {
         this.loading = true
-        this.maquina = this.$refs.maquina.value
-        await this.getConsumiblesPorMaquina(this.maquina)
+        // this.maquina = this.$refs.maquina.value
+        this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
+        // this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
         this.sumables = this.consumibles.map((consumible) => {
           return consumible.precio
         })
-        this.sumables.push(this.numero1)
-        this.sumables.push(Number(this.$refs.terminacion.value))
-        this.sumables.push(Number(this.$refs.embalaje.value))
+        this.sumables.push(this.grosor)
+        this.sumables.push(this.largo)
+        this.sumables.push(this.ancho)
+        this.sumables.push(Number(this.terminacion))
+        this.sumables.push(Number(this.embalaje))
 
         this.sumables = this.sumables.reduce((a, b) => a + b, 0)
       } catch (e) {
@@ -191,27 +221,52 @@ export default {
     removeMaquinasArray(maquinaId) {
       this.maquinas = this.maquinas.filter((m) => m.id !== maquinaId)
     },
-    handleChange(e) {
-      this.numero1 = e
+    handleChangeGrosor(e) {
+      this.grosor = e
       let sum = 0
-      for (const key in this.numero1) {
-        sum += this.numero1[key]
+      for (const key in this.grosor) {
+        sum += this.grosor[key]
       }
-      this.numero1 = sum
-      return this.numero1
+      this.grosor = sum
+      console.log(this.grosor)
+      return this.grosor
+    },
+    handleChangeLargo(e) {
+      this.largo = e
+      let sum = 0
+      for (const key in this.largo) {
+        sum += this.largo[key]
+      }
+      this.largo = sum
+      console.log(this.largo)
+      return this.largo
+    },
+    handleChangeAncho(e) {
+      this.ancho = e
+      let sum = 0
+      for (const key in this.ancho) {
+        sum += this.ancho[key]
+      }
+      this.ancho = sum
+      console.log(this.ancho)
+      return this.ancho
     },
     handleError(e) {
       this.error.status = true
       this.error.message = e
       console.error(this.error.message)
     },
-    async getConsumiblesPorMaquina(id) {
-      const response = await authApi.get(`/maquinas/${id}/consumibles`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('idToken')}`
-        }
-      })
-      this.consumibles = response.data
+    async getConsumiblesPorMaquina(maquinas) {
+
+      this.consumibles = await this.getConsumibles
+      let consumiblesMaquina = []
+      for (const maquina of maquinas) {
+        let consumible = this.consumibles.filter(
+          (consumible) => consumible.id_maquina === maquina.id
+        )
+        consumiblesMaquina.push(...consumible)
+      }
+      return consumiblesMaquina
     }
   },
   components: {
