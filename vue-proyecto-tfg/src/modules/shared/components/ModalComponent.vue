@@ -5,7 +5,6 @@
       tabindex="-1"
       aria-hidden="true"
       class="fixed inset-0 flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full backdrop-blur-md bg-bgFrom/30"
-      @click.self="toggleModal"
     >
       <Transition name="modal-inner">
         <div
@@ -72,11 +71,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }

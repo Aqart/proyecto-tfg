@@ -31,20 +31,6 @@
         </div>
       </div>
     </transition>
-    <!-- <select
-      v-model="selected"
-      name="máquinas"
-      @change="handleChange"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 shadow-sm"
-    >
-      <option v-if="nullOption !== ''" :value="null">{{ nullOption }}</option>
-      <option :value="'placeholder'" :selected="!isEditing" disabled hidden>
-        {{ placeholder }}
-      </option>
-      <option v-for="(option, index) in options" :key="index" :value="option.id">
-        {{ option.nombre }}
-      </option>
-    </select> -->
   </div>
 </template>
 
@@ -67,10 +53,6 @@ export default {
       type: Array,
       default: () => []
     },
-    // nullOption: {
-    //   type: String,
-    //   default: ''
-    // },
     isEditing: {
       type: Boolean,
       default: false
@@ -78,21 +60,20 @@ export default {
   },
   data() {
     return {
-      // selected: this.isEditing ? this.value : 'placeholder',
       showOptions: false,
       selectedOption: this.isEditing ? this.value : 'placeholder'
     }
   },
   computed: {
     allOptions() {
-      return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options];
+      return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
     },
     mappedSelectedOption() {
       if (this.selectedOption === 'placeholder') {
-        return this.placeholder;
+        return this.placeholder
       }
-      const foundOption = this.allOptions.find(option => option.id === this.selectedOption);
-      return foundOption ? foundOption.nombre : "Sin máquina asociada";
+      const foundOption = this.allOptions.find((option) => option.id === this.selectedOption)
+      return foundOption ? foundOption.nombre : 'Sin máquina asociada'
     }
   },
   mounted() {
@@ -115,14 +96,6 @@ export default {
         this.showOptions = false
       }
     }
-  },
-  // watch: {
-  //   // isEditing(newVal) {
-  //   //   this.selectedOption = newVal ? this.value : 'placeholder'
-  //   // },
-  //   value(newValue) {
-  //     this.selectedOption = newValue
-  //   }
-  // }
+  }
 }
 </script>
