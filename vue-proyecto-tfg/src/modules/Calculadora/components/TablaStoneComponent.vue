@@ -182,8 +182,8 @@ export default {
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    CustomSelectComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/CustomSelectComponent.vue')
+    CustomSelectComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/CustomSelectComponent.vue')
     ),
     LoandingComponent
   }
