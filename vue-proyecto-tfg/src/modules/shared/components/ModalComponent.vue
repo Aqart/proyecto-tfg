@@ -10,7 +10,7 @@
       <Transition name="modal-inner">
         <div
           v-show="modalActive"
-          class="relative w-full max-w-2xl max-h-full bg-stoneBackground-2 rounded-lg shadow"
+          class="relative w-full max-w-2xl bg-stoneBackground-2 rounded-lg shadow"
         >
           <!-- Modal header -->
           <header
@@ -72,11 +72,11 @@ export default {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }
