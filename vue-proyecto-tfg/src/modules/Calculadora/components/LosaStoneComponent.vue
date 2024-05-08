@@ -176,6 +176,7 @@ export default {
       maquina: null,
       consumibles: null,
       trabajadores: null,
+      gastosEnergeticos: null,
       maquinas: [],
       sumables: [],
       error: {
@@ -187,24 +188,34 @@ export default {
   },
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
-    ...mapGetters('Consumible', ['getConsumibles'])
+    ...mapGetters('Consumible', ['getConsumibles']),
+    ...mapGetters('Trabajadores', ['getTrabajadores']),
+    ...mapGetters('GastosEnergeticos', ['getGastos'])
   },
   methods: {
     async handleSubmit() {
       try {
+        // Se limpia this.sumables
+        this.sumables = []
         this.loading = true
-        // this.maquina = this.$refs.maquina.value
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
-        // this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
-        this.sumables = this.consumibles.map((consumible) => {
+        this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
+        this.gastosEnergeticos = await this.getGastosEnergeticosPorMaquina(this.maquinas)
+        this.sumables.push(...this.consumibles.map((consumible) => {
           return consumible.precio
-        })
+        }))
+        this.sumables.push(...this.trabajadores.map((trabajador) => {
+          return trabajador.precio
+        }))
+        this.sumables.push(...this.gastosEnergeticos.map((gastoEnergetico) => {
+          return gastoEnergetico.coste_energia
+        }))
         this.sumables.push(this.grosor)
         this.sumables.push(this.largo)
         this.sumables.push(this.ancho)
         this.sumables.push(Number(this.terminacion))
         this.sumables.push(Number(this.embalaje))
-
+        
         this.sumables = this.sumables.reduce((a, b) => a + b, 0)
       } catch (e) {
         //this.handleError(e)
@@ -257,7 +268,6 @@ export default {
       console.error(this.error.message)
     },
     async getConsumiblesPorMaquina(maquinas) {
-
       this.consumibles = await this.getConsumibles
       let consumiblesMaquina = []
       for (const maquina of maquinas) {
@@ -267,12 +277,32 @@ export default {
         consumiblesMaquina.push(...consumible)
       }
       return consumiblesMaquina
+    },
+    async getTrabajadoresPorMaquina(maquinas) {
+      this.trabajadores = await this.getTrabajadores
+      let trabajadoresMaquina = []
+      for (const maquina of maquinas) {
+        let trabajador = this.trabajadores.filter(
+          (trabajador) => trabajador.id_maquina === maquina.id
+        )
+        trabajadoresMaquina.push(...trabajador)
+      }
+      return trabajadoresMaquina
+    },
+    async getGastosEnergeticosPorMaquina(maquinas) {
+      this.gastosEnergeticos = await this.getGastos
+      let gastosEnergeticosMaquina = []
+      for (const maquina of maquinas) {
+        let gastoEnergetico = this.gastosEnergeticos.filter(
+          (gasto) => gasto.id_maquina === maquina.id
+        )
+        gastosEnergeticosMaquina.push(...gastoEnergetico)
+      }
+      console.log(gastosEnergeticosMaquina)
+      return gastosEnergeticosMaquina
     }
   },
   components: {
-    // InputTextComponent: defineAsyncComponent(
-    //   () => import('@/modules/shared/components/InputTextComponent.vue')
-    // ),
     SelectMaquinaComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
