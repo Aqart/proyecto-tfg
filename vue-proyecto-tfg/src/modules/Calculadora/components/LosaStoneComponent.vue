@@ -50,7 +50,7 @@
           </div>
         </div>
       </div>
-      <newSelectMaquinaComponent
+      <SelectMaquinaComponent
         :maquinasSeleccionadas="maquinas"
         :options="filteredOptions"
         @addMaquina="addMaquinasArray"
@@ -386,8 +386,8 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    newSelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/newSelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
     InputNumberComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/InputNumberComponent.vue')
