@@ -1,156 +1,188 @@
 <template>
-  <div class="flex flex-col gap-3">
-    <h1>Calcular Losa</h1>
-    <form @submit.prevent="handleSubmit" class="flex flex-col gap-3">
-      <InputNumberComponent
-        label="Grosor de la Losa"
-        placeholder="el grosor en centímetros"
-        @changeNumber="handleChangeGrosor"
-        @errorNumber="handleError"
-      />
-      <InputNumberComponent
-        label="Largo de la Losa"
-        placeholder="el grosor en centímetros"
-        @changeNumber="handleChangeLargo"
-        @errorNumber="handleError"
-      />
-      <InputNumberComponent
-        label="Ancho de la Losa"
-        placeholder="el grosor en centímetros"
-        @changeNumber="handleChangeAncho"
-        @errorNumber="handleError"
-      />
-      <SelectMaquinaComponent
+  <div class="flex flex-col gap-5">
+    <h1
+      class="text-center text-4xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+    >
+      Calcular el precio de una {{ $route.path.split('/').pop() }}
+    </h1>
+    <form @submit.prevent="handleSubmit" class="flex flex-col gap-10">
+      <div>
+        <h3
+          class="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3 mb-4"
+        >
+          Medidas de corte:
+        </h3>
+        <div class="flex flex-row justify-between items-center gap-2">
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Grosor"
+              class="w-full"
+              @changeNumber="handleChangeGrosor"
+              @errorNumber="handleError"
+            />
+            <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+          <FontAwesomeIcon
+            :icon="['fas', 'xmark']"
+            class="w-6 h-6 text-stoneBackgroundContrast-1 text-shadow-md font-bold"
+          />
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Ancho"
+              class="w-full"
+              @changeNumber="handleChangeAncho"
+              @errorNumber="handleError"
+            />
+            <span v-if="ancho" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+          <FontAwesomeIcon
+            :icon="['fas', 'xmark']"
+            class="w-6 h-6 text-stoneBackgroundContrast-1 text-shadow-md font-bold"
+          />
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Largo"
+              class="w-full"
+              @changeNumber="handleChangeLargo"
+              @errorNumber="handleError"
+            />
+            <span v-if="largo" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+        </div>
+      </div>
+      <newSelectMaquinaComponent
         :maquinasSeleccionadas="maquinas"
-        :options="getMaquinas"
+        :options="filteredOptions"
         @addMaquina="addMaquinasArray"
         @removeMaquina="removeMaquinasArray"
       />
-
-      <label
-        for="terminacion"
-        class="block mb-2 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
-      >
-        Terminación
-      </label>
-      <ul
-        class="items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
-      >
-        <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-          <div class="flex items-center ps-3">
+      <div>
+        <label
+          for="terminacion"
+          class="block text-xl mb-4 font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Terminación
+        </label>
+        <ul
+          class="py-2 items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
+        >
+          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="soloCortado"
+                type="radio"
+                v-model="terminacion"
+                value="0"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
+                checked
+              />
+              <label
+                for="soloCortado"
+                class="w-full py-3 ms-2 text-lg font-bold text-secondary flex flex-row gap-1.5 items-center"
+                >Solo cortado <span class="text-xs">(por defecto)</span></label
+              >
+            </div>
+          </li>
+          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="apomazado"
+                type="radio"
+                v-model="terminacion"
+                value="20"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              />
+              <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Apomazado</label
+              >
+            </div>
+          </li>
+          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="envejecido"
+                type="radio"
+                v-model="terminacion"
+                value="30"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              />
+              <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Envejecido</label
+              >
+            </div>
+          </li>
+          <li class="w-full">
+            <div class="flex items-center ps-3">
+              <input
+                id="abujardado"
+                type="radio"
+                v-model="terminacion"
+                value="40"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              />
+              <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Abujardado</label
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <label
+          for="embalaje"
+          class="block mb-4 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Embalaje
+        </label>
+        <ul class="grid w-full gap-6 md:grid-cols-2">
+          <li>
             <input
-              id="soloCortado"
+              v-model="embalaje"
               type="radio"
-              v-model="terminacion"
+              id="noEmbalado"
+              name="embalaje"
               value="0"
-              name="terminacion"
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
+              class="hidden peer"
               checked
             />
-            <label for="soloCortado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Solo cortado</label
+            <label
+              for="noEmbalado"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
             >
-          </div>
-        </li>
-        <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-          <div class="flex items-center ps-3">
+              <div class="block">
+                <div class="w-full text-lg font-semibold flex flex-row gap-1.5 items-center">
+                  No embalado <span class="text-xs">(por defecto)</span>
+                </div>
+                <div class="w-full text-lg">No conlleva cargo extra</div>
+              </div>
+            </label>
+          </li>
+          <li>
             <input
-              id="apomazado"
+              v-model="embalaje"
               type="radio"
-              v-model="terminacion"
+              id="embalado"
+              name="embalaje"
               value="20"
-              name="terminacion"
-              
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              class="hidden peer"
+              required
             />
-            <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Apomazado</label
+            <label
+              for="embalado"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
             >
-          </div>
-        </li>
-        <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-          <div class="flex items-center ps-3">
-            <input
-              id="envejecido"
-              type="radio"
-              v-model="terminacion"
-              value="30"
-              name="terminacion"
-              
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-            />
-            <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Envejecido</label
-            >
-          </div>
-        </li>
-        <li class="w-full">
-          <div class="flex items-center ps-3">
-            <input
-              id="abujardado"
-              type="radio"
-              v-model="terminacion"
-              value="40"
-              name="terminacion"
-              
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-            />
-            <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Abujardado</label
-            >
-          </div>
-        </li>
-      </ul>
-
-      <label
-        for="embalaje"
-        class="block mb-2 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
-      >
-        Embalaje
-      </label>
-      <ul class="grid w-full gap-6 md:grid-cols-2">
-        <li>
-          <input
-            v-model="embalaje"
-            type="radio"
-            id="embalado"
-            name="embalaje"
-            value="20"
-            class="hidden peer"
-            required
-          />
-          <label
-            for="embalado"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Embalado</div>
-              <div class="w-full text-lg">Conlleva cargo extra</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <input
-            v-model="embalaje"
-            type="radio"
-            id="noEmbalado"
-            name="embalaje"
-            value="0"
-            class="hidden peer"
-            checked
-          />
-          <label
-            for="noEmbalado"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">No embalado</div>
-              <div class="w-full text-lg">No conlleva cargo extra</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-
+              <div class="block">
+                <div class="w-full text-lg font-semibold">Embalado</div>
+                <div class="w-full text-lg">Conlleva cargo extra</div>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </div>
       <template v-if="typeof sumables === 'number'">
         <h1 class="text-center text-4xl">{{ sumables }}€</h1>
       </template>
@@ -163,7 +195,6 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
-import LoandingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
   data() {
@@ -173,6 +204,7 @@ export default {
       ancho: 0,
       embalaje: 0,
       terminacion: 0,
+      gastoGeneral: 0,
       maquina: null,
       consumibles: null,
       trabajadores: null,
@@ -183,54 +215,93 @@ export default {
         status: false,
         message: ''
       },
-      loading: false
+      loading: false,
+      consumiblesMaquina: [],
+      tabajadoresMaquina: [],
+      gastosEnergeticosMaquina: [],
+      options: []
     }
   },
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
     ...mapGetters('Consumible', ['getConsumibles']),
     ...mapGetters('Trabajadores', ['getTrabajadores']),
-    ...mapGetters('GastosEnergeticos', ['getGastos'])
+    ...mapGetters('GastosEnergeticos', ['getGastos']),
+    ...mapGetters('GastosGenerales', ['getGastosGenerales']),
+    filteredOptions() {
+      let maquinas = this.getMaquinas
+
+      return maquinas.filter((maquina) => {
+        return !this.maquinas.some((m) => m.id === maquina.id)
+      })
+    }
   },
   methods: {
-    async handleSubmit() {
+    async calculatePrice() {
       try {
         // Se limpia this.sumables
         this.sumables = []
         this.loading = true
+        this.consumibles = []
+        this.sumables = []
+
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
         this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
         this.gastosEnergeticos = await this.getGastosEnergeticosPorMaquina(this.maquinas)
-        this.sumables.push(...this.consumibles.map((consumible) => {
-          return consumible.precio
-        }))
-        this.sumables.push(...this.trabajadores.map((trabajador) => {
-          return trabajador.precio
-        }))
-        this.sumables.push(...this.gastosEnergeticos.map((gastoEnergetico) => {
-          return gastoEnergetico.coste_energia
-        }))
-        this.sumables.push(this.grosor)
-        this.sumables.push(this.largo)
-        this.sumables.push(this.ancho)
-        this.sumables.push(Number(this.terminacion))
-        this.sumables.push(Number(this.embalaje))
-        
-        this.sumables = this.sumables.reduce((a, b) => a + b, 0)
+
+        const consumiblesSum = this.consumibles.reduce(
+          (sum, consumible) => sum + consumible.precio,
+          0
+        )
+        console.log('Suma de consumibles', consumiblesSum)
+        const trabajadoresSum = this.trabajadores.reduce(
+          (sum, trabajador) => sum + trabajador.precio,
+          0
+        )
+        console.log('Suma de trabajadores', trabajadoresSum)
+        const gastosEnergeticosSum = this.gastosEnergeticos.reduce(
+          (sum, gastoEnergetico) => sum + gastoEnergetico.coste_energia,
+          0
+        )
+        console.log('Suma de gastos energeticos', gastosEnergeticosSum)
+        this.gastoGeneral =
+          (this.getGastosGenerales.reduce((sum, gastoGeneral) => sum + gastoGeneral.precio, 0) /
+            this.getMaquinas.length) *
+          this.maquinas.length
+        console.log('Gasto general', this.gastoGeneral)
+        this.sumables =
+          Number(consumiblesSum) +
+          Number(trabajadoresSum) +
+          Number(gastosEnergeticosSum) +
+          Number(this.gastoGeneral)
+        this.sumables +=
+          Number(this.grosor) +
+          Number(this.largo) +
+          Number(this.ancho) +
+          Number(this.terminacion) +
+          Number(this.embalaje)
       } catch (e) {
-        //this.handleError(e)
+        //418
+        this.handleError(e)
       } finally {
         setTimeout(() => {
           this.loading = false
         }, 1000)
       }
     },
+    async handleSubmit() {
+      await this.calculatePrice()
+    },
     addMaquinasArray(maquinaId) {
-      let maquina = this.getMaquinas.find((m) => m.id === maquinaId)
-      this.maquinas.push(maquina)
+      if (!this.maquinas.some((maquina) => maquina === maquinaId)) {
+        this.maquinas.push(maquinaId)
+      } else {
+        this.handleError('La máquina está seleccionada')
+      }
     },
     removeMaquinasArray(maquinaId) {
       this.maquinas = this.maquinas.filter((m) => m.id !== maquinaId)
+      this.consumiblesMaquina = []
     },
     handleChangeGrosor(e) {
       this.grosor = e
@@ -239,7 +310,6 @@ export default {
         sum += this.grosor[key]
       }
       this.grosor = sum
-      console.log(this.grosor)
       return this.grosor
     },
     handleChangeLargo(e) {
@@ -259,60 +329,75 @@ export default {
         sum += this.ancho[key]
       }
       this.ancho = sum
-      console.log(this.ancho)
       return this.ancho
     },
     handleError(e) {
       this.error.status = true
       this.error.message = e
-      console.error(this.error.message)
     },
+
     async getConsumiblesPorMaquina(maquinas) {
+      this.consumibles = []
+      this.consumiblesMaquina = []
       this.consumibles = await this.getConsumibles
-      let consumiblesMaquina = []
       for (const maquina of maquinas) {
         let consumible = this.consumibles.filter(
           (consumible) => consumible.id_maquina === maquina.id
         )
-        consumiblesMaquina.push(...consumible)
+
+        this.consumiblesMaquina.push(...consumible)
       }
-      return consumiblesMaquina
+      // Remove duplicates from this.consumiblesMaquina
+      this.consumiblesMaquina = [...new Set(this.consumiblesMaquina)]
+      return this.consumiblesMaquina
     },
     async getTrabajadoresPorMaquina(maquinas) {
+      this.trabajadores = []
+      this.tabajadoresMaquina = []
       this.trabajadores = await this.getTrabajadores
-      let trabajadoresMaquina = []
       for (const maquina of maquinas) {
         let trabajador = this.trabajadores.filter(
           (trabajador) => trabajador.id_maquina === maquina.id
         )
-        trabajadoresMaquina.push(...trabajador)
+
+        this.tabajadoresMaquina.push(...trabajador)
       }
-      return trabajadoresMaquina
+      // Remove duplicates from this.consumiblesMaquina
+      this.tabajadoresMaquina = [...new Set(this.tabajadoresMaquina)]
+      return this.tabajadoresMaquina
     },
     async getGastosEnergeticosPorMaquina(maquinas) {
+      this.gastosEnergeticos = []
+      this.gastosEnergeticosMaquina = []
       this.gastosEnergeticos = await this.getGastos
-      let gastosEnergeticosMaquina = []
       for (const maquina of maquinas) {
         let gastoEnergetico = this.gastosEnergeticos.filter(
-          (gasto) => gasto.id_maquina === maquina.id
+          (gastoEnergetico) => gastoEnergetico.id_maquina === maquina.id
         )
-        gastosEnergeticosMaquina.push(...gastoEnergetico)
+
+        this.gastosEnergeticosMaquina.push(...gastoEnergetico)
       }
-      console.log(gastosEnergeticosMaquina)
-      return gastosEnergeticosMaquina
+      // Remove duplicates from this.consumiblesMaquina
+      this.gastosEnergeticosMaquina = [...new Set(this.gastosEnergeticosMaquina)]
+      return this.gastosEnergeticosMaquina
     }
   },
   components: {
-    SelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    // InputTextComponent: defineAsyncComponent(
+    //   () => import('@/modules/shared/components/InputTextComponent.vue')
+    // ),
+    newSelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/newSelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent
+    LoandingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
+    )
   }
 }
 </script>
@@ -348,9 +433,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow:
-    1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
 }
 .input + .check::before {
   content: '';
