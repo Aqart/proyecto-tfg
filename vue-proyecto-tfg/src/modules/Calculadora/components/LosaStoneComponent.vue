@@ -8,9 +8,9 @@
     <form @submit.prevent="handleSubmit" class="flex flex-col gap-10">
       <div>
         <h3
-          class="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3 mb-3"
+          class="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3 mb-4"
         >
-          Medidas en centímetros:
+          Medidas de corte:
         </h3>
         <div class="flex flex-row justify-between items-center gap-2">
           <div class="relative w-full">
@@ -50,16 +50,16 @@
           </div>
         </div>
       </div>
-      <SelectMaquinaComponent
+      <newSelectMaquinaComponent
         :maquinasSeleccionadas="maquinas"
-        :options="getMaquinas"
+        :options="filteredOptions"
         @addMaquina="addMaquinasArray"
         @removeMaquina="removeMaquinasArray"
       />
       <div>
         <label
           for="terminacion"
-          class="block text-xl mb-3 font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+          class="block text-xl mb-4 font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
         >
           Terminación
         </label>
@@ -132,7 +132,7 @@
       <div>
         <label
           for="embalaje"
-          class="block mb-3 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+          class="block mb-4 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
         >
           Embalaje
         </label>
@@ -200,57 +200,102 @@ export default {
       ancho: 0,
       embalaje: 0,
       terminacion: 0,
+      gastoGeneral: 0,
       maquina: null,
       consumibles: null,
       trabajadores: null,
+      gastosEnergeticos: null,
       maquinas: [],
       sumables: [],
       error: {
         status: false,
         message: ''
       },
-      loading: false
+      loading: false,
+      consumiblesMaquina: [],
+      tabajadoresMaquina: [],
+      gastosEnergeticosMaquina: [],
+      options: []
     }
   },
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
-    ...mapGetters('Consumible', ['getConsumibles'])
+    ...mapGetters('Consumible', ['getConsumibles']),
+    ...mapGetters('Trabajadores', ['getTrabajadores']),
+    ...mapGetters('GastosEnergeticos', ['getGastos']),
+    ...mapGetters('GastosGenerales', ['getGastosGenerales']),
+    filteredOptions() {
+      let maquinas = this.getMaquinas
+
+      return maquinas.filter((maquina) => {
+        return !this.maquinas.some((m) => m.id === maquina.id)
+      })
+    }
   },
   methods: {
-    async handleSubmit() {
+    async calculatePrice() {
       try {
-        if (this.grosor === 0 || this.largo === 0 || this.ancho === 0) {
-          throw 'Debes introducir las medidas de la losa'
-        }
         this.loading = true
-        // this.maquina = this.$refs.maquina.value
-        this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
-        // this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
-        this.sumables = this.consumibles.map((consumible) => {
-          return consumible.precio
-        })
-        this.sumables.push(this.grosor)
-        this.sumables.push(this.largo)
-        this.sumables.push(this.ancho)
-        console.log('Largo:', this.largo, 'Ancho:', this.ancho, 'Grosor:', this.grosor)
-        this.sumables.push(Number(this.terminacion))
-        this.sumables.push(Number(this.embalaje))
+        this.consumibles = []
+        this.sumables = []
 
-        this.sumables = this.sumables.reduce((a, b) => a + b, 0)
+        this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
+        this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
+        this.gastosEnergeticos = await this.getGastosEnergeticosPorMaquina(this.maquinas)
+
+        const consumiblesSum = this.consumibles.reduce(
+          (sum, consumible) => sum + consumible.precio,
+          0
+        )
+        console.log('Suma de consumibles', consumiblesSum)
+        const trabajadoresSum = this.trabajadores.reduce(
+          (sum, trabajador) => sum + trabajador.precio,
+          0
+        )
+        console.log('Suma de trabajadores', trabajadoresSum)
+        const gastosEnergeticosSum = this.gastosEnergeticos.reduce(
+          (sum, gastoEnergetico) => sum + gastoEnergetico.coste_energia,
+          0
+        )
+        console.log('Suma de gastos energeticos', gastosEnergeticosSum)
+        this.gastoGeneral =
+          (this.getGastosGenerales.reduce((sum, gastoGeneral) => sum + gastoGeneral.precio, 0) /
+            this.getMaquinas.length) *
+          this.maquinas.length
+        console.log('Gasto general', this.gastoGeneral)
+        this.sumables =
+          Number(consumiblesSum) +
+          Number(trabajadoresSum) +
+          Number(gastosEnergeticosSum) +
+          Number(this.gastoGeneral)
+        this.sumables +=
+          Number(this.grosor) +
+          Number(this.largo) +
+          Number(this.ancho) +
+          Number(this.terminacion) +
+          Number(this.embalaje)
       } catch (e) {
-        //this.handleError(e)
+        //418
+        this.handleError(e)
       } finally {
         setTimeout(() => {
           this.loading = false
         }, 1000)
       }
     },
+    async handleSubmit() {
+      await this.calculatePrice()
+    },
     addMaquinasArray(maquinaId) {
-      let maquina = this.getMaquinas.find((m) => m.id === maquinaId)
-      this.maquinas.push(maquina)
+      if (!this.maquinas.some((maquina) => maquina === maquinaId)) {
+        this.maquinas.push(maquinaId)
+      } else {
+        this.handleError('La máquina está seleccionada')
+      }
     },
     removeMaquinasArray(maquinaId) {
       this.maquinas = this.maquinas.filter((m) => m.id !== maquinaId)
+      this.consumiblesMaquina = []
     },
     handleChangeGrosor(e) {
       this.grosor = e
@@ -278,32 +323,65 @@ export default {
         sum += this.ancho[key]
       }
       this.ancho = sum
-      console.log(this.ancho)
       return this.ancho
     },
     handleError(e) {
       this.error.status = true
       this.error.message = e
-      console.error(this.error.message)
     },
+
     async getConsumiblesPorMaquina(maquinas) {
+      this.consumibles = []
+      this.consumiblesMaquina = []
       this.consumibles = await this.getConsumibles
-      let consumiblesMaquina = []
       for (const maquina of maquinas) {
         let consumible = this.consumibles.filter(
           (consumible) => consumible.id_maquina === maquina.id
         )
-        consumiblesMaquina.push(...consumible)
+
+        this.consumiblesMaquina.push(...consumible)
       }
-      return consumiblesMaquina
+      // Remove duplicates from this.consumiblesMaquina
+      this.consumiblesMaquina = [...new Set(this.consumiblesMaquina)]
+      return this.consumiblesMaquina
+    },
+    async getTrabajadoresPorMaquina(maquinas) {
+      this.trabajadores = []
+      this.tabajadoresMaquina = []
+      this.trabajadores = await this.getTrabajadores
+      for (const maquina of maquinas) {
+        let trabajador = this.trabajadores.filter(
+          (trabajador) => trabajador.id_maquina === maquina.id
+        )
+
+        this.tabajadoresMaquina.push(...trabajador)
+      }
+      // Remove duplicates from this.consumiblesMaquina
+      this.tabajadoresMaquina = [...new Set(this.tabajadoresMaquina)]
+      return this.tabajadoresMaquina
+    },
+    async getGastosEnergeticosPorMaquina(maquinas) {
+      this.gastosEnergeticos = []
+      this.gastosEnergeticosMaquina = []
+      this.gastosEnergeticos = await this.getGastos
+      for (const maquina of maquinas) {
+        let gastoEnergetico = this.gastosEnergeticos.filter(
+          (gastoEnergetico) => gastoEnergetico.id_maquina === maquina.id
+        )
+
+        this.gastosEnergeticosMaquina.push(...gastoEnergetico)
+      }
+      // Remove duplicates from this.consumiblesMaquina
+      this.gastosEnergeticosMaquina = [...new Set(this.gastosEnergeticosMaquina)]
+      return this.gastosEnergeticosMaquina
     }
   },
   components: {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    newSelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/newSelectMaquinaComponent.vue')
     ),
     InputNumberComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/InputNumberComponent.vue')

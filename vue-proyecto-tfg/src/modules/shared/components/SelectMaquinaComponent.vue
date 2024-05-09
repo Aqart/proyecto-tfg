@@ -98,6 +98,7 @@ export default {
       if (this.selected) {
         if (!this.maquinasSeleccionadas.some((maquina) => maquina.id === this.selected)) {
           this.$emit('addMaquina', this.selected)
+          console.log('yeha', this.selected)
           this.selected = null
           this.errorMessage = ''
         } else {
