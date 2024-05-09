@@ -64,7 +64,7 @@
           Terminación
         </label>
         <ul
-          class="items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
+          class="py-2 items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
         >
           <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
             <div class="flex items-center ps-3">
@@ -77,8 +77,10 @@
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
                 checked
               />
-              <label for="soloCortado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-                >Solo cortado</label
+              <label
+                for="soloCortado"
+                class="w-full py-3 ms-2 text-lg font-bold text-secondary flex flex-row gap-1.5 items-center"
+                >Solo cortado <span class="text-xs">(por defecto)</span></label
               >
             </div>
           </li>
@@ -141,6 +143,28 @@
             <input
               v-model="embalaje"
               type="radio"
+              id="noEmbalado"
+              name="embalaje"
+              value="0"
+              class="hidden peer"
+              checked
+            />
+            <label
+              for="noEmbalado"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
+            >
+              <div class="block">
+                <div class="w-full text-lg font-semibold flex flex-row gap-1.5 items-center">
+                  No embalado <span class="text-xs">(por defecto)</span>
+                </div>
+                <div class="w-full text-lg">No conlleva cargo extra</div>
+              </div>
+            </label>
+          </li>
+          <li>
+            <input
+              v-model="embalaje"
+              type="radio"
               id="embalado"
               name="embalaje"
               value="20"
@@ -154,26 +178,6 @@
               <div class="block">
                 <div class="w-full text-lg font-semibold">Embalado</div>
                 <div class="w-full text-lg">Conlleva cargo extra</div>
-              </div>
-            </label>
-          </li>
-          <li>
-            <input
-              v-model="embalaje"
-              type="radio"
-              id="noEmbalado"
-              name="embalaje"
-              value="0"
-              class="hidden peer"
-              checked
-            />
-            <label
-              for="noEmbalado"
-              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
-            >
-              <div class="block">
-                <div class="w-full text-lg font-semibold">No embalado</div>
-                <div class="w-full text-lg">No conlleva cargo extra</div>
               </div>
             </label>
           </li>
