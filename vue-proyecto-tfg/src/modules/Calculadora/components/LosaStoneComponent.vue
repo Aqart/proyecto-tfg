@@ -15,12 +15,12 @@
         <div class="flex flex-row justify-between items-center gap-2">
           <div class="relative w-full">
             <InputNumberComponent
-              placeholder="Grosor"
+              placeholder="Largo"
               class="w-full"
-              @changeNumber="handleChangeGrosor"
+              @changeNumber="handleChangeLargo"
               @errorNumber="handleError"
             />
-            <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+            <span v-if="largo" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
           </div>
           <FontAwesomeIcon
             :icon="['fas', 'xmark']"
@@ -41,12 +41,12 @@
           />
           <div class="relative w-full">
             <InputNumberComponent
-              placeholder="Largo"
+              placeholder="Grosor"
               class="w-full"
-              @changeNumber="handleChangeLargo"
+              @changeNumber="handleChangeGrosor"
               @errorNumber="handleError"
             />
-            <span v-if="largo" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+            <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
           </div>
         </div>
       </div>
@@ -183,8 +183,16 @@
           </li>
         </ul>
       </div>
-      <template v-if="typeof sumables === 'number'">
-        <h1 class="text-center text-4xl">{{ sumables }}€</h1>
+      <template v-if="sumables">
+        <ResumenComponent
+          :precio="sumables"
+          :maquinas="maquinas"
+          :consumibles="getConsumibles"
+          :gastosEnergeticos="getGastos"
+          :trabajadores="getTrabajadores"
+          :gastoGeneral="gastoGeneral"
+          :costeMaterial="costeMaterial"
+        />
       </template>
       <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
     </form>
@@ -205,12 +213,13 @@ export default {
       embalaje: 0,
       terminacion: 0,
       gastoGeneral: 0,
+      costeMaterial: 0,
       maquina: null,
       consumibles: null,
       trabajadores: null,
       gastosEnergeticos: null,
       maquinas: [],
-      sumables: [],
+      sumables: null,
       error: {
         status: false,
         message: ''
@@ -228,6 +237,8 @@ export default {
     ...mapGetters('Trabajadores', ['getTrabajadores']),
     ...mapGetters('GastosEnergeticos', ['getGastos']),
     ...mapGetters('GastosGenerales', ['getGastosGenerales']),
+    ...mapGetters('MateriaPrima', ['getMateriasPrimas']),
+    ...mapGetters('Transportes', ['getTransportes']),
     filteredOptions() {
       let maquinas = this.getMaquinas
 
@@ -237,6 +248,31 @@ export default {
     }
   },
   methods: {
+    async calcularMateriaPrima() {
+      const materiasPrimas = await this.getMateriasPrimas
+      const transporte = await this.getTransportes
+      console.log('Materias primas', materiasPrimas)
+      console.log('Transporte', transporte)
+      const totalPrecioMateriaPrima = materiasPrimas.reduce((a, b) => {
+        let precioM3 = b.cantidad_m3 * b.precio
+        return a + precioM3
+      }, 0)
+      console.log(totalPrecioMateriaPrima)
+      const totalCantidadM3MateriaPrima = materiasPrimas.reduce((a, b) => {
+        return a + b.cantidad_m3
+      }, 0)
+      console.log(totalCantidadM3MateriaPrima)
+      const totalPrecioTransporte = transporte.reduce((a, b) => {
+        let totalPrecioTransporte = b.cantidad * b.precio
+        return a + totalPrecioTransporte
+      }, 0)
+      console.log(totalPrecioTransporte)
+      let totalMateriaPrima =
+        (totalPrecioMateriaPrima / totalCantidadM3MateriaPrima +
+          totalPrecioTransporte / totalCantidadM3MateriaPrima) *
+        (this.grosor / 100)
+      return Number(totalMateriaPrima.toFixed(2))
+    },
     async calculatePrice() {
       try {
         // Se limpia this.sumables
@@ -248,6 +284,7 @@ export default {
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
         this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
         this.gastosEnergeticos = await this.getGastosEnergeticosPorMaquina(this.maquinas)
+        this.costeMaterial = await this.calcularMateriaPrima()
 
         const consumiblesSum = this.consumibles.reduce(
           (sum, consumible) => sum + consumible.precio,
@@ -269,17 +306,14 @@ export default {
             this.getMaquinas.length) *
           this.maquinas.length
         console.log('Gasto general', this.gastoGeneral)
+        console.log('Coste material', this.costeMaterial)
         this.sumables =
           Number(consumiblesSum) +
           Number(trabajadoresSum) +
           Number(gastosEnergeticosSum) +
           Number(this.gastoGeneral)
         this.sumables +=
-          Number(this.grosor) +
-          Number(this.largo) +
-          Number(this.ancho) +
-          Number(this.terminacion) +
-          Number(this.embalaje)
+          Number(this.costeMaterial) + Number(this.terminacion) + Number(this.embalaje)
       } catch (e) {
         //418
         this.handleError(e)
@@ -395,8 +429,11 @@ export default {
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoandingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
+    ),
+    ResumenComponent: defineAsyncComponent(() =>
+      import('@/modules/Calculadora/components/ResumenComponent.vue')
     )
   }
 }

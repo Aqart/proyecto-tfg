@@ -33,7 +33,6 @@ const totalPrecioMateriaPrima = materiaPrima.reduce((a, b) => {
 const totalCantidadM3MateriaPrima = materiaPrima.reduce((a, b) => {
     return a + b.cantidadM3
 }, 0)
-
 const totalPrecioTransporte = transporte.reduce((a, b) => {
     let totalPrecioTransporte = b.cantidad * b.precio
     return a + totalPrecioTransporte
