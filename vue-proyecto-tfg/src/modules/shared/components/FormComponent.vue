@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="px-10 pb-10">
+  <form @submit.prevent="handleSubmit" class="px-10 pb-10" novalidate>
     <div v-for="(el, index) in data" :key="index">
       <component
         v-if="index !== 'id' && index !== 'id_maquina'"
@@ -63,20 +63,20 @@ export default {
     }
   },
   components: {
-    InputTextComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputTextComponent.vue')
+    InputTextComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputTextComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    InputPasswordComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputPasswordComponent.vue')
+    InputPasswordComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputPasswordComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    SelectComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/SelectComponent.vue')
+    SelectComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectComponent.vue')
     )
   },
   computed: {
@@ -118,10 +118,11 @@ export default {
         Object.entries(this.form).some(
           ([key, value]) => key !== 'id_maquina' && (value == '' || value == null)
         )
-      ) {
+      )
+      {
         this.error.status = true
         this.error.type = 'warning'
-        this.error.message = 'No se pueden enviar campos vacíos'
+        this.error.message = 'Está introduciendo campos vacíos o erróneos'
         this.$emit('errorForm', this.error)
         // return
       } else if (this.objectsAreEqual(this.form, this.data)) {
