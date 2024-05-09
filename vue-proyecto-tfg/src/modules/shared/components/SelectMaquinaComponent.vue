@@ -1,10 +1,8 @@
 <template>
-  <div class="mt-4">
+  <div>
     <!-- AñADIR QUE SI NO SE SELECCIONA NINGUNA MÁQUINA MANDE UN MENSAJE DE ERROR -->
     <div>
-      <h2
-        class="block text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
-      >
+      <h2 class="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3">
         Máquinas usadas en el proceso:
       </h2>
 
@@ -88,8 +86,8 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {

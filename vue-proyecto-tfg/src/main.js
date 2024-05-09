@@ -39,7 +39,8 @@ import {
   faDroplet,
   faEuroSign,
   faGem,
-  faClipboardList
+  faClipboardList,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -79,7 +80,8 @@ library.add(
   faDroplet,
   faEuroSign,
   faGem,
-  faClipboardList
+  faClipboardList,
+  faXmark
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')

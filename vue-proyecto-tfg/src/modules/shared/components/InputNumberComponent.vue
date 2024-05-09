@@ -1,20 +1,21 @@
 <template>
   <div>
     <label
+      v-if="label"
       for="value"
       class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
     >
       {{ formattedLabel }}
     </label>
     <input
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 placeholder:first-letter:uppercase shadow-sm"
       type="number"
       step="0.01"
       min="0"
       :value="newValue"
       @input="(event) => updateValue(label, event)"
       :name="value"
-      :placeholder="`Introduce ${formattedPlaceholder}`"
+      :placeholder="formattedPlaceholder"
     />
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
     },
     label: {
       type: String,
-      required: true
+      default: null
     }
   },
   data() {
@@ -48,7 +49,7 @@ export default {
       return this.formatText(this.placeholder)
     },
     formattedLabel() {
-      return this.formatText(this.label)
+      return this.formatText(this.label) || ''
     }
   },
   methods: {

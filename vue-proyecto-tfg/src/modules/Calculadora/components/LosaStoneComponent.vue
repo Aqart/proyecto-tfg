@@ -1,156 +1,184 @@
 <template>
-  <div class="flex flex-col gap-3">
-    <h1>Calcular Losa</h1>
-    <form @submit.prevent="handleSubmit" class="flex flex-col gap-3">
-      <InputNumberComponent
-        label="Grosor de la Losa"
-        placeholder="el grosor en centímetros"
-        @changeNumber="handleChangeGrosor"
-        @errorNumber="handleError"
-      />
-      <InputNumberComponent
-        label="Largo de la Losa"
-        placeholder="el grosor en centímetros"
-        @changeNumber="handleChangeLargo"
-        @errorNumber="handleError"
-      />
-      <InputNumberComponent
-        label="Ancho de la Losa"
-        placeholder="el grosor en centímetros"
-        @changeNumber="handleChangeAncho"
-        @errorNumber="handleError"
-      />
+  <div class="flex flex-col gap-5">
+    <h1
+      class="text-center text-4xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+    >
+      Calcular el precio de una {{ $route.path.split('/').pop() }}
+    </h1>
+    <form @submit.prevent="handleSubmit" class="flex flex-col gap-10">
+      <div>
+        <h3
+          class="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3 mb-3"
+        >
+          Medidas en centímetros:
+        </h3>
+        <div class="flex flex-row justify-between items-center gap-2">
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Grosor"
+              class="w-full"
+              @changeNumber="handleChangeGrosor"
+              @errorNumber="handleError"
+            />
+            <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+          <FontAwesomeIcon
+            :icon="['fas', 'xmark']"
+            class="w-6 h-6 text-stoneBackgroundContrast-1 text-shadow-md font-bold"
+          />
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Ancho"
+              class="w-full"
+              @changeNumber="handleChangeAncho"
+              @errorNumber="handleError"
+            />
+            <span v-if="ancho" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+          <FontAwesomeIcon
+            :icon="['fas', 'xmark']"
+            class="w-6 h-6 text-stoneBackgroundContrast-1 text-shadow-md font-bold"
+          />
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Largo"
+              class="w-full"
+              @changeNumber="handleChangeLargo"
+              @errorNumber="handleError"
+            />
+            <span v-if="largo" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+        </div>
+      </div>
       <SelectMaquinaComponent
         :maquinasSeleccionadas="maquinas"
         :options="getMaquinas"
         @addMaquina="addMaquinasArray"
         @removeMaquina="removeMaquinasArray"
       />
-
-      <label
-        for="terminacion"
-        class="block mb-2 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
-      >
-        Terminación
-      </label>
-      <ul
-        class="items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
-      >
-        <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-          <div class="flex items-center ps-3">
+      <div>
+        <label
+          for="terminacion"
+          class="block text-xl mb-3 font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Terminación
+        </label>
+        <ul
+          class="items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
+        >
+          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="soloCortado"
+                type="radio"
+                v-model="terminacion"
+                value="0"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
+                checked
+              />
+              <label for="soloCortado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Solo cortado</label
+              >
+            </div>
+          </li>
+          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="apomazado"
+                type="radio"
+                v-model="terminacion"
+                value="20"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              />
+              <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Apomazado</label
+              >
+            </div>
+          </li>
+          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="envejecido"
+                type="radio"
+                v-model="terminacion"
+                value="30"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              />
+              <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Envejecido</label
+              >
+            </div>
+          </li>
+          <li class="w-full">
+            <div class="flex items-center ps-3">
+              <input
+                id="abujardado"
+                type="radio"
+                v-model="terminacion"
+                value="40"
+                name="terminacion"
+                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
+              />
+              <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
+                >Abujardado</label
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <label
+          for="embalaje"
+          class="block mb-3 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Embalaje
+        </label>
+        <ul class="grid w-full gap-6 md:grid-cols-2">
+          <li>
             <input
-              id="soloCortado"
+              v-model="embalaje"
               type="radio"
-              v-model="terminacion"
+              id="embalado"
+              name="embalaje"
+              value="20"
+              class="hidden peer"
+              required
+            />
+            <label
+              for="embalado"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
+            >
+              <div class="block">
+                <div class="w-full text-lg font-semibold">Embalado</div>
+                <div class="w-full text-lg">Conlleva cargo extra</div>
+              </div>
+            </label>
+          </li>
+          <li>
+            <input
+              v-model="embalaje"
+              type="radio"
+              id="noEmbalado"
+              name="embalaje"
               value="0"
-              name="terminacion"
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
+              class="hidden peer"
               checked
             />
-            <label for="soloCortado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Solo cortado</label
+            <label
+              for="noEmbalado"
+              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
             >
-          </div>
-        </li>
-        <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-          <div class="flex items-center ps-3">
-            <input
-              id="apomazado"
-              type="radio"
-              v-model="terminacion"
-              value="20"
-              name="terminacion"
-              
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-            />
-            <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Apomazado</label
-            >
-          </div>
-        </li>
-        <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-          <div class="flex items-center ps-3">
-            <input
-              id="envejecido"
-              type="radio"
-              v-model="terminacion"
-              value="30"
-              name="terminacion"
-              
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-            />
-            <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Envejecido</label
-            >
-          </div>
-        </li>
-        <li class="w-full">
-          <div class="flex items-center ps-3">
-            <input
-              id="abujardado"
-              type="radio"
-              v-model="terminacion"
-              value="40"
-              name="terminacion"
-              
-              class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-            />
-            <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-              >Abujardado</label
-            >
-          </div>
-        </li>
-      </ul>
-
-      <label
-        for="embalaje"
-        class="block mb-2 text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
-      >
-        Embalaje
-      </label>
-      <ul class="grid w-full gap-6 md:grid-cols-2">
-        <li>
-          <input
-            v-model="embalaje"
-            type="radio"
-            id="embalado"
-            name="embalaje"
-            value="20"
-            class="hidden peer"
-            required
-          />
-          <label
-            for="embalado"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Embalado</div>
-              <div class="w-full text-lg">Conlleva cargo extra</div>
-            </div>
-          </label>
-        </li>
-        <li>
-          <input
-            v-model="embalaje"
-            type="radio"
-            id="noEmbalado"
-            name="embalaje"
-            value="0"
-            class="hidden peer"
-            checked
-          />
-          <label
-            for="noEmbalado"
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">No embalado</div>
-              <div class="w-full text-lg">No conlleva cargo extra</div>
-            </div>
-          </label>
-        </li>
-      </ul>
-
+              <div class="block">
+                <div class="w-full text-lg font-semibold">No embalado</div>
+                <div class="w-full text-lg">No conlleva cargo extra</div>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </div>
       <template v-if="typeof sumables === 'number'">
         <h1 class="text-center text-4xl">{{ sumables }}€</h1>
       </template>
@@ -163,7 +191,6 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
-import LoandingComponent from '@/modules/shared/components/LoadingComponent.vue'
 
 export default {
   data() {
@@ -192,6 +219,9 @@ export default {
   methods: {
     async handleSubmit() {
       try {
+        if (this.grosor === 0 || this.largo === 0 || this.ancho === 0) {
+          throw 'Debes introducir las medidas de la losa'
+        }
         this.loading = true
         // this.maquina = this.$refs.maquina.value
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
@@ -202,6 +232,7 @@ export default {
         this.sumables.push(this.grosor)
         this.sumables.push(this.largo)
         this.sumables.push(this.ancho)
+        console.log('Largo:', this.largo, 'Ancho:', this.ancho, 'Grosor:', this.grosor)
         this.sumables.push(Number(this.terminacion))
         this.sumables.push(Number(this.embalaje))
 
@@ -228,7 +259,6 @@ export default {
         sum += this.grosor[key]
       }
       this.grosor = sum
-      console.log(this.grosor)
       return this.grosor
     },
     handleChangeLargo(e) {
@@ -257,7 +287,6 @@ export default {
       console.error(this.error.message)
     },
     async getConsumiblesPorMaquina(maquinas) {
-
       this.consumibles = await this.getConsumibles
       let consumiblesMaquina = []
       for (const maquina of maquinas) {
@@ -273,16 +302,18 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent
+    LoandingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
+    )
   }
 }
 </script>
@@ -318,9 +349,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow:
-    1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
 }
 .input + .check::before {
   content: '';
