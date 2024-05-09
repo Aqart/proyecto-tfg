@@ -18,9 +18,9 @@
       :name="value"
       :placeholder="formattedPlaceholder"
     />
-    <!-- <span class="block mt-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
+    <span class="block mt-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
       {{ errorMsg }}
-    </span> -->
+    </span>
   </div>
 </template>
 
@@ -65,10 +65,14 @@ export default {
         event.key === 'ArrowUp' ||
         event.key === 'ArrowDown'
       ) {
+        this.errorMsg = ''
         return
       }
       if (event.key < '0' || event.key > '9') {
+        this.errorMsg = 'Solo se permiten números'
         event.preventDefault()
+      } else {
+        this.errorMsg = ''
       }
     },
     updateValue(key, event) {
