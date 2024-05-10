@@ -461,8 +461,8 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
     InputNumberComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/InputNumberComponent.vue')
@@ -470,11 +470,11 @@ export default {
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/LoadingComponent.vue')
+    LoandingComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/LoadingComponent.vue')
     ),
-    ResumenComponent: defineAsyncComponent(() =>
-      import('@/modules/Calculadora/components/ResumenComponent.vue')
+    ResumenComponent: defineAsyncComponent(
+      () => import('@/modules/Calculadora/components/ResumenComponent.vue')
     )
   },
   watch: {
