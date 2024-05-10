@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="px-10 pb-10">
+  <form @submit.prevent="handleSubmit" class="px-10 pb-10" novalidate>
     <label
       for="email"
       class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
@@ -150,6 +150,9 @@ export default {
 
       const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
 
+      // Regex para el formato del email
+      const emailFormat = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+
       if (hasEmptyFields) {
         this.error = {
           status: true,
@@ -164,6 +167,12 @@ export default {
           message: 'No se ha modificado ningún campo'
         }
         this.$emit('errorForm', this.error)
+      } else if (!emailFormat.test(this.form.email)) {
+        this.error.status = true
+        this.error.type = 'warning'
+        this.error.message = 'El formato del email no es válido'
+        this.$emit('errorForm', this.error)
+        return
       } else {
         console.log('Datos que se envían', this.form)
         this.$emit('send', this.form)

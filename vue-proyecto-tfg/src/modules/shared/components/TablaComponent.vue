@@ -36,7 +36,7 @@
           <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
         </a>
       </div>
-      <label for="table-search-consumibles" class="sr-only">Buscar</label>
+      <label for="table-search" class="sr-only">Buscar</label>
       <div class="relative flex-grow">
         <div
           class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -48,9 +48,9 @@
         <div v-if="show">
           <input
             type="text"
-            id="table-search-consumibles"
+            id="table-search"
             class="block pt-2 pb-2 px-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none shadow-sm"
-            placeholder="Buscar consumibles"
+            :placeholder="`Buscar ${formattedRoute.toLowerCase()}`"
             v-model="searchQuery"
           />
         </div>
@@ -103,12 +103,10 @@
                 </div>
               </button>
             </th>
-            <th scope="col" class="text-center py-3 no-print">Acciones</th>
+            <th scope="col" class="text-center no-print">Acciones</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200 max-h-screen overflow-auto">
-          <!-- bucle para mostrar los consumibles -->
-
+        <tbody class="divide-gray-200 max-h-screen overflow-auto">
           <tr
             v-for="body in searchFilteredData"
             :key="body.id"
@@ -178,6 +176,17 @@
               </td>
             </template>
             <td class="py-4 no-print text-center">
+              <span
+                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group pl-12 pr-7"
+                @click="toggleModalOpenEdit(body.id)"
+                :data-id="body.id"
+              >
+                <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
+                <span
+                  class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
+                  >Inf.</span
+                >
+              </span>
               <span
                 class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 @click="toggleModalOpenEdit(body.id)"

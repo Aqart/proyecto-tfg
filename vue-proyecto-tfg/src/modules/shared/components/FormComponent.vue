@@ -118,8 +118,7 @@ export default {
         Object.entries(this.form).some(
           ([key, value]) => key !== 'id_maquina' && (value == '' || value == null)
         )
-      )
-      {
+      ) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'Está introduciendo campos vacíos o erróneos'
