@@ -182,7 +182,7 @@
                 @click="toggleModalOpenInfo(body.id)"
                 :data-id="body.id"
               >
-                <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
+                <FontAwesomeIcon :icon="['far', 'eye']" />
                 <span
                   class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
                   >Inf.</span
