@@ -43,7 +43,7 @@ export default {
       type: Object,
       required: true
     },
-    tipo: {
+    title: {
       type: String,
       required: true
     },

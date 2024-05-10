@@ -63,7 +63,10 @@ export default {
         event.key === 'Backspace' ||
         event.key === 'Delete' ||
         event.key === 'ArrowUp' ||
-        event.key === 'ArrowDown'
+        event.key === 'ArrowDown' ||
+        event.key === 'Tab' ||
+        event.key === 'Shift' ||
+        event.key === 'CapsLock'
       ) {
         this.errorMsg = ''
         return

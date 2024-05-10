@@ -178,7 +178,8 @@
             <td class="py-4 no-print text-center">
               <span
                 class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group pl-12 pr-7"
-                @click="toggleModalOpenEdit(body.id)"
+                v-if="formattedRoute === 'Máquinas'"
+                @click="toggleModalOpenInfo(body.id)"
                 :data-id="body.id"
               >
                 <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
@@ -217,6 +218,11 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
+      <InfoMaquinaComponent 
+        v-if="modalType === 'info'"
+        :data="item"
+        @close="toggleModalClose"
+      />
       <UsuariosFormComponent
         v-if="modalType === 'register'"
         :data="item || {}"
@@ -296,6 +302,9 @@ export default {
     ),
     UsuariosFormComponent: defineAsyncComponent(
       () => import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
+    ),
+    InfoMaquinaComponent: defineAsyncComponent(
+      () => import('@/modules/Maquinas/components/InfoMaquinaComponent.vue')
     ),
     LoadingComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/LoadingComponent.vue')
@@ -491,6 +500,14 @@ export default {
       }
       this.itemId = id
       this.getItemById(this.itemId)
+      this.showModal = !this.showModal
+    },
+    toggleModalOpenInfo(id){
+      this.cerrarMensaje()
+      this.itemId = id
+      this.getItemById(this.itemId)
+      this.modalTitle = `Información de ${this.item.nombre}`
+      this.modalType = 'info'
       this.showModal = !this.showModal
     },
     toggleModalClose() {
