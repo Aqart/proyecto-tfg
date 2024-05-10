@@ -384,17 +384,17 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    newSelectMaquinaComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/newSelectMaquinaComponent.vue')
+    newSelectMaquinaComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/newSelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/LoadingComponent.vue')
+    LoandingComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/LoadingComponent.vue')
     )
   }
 }
@@ -431,7 +431,9 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
+  box-shadow:
+    1px 1px 10px #aaaaaa,
+    -1px -1px 10px #ffffff;
 }
 .input + .check::before {
   content: '';

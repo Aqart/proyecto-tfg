@@ -92,6 +92,7 @@
                 v-model="terminacion"
                 value="20"
                 name="terminacion"
+                data-terminacion="Apomazado"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
               />
               <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -107,6 +108,7 @@
                 v-model="terminacion"
                 value="30"
                 name="terminacion"
+                data-terminacion="Envejecido"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
               />
               <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -122,6 +124,7 @@
                 v-model="terminacion"
                 value="40"
                 name="terminacion"
+                data-terminacion="Abujardado"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
               />
               <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -183,15 +186,18 @@
           </li>
         </ul>
       </div>
-      <template v-if="sumables">
+      <template v-if="sumables && !loading && isSubmitted">
         <ResumenComponent
-          :precio="sumables"
+          :precio="totalPrecio"
           :maquinas="maquinas"
           :consumibles="getConsumibles"
           :gastosEnergeticos="getGastos"
           :trabajadores="getTrabajadores"
           :gastoGeneral="gastoGeneral"
           :costeMaterial="costeMaterial"
+          :costeDesperdicio="precioDesperdicio"
+          :terminacion="getTerminacionTexto()"
+          :embalado="Number(embalaje)"
         />
       </template>
       <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
@@ -210,16 +216,20 @@ export default {
       grosor: 0,
       largo: 0,
       ancho: 0,
+      area: 0,
       embalaje: 0,
       terminacion: 0,
       gastoGeneral: 0,
       costeMaterial: 0,
+      totalPrecio: 0,
       maquina: null,
       consumibles: null,
       trabajadores: null,
       gastosEnergeticos: null,
+      porcentajeDesperdicio: 0,
       maquinas: [],
       sumables: null,
+      precioDesperdicio: 0,
       error: {
         status: false,
         message: ''
@@ -228,7 +238,8 @@ export default {
       consumiblesMaquina: [],
       tabajadoresMaquina: [],
       gastosEnergeticosMaquina: [],
-      options: []
+      options: [],
+      isSubmitted: false
     }
   },
   computed: {
@@ -248,11 +259,16 @@ export default {
     }
   },
   methods: {
+    getTerminacionTexto() {
+      // Busca el input seleccionado en el DOM
+      const inputSeleccionado = this.$el.querySelector(`input[name="terminacion"]:checked`)
+
+      // Devuelve el atributo 'data-terminacion' del input seleccionado
+      return inputSeleccionado ? inputSeleccionado.dataset.terminacion : ''
+    },
     async calcularMateriaPrima() {
       const materiasPrimas = await this.getMateriasPrimas
       const transporte = await this.getTransportes
-      console.log('Materias primas', materiasPrimas)
-      console.log('Transporte', transporte)
       const totalPrecioMateriaPrima = materiasPrimas.reduce((a, b) => {
         let precioM3 = b.cantidad_m3 * b.precio
         return a + precioM3
@@ -272,6 +288,25 @@ export default {
           totalPrecioTransporte / totalCantidadM3MateriaPrima) *
         (this.grosor / 100)
       return Number(totalMateriaPrima.toFixed(2))
+    },
+    calcularArea() {
+      this.area = (this.largo * this.ancho) / 100
+    },
+    calcularPorcentajeDesperdicio() {
+      let porcentajeTotal = 100
+
+      this.maquinas.forEach((maquina) => {
+        porcentajeTotal *= (100 - maquina.porcentaje_desperdicio) / 100
+      })
+
+      this.porcentajeDesperdicio = 100 - porcentajeTotal
+      console.log('Porcentaje desperdicio', this.porcentajeDesperdicio)
+    },
+    calcularDesperdicio() {
+      console.log('Area', this.area)
+      this.precioDesperdicio = (this.porcentajeDesperdicio / 100) * this.area * this.sumables // this.sumables +
+      // (20 + (this.porcentajeDesperdicio / 100) * this.area * 20).toFixed(2)
+      console.log('Precio desperdicio', this.precioDesperdicio)
     },
     async calculatePrice() {
       try {
@@ -314,6 +349,11 @@ export default {
           Number(this.gastoGeneral)
         this.sumables +=
           Number(this.costeMaterial) + Number(this.terminacion) + Number(this.embalaje)
+        this.calcularArea()
+        this.calcularPorcentajeDesperdicio()
+        this.calcularDesperdicio()
+        this.totalPrecio = Number(this.sumables) + Number(this.precioDesperdicio)
+        //this.sumables =
       } catch (e) {
         //418
         this.handleError(e)
@@ -324,6 +364,7 @@ export default {
       }
     },
     async handleSubmit() {
+      this.isSubmitted = true
       await this.calculatePrice()
     },
     addMaquinasArray(maquinaId) {
@@ -435,6 +476,55 @@ export default {
     ResumenComponent: defineAsyncComponent(() =>
       import('@/modules/Calculadora/components/ResumenComponent.vue')
     )
+  },
+  watch: {
+    largo() {
+      if (this.isSubmitted) {
+        setTimeout(() => {
+          this.sumables = null
+          this.calculatePrice()
+        }, 2000)
+      }
+    },
+    ancho() {
+      if (this.isSubmitted) {
+        setTimeout(() => {
+          this.sumables = null
+          this.calculatePrice()
+        }, 2000)
+      }
+    },
+    grosor() {
+      if (this.isSubmitted) {
+        setTimeout(() => {
+          this.sumables = null
+          this.calculatePrice()
+        }, 2000)
+      }
+    },
+    terminacion() {
+      if (this.isSubmitted) {
+        this.sumables = null
+        this.calculatePrice()
+      }
+    },
+    embalaje() {
+      if (this.isSubmitted) {
+        this.sumables = null
+        this.calculatePrice()
+      }
+    },
+    maquinas: {
+      handler() {
+        if (this.maquinas.length === 0) {
+          this.isSubmitted = false
+        } else if (this.isSubmitted) {
+          this.sumables = null
+          this.calculatePrice()
+        }
+      },
+      deep: true
+    }
   }
 }
 </script>

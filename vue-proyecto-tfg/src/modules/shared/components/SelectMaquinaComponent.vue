@@ -176,8 +176,8 @@ export default {
     window.removeEventListener('click', this.handleClickOutside)
   },
   components: {
-    ButtonComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   }
 }
@@ -209,4 +209,3 @@ export default {
   opacity: 0;
 }
 </style>
-
