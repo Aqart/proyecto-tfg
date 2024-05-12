@@ -42,10 +42,7 @@ import {
   faClipboardList,
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
-import { 
-  faCircleQuestion,
-  faEye
- } from '@fortawesome/free-regular-svg-icons'
+import { faCircleQuestion, faEye } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(
