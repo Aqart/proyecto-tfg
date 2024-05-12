@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     preventNonNumericInput(event) {
+      // También se puede hacer con regex
       if (
         event.key === 'Backspace' ||
         event.key === 'Delete' ||
@@ -66,7 +67,9 @@ export default {
         event.key === 'ArrowDown' ||
         event.key === 'Tab' ||
         event.key === 'Shift' ||
-        event.key === 'CapsLock'
+        event.key === 'CapsLock' ||
+        event.key === '.' || event.key === ',' ||
+        event.key === 'ArrowRight' || event.key === 'ArrowLeft'
       ) {
         this.errorMsg = ''
         return

@@ -218,11 +218,7 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <InfoMaquinaComponent 
-        v-if="modalType === 'info'"
-        :data="item"
-        @close="toggleModalClose"
-      />
+      <InfoMaquinaComponent v-if="modalType === 'info'" :data="item" @close="toggleModalClose" />
       <UsuariosFormComponent
         v-if="modalType === 'register'"
         :data="item || {}"
@@ -502,7 +498,7 @@ export default {
       this.getItemById(this.itemId)
       this.showModal = !this.showModal
     },
-    toggleModalOpenInfo(id){
+    toggleModalOpenInfo(id) {
       this.cerrarMensaje()
       this.itemId = id
       this.getItemById(this.itemId)
