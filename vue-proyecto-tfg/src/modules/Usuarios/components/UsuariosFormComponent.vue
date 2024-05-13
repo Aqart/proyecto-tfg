@@ -50,22 +50,14 @@
       id="password"
       placeholder="•••••••••"
     />
-    <label
-      for="roles"
-      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
-    >
-      Roles
-    </label>
-    <select
-      v-model="form.roles"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-      name="roles"
-      id="roles"
-    >
-      <option value="" selected disabled hidden>Elige una opción</option>
-      <option value="ADMIN">Admin</option>
-      <option value="TRABAJADOR">Trabajador</option>
-    </select>
+    <SelectComponent
+      :value="form.roles || 0"
+      label="Roles"
+      :options="roles"
+      :placeholder="'Seleccione un rol'"
+      :isEditing="tipo === 'Editar usuario' ? true : false"
+      @changeSelect="selectRol"
+    />
     <div class="flex flex-row items-center gap-4">
       <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
       <ButtonComponent
@@ -87,6 +79,13 @@ export default {
       type: Object,
       required: true
     },
+    roles: {
+      type: Array,
+      default: () => [
+        { id: 'ADMIN', nombre: 'Admin' },
+        { id: 'TRABAJADOR', nombre: 'Trabajador' },
+      ]
+    },
     tipo: {
       type: String,
       required: true
@@ -105,6 +104,9 @@ export default {
   components: {
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
+    ),
+    SelectComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/SelectComponent.vue')
     )
   },
   computed: {
@@ -126,6 +128,9 @@ export default {
       this.error.status = true
       this.error.message = e
       console.error('Dentro del handleError', this.error.message)
+    },
+    selectRol(id){
+      this.form.roles = id
     },
     toggleModal() {
       this.$emit('close')

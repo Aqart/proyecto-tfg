@@ -38,7 +38,7 @@
 export default {
   props: {
     value: {
-      type: Number,
+      type: [Number, String],
       default: 0
     },
     placeholder: {
@@ -66,7 +66,12 @@ export default {
   },
   computed: {
     allOptions() {
-      return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
+      if(this.label === 'Máquinas'){
+        return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
+      } else {
+        console.log(this.options)
+        return this.options
+      }
     },
     mappedSelectedOption() {
       if (this.selectedOption === 'placeholder') {
