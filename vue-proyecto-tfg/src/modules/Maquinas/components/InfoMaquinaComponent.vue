@@ -1,12 +1,11 @@
 <template>
   <div class="w-full mx-auto">
-    <div class="rounded-md shadow-md my-6 mx-4 ">
+    <div class="rounded-md shadow-md my-6 mx-4">
       <!-- Consumibles -->
-      <div 
+      <div
         class="rounded-t-md border-b border-stoneBackground-5 bg-stoneBackground-1 bg-opacity-20"
-        :class="{ 'border-opacity-30': !isOpenConsumibles,  'border-opacity-15': isOpenConsumibles
-        }"
-        >
+        :class="{ 'border-opacity-30': !isOpenConsumibles, 'border-opacity-15': isOpenConsumibles }"
+      >
         <button
           @click="toggleConsumibles"
           class="rounded-t-md flex items-center justify-between w-full px-5 py-3 text-xl text-stoneBackground-3 bg-stoneBackground-1 bg-opacity-10 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4"
@@ -15,17 +14,20 @@
           <span class="font-light"
             ><FontAwesomeIcon :icon="['fas', 'fa-droplet']" class="mr-2" />Consumibles</span
           >
-          <div class="icon mr-2" :class="{ 'open': isOpenConsumibles }">
+          <div class="icon mr-2" :class="{ open: isOpenConsumibles }">
             <span class="bar"></span>
             <span class="bar"></span>
           </div>
         </button>
         <transition name="fade">
           <div v-if="isOpenConsumibles" class="p-3 flex justify-center">
-            <ul v-if="consumiblesMaquina.length > 0"
-              class="min-w-full sm:px-24 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50"  
+            <ul
+              v-if="consumiblesMaquina.length > 0"
+              class="min-w-full sm:px-24 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50"
             >
-              <li v-for="consumible in consumiblesMaquina" :key="consumible.id"
+              <li
+                v-for="consumible in consumiblesMaquina"
+                :key="consumible.id"
                 class="pb-2 pt-2 sm:pt-3 sm:pb-3"
               >
                 <div class="flex items-center space-x-4">
@@ -34,7 +36,9 @@
                       {{ consumible.nombre }}
                     </p>
                   </div>
-                  <div class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1">
+                  <div
+                    class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1"
+                  >
                     {{ consumible.precio }}€
                   </div>
                 </div>
@@ -48,9 +52,11 @@
       </div>
 
       <!-- Trabajadores -->
-      <div 
+      <div
         class="bg-stoneBackground-1 bg-opacity-20 border-b border-stoneBackground-5"
-        :class="{ 'border-opacity-30': !isOpenTrabajadores, 'border-opacity-15': isOpenTrabajadores
+        :class="{
+          'border-opacity-30': !isOpenTrabajadores,
+          'border-opacity-15': isOpenTrabajadores
         }"
       >
         <button
@@ -61,17 +67,20 @@
           <span class="font-light"
             ><FontAwesomeIcon :icon="['fas', 'fa-person-digging']" class="mr-2" />Trabajadores</span
           >
-          <div class="icon mr-2" :class="{ 'open': isOpenTrabajadores }">
+          <div class="icon mr-2" :class="{ open: isOpenTrabajadores }">
             <span class="bar"></span>
             <span class="bar"></span>
           </div>
         </button>
         <transition name="fade">
           <div v-if="isOpenTrabajadores" class="p-3 flex justify-center">
-            <ul v-if="trabajadoresMaquina.length > 0"
-              class="min-w-full sm:px-24 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50"  
+            <ul
+              v-if="trabajadoresMaquina.length > 0"
+              class="min-w-full sm:px-24 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50"
             >
-              <li v-for="trabajador in trabajadoresMaquina" :key="trabajador.id"
+              <li
+                v-for="trabajador in trabajadoresMaquina"
+                :key="trabajador.id"
                 class="pb-2 pt-2 sm:pt-3 sm:pb-3"
               >
                 <div class="flex items-center space-x-4">
@@ -80,7 +89,9 @@
                       {{ trabajador.nombre }} {{ trabajador.apellidos }}
                     </p>
                   </div>
-                  <div class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1">
+                  <div
+                    class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1"
+                  >
                     {{ trabajador.precio }}€
                   </div>
                 </div>
@@ -97,33 +108,35 @@
         <button
           @click="toggleGastos"
           class="flex items-center justify-between w-full px-5 py-3 text-xl text-stoneBackground-3 bg-stoneBackground-1 bg-opacity-10 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4"
-          :class="{ 'border-b border-stoneBackground-5 border-opacity-10': isOpenGastos,
-          'rounded-b-md': !isOpenGastos
+          :class="{
+            'border-b border-stoneBackground-5 border-opacity-10': isOpenGastos,
+            'rounded-b-md': !isOpenGastos
           }"
         >
           <span class="font-light"
             ><FontAwesomeIcon :icon="['fas', 'fa-bolt']" class="mr-2" />Gastos Energéticos</span
           >
-          <div class="icon mr-2" :class="{ 'open': isOpenGastos }">
+          <div class="icon mr-2" :class="{ open: isOpenGastos }">
             <span class="bar"></span>
             <span class="bar"></span>
           </div>
         </button>
         <transition name="fade">
           <div v-if="isOpenGastos" class="p-3 flex justify-center">
-            <ul v-if="gastosMaquina.length > 0"
-              class="min-w-full sm:px-24 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50"  
+            <ul
+              v-if="gastosMaquina.length > 0"
+              class="min-w-full sm:px-24 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50"
             >
-              <li v-for="gasto in gastosMaquina" :key="gasto.id"
-                class="pb-2 pt-2 sm:pt-3 sm:pb-3"
-              >
+              <li v-for="gasto in gastosMaquina" :key="gasto.id" class="pb-2 pt-2 sm:pt-3 sm:pb-3">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-stoneBackgroundContrast-4 text-lg font-light truncate">
                       {{ gasto.nombre }}
                     </p>
                   </div>
-                  <div class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1">
+                  <div
+                    class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1"
+                  >
                     {{ gasto.coste_energia }}€
                   </div>
                 </div>

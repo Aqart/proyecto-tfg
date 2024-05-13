@@ -68,8 +68,10 @@ export default {
         event.key === 'Tab' ||
         event.key === 'Shift' ||
         event.key === 'CapsLock' ||
-        event.key === '.' || event.key === ',' ||
-        event.key === 'ArrowRight' || event.key === 'ArrowLeft'
+        event.key === '.' ||
+        event.key === ',' ||
+        event.key === 'ArrowRight' ||
+        event.key === 'ArrowLeft'
       ) {
         this.errorMsg = ''
         return
