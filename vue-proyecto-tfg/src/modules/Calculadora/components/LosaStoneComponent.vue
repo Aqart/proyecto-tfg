@@ -464,11 +464,11 @@ export default {
     SelectMaquinaComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoandingComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/LoadingComponent.vue')
@@ -483,7 +483,7 @@ export default {
         setTimeout(() => {
           this.sumables = null
           this.calculatePrice()
-        }, 2000)
+        }, 1300)
       }
     },
     ancho() {
@@ -491,7 +491,7 @@ export default {
         setTimeout(() => {
           this.sumables = null
           this.calculatePrice()
-        }, 2000)
+        }, 1300)
       }
     },
     grosor() {
@@ -499,7 +499,7 @@ export default {
         setTimeout(() => {
           this.sumables = null
           this.calculatePrice()
-        }, 2000)
+        }, 1300)
       }
     },
     terminacion() {
@@ -560,9 +560,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow:
-    1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
 }
 .input + .check::before {
   content: '';
