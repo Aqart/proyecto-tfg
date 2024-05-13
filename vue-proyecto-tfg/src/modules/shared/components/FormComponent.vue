@@ -63,20 +63,20 @@ export default {
     }
   },
   components: {
-    InputTextComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputTextComponent.vue')
+    InputTextComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputTextComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    InputPasswordComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputPasswordComponent.vue')
+    InputPasswordComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputPasswordComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    SelectComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectComponent.vue')
+    SelectComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectComponent.vue')
     )
   },
   computed: {
