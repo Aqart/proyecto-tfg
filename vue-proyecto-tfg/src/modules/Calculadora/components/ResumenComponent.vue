@@ -20,8 +20,11 @@
         class="bg-white border border-stoneBackgroundContrast-1 text-stoneBackgroundContrast-3 px-10 py-6 rounded-lg shadow"
       >
         <!--RECORRER LAS MAQUINAS-->
-        <li class="font-bold text-2xl mb-2 text-stoneBackgroundContrast-1 text-center">
+        <li
+          class="font-bold text-2xl mb-2 text-stoneBackgroundContrast-1 text-center flex items-center gap-3"
+        >
           {{ index + 1 }}. {{ maquina.nombre }}
+          <span class="text-sm">( {{ maquina.produccion_m2 }}m² producidos )</span>
         </li>
         <li class="flex flex-col gap-1">
           <h1 class="font-semibold text-md mt-3 mb-1 text-stoneBackgroundContrast-3">
@@ -60,7 +63,7 @@
       </ul>
     </div>
     <div class="flex flex-col bg-stoneBackground-1 bg-opacity-10 p-4 rounded-lg">
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between">
         <h3 class="text-center text-2xl mb-2 font-bold text-stoneBackground-3">
           <span class="text-secondary font-semibold text-lg mr-2">Gastos generales: </span
           >{{ gastoGeneral.toFixed(2) }}€
@@ -74,7 +77,7 @@
           >{{ costeDesperdicio.toFixed(2) }}€
         </h3>
       </div>
-      <h1 class="text-center text-4xl font-bold text-stoneBackgroundContrast-2">
+      <h1 class="text-center text-4xl font-bold text-stoneBackgroundContrast-2 mt-4">
         <span class="font-semibold text-lg mr-2 text-stoneBackground-3">TOTAL: </span
         >{{ precio.toFixed(2) }}€
       </h1>

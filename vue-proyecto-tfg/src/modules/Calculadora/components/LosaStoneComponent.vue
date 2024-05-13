@@ -200,7 +200,7 @@
           :embalado="Number(embalaje)"
         />
       </template>
-      <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
+      <ButtonComponent text="Calcular" bgColor="bg-primary" class="h-20 text-xl" type="submit" />
     </form>
     <LoandingComponent :fullScreen="true" :loading="loading" size="40px" />
   </div>
@@ -222,6 +222,7 @@ export default {
       gastoGeneral: 0,
       costeMaterial: 0,
       totalPrecio: 0,
+      produccion: 0,
       maquina: null,
       consumibles: null,
       trabajadores: null,
@@ -290,7 +291,7 @@ export default {
       return Number(totalMateriaPrima.toFixed(2))
     },
     calcularArea() {
-      this.area = (this.largo * this.ancho) / 100
+      this.area = (this.largo / 100) * (this.ancho / 100)
     },
     calcularPorcentajeDesperdicio() {
       let porcentajeTotal = 100
@@ -315,7 +316,12 @@ export default {
         this.loading = true
         this.consumibles = []
         this.sumables = []
+        this.produccion = 0
 
+        this.maquinas.forEach((maquina) => {
+          this.produccion += maquina.produccion_m2
+          console.log('Produccion', Number(this.produccion))
+        })
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
         this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
         this.gastosEnergeticos = await this.getGastosEnergeticosPorMaquina(this.maquinas)
@@ -347,11 +353,15 @@ export default {
           Number(trabajadoresSum) +
           Number(gastosEnergeticosSum) +
           Number(this.gastoGeneral)
+        console.log('Sumables', this.sumables)
+        this.sumables = this.sumables / this.produccion
+        console.log('Sumables-produccion', this.sumables)
         this.sumables +=
           Number(this.costeMaterial) + Number(this.terminacion) + Number(this.embalaje)
         this.calcularArea()
         this.calcularPorcentajeDesperdicio()
         this.calcularDesperdicio()
+
         this.totalPrecio = Number(this.sumables) + Number(this.precioDesperdicio)
         //this.sumables =
       } catch (e) {
@@ -461,8 +471,8 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
     InputNumberComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/InputNumberComponent.vue')
@@ -470,11 +480,11 @@ export default {
     ButtonComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoandingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     ),
-    ResumenComponent: defineAsyncComponent(
-      () => import('@/modules/Calculadora/components/ResumenComponent.vue')
+    ResumenComponent: defineAsyncComponent(() =>
+      import('@/modules/Calculadora/components/ResumenComponent.vue')
     )
   },
   watch: {
