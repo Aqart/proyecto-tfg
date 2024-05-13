@@ -11,7 +11,7 @@
           class="rounded-t-md flex items-center justify-between w-full px-5 py-3 text-xl text-stoneBackground-3 bg-stoneBackground-1 bg-opacity-10 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4"
           :class="{ 'border-b border-stoneBackground-5 border-opacity-10': isOpenConsumibles }"
         >
-          <span class="font-light"
+          <span class="font-semibold"
             ><FontAwesomeIcon :icon="['fas', 'fa-droplet']" class="mr-2" />Consumibles</span
           >
           <div class="icon mr-2" :class="{ open: isOpenConsumibles }">
@@ -32,19 +32,19 @@
               >
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
-                    <p class="text-stoneBackgroundContrast-4 text-lg font-light truncate">
+                    <p class="text-stoneBackgroundContrast-4 text-lg font-semibold truncate">
                       {{ consumible.nombre }}
                     </p>
                   </div>
                   <div
-                    class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1"
+                    class="inline-flex items-center text-lg font-semibold text-stoneBackgroundContrast-1"
                   >
                     {{ consumible.precio }}€
                   </div>
                 </div>
               </li>
             </ul>
-            <p v-else class="text-stoneBackgroundContrast-3 font-light text-lg">
+            <p v-else class="text-stoneBackgroundContrast-3 font-semibold text-lg">
               Sin consumibles asociados
             </p>
           </div>
@@ -64,7 +64,7 @@
           class="flex items-center justify-between w-full px-5 py-3 text-xl text-stoneBackground-3 bg-stoneBackground-1 bg-opacity-10 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4"
           :class="{ 'border-b border-stoneBackground-5 border-opacity-10': isOpenTrabajadores }"
         >
-          <span class="font-light"
+          <span class="font-semibold"
             ><FontAwesomeIcon :icon="['fas', 'fa-person-digging']" class="mr-2" />Trabajadores</span
           >
           <div class="icon mr-2" :class="{ open: isOpenTrabajadores }">
@@ -85,19 +85,19 @@
               >
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
-                    <p class="text-stoneBackgroundContrast-4 text-lg font-light truncate">
+                    <p class="text-stoneBackgroundContrast-4 text-lg font-semibold truncate">
                       {{ trabajador.nombre }} {{ trabajador.apellidos }}
                     </p>
                   </div>
                   <div
-                    class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1"
+                    class="inline-flex items-center text-lg font-semibold text-stoneBackgroundContrast-1"
                   >
                     {{ trabajador.precio }}€
                   </div>
                 </div>
               </li>
             </ul>
-            <p v-else class="text-stoneBackgroundContrast-3 font-light text-lg">
+            <p v-else class="text-stoneBackgroundContrast-3 font-semibold text-lg">
               Sin trabajadores asociados
             </p>
           </div>
@@ -113,7 +113,7 @@
             'rounded-b-md': !isOpenGastos
           }"
         >
-          <span class="font-light"
+          <span class="font-semibold"
             ><FontAwesomeIcon :icon="['fas', 'fa-bolt']" class="mr-2" />Gastos Energéticos</span
           >
           <div class="icon mr-2" :class="{ open: isOpenGastos }">
@@ -130,19 +130,19 @@
               <li v-for="gasto in gastosMaquina" :key="gasto.id" class="pb-2 pt-2 sm:pt-3 sm:pb-3">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
-                    <p class="text-stoneBackgroundContrast-4 text-lg font-light truncate">
+                    <p class="text-stoneBackgroundContrast-4 text-lg font-semibold truncate">
                       {{ gasto.nombre }}
                     </p>
                   </div>
                   <div
-                    class="inline-flex items-center text-lg font-light text-stoneBackgroundContrast-1"
+                    class="inline-flex items-center text-lg font-semibold text-stoneBackgroundContrast-1"
                   >
                     {{ gasto.coste_energia }}€
                   </div>
                 </div>
               </li>
             </ul>
-            <p v-else class="text-stoneBackgroundContrast-3 font-light text-lg">
+            <p v-else class="text-stoneBackgroundContrast-3 font-semibold text-lg">
               Sin gastos energéticos asociados
             </p>
           </div>
@@ -215,11 +215,7 @@ export default {
 /* Transicion cuando aparece y desaparece el modal */
 .fade-enter-active,
 .fade-leave-active {
-  transition:
-    opacity 0.2s 0.1s,
-    transform 0.3s,
-    max-height 0.3s,
-    padding 0.3s;
+  transition: opacity 0.2s 0.1s, transform 0.3s, max-height 0.3s, padding 0.3s;
 }
 .fade-enter-from,
 .fade-leave-to {

@@ -39,13 +39,6 @@
               aria-labelledby="options-menu"
             >
               <router-link
-                to="/register"
-                class="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
-                role="menuitem"
-                ><FontAwesomeIcon class="mr-3" :icon="['fas', 'user-plus']" />Nuevo
-                usuario</router-link
-              >
-              <router-link
                 to="/logout"
                 class="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
                 role="menuitem"
@@ -72,8 +65,8 @@ export default {
     }
   },
   components: {
-    LogoComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LogoComponent.vue')
+    LogoComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LogoComponent.vue')
     )
   },
   computed: {

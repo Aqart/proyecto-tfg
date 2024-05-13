@@ -6,20 +6,20 @@
     <div>
       <div
         v-if="maquinasSeleccionadas.length > 0"
-        class="mt-2 max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden py-5 bg-stone rounded-lg bg-opacity-20"
+        class="mt-2 overflow-hidden p-5 bg-stone rounded-lg bg-opacity-20"
       >
-        <div class="flex flex-row items-start justify-start gap-3 list-none pl-2">
+        <div class="flex flex-row flex-wrap justify-start items-center list-none gap-5 pl-2">
           <div
             v-for="(maquina, index) in maquinasSeleccionadas"
             :key="index"
-            class="flex items-center bg-stoneBackground-2 shadow py-2 px-4 rounded-md text-md font-bold text-stoneBackgroundContrast-1 border border-stone border-opacity-50"
+            class="flex flex-2 sm:flex-1 md:flex-auto w-full md:w-auto items-center bg-stoneBackground-2 shadow py-2 px-4 rounded-md text-md font-bold text-stoneBackgroundContrast-1 border border-stone border-opacity-50 overflow-wrap break-word"
           >
             <span>{{ index + 1 + ': ' + maquina.nombre }}</span>
             <ButtonComponent
               type="button"
               text="X"
               bgColor="bg-transparent"
-              otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 justify-self-end ml-2"
+              otherClasses="h-10 w-6 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 justify-self-end ml-auto"
               @click="removeMaquina(maquina.id)"
             />
           </div>
@@ -176,8 +176,8 @@ export default {
     window.removeEventListener('click', this.handleClickOutside)
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     )
   }
 }
