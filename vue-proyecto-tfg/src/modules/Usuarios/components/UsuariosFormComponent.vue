@@ -83,7 +83,7 @@ export default {
       type: Array,
       default: () => [
         { id: 'ADMIN', nombre: 'Admin' },
-        { id: 'TRABAJADOR', nombre: 'Trabajador' },
+        { id: 'TRABAJADOR', nombre: 'Trabajador' }
       ]
     },
     tipo: {
@@ -129,7 +129,7 @@ export default {
       this.error.message = e
       console.error('Dentro del handleError', this.error.message)
     },
-    selectRol(id){
+    selectRol(id) {
       this.form.roles = id
     },
     toggleModal() {

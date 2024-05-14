@@ -65,8 +65,8 @@ export default {
     }
   },
   components: {
-    LogoComponent: defineAsyncComponent(() =>
-      import('@/modules/shared/components/LogoComponent.vue')
+    LogoComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/LogoComponent.vue')
     )
   },
   computed: {
