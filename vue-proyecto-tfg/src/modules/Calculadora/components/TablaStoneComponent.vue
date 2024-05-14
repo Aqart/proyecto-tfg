@@ -10,7 +10,7 @@
         <h3
           class="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3 mb-4"
         >
-          Medidas de corte:
+          Grosor de corte:
         </h3>
         <div class="flex flex-row justify-between items-center gap-2">
           <div class="relative w-full">
@@ -22,39 +22,19 @@
             />
             <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
           </div>
-          <FontAwesomeIcon
-            :icon="['fas', 'xmark']"
-            class="w-6 h-6 text-stoneBackgroundContrast-1 text-shadow-md font-bold"
-          />
-          <div class="relative w-full">
-            <InputNumberComponent
-              placeholder="Ancho"
-              class="w-full"
-              @changeNumber="handleChangeAncho"
-              @errorNumber="handleError"
-            />
-            <span v-if="ancho" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
-          </div>
-          <FontAwesomeIcon
-            :icon="['fas', 'xmark']"
-            class="w-6 h-6 text-stoneBackgroundContrast-1 text-shadow-md font-bold"
-          />
-          <div class="relative w-full">
-            <InputNumberComponent
-              placeholder="Largo"
-              class="w-full"
-              @changeNumber="handleChangeLargo"
-              @errorNumber="handleError"
-            />
-            <span v-if="largo" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
-          </div>
         </div>
       </div>
-      <newSelectMaquinaComponent
+      <!-- <SelectMaquinaComponent
         :maquinasSeleccionadas="maquinas"
         :options="filteredOptions"
         @addMaquina="addMaquinasArray"
         @removeMaquina="removeMaquinasArray"
+      /> -->
+      <SelectComponent
+        placeholder="Selecione una máquina"
+        label="Maquina"
+        :options="filteredOptions"
+        @changeSelect="addMaquinasArray"
       />
       <div>
         <label
@@ -75,6 +55,7 @@
                 value="0"
                 name="terminacion"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
+                @click="isFinished = false"
                 checked
               />
               <label
@@ -92,6 +73,8 @@
                 v-model="terminacion"
                 value="20"
                 name="terminacion"
+                data-terminacion="Apomazado"
+                @click="isFinished = true"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
               />
               <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -107,6 +90,8 @@
                 v-model="terminacion"
                 value="30"
                 name="terminacion"
+                data-terminacion="Envejecido"
+                @click="isFinished = true"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
               />
               <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -122,6 +107,8 @@
                 v-model="terminacion"
                 value="40"
                 name="terminacion"
+                data-terminacion="Abujardado"
+                @click="isFinished = true"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
               />
               <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
@@ -130,6 +117,17 @@
             </div>
           </li>
         </ul>
+        <div v-if="isFinished" class="flex flex-row justify-between items-center gap-2">
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Precio de terminación"
+              class="w-full pt-3"
+              @changeNumber="handleChangeGrosor"
+              @errorNumber="handleError"
+            />
+            <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+        </div>
       </div>
       <div>
         <label
@@ -147,6 +145,7 @@
               name="embalaje"
               value="0"
               class="hidden peer"
+              @click="isPackage = false"
               checked
             />
             <label
@@ -169,6 +168,7 @@
               name="embalaje"
               value="20"
               class="hidden peer"
+              @click="isPackage = true"
               required
             />
             <label
@@ -182,11 +182,33 @@
             </label>
           </li>
         </ul>
+        <div v-if="isPackage" class="flex flex-row justify-between items-center gap-2">
+          <div class="relative w-full">
+            <InputNumberComponent
+              placeholder="Precio de embalaje"
+              class="w-full pt-3"
+              @changeNumber="handleChangeGrosor"
+              @errorNumber="handleError"
+            />
+            <span v-if="grosor" class="absolute inset-y-3.5 right-10 text-gray-400">cm</span>
+          </div>
+        </div>
       </div>
-      <template v-if="typeof sumables === 'number'">
-        <h1 class="text-center text-4xl">{{ sumables }}€</h1>
+      <template v-if="sumables && !loading && isSubmitted">
+        <ResumenComponent
+          :precio="totalPrecio"
+          :maquinas="maquinas"
+          :consumibles="getConsumibles"
+          :gastosEnergeticos="getGastos"
+          :trabajadores="getTrabajadores"
+          :gastoGeneral="gastoGeneral"
+          :costeMaterial="costeMaterial"
+          :costeDesperdicio="precioDesperdicio"
+          :terminacion="getTerminacionTexto()"
+          :embalado="Number(embalaje)"
+        />
       </template>
-      <ButtonComponent text="Calcular" bgColor="bg-primary" type="submit" />
+      <ButtonComponent text="Calcular" bgColor="bg-primary" class="h-20 text-xl" type="submit" />
     </form>
     <LoandingComponent :fullScreen="true" :loading="loading" size="40px" />
   </div>
@@ -202,15 +224,23 @@ export default {
       grosor: 0,
       largo: 0,
       ancho: 0,
+      area: 0,
       embalaje: 0,
       terminacion: 0,
       gastoGeneral: 0,
+      costeMaterial: 0,
+      totalPrecio: 0,
+      produccion: 0,
       maquina: null,
       consumibles: null,
       trabajadores: null,
+      isPackage: false,
+      isFinished: false,
       gastosEnergeticos: null,
+      porcentajeDesperdicio: 0,
       maquinas: [],
-      sumables: [],
+      sumables: null,
+      precioDesperdicio: 0,
       error: {
         status: false,
         message: ''
@@ -219,7 +249,8 @@ export default {
       consumiblesMaquina: [],
       tabajadoresMaquina: [],
       gastosEnergeticosMaquina: [],
-      options: []
+      options: [],
+      isSubmitted: false
     }
   },
   computed: {
@@ -228,24 +259,70 @@ export default {
     ...mapGetters('Trabajadores', ['getTrabajadores']),
     ...mapGetters('GastosEnergeticos', ['getGastos']),
     ...mapGetters('GastosGenerales', ['getGastosGenerales']),
+    ...mapGetters('MateriaPrima', ['getMateriasPrimas']),
+    ...mapGetters('Transportes', ['getTransportes']),
     filteredOptions() {
       let maquinas = this.getMaquinas
 
-      return maquinas.filter((maquina) => {
-        return !this.maquinas.some((m) => m.id === maquina.id)
-      })
+      // filtra las maquinas que se llaman Telar y Pulidora
+      return maquinas.filter(
+        (maquina) => maquina.nombre === 'Telar' || maquina.nombre === 'Multihilo'
+      )
     }
   },
   methods: {
+    getTerminacionTexto() {
+      // Busca el input seleccionado en el DOM
+      const inputSeleccionado = this.$el.querySelector(`input[name="terminacion"]:checked`)
+
+      // Devuelve el atributo 'data-terminacion' del input seleccionado
+      return inputSeleccionado ? inputSeleccionado.dataset.terminacion : ''
+    },
+    async calcularMateriaPrima() {
+      const materiasPrimas = await this.getMateriasPrimas
+      const transporte = await this.getTransportes
+      const totalPrecioMateriaPrima = materiasPrimas.reduce((a, b) => {
+        let precioM3 = b.cantidad_m3 * b.precio
+        return a + precioM3
+      }, 0)
+      console.log(totalPrecioMateriaPrima)
+      const totalCantidadM3MateriaPrima = materiasPrimas.reduce((a, b) => {
+        return a + b.cantidad_m3
+      }, 0)
+      console.log(totalCantidadM3MateriaPrima)
+      const totalPrecioTransporte = transporte.reduce((a, b) => {
+        let totalPrecioTransporte = b.cantidad * b.precio
+        return a + totalPrecioTransporte
+      }, 0)
+      console.log(totalPrecioTransporte)
+      let totalMateriaPrima =
+        (totalPrecioMateriaPrima / totalCantidadM3MateriaPrima +
+          totalPrecioTransporte / totalCantidadM3MateriaPrima) *
+        (this.grosor / 100)
+      return Number(totalMateriaPrima.toFixed(2))
+    },
+    calcularDesperdicio() {
+      this.precioDesperdicio = (this.porcentajeDesperdicio / 100) * this.sumables // this.sumables +
+      // (20 + (this.porcentajeDesperdicio / 100) * this.area * 20).toFixed(2)
+      console.log('Precio desperdicio', this.precioDesperdicio)
+    },
     async calculatePrice() {
       try {
+        // Se limpia this.sumables
+        this.sumables = []
         this.loading = true
         this.consumibles = []
         this.sumables = []
+        this.produccion = 0
 
+        this.maquinas.forEach((maquina) => {
+          this.produccion += maquina.produccion_m2
+          console.log('Produccion', Number(this.produccion))
+        })
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
         this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
         this.gastosEnergeticos = await this.getGastosEnergeticosPorMaquina(this.maquinas)
+        this.costeMaterial = await this.calcularMateriaPrima()
 
         const consumiblesSum = this.consumibles.reduce(
           (sum, consumible) => sum + consumible.precio,
@@ -267,17 +344,26 @@ export default {
             this.getMaquinas.length) *
           this.maquinas.length
         console.log('Gasto general', this.gastoGeneral)
+        console.log('Coste material', this.costeMaterial)
         this.sumables =
           Number(consumiblesSum) +
           Number(trabajadoresSum) +
           Number(gastosEnergeticosSum) +
           Number(this.gastoGeneral)
-        this.sumables +=
-          Number(this.grosor) +
-          Number(this.largo) +
-          Number(this.ancho) +
+        console.log('Sumables', this.sumables)
+        this.sumables = this.sumables / this.produccion
+        console.log('Sumables-produccion', this.sumables)
+        this.sumables += Number(this.costeMaterial)
+        this.porcentajeDesperdicio = this.maquinas[0].porcentaje_desperdicio
+        console.log('Porcentaje de desperdicio', this.porcentajeDesperdicio)
+        this.calcularDesperdicio()
+        console.log('Precio desperdicio', this.precioDesperdicio)
+        this.totalPrecio =
+          Number(this.sumables) +
+          Number(this.precioDesperdicio) +
           Number(this.terminacion) +
           Number(this.embalaje)
+        //this.sumables =
       } catch (e) {
         //418
         this.handleError(e)
@@ -288,18 +374,12 @@ export default {
       }
     },
     async handleSubmit() {
+      this.isSubmitted = true
       await this.calculatePrice()
     },
     addMaquinasArray(maquinaId) {
-      if (!this.maquinas.some((maquina) => maquina === maquinaId)) {
-        this.maquinas.push(maquinaId)
-      } else {
-        this.handleError('La máquina está seleccionada')
-      }
-    },
-    removeMaquinasArray(maquinaId) {
-      this.maquinas = this.maquinas.filter((m) => m.id !== maquinaId)
-      this.consumiblesMaquina = []
+      this.maquinas = []
+      this.maquinas.push(this.filteredOptions.find((maquina) => maquina.id === maquinaId))
     },
     handleChangeGrosor(e) {
       this.grosor = e
@@ -309,25 +389,6 @@ export default {
       }
       this.grosor = sum
       return this.grosor
-    },
-    handleChangeLargo(e) {
-      this.largo = e
-      let sum = 0
-      for (const key in this.largo) {
-        sum += this.largo[key]
-      }
-      this.largo = sum
-      console.log(this.largo)
-      return this.largo
-    },
-    handleChangeAncho(e) {
-      this.ancho = e
-      let sum = 0
-      for (const key in this.ancho) {
-        sum += this.ancho[key]
-      }
-      this.ancho = sum
-      return this.ancho
     },
     handleError(e) {
       this.error.status = true
@@ -384,18 +445,73 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    newSelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/newSelectMaquinaComponent.vue')
+    // SelectMaquinaComponent: defineAsyncComponent(() =>
+    //   import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    // ),
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    LoandingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     ),
-    LoandingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    ResumenComponent: defineAsyncComponent(() =>
+      import('@/modules/Calculadora/components/ResumenComponent.vue')
+    ),
+    SelectComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectComponent.vue')
     )
+  },
+  watch: {
+    largo() {
+      if (this.isSubmitted) {
+        setTimeout(() => {
+          this.sumables = null
+          this.calculatePrice()
+        }, 1300)
+      }
+    },
+    ancho() {
+      if (this.isSubmitted) {
+        setTimeout(() => {
+          this.sumables = null
+          this.calculatePrice()
+        }, 1300)
+      }
+    },
+    grosor() {
+      if (this.isSubmitted) {
+        setTimeout(() => {
+          this.sumables = null
+          this.calculatePrice()
+        }, 1300)
+      }
+    },
+    terminacion() {
+      if (this.isSubmitted) {
+        this.sumables = null
+        this.calculatePrice()
+      }
+    },
+    embalaje() {
+      if (this.isSubmitted) {
+        this.sumables = null
+        this.calculatePrice()
+      }
+    },
+    maquinas: {
+      handler() {
+        if (this.maquinas.length === 0) {
+          this.isSubmitted = false
+        } else if (this.isSubmitted) {
+          this.sumables = null
+          this.calculatePrice()
+        }
+      },
+      deep: true
+    }
   }
 }
 </script>
@@ -431,9 +547,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow:
-    1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
 }
 .input + .check::before {
   content: '';
