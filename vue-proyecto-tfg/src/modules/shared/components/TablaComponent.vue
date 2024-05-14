@@ -456,7 +456,7 @@ export default {
     },
     selectAllCheckboxes(event) {
       if (event.target.checked) {
-        this.selectedCheckboxes = this.data.map((item) => item.id)
+        this.selectedCheckboxes = this.searchFilteredData.map((item) => item.id)
       } else {
         this.selectedCheckboxes = []
       }
@@ -640,7 +640,6 @@ export default {
                 return maquinaNull.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
               }
             } else if (key === 'ultima_conexion' || key === 'fecha_registro') {
-              console.log("Fecha", item[key])
               if(item[key] === null){
                 return 'Registro sin completar'.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
               }
