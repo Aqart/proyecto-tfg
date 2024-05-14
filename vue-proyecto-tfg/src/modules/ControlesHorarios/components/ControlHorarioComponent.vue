@@ -3,7 +3,7 @@
     <div class="bg-white shadow-md rounded-t-xl my-6">
       <div class="border-b border-gray-200">
         <button
-          @click="toggleTelar"
+          @click="toggleParte('Telar')"
           class="flex items-center justify-between w-full px-5 py-3 text-3xl text-stoneBackground-3 bg-stoneBackground-2 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4 rounded-t-lg"
         >
           <span class="font-medium"
@@ -19,7 +19,7 @@
       </div>
       <div>
         <button
-          @click="togglePulidora"
+          @click="toggleParte('Pulidora')"
           class="flex items-center justify-between w-full px-5 py-3 text-3xl text-stoneBackground-3 bg-stoneBackground-2 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4"
         >
           <span class="font-medium"
@@ -58,6 +58,16 @@ export default {
     )
   },
   methods: {
+    toggleParte(parte){
+      const maquinas = ['Telar', 'Pulidora', 'Cortabloques']
+      maquinas.forEach(maquina => {
+        if (maquina !== parte) {
+          this[`isOpen${maquina}`] = false
+        } else {
+          this[`isOpen${maquina}`] = !this[`isOpen${maquina}`]
+        }
+      })
+    },
     toggleTelar() {
       this.isOpenTelar = !this.isOpenTelar
       this.$nextTick(() => {

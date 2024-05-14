@@ -14,7 +14,11 @@
       id="numWorker"
       min="1"
       placeholder="Número de trabajador"
+      @keydown="preventNonNumericInput"
     />
+    <span class="block mt-0 mb-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
+      {{ errorMsg }}
+    </span>
     <label
       for="email"
       class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
@@ -89,6 +93,10 @@ export default {
     tipo: {
       type: String,
       required: true
+    },
+    users: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -98,7 +106,8 @@ export default {
         status: false,
         type: '',
         message: ''
-      }
+      },
+      errorMsg: ''
     }
   },
   components: {
@@ -124,6 +133,31 @@ export default {
     }
   },
   methods: {
+    preventNonNumericInput(event) {
+      // También se puede hacer con regex
+      if (
+        event.key === 'Backspace' ||
+        event.key === 'Delete' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'ArrowDown' ||
+        event.key === 'Tab' ||
+        event.key === 'Shift' ||
+        event.key === 'CapsLock' ||
+        event.key === '.' ||
+        event.key === ',' ||
+        event.key === 'ArrowRight' ||
+        event.key === 'ArrowLeft'
+      ) {
+        this.errorMsg = ''
+        return
+      }
+      if (event.key < '0' || event.key > '9') {
+        this.errorMsg = 'Solo se permiten números'
+        event.preventDefault()
+      } else {
+        this.errorMsg = ''
+      }
+    },
     handleError(e) {
       this.error.status = true
       this.error.message = e
@@ -176,6 +210,12 @@ export default {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'El formato del email no es válido'
+        this.$emit('errorForm', this.error)
+        return
+      } else if(this.users.some(user => user.email === this.form.email)) {
+        this.error.status = true
+        this.error.type = 'warning'
+        this.error.message = 'El email ya está registrado para otro usuario'
         this.$emit('errorForm', this.error)
         return
       } else {
