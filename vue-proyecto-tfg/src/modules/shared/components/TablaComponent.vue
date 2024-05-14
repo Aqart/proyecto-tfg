@@ -639,7 +639,16 @@ export default {
                 const maquinaNull = "Sin máquina asociada"
                 return maquinaNull.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
               }
-            } else {
+            } else if (key === 'ultima_conexion' || key === 'fecha_registro') {
+              console.log("Fecha", item[key])
+              if(item[key] === null){
+                return 'Registro sin completar'.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+              }
+              // Convierte la fecha a una cadena de texto en el formato dd/mm/yyyy, hh:mm
+              const fechaObj = new Date(item[key]);
+              const fecha = `${fechaObj.getDate().toString().padStart(2, '0')}/${(fechaObj.getMonth() + 1).toString().padStart(2, '0')}/${fechaObj.getFullYear()}, ${fechaObj.getHours().toString().padStart(2, '0')}:${fechaObj.getMinutes().toString().padStart(2, '0')}`;
+              return fecha.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+            } else if(item[key]){
               return item[key].toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
             }
           });
