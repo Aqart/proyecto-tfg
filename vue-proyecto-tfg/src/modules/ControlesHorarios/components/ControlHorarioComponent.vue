@@ -3,17 +3,21 @@
     <div class="bg-white shadow-md rounded-t-xl my-6">
       <div class="border-b border-gray-200">
         <button
-          @click="toggleParte('Telar')"
+          @click="toggleParte('Cortabloques')"
           class="flex items-center justify-between w-full px-5 py-3 text-3xl text-stoneBackground-3 bg-stoneBackground-2 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4 rounded-t-lg"
         >
           <span class="font-medium"
-            ><FontAwesomeIcon :icon="['fas', 'fa-clipboard-list']" class="mr-2" />Parte: Telar</span
+            ><FontAwesomeIcon :icon="['fas', 'fa-clipboard-list']" class="mr-2" />Parte:
+            Cortabloques</span
           >
-          <FontAwesomeIcon :icon="['fas', 'caret-down']" :class="{ 'rotate-90': isOpenTelar }" />
+          <FontAwesomeIcon
+            :icon="['fas', 'caret-down']"
+            :class="{ 'rotate-90': isOpenCortabloques }"
+          />
         </button>
         <transition name="fade">
-          <div v-if="isOpenTelar" class="p-5">
-            <FormParteTelar />
+          <div v-if="isOpenCortabloques" class="p-5">
+            <FormParteCortabloques />
           </div>
         </transition>
       </div>
@@ -43,18 +47,18 @@ import { defineAsyncComponent } from 'vue'
 export default {
   data() {
     return {
-      isOpenTelar: false,
+      isOpenCortabloques: false,
       isOpenPulidora: false,
       fechaActual: '',
       horaActual: ''
     }
   },
   components: {
-    FormParteTelar: defineAsyncComponent(
-      () => import('@/modules/ControlesHorarios/components/FormParteTelarComponent.vue')
+    FormParteCortabloques: defineAsyncComponent(() =>
+      import('@/modules/ControlesHorarios/components/FormParteCortabloquesComponent.vue')
     ),
-    FormPartePulidora: defineAsyncComponent(
-      () => import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
+    FormPartePulidora: defineAsyncComponent(() =>
+      import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
     )
   },
   methods: {
@@ -77,7 +81,7 @@ export default {
       })
     },
     togglePulidora() {
-      this.isOpenTelar = false
+      this.isOpenCortabloques = false
       this.isOpenPulidora = !this.isOpenPulidora
     }
   }
@@ -88,11 +92,7 @@ export default {
 /* Transicion cuando aparece y desaparece el modal */
 .fade-enter-active,
 .fade-leave-active {
-  transition:
-    opacity 0.3s 0.1s,
-    transform 0.5s,
-    max-height 0.5s,
-    padding 0.5s;
+  transition: opacity 0.3s 0.1s, transform 0.5s, max-height 0.5s, padding 0.5s;
 }
 .fade-enter-from,
 .fade-leave-to {

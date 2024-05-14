@@ -69,19 +69,8 @@
             </div>
           </div>
         </div>
-        <div class="mt-4">
-          <span class="text-xl font-medium text-gray-700">Maquinas</span>
-          <div class="mt-2 space-y-2">
-            <div v-for="maquina in getMaquinas" :key="maquina.id">
-              <label class="inline-flex items-center">
-                <input type="radio" class="form-radio" name="maquina.nombre" value="maquina.id" />
-                <span class="ml-2">{{ maquina.nombre }}</span>
-              </label>
-            </div>
-          </div>
-        </div>
       </div>
-      <!--aqui-->
+      <ListaFabricacionComponent />
       <div>
         <label for="obsevaciones" class="block text-xl font-medium text-gray-700"
           >Observaciones</label
@@ -114,8 +103,11 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
+    ),
+    ListaFabricacionComponent: defineAsyncComponent(() =>
+      import('@/modules/ControlesHorarios/components/ListaFabricacionComponent.vue')
     )
   },
   created() {
