@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     allOptions() {
-      if(this.label === 'Máquinas'){
+      if (this.label === 'Máquinas') {
         return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
       } else {
         console.log(this.options)

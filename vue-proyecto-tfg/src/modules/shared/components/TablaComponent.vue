@@ -201,6 +201,14 @@
               </span>
             </td>
           </tr>
+          <tr v-if="searchFilteredData.length === 0" class="bg-gray-50 border-b hover:bg-gray-100">
+            <td
+              :colspan="filteredHeader.length * 2 + 1"
+              class="text-center font-bold py-3 text-stoneBackgroundContrast-2 text-lg"
+            >
+              No hay resultados
+            </td>
+          </tr>
           <tr
             v-if="filteredHeader.includes('precio')"
             class="bg-gray-50 border-b hover:bg-gray-100"
@@ -223,6 +231,7 @@
         v-if="modalType === 'register'"
         :data="item || {}"
         :tipo="modalTitle"
+        :users="data"
         @send="getNewData"
         @errorForm="handleError"
         @close="toggleModalClose"
@@ -616,11 +625,25 @@ export default {
       let result = this.data
 
       if (this.searchQuery) {
+        // Utiliza el tipo de normalización Unicode "NFD" para eliminar los diacríticos
+        const searchValue = this.searchQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         result = result.filter((item) => {
-          return Object.values(item).some((value) =>
-            value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
-          )
-        })
+          return Object.keys(item).some((key) => {
+            if (key === 'id_maquina') {
+              // Busca la máquina usando item[key] (que es el id_maquina)
+              // El rango u0300-u036f es para los caracteres acentuados en unicode
+              const maquina = this.getMaquinas.find(maquina => maquina.id === item[key]);
+              if (maquina) {
+                return maquina.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+              } else {
+                const maquinaNull = "Sin máquina asociada"
+                return maquinaNull.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+              }
+            } else {
+              return item[key].toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+            }
+          });
+        });
       }
 
       if (this.sortField) {
