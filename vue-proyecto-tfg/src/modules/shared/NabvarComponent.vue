@@ -22,7 +22,7 @@
             :icon="['fas', 'circle-user']"
           />&nbsp;&nbsp;<span
             class="first-letter:uppercase font-bold text-stoneBackgroundContrast-1"
-            >{{ getFormattedEmail }}</span
+            >{{ employeeName }}</span
           >
           <FontAwesomeIcon :icon="['fas', 'caret-down']" class="text-gray-700 ml-2" />
         </button>
@@ -57,26 +57,27 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
-      open: false
+      open: false,
+      employeeName: null
     }
   },
+  created() {
+    this.employeeName = this.getEmployeeName || localStorage.getItem('employeeName')
+    console.log(this.employeeName)
+  },
+
   components: {
     LogoComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/LogoComponent.vue')
     )
   },
   computed: {
-    getFormattedEmail() {
-      const formattedEmail = localStorage.getItem('email')
-
-      if (formattedEmail) return formattedEmail.slice(0, localStorage.getItem('email').indexOf('@'))
-
-      return formattedEmail
-    }
+    ...mapGetters('Auth', ['getEmployeeName'])
   },
   methods: {
     toggleDropdown() {

@@ -55,7 +55,7 @@
           </h1>
           <div v-if="getTrabajadores(maquina.id).length">
             <ul v-for="trabajador in getTrabajadores(maquina.id)" :key="trabajador.id">
-              <li>> {{ trabajador.nombre }} - {{ trabajador.precio }}€</li>
+              <li>> {{ trabajador.nombre_completo }} - {{ trabajador.precio }}€</li>
             </ul>
           </div>
           <p v-else class="text-gray-400">No conlleva gasto</p>

@@ -31,8 +31,8 @@ const AuthController = {
             )
 
             // Obtiene el ID del usuario creado
-            const userId = result[0].insertId;
-            
+            const userId = result[0].insertId
+
             // Obtiene los detalles del usuario creado
             const [user] = await pool.query(
                 'SELECT id, numero_trabajador, email, roles, fecha_registro, ultima_conexion FROM user WHERE id = ?',
@@ -77,7 +77,14 @@ const AuthController = {
                 process.env.JWT_SECRET,
                 { expiresIn: '4h' }
             )
-            const { roles } = user[0]
+            console.log(user[0])
+            const { roles, numero_trabajador } = user[0]
+            //llamar a la base de datos y obtener el nombre de completo del trabajador
+            const [trabajador] = await pool.query(
+                'SELECT CONCAT(nombre, " ", apellido1) AS nombre_completo FROM trabajador WHERE numero_trabajador = ?',
+                [numero_trabajador]
+            )
+
             // Comprueba si last_connection es null o igual a registration_date
             if (
                 user[0].ultima_conexion === null ||
@@ -86,12 +93,18 @@ const AuthController = {
                 return res.status(200).json({
                     token,
                     roles,
+                    numero_trabajador,
                     something_required: 'CHANGE_PASSWORD',
+                    nombre_completo: trabajador[0].nombre_completo,
                 })
             } else {
-                return res
-                    .status(200)
-                    .json({ token, roles, something_required: 'NOT' })
+                return res.status(200).json({
+                    token,
+                    roles,
+                    numero_trabajador,
+                    something_required: 'NOT',
+                    nombre_completo: trabajador[0].nombre_completo,
+                })
             }
         } catch (error) {
             next(error)
@@ -251,9 +264,13 @@ const AuthController = {
                     .json({ message: 'Credenciales inválidas' })
             }
             //TIPO DE FORMATO FECHA TIMESTAMP
-            const date = new Date();
-            const spainDate = date.toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
-            const lastConnection = spainDate.replace(/\//g, '-').replace(',', '');
+            const date = new Date()
+            const spainDate = date.toLocaleString('es-ES', {
+                timeZone: 'Europe/Madrid',
+            })
+            const lastConnection = spainDate
+                .replace(/\//g, '-')
+                .replace(',', '')
             console.log(lastConnection)
             const [rows, fields] = await pool.query(
                 'UPDATE user SET ultima_conexion = STR_TO_DATE(?, "%d-%m-%Y %H:%i:%s") WHERE email = ?',

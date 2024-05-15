@@ -103,14 +103,14 @@ export default {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
-    RouterMapComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/RouterMapComponent.vue')
+    RouterMapComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/RouterMapComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoadingComponent
   },
@@ -127,7 +127,6 @@ export default {
     })
 
     const someThingRequired = store.state.Auth.someThingRequired
-    console.log(someThingRequired)
 
     const obtenerConsumibles = async () => {
       const { getConsumibles } = useConsumible()

@@ -1,6 +1,7 @@
 import authApi from '@/api/stoneApi'
 import { jwtDecode } from 'jwt-decode'
 import router from '@/router'
+import { getEmployeeNumber } from './getters'
 
 // export const myAction = async ({ commit }) => {
 
@@ -35,12 +36,15 @@ export const loginUser = async ({ dispatch, commit }, user) => {
   try {
     const { data } = await authApi.post('/login', { email, password })
     const isExpired = await dispatch('isTokenExpired')
-
+    console.log('DATA', data)
     if (!isExpired) {
+      console.log(data)
       commit('loginUser', {
         email: email,
         idToken: localStorage.getItem('idToken'),
         roles: data.roles,
+        employeeNumber: localStorage.getItem('employeeNumber'),
+        employeeName: localStorage.getItem('employeeName'),
         someThingRequired: data.something_required
       })
     } else {
@@ -48,11 +52,12 @@ export const loginUser = async ({ dispatch, commit }, user) => {
         email: email,
         idToken: data.token,
         roles: data.roles,
+        employeeNumber: data.numero_trabajador,
+        employeeName: data.nombre_completo,
         someThingRequired: data.something_required
       })
     }
     if (data.something_required === 'NOT') {
-      console.log('user antes de lastLoginConnection', user)
       await dispatch('lastLoginConnection', user)
     }
     delete user.password

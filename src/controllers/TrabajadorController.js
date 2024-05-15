@@ -1,12 +1,13 @@
-import { pool } from '../db.js' // Importa el pool de conexión a la base de datos
+import { pool } from '../db.js'
 
 const TrabajadorController = {
     // Obtener todos los trabajadores
     obtenerTodos: async (req, res, next) => {
         try {
             const [rows, fields] = await pool.query(
-                'SELECT * FROM trabajador_costes'
+                "SELECT tc.id, tc.numero_trabajador, CONCAT(t.nombre, ' ', t.apellido1, ' ', t.apellido2) AS nombre_completo, tc.precio, tc.id_maquina FROM trabajador_costes AS tc JOIN TRABAJADOR AS t ON tc.numero_trabajador = t.numero_trabajador"
             )
+
             res.status(200).json(rows)
         } catch (error) {
             next(error)

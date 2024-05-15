@@ -16,7 +16,7 @@
           />
         </button>
         <transition name="fade">
-          <div v-if="isOpenCortabloques" class="p-5">
+          <div v-if="isOpenCortabloques" class="px-0 py-5 sm:px-5">
             <FormParteCortabloques />
           </div>
         </transition>
