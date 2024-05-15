@@ -136,7 +136,7 @@
         />
       </div>
       <div class="flex flex-row gap-2">
-        <ButtonComponent text="Guardar" bgColor="bg-secondary" @click.prevent="handleSubmit" />
+        <ButtonComponent text="Firmar parte" bgColor="bg-secondary" @click.prevent="handleSubmit" />
         <ButtonComponent text="Limpiar" bgColor="bg-secondary" />
       </div>
     </div>
