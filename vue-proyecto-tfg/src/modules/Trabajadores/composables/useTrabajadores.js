@@ -8,6 +8,11 @@ const useTrabajadores = () => {
     return resp
   }
 
+  const getEmpleados = async () => {
+    const resp = await store.dispatch('Trabajadores/fetchEmpleados')
+    return resp
+  }
+
   const getTrabajador = async (id) => {
     const resp = await store.dispatch('Trabajadores/getTrabajadorById', id)
     return resp
@@ -31,6 +36,7 @@ const useTrabajadores = () => {
 
   return {
     getTrabajadores,
+    getEmpleados,
     createTrabajador,
     editTrabajador,
     getTrabajador,

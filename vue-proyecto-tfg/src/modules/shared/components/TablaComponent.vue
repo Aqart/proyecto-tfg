@@ -227,6 +227,15 @@
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
       <InfoMaquinaComponent v-if="modalType === 'info'" :data="item" @close="toggleModalClose" />
+      <TrabajadoresFormComponent
+        v-if="modalType === 'trabajador'"
+        :data="item || {}"
+        :tipo="modalTitle"
+        :users="data"
+        @send="getNewData"
+        @errorForm="handleError"
+        @close="toggleModalClose"
+      />
       <UsuariosFormComponent
         v-if="modalType === 'register'"
         :data="item || {}"
@@ -307,6 +316,9 @@ export default {
     ),
     UsuariosFormComponent: defineAsyncComponent(
       () => import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
+    ),
+    TrabajadoresFormComponent: defineAsyncComponent(
+      () => import('@/modules/Trabajadores/components/TrabajadoresFormComponent.vue')
     ),
     InfoMaquinaComponent: defineAsyncComponent(
       () => import('@/modules/Maquinas/components/InfoMaquinaComponent.vue')
@@ -475,9 +487,12 @@ export default {
       if (formattedRoute == 'usuarios') {
         this.modalType = 'register'
         this.modalTitle = 'Añadir nuevo usuario'
+      } else if(formattedRoute == 'trabajadores') {
+        this.modalType = 'trabajador'
+        this.modalTitle = 'Añadir nuevo trabajador'
       } else {
-        this.modalTitle = 'Añadir nuevo'
         this.modalType = 'form'
+        this.modalTitle = 'Añadir nuevo'
       }
       if (this.data.length > 0) {
         // Obtener el tipo de dato de cada elemento en data

@@ -20,14 +20,22 @@
       />
     </div>
     <transition name="fade">
-      <div v-if="showOptions" class="bg-white border border-gray-400 w-full mt-3 rounded shadow">
+      <div v-if="showOptions" 
+        class="bg-white border border-gray-400 w-full mt-3 rounded shadow"
+        :class="{'max-h-64 overflow-auto': allOptions.length > 7}"
+      >
         <div
           v-for="option in allOptions"
           @click="selectOption(option)"
           :key="option.id"
           class="px-4 py-4 cursor-pointer hover:bg-bgFrom hover:bg-opacity-50 hover:font-bold transition-all duration-200 ease-in-out"
         >
-          {{ option.nombre }}
+          <div v-if="label === 'Empleados'">
+            {{ option.numero_trabajador }} - {{ option.nombre }} {{ option.apellido1 }} {{ option.apellido2 }}
+          </div>
+          <div v-else>
+            {{ option.nombre }}
+          </div>
         </div>
       </div>
     </transition>
@@ -78,6 +86,9 @@ export default {
         return this.placeholder
       }
       const foundOption = this.allOptions.find((option) => option.id === this.selectedOption)
+      if(this.label === 'Empleados') {
+        return foundOption.numero_trabajador + ' - ' + foundOption.nombre + ' ' + foundOption.apellido1 + ' ' + foundOption.apellido2
+      }
       return foundOption ? foundOption.nombre : 'Sin máquina asociada'
     }
   },
@@ -94,7 +105,11 @@ export default {
     selectOption(option) {
       this.selectedOption = option.id
       this.showOptions = false
-      this.$emit('changeSelect', option.id)
+      if(this.label === 'Empleados'){
+        this.$emit('changeSelect', option.numero_trabajador)
+      } else {
+        this.$emit('changeSelect', option.id)
+      }
     },
     handleClickOutside(event) {
       if (!this.$refs.select.contains(event.target)) {

@@ -162,6 +162,12 @@ export default {
       const { getTrabajadores } = useTrabajadores()
       return await getTrabajadores()
     }
+
+    const obtenerEmpleados = async () => {
+      const { getEmpleados } = useTrabajadores()
+      return await getEmpleados()
+    }
+
     const obtenerUsuarios = async () => {
       const { getUsuarios } = useUsuarios()
       return await getUsuarios()
@@ -185,6 +191,7 @@ export default {
         obtenerMateriasPrimas()
         obtenerTransportes()
         obtenerTrabajadores()
+        obtenerEmpleados()
         obtenerUsuarios()
       } catch (error) {
         console.error('Error al obtener los datos:', error)
