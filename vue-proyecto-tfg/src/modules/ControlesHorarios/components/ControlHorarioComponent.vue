@@ -47,7 +47,7 @@ import { defineAsyncComponent } from 'vue'
 export default {
   data() {
     return {
-      isOpenCortabloques: false,
+      isOpenCortabloques: true,
       isOpenPulidora: false,
       fechaActual: '',
       horaActual: ''
@@ -62,9 +62,9 @@ export default {
     )
   },
   methods: {
-    toggleParte(parte){
+    toggleParte(parte) {
       const maquinas = ['Telar', 'Pulidora', 'Cortabloques']
-      maquinas.forEach(maquina => {
+      maquinas.forEach((maquina) => {
         if (maquina !== parte) {
           this[`isOpen${maquina}`] = false
         } else {

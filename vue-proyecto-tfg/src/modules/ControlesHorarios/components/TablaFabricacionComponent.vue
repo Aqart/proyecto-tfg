@@ -12,7 +12,7 @@
       <div class="relative inline-block text-left flex-shrink-0">
         <a
           class="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:ring-2 hover:ring-secondary"
-          :class="disabled"
+          :class="disabledButton"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
@@ -38,6 +38,7 @@
                   id="checkbox-all-search"
                   type="checkbox"
                   class="accent-stoneBackgroundContrast-1 w-4 h-4 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
+                  :class="disabledCheckbox"
                 />
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
@@ -50,7 +51,17 @@
             <th scope="col" class="p-4">Acciones</th>
           </tr>
         </thead>
-        <tbody class="divide-gray-200 rounded-b-lg text-center">
+        <tbody v-if="items.length === 0" class="divide-gray-200 rounded-b-lg text-center">
+          <tr>
+            <td class="px-4 pt-4 bg-gray-50" colspan="6">No hay elementos para mostrar</td>
+          </tr>
+          <tr>
+            <td class="pb-4 text-sm text-gray-400 bg-gray-50" colspan="6">
+              Inserte un nuevo elemento desde el botón añadir.
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else class="divide-gray-200 rounded-b-lg text-center">
           <tr
             class="bg-gray-50 border-b hover:bg-gray-100"
             v-for="(item, index) in items"
@@ -69,7 +80,7 @@
               </div>
             </td>
             <td class="px-6 py-4" v-if="!item.editing">
-              {{ parseFloat(item.largo) }} <sup>cm<sup>2</sup></sup>
+              {{ parseFloat(item.largo) }} <sup>cm</sup>
             </td>
             <td class="px-6 py-4" v-else>
               <input
@@ -84,7 +95,7 @@
             </td>
 
             <td class="px-6 py-4" v-if="!item.editing">
-              {{ parseFloat(item.ancho) }} <sup>cm<sup>2</sup></sup>
+              {{ parseFloat(item.ancho) }} <sup>cm</sup>
             </td>
             <td class="px-6 py-4" v-else>
               <input
@@ -99,7 +110,7 @@
             </td>
 
             <td class="px-6 py-4" v-if="!item.editing">
-              {{ parseFloat(item.grosor) }} <sup>cm<sup>2</sup></sup>
+              {{ parseFloat(item.grosor) }} <sup>cm</sup>
             </td>
             <td class="px-6 py-4" v-else>
               <input
@@ -249,10 +260,13 @@ export default {
     }
   },
   computed: {
-    disabled() {
+    disabledButton() {
       return this.selectedCheckboxes.length > 0
         ? ''
         : 'pointer-events-none opacity-50 cursor-not-allowed'
+    },
+    disabledCheckbox() {
+      return this.items.length > 0 ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'
     }
   }
 }

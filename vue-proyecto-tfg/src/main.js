@@ -43,7 +43,10 @@ import {
   faClipboardList,
   faXmark,
   faCircleXmark,
-  faFloppyDisk
+  faFloppyDisk,
+  faFileSignature,
+  faEraser,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion, faEye } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -88,7 +91,10 @@ library.add(
   faXmark,
   faEye,
   faCircleXmark,
-  faFloppyDisk
+  faFloppyDisk,
+  faFileSignature,
+  faEraser,
+  faCheck
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')
