@@ -86,7 +86,7 @@
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-stoneBackgroundContrast-4 text-lg font-semibold truncate">
-                      {{ trabajador.nombre }} {{ trabajador.apellidos }}
+                      {{ trabajador.numero_trabajador }} - {{ trabajador.nombre_completo }}
                     </p>
                   </div>
                   <div
@@ -197,6 +197,7 @@ export default {
       this.trabajadoresMaquina = response.filter(
         (trabajador) => trabajador.id_maquina === this.data.id
       )
+      console.log(this.trabajadoresMaquina)
     },
     async obtenerGastos() {
       const response = await this.getGastos

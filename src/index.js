@@ -11,6 +11,7 @@ import GastoEnergeticoController from './controllers/GastoEnergeticoController.j
 import GastoGeneralController from './controllers/GastoGeneralController.js'
 import MateriaPrimaController from './controllers/MateriaPrimaController.js'
 import TransporteController from './controllers/TransporteController.js'
+import EmpleadoController from './controllers/EmpleadoController.js'
 
 const app = express()
 
@@ -38,6 +39,13 @@ app.post('/trabajadores', TrabajadorController.crear)
 app.get('/trabajadores/:id', TrabajadorController.obtenerPorId)
 app.put('/trabajadores/:id', TrabajadorController.actualizar)
 app.delete('/trabajadores/:id', TrabajadorController.eliminar)
+
+// Endpoints para Trabajadores
+app.get('/empleados', EmpleadoController.obtenerTodos)
+app.post('/empleados', EmpleadoController.crear)
+app.get('/empleados/:id', EmpleadoController.obtenerPorId)
+app.put('/empleados/:id', EmpleadoController.actualizar)
+app.delete('/empleados/:id', EmpleadoController.eliminar)
 
 // Endpoints para Máquinas
 app.get('/maquinas', MaquinaController.obtenerTodas)

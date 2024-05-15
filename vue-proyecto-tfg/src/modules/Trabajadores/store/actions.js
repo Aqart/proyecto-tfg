@@ -23,6 +23,28 @@ export const fetchTrabajadores = async ({ commit }) => {
   }
 }
 
+export const fetchEmpleados = async ({ commit }) => {
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  try {
+    const response = await authApi.get('/empleados', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+    // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+    if (response.status === 200 && response.data) {
+      // Actualizar el estado con los empleados obtenidos
+      commit('setEmpleados', response.data)
+    } else {
+      console.error('Error al obtener los empleados:', response.message)
+    }
+  } catch (error) {
+    console.error('Error al obtener los empleados:', error.message)
+  }
+}
+
 export const createTrabajador = async ({ commit }, trabajador) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }

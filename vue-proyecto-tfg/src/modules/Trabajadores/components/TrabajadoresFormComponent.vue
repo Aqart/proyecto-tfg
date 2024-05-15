@@ -1,66 +1,39 @@
 <template>
   <form @submit.prevent="handleSubmit" class="px-10 pb-10" novalidate>
+    <SelectComponent
+      :value="form.empleado || 0"
+      label="Empleados"
+      :options="getEmpleados"
+      :placeholder="'Seleccione un empleado'"
+      :isEditing="tipo === 'Editar trabajador' ? true : false"
+      @changeSelect="selectEmpleado"
+    />
     <label
-      for="numWorker"
-      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+      for="email"
+      class="block mt-4 mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
     >
-      Nº de trabajador
+      Coste trabajador
     </label>
     <input
-      v-model="form.numero_trabajador"
+      v-model="form.precio"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
       type="number"
       name="numWorker"
       id="numWorker"
       min="1"
-      placeholder="Número de trabajador"
+      placeholder="Coste del trabajador"
       @keydown="preventNonNumericInput"
     />
     <span class="block mt-0 mb-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
       {{ errorMsg }}
     </span>
-    <label
-      for="email"
-      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
-    >
-      Correo Electrónico
-    </label>
-    <input
-      v-model="form.email"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-      type="email"
-      name="email"
-      id="email"
-      placeholder="email@email.es"
-    />
-    <label
-      for="password"
-      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
-    >
-      {{ labelPassword }}
-    </label>
-    <span
-      v-if="tipo === 'Editar usuario'"
-      class="block mb-2 text-xs font-light text-gray-400"
-      :style="{ fontSize: '11px' }"
-    >
-      Introduce una nueva contraseña para el usuario
-    </span>
-    <input
-      v-model="form.password"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-      type="password"
-      name="password"
-      id="password"
-      placeholder="•••••••••"
-    />
     <SelectComponent
-      :value="form.roles || 0"
-      label="Roles"
-      :options="roles"
-      :placeholder="'Seleccione un rol'"
-      :isEditing="tipo === 'Editar usuario' ? true : false"
-      @changeSelect="selectRol"
+      :value="form.maquina || 0"
+      :label="'Máquina'"
+      :options="getMaquinas"
+      :placeholder="'Seleccione una máquina relacionada'"
+      :isEditing="tipo === 'Editar' ? true : false"
+      @changeSelect="selectMaquina"
     />
     <div class="flex flex-row items-center gap-4">
       <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
@@ -76,6 +49,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -83,20 +57,9 @@ export default {
       type: Object,
       required: true
     },
-    roles: {
-      type: Array,
-      default: () => [
-        { id: 'ADMIN', nombre: 'Admin' },
-        { id: 'TRABAJADOR', nombre: 'Trabajador' }
-      ]
-    },
     tipo: {
       type: String,
       required: true
-    },
-    users: {
-      type: Array,
-      default: () => []
     }
   },
   data() {
@@ -119,11 +82,10 @@ export default {
     )
   },
   computed: {
+    ...mapGetters('Trabajadores', ['getEmpleados']),
+    ...mapGetters('Maquinas', ['getMaquinas']),
     textoBoton() {
-      return this.tipo === 'Editar usuario' ? 'Modificar' : 'Guardar'
-    },
-    labelPassword() {
-      return this.tipo === 'Editar usuario' ? 'Nueva contraseña' : 'Contraseña'
+      return this.tipo === 'Editar trabajador' ? 'Modificar' : 'Guardar'
     }
   },
   watch: {
@@ -163,8 +125,13 @@ export default {
       this.error.message = e
       console.error('Dentro del handleError', this.error.message)
     },
-    selectRol(id) {
-      this.form.roles = id
+    selectEmpleado(id) {
+      console.log(id)
+      this.form.empleado = id
+    },
+    selectMaquina(id) {
+      console.log(id)
+      this.form.maquina = id
     },
     toggleModal() {
       this.$emit('close')
@@ -184,15 +151,7 @@ export default {
     handleSubmit() {
       const isEmpty = (value) => value === '' || value === 0 || value === null
 
-      const requiredFields = ['numero_trabajador', 'email', 'roles']
-      if (this.tipo === 'Añadir nuevo usuario') requiredFields.push('password')
-
-      const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
-
-      // Regex para el formato del email
-      const emailFormat = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
-
-      if (hasEmptyFields) {
+      if (isEmpty) {
         this.error = {
           status: true,
           type: 'warning',
@@ -206,18 +165,6 @@ export default {
           message: 'No se ha modificado ningún campo'
         }
         this.$emit('errorForm', this.error)
-      } else if (!emailFormat.test(this.form.email)) {
-        this.error.status = true
-        this.error.type = 'warning'
-        this.error.message = 'El formato del email no es válido'
-        this.$emit('errorForm', this.error)
-        return
-      } else if(this.users.some(user => user.email === this.form.email)) {
-        this.error.status = true
-        this.error.type = 'warning'
-        this.error.message = 'El email ya está registrado para otro usuario'
-        this.$emit('errorForm', this.error)
-        return
       } else {
         console.log('Datos que se envían', this.form)
         this.$emit('send', this.form)

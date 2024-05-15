@@ -2,6 +2,10 @@ export const setTrabajadores = (state, data) => {
   state.trabajadores = data
 }
 
+export const setEmpleados = (state, data) => {
+  state.empleados = data
+}
+
 export const setNewTrabajador = (state, trabajador) => {
   state.trabajadores.push(trabajador)
 }
