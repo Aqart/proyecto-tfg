@@ -36,7 +36,10 @@ export const fetchEmpleados = async ({ commit }) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Actualizar el estado con los empleados obtenidos
+      console.log(response.data)
       commit('setEmpleados', response.data)
+
+      return response.data
     } else {
       console.error('Error al obtener los empleados:', response.message)
     }
@@ -58,6 +61,7 @@ export const createTrabajador = async ({ commit }, trabajador) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
+      console.log(response.data)
       if (response.data.id) {
         trabajador.id = response.data.id
       }

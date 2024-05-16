@@ -31,13 +31,7 @@
           :key="option.id"
           class="px-4 py-4 cursor-pointer hover:bg-bgFrom hover:bg-opacity-50 hover:font-bold transition-all duration-200 ease-in-out"
         >
-          <div v-if="label === 'Empleados'">
-            {{ option.numero_trabajador }} - {{ option.nombre }} {{ option.apellido1 }}
-            {{ option.apellido2 }}
-          </div>
-          <div v-else>
-            {{ option.nombre }}
-          </div>
+          {{ option.nombre }}
         </div>
       </div>
     </transition>
@@ -88,17 +82,6 @@ export default {
         return this.placeholder
       }
       const foundOption = this.allOptions.find((option) => option.id === this.selectedOption)
-      if (this.label === 'Empleados') {
-        return (
-          foundOption.numero_trabajador +
-          ' - ' +
-          foundOption.nombre +
-          ' ' +
-          foundOption.apellido1 +
-          ' ' +
-          foundOption.apellido2
-        )
-      }
       return foundOption ? foundOption.nombre : 'Sin máquina asociada'
     }
   },
