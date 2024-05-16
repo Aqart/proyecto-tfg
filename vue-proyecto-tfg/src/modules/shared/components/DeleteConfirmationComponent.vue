@@ -40,13 +40,14 @@
         </div>
       </div>
       <div
-        class="max-h-24 sm:max-h-44 md:max-h-56 lg:max-h-64 xl:max-h-80 overflow-hidden overflow-y-scroll py-2"
+        class="max-h-[18rem] sm:max-h-72 xl:max-h-80 overflow-hidden overflow-y-scroll py-2"
       >
-        <ul class="flex flex-wrap items-center justify-evenly gap-3 list-none pl-0">
+        <ul class="w-full gap-2 flex justify-between flex-wrap list-none pl-0">
           <li
             v-for="item in listItems"
             :key="item.id"
-            class="bg-stoneBackground-4 py-3 px-3 rounded-md text-sm font-semibold text-stoneBackgroundContrast-1"
+            class="flex justify-between items-center w-full bg-stoneBackground-4 px-6 rounded-md text-md font-semibold text-stoneBackgroundContrast-1
+            min-h-16"
             :class="{
               'col-span-full':
                 (item.nombre + ' ' + (item.email || '')).length > 30 ||
@@ -54,52 +55,54 @@
                 listItems.length === 1
             }"
           >
-            <div class="flex">
-              <div class="align-middle">
-                <template v-for="(el, index) in item">
-                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
-                    el
-                  }}</span>
-                  <span
-                    :key="`${el}-del`"
-                    class="text-wrap"
-                    v-if="index == 'apellido1'"
-                    v-html="`&nbsp;${el}`"
-                  ></span>
-                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'email'">{{ el }}</span>
-                </template>
-              </div>
-              <ButtonComponent
-                type="button"
-                text="X"
-                bgColor="bg-transparent"
-                otherClasses="h-5 w-5 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 justify-self-end ml-2"
-                @click="deselectItem(item.id)"
-              />
+            <div class="">
+              <template v-for="(el, index) in item">
+                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
+                  el
+                }}</span>
+                <span
+                  :key="`${el}-del`"
+                  class="text-wrap"
+                  v-if="index == 'apellido1'"
+                  v-html="`&nbsp;${el}`"
+                ></span>
+                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'email'">{{ el }}</span>
+                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre_completo'">{{ el }}</span>
+                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'id_maquina'"> - {{ getNombreMaquina(el) }}</span>
+              </template>
             </div>
+            <ButtonComponent
+              type="button"
+              text="X"
+              bgColor="bg-transparent"
+              otherClasses="h-6 w-6 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 ml-2"
+              @click="deselectItem(item.id)"
+            />
           </li>
         </ul>
       </div>
-    </div>
-    <div class="flex w-90 mx-auto gap-9 pr-4 pl-4">
-      <!-- <LoadingComponent v-if="openLoader" :fullscreen="false" /> -->
-      <ButtonComponent
-        :hidden="listItems.length === 0"
-        text="Confirmar"
-        @click="confirmDelete"
-        bgColor="bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5"
-      />
-      <ButtonComponent
-        text="Cancelar"
-        @click="toggleModal"
-        bgColor="bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5"
-      />
+      <div class="flex justify-between gap-9 pt-11">
+        <ButtonComponent
+          :icon="['fas', 'floppy-disk']"
+          :hidden="listItems.length === 0"
+          text="Confirmar"
+          @click="confirmDelete"
+          bgColor="flex justify-center items-center gap-3 bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5 py-4 text-lg"
+        />
+        <ButtonComponent
+          :icon="['fas', 'circle-xmark']"
+          text="Cancelar"
+          @click="toggleModal"
+          bgColor="flex justify-center items-center gap-3 bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5 py-4 text-lg"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -121,12 +124,20 @@ export default {
       listItems: []
     }
   },
+  computed: {
+    ...mapGetters('Maquinas', ['getMaquinas'])
+  },
   components: {
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
     )
   },
   methods: {
+    getNombreMaquina(id){
+      const maquinas = this.getMaquinas
+      const maquina = maquinas.find(maquina => maquina.id === id)
+      return maquina.nombre
+    },
     confirmDelete() {
       this.$emit('delete', this.listItems)
     },

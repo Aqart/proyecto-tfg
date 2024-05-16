@@ -59,7 +59,7 @@
 
     <div class="flex-grow overflow-auto">
       <table class="min-w-full divide-y divide-gray-200 text-left" id="table">
-        <thead class="text-lg font-bold text-stoneBackground-5 bg-stoneBackground-2 sticky top-0">
+        <thead class="text-lg font-bold text-stoneBackground-3 bg-stoneBackground-2 sticky top-0">
           <tr>
             <th scope="col" class="p-4 no-print">
               <div class="flex items-center">
@@ -514,6 +514,9 @@ export default {
       if (formattedRoute == 'usuarios') {
         this.modalTitle = 'Editar usuario'
         this.modalType = 'register'
+      } else if (formattedRoute == 'trabajadores') {
+        this.modalTitle = 'Editar trabajador'
+        this.modalType = 'trabajador'
       } else {
         this.modalTitle = 'Editar'
         this.modalType = 'form'

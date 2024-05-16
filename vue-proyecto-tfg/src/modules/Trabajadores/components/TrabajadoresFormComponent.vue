@@ -1,15 +1,15 @@
 <template>
   <form @submit.prevent="handleSubmit" class="px-10 pb-10" novalidate>
     <SelectComponent
-      :value="form.empleado || 0"
+      :value="form.numero_trabajador || 0"
       label="Empleados"
-      :options="getEmpleados"
+      :options="selectFormattedEmpleados()"
       :placeholder="'Seleccione un empleado'"
       :isEditing="tipo === 'Editar trabajador' ? true : false"
       @changeSelect="selectEmpleado"
     />
     <label
-      for="email"
+      for="precio"
       class="block mt-4 mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
     >
       Coste trabajador
@@ -24,15 +24,15 @@
       placeholder="Coste del trabajador"
       @keydown="preventNonNumericInput"
     />
-    <span class="block mt-0 mb-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
+    <span class="block mb-4 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
       {{ errorMsg }}
     </span>
     <SelectComponent
-      :value="form.maquina || 0"
+      :value="form.id_maquina"
       :label="'Máquina'"
       :options="getMaquinas"
       :placeholder="'Seleccione una máquina relacionada'"
-      :isEditing="tipo === 'Editar' ? true : false"
+      :isEditing="tipo === 'Editar trabajador' ? true : false"
       @changeSelect="selectMaquina"
     />
     <div class="flex flex-row items-center gap-4">
@@ -95,6 +95,16 @@ export default {
     }
   },
   methods: {
+    selectFormattedEmpleados(){
+      const empleados = this.getEmpleados
+      console.log(empleados)
+      return empleados.map(empleado => {
+        return {
+          id: empleado.numero_trabajador,
+          nombre: `${empleado.numero_trabajador} - ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}`
+        }
+      })
+    },
     preventNonNumericInput(event) {
       // También se puede hacer con regex
       if (
@@ -127,11 +137,11 @@ export default {
     },
     selectEmpleado(id) {
       console.log(id)
-      this.form.empleado = id
+      this.form.numero_trabajador = id
     },
     selectMaquina(id) {
       console.log(id)
-      this.form.maquina = id
+      this.form.id_maquina = id
     },
     toggleModal() {
       this.$emit('close')
@@ -151,7 +161,11 @@ export default {
     handleSubmit() {
       const isEmpty = (value) => value === '' || value === 0 || value === null
 
-      if (isEmpty) {
+      const requiredFields = ['empleado', 'precio', 'maquina']
+      // Comprueba si algún campo del formulario está vacío
+      const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
+
+      if (hasEmptyFields) {
         this.error = {
           status: true,
           type: 'warning',
@@ -167,7 +181,13 @@ export default {
         this.$emit('errorForm', this.error)
       } else {
         console.log('Datos que se envían', this.form)
-        this.$emit('send', this.form)
+        // Crea un nuevo objeto con solo los campos que quieres enviar
+        const dataToSend = {
+          numero_trabajador: this.form.numero_trabajador,
+          precio: this.form.precio,
+          id_maquina: this.form.id_maquina
+        }
+        this.$emit('send', dataToSend)
         this.form = {}
         this.toggleModal()
       }

@@ -24,12 +24,24 @@ import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
-    const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador } =
-      useTrabajadores()
+    const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador, getEmpleados } = useTrabajadores()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
-        if (type === 'Añadir nuevo') {
+        const empleados = await getEmpleados()
+        const empleado = empleados.find(empleado => empleado.numero_trabajador === data.numero_trabajador)
+
+        if (empleado) {
+          const nombre_trabajador = empleado.nombre + ' ' + empleado.apellido1 + ' ' + empleado.apellido2
+          data = { 
+            numero_trabajador: data.numero_trabajador, 
+            nombre_trabajador, 
+            ...data 
+          }
+          console.log(data)
+        }
+
+        if (type === 'Añadir nuevo trabajador') {
           const { ok, message } = await createTrabajador(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -77,7 +89,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else {
-          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          const nombresSuccess = arrayData.map((result) => result.nombre_trabajador).join(', ')
           console.log(nombresSuccess)
           actualizarMensaje(
             'success',
