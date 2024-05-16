@@ -8,6 +8,7 @@ import TransportesRouter from '@/modules/Transportes/router'
 import TrabajadoresRouter from '@/modules/Trabajadores/router'
 import UsuariosRouter from '@/modules/Usuarios/router'
 import ControlesHorariosRouter from '@/modules/ControlesHorarios/router'
+import ListadoPartesRouter from '@/modules/ListadoPartes/router'
 
 export default {
   name: 'home',
@@ -53,6 +54,10 @@ export default {
     {
       path: '/generador-partes',
       ...ControlesHorariosRouter
+    },
+    {
+      path: '/listado-partes',
+      ...ListadoPartesRouter
     }
   ]
 }

@@ -20,9 +20,10 @@
       />
     </div>
     <transition name="fade">
-      <div v-if="showOptions" 
+      <div
+        v-if="showOptions"
         class="bg-white border border-gray-400 w-full mt-3 rounded shadow"
-        :class="{'max-h-64 overflow-auto': allOptions.length > 7}"
+        :class="{ 'max-h-64 overflow-auto': allOptions.length > 7 }"
       >
         <div
           v-for="option in allOptions"
@@ -97,7 +98,7 @@ export default {
     selectOption(option) {
       this.selectedOption = option.id
       this.showOptions = false
-      if(this.label === 'Empleados'){
+      if (this.label === 'Empleados') {
         this.$emit('changeSelect', option.numero_trabajador)
       } else {
         this.$emit('changeSelect', option.id)

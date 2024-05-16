@@ -70,7 +70,7 @@
         <ButtonComponent text="Cambiar" bgColor="bg-secondary" @click="handleModalSubmit" />
       </form>
     </ModalComponent>
-    <main v-else class="flex flex-col justify-between my-10 sm:mx-3">
+    <main v-else class="flex flex-col justify-between my-3 lg:my-10 sm:mx-3">
       <MenuView v-if="$route.path === '/home'" />
       <RouterMapComponent
         v-else
