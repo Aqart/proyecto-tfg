@@ -10,6 +10,7 @@ import MateriaPrima from '@/modules/MateriaPrima/store'
 import Transportes from '@/modules/Transportes/store'
 import Trabajadores from '@/modules/Trabajadores/store'
 import Usuarios from '@/modules/Usuarios/store'
+import ListadoPartes from '@/modules/ListadoPartes/store'
 
 const store = createStore({
   modules: {
@@ -22,7 +23,8 @@ const store = createStore({
     MateriaPrima,
     Transportes,
     Trabajadores,
-    Usuarios
+    Usuarios,
+    ListadoPartes
   }
 })
 

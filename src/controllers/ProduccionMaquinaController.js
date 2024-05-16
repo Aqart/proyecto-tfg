@@ -1,0 +1,1 @@
+//SELECT * FROM `PRODUCCION_MAQUINA` ORDER BY `id_parte`,`id`

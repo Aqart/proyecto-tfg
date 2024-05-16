@@ -12,6 +12,7 @@ import GastoGeneralController from './controllers/GastoGeneralController.js'
 import MateriaPrimaController from './controllers/MateriaPrimaController.js'
 import TransporteController from './controllers/TransporteController.js'
 import EmpleadoController from './controllers/EmpleadoController.js'
+import ParteCortabloquesController from './controllers/ParteCortabloquesController.js'
 
 const app = express()
 
@@ -96,6 +97,13 @@ app.put('/usuarios/:id', AuthController.actualizar)
 app.delete('/usuarios/:id', AuthController.eliminar)
 app.post('/usuarios/editar/password', AuthController.editarPassword)
 app.post('/usuarios/editar/ultimaconexion', AuthController.editarUltimaConexion)
+
+//Endpoints para partes de cortabloques
+app.get('/partes/cortabloques', ParteCortabloquesController.obtenerTodos)
+app.post('/partes/cortabloques', ParteCortabloquesController.crear)
+app.get('/partes/cortabloques/:id', ParteCortabloquesController.obtenerPorId)
+app.put('/partes/cortabloques/:id', ParteCortabloquesController.actualizar)
+app.delete('/partes/cortabloques/:id', ParteCortabloquesController.eliminar)
 
 // Manejador de errores para rutas no encontradas
 app.use((req, res, next) => {
