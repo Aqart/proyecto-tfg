@@ -61,39 +61,45 @@
         </div>
       </div>
       <template v-if="beforeFilter">
-        <div class="flex justify-center items-center gap-5">
+        <div v-if="cards.length === 0" class="flex justify-center items-center gap-5">
           <div class="flex flex-col gap-5">
-           
+            <!--Si no se encuentran resultados-->
+            <h2 class="text-2xl text-center text-stoneBackground-3 font-bold">
+              No se han encontrado resultados
+            </h2>
           </div>
-        <SelectComponent
-          label="Ordenar por"
-          :options="orderByOptions"
-          @changeSelect="callMethod"
-          class="p-2 text-md"
-        />
-        <div>
-          <template v-if="isTableView">
-            <TablaListadoPartesComponent :cards="cards" />
-          </template>
-          <template v-else>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div v-for="(card, index) in cards" :key="index" class="p-2">
-                <CardParteComponent
-                  :employeeNumber="card.employeeNumber"
-                  :employeeName="card.employeeName"
-                  :toggleRetalActive="card.toggleRetalActive"
-                  :nbloque="card.nbloque"
-                  :toggleBisActive="card.toggleBisActive"
-                  :fechaInicioActual="card.fechaInicioActual"
-                  :horaInicioActual="card.horaInicioActual"
-                  :fechaFinActual="card.fechaFinActual"
-                  :horaFinActual="card.horaFinActual"
-                  :observaciones="card.observaciones"
-                  :produccionMaquina="card.produccionMaquina"
-                />
+        </div>
+        <div v-else>
+          <SelectComponent
+            label="Ordenar por"
+            :options="orderByOptions"
+            @changeSelect="callMethod"
+            class="p-2 text-md"
+          />
+          <div>
+            <template v-if="isTableView">
+              <TablaListadoPartesComponent :cards="cards" />
+            </template>
+            <template v-else>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div v-for="(card, index) in cards" :key="index" class="p-2">
+                  <CardParteComponent
+                    :employeeNumber="card.employeeNumber"
+                    :employeeName="card.employeeName"
+                    :toggleRetalActive="card.toggleRetalActive"
+                    :nbloque="card.nbloque"
+                    :toggleBisActive="card.toggleBisActive"
+                    :fechaInicioActual="card.fechaInicioActual"
+                    :horaInicioActual="card.horaInicioActual"
+                    :fechaFinActual="card.fechaFinActual"
+                    :horaFinActual="card.horaFinActual"
+                    :observaciones="card.observaciones"
+                    :produccionMaquina="card.produccionMaquina"
+                  />
+                </div>
               </div>
-            </div>
-          </template>
+            </template>
+          </div>
         </div>
         </div>
       </template>
@@ -101,8 +107,8 @@
     </div>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 
