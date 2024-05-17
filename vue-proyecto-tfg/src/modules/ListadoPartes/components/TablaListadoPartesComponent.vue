@@ -41,11 +41,11 @@
                     <th scope="col" class="p-4">Cantidad</th>
                   </tr>
                 </thead>
-                <tbody class="bg-white">
+                <tbody class="bg-gray-50">
                   <tr
                     v-for="(prod, prodIndex) in card.produccionMaquina"
                     :key="'prod-' + index + '-item-' + prodIndex"
-                    class="border-b"
+                    class="border-b bg-gray-100"
                   >
                     <td class="px-6 py-4">{{ prod.largo }}<sup>cm</sup></td>
                     <td class="px-6 py-4">{{ prod.ancho }}<sup>cm</sup></td>
