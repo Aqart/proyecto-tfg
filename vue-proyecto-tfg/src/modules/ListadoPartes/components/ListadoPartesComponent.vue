@@ -63,7 +63,7 @@
       <template v-if="beforeFilter">
         <div v-if="cards.length === 0" class="flex justify-center items-center gap-5">
           <div class="flex flex-col gap-5">
-            <!--Si no se encuentran resultados-->
+            <!--Si no se encuentran resultados....-->
             <h2 class="text-2xl text-center text-stoneBackground-3 font-bold">
               No se han encontrado resultados
             </h2>
@@ -96,18 +96,18 @@
                     :observaciones="card.observaciones"
                     :produccionMaquina="card.produccionMaquina"
                   />
-                </div>
+</div>
               </div>
             </template>
           </div>
         </div>
-        </div>
       </template>
       <LoadingComponent :loading="loading" :fullScreen="true" size="48px" />
+    </div>
   </div>
 </template>
   
-<script>
+  <script>
 import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -213,7 +213,7 @@ export default {
         )
       })
 
-      // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el rango de fechas especificado
+      // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el range de fechas especificado
       filteredParts.forEach((parte) => {
         this.cards.push({
           employeeNumber: parte.numero_trabajador,
