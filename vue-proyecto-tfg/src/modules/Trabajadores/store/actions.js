@@ -114,6 +114,7 @@ export const editTrabajador = async ({ commit }, trabajador) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
+      console.log(response.data)
       // Hacer un mutation que actualice los consumibles de Vuex
       commit('setTrabajador', { id, trabajador })
 

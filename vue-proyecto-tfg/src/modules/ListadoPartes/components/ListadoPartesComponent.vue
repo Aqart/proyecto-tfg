@@ -95,6 +95,7 @@
             </div>
           </template>
         </div>
+        </div>
       </template>
       <LoadingComponent :loading="loading" :fullScreen="true" size="48px" />
     </div>

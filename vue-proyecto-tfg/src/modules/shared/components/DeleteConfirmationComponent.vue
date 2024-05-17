@@ -81,21 +81,21 @@
           </li>
         </ul>
       </div>
-      <div class="flex justify-between gap-9 pt-11">
-        <ButtonComponent
-          :icon="['fas', 'floppy-disk']"
-          :hidden="listItems.length === 0"
-          text="Confirmar"
-          @click="confirmDelete"
-          bgColor="flex justify-center items-center gap-3 bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5 py-4 text-lg"
-        />
-        <ButtonComponent
-          :icon="['fas', 'circle-xmark']"
-          text="Cancelar"
-          @click="toggleModal"
-          bgColor="flex justify-center items-center gap-3 bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5 py-4 text-lg"
-        />
-      </div>
+    </div>
+    <div class="sm:w-90 mx-auto flex justify-between gap-9">
+      <ButtonComponent
+        :icon="['fas', 'floppy-disk']"
+        :hidden="listItems.length === 0"
+        text="Confirmar"
+        @click="confirmDelete"
+        bgColor="flex justify-center items-center gap-5 bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5 py-4 text-lg"
+      />
+      <ButtonComponent
+        :icon="['fas', 'circle-xmark']"
+        text="Cancelar"
+        @click="toggleModal"
+        bgColor="flex justify-center items-center gap-5 bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5 py-4 text-lg"
+      />
     </div>
   </div>
 </template>
@@ -150,8 +150,6 @@ export default {
     deselectItem(id) {
       this.listItems = this.listItems.filter((item) => item.id !== id)
       this.$emit('deselectItem', id)
-
-      // this.$emit('delete', id)
     }
   },
   watch: {
