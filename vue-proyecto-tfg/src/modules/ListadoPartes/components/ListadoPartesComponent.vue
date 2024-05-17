@@ -63,7 +63,7 @@
       <template v-if="beforeFilter">
         <div v-if="cards.length === 0" class="flex justify-center items-center gap-5">
           <div class="flex flex-col gap-5">
-            <!--Si no se encuentran resultados-->
+            <!--Si no se encuentran resultados....-->
             <h2 class="text-2xl text-center text-stoneBackground-3 font-bold">
               No se han encontrado resultados
             </h2>
