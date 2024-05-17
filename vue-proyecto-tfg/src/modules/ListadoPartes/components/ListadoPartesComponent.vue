@@ -104,11 +104,10 @@
         </div>
       </template>
       <LoadingComponent :loading="loading" :fullScreen="true" size="48px" />
-    </div>
   </div>
 </template>
   
-  <script>
+<script>
 import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 
