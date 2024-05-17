@@ -151,6 +151,24 @@ CREATE TABLE `PARTE_CORTABLOQUES` (
   `numero_trabajador` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `PARTE_CORTABLOQUES`
+--
+
+INSERT INTO `PARTE_CORTABLOQUES` (`id`, `fecha_inicio`, `fecha_fin`, `hora_inicio`, `hora_fin`, `observaciones`, `numero_trabajador`)
+VALUES
+    (1, '2024-05-01', '2024-05-01', '08:00:00', '12:00:00', 'Operación normal sin incidentes', 101),
+    (2, '2024-05-02', '2024-05-02', '09:00:00', '13:00:00', 'Revisión de máquina antes de iniciar', 102),
+    (3, '2024-05-03', '2024-05-03', '10:00:00', '14:00:00', 'Se presentaron problemas menores', 103),
+    (4, '2024-05-04', '2024-05-04', '08:00:00', '11:00:00', 'Cambio de cuchillas', 104),
+    (5, '2024-05-05', '2024-05-05', '07:30:00', '12:30:00', 'Mantenimiento preventivo realizado', 105),
+    (6, '2024-05-06', '2024-05-06', '08:15:00', '13:15:00', 'Todo en orden', 106),
+    (7, '2024-05-07', '2024-05-07', '09:00:00', '12:00:00', 'Capacitación de nuevos empleados', 107),
+    (8, '2024-05-08', '2024-05-08', '08:45:00', '11:45:00', 'Falla eléctrica, reanudado trabajo a las 10:00', 108),
+    (9, '2024-05-09', '2024-05-09', '10:30:00', '14:30:00', 'Inspección de seguridad realizada', 109),
+    (10, '2024-05-10', '2024-05-10', '07:00:00', '11:00:00', 'Producción alcanzada sin inconvenientes', 110);
+
+
 -- --------------------------------------------------------
 
 --

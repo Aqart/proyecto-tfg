@@ -98,11 +98,7 @@ export default {
     selectOption(option) {
       this.selectedOption = option.id
       this.showOptions = false
-      if (this.label === 'Empleados') {
-        this.$emit('changeSelect', option.numero_trabajador)
-      } else {
-        this.$emit('changeSelect', option.id)
-      }
+      this.$emit('changeSelect', option.id)
     },
     handleClickOutside(event) {
       if (!this.$refs.select.contains(event.target)) {

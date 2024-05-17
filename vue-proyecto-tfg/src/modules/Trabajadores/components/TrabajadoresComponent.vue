@@ -21,10 +21,12 @@ import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
 import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import useShared from '@/modules/shared/composables/useShared'
+import { useStore } from 'vuex'
 
 export default {
   setup() {
     const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador, getEmpleados } = useTrabajadores()
+    const store = useStore()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -32,10 +34,10 @@ export default {
         const empleado = empleados.find(empleado => empleado.numero_trabajador === data.numero_trabajador)
 
         if (empleado) {
-          const nombre_trabajador = empleado.nombre + ' ' + empleado.apellido1 + ' ' + empleado.apellido2
+          const nombre_completo = empleado.nombre + ' ' + empleado.apellido1 + ' ' + empleado.apellido2
           data = { 
             numero_trabajador: data.numero_trabajador, 
-            nombre_trabajador, 
+            nombre_completo, 
             ...data 
           }
           console.log(data)
@@ -50,7 +52,7 @@ export default {
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
-        } else if (type === 'Editar') {
+        } else if (type === 'Editar trabajador') {
           const { ok, message } = await editTrabajador(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -69,6 +71,7 @@ export default {
 
     const deleteTrabajadoresSeleccionados = async (arrayData) => {
       try {
+        const maquinas = store.getters['Maquinas/getMaquinas']
         const results = await deleteTrabajadores(arrayData)
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
@@ -81,7 +84,11 @@ export default {
             actualizarMensaje('error', 'Error accediendo a los trabajadores')
             actualizarMostrarMensaje(true)
           } else {
-            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            const nombres = dataFailed.map((result) => {
+              const maquina = maquinas.find(maquina => maquina.id === result.id_maquina)
+              return `${result.nombre_completo} - ${maquina.nombre}`
+              }).join(', ')
+
             actualizarMensaje(
               'error',
               `Los siguientes trabajadores no se pudieron eliminar: ${nombres}`
@@ -89,11 +96,14 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else {
-          const nombresSuccess = arrayData.map((result) => result.nombre_trabajador).join(', ')
-          console.log(nombresSuccess)
+          const dataSuccess = arrayData.map((result) => {
+            const maquina = maquinas.find(maquina => maquina.id === result.id_maquina)
+            return `${result.nombre_completo} - ${maquina.nombre}`
+          }).join(', ')
+
           actualizarMensaje(
             'success',
-            `Los siguientes trabajadores se han eliminado: ${nombresSuccess}`
+            `Los siguientes trabajadores se han eliminado: ${dataSuccess}`
           )
           actualizarMostrarMensaje(true)
         }
@@ -111,6 +121,7 @@ export default {
   },
   computed: {
     ...mapGetters('Trabajadores', ['getTrabajadores']),
+    ...mapGetters('Maquinas', ['getMaquinas']),
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {

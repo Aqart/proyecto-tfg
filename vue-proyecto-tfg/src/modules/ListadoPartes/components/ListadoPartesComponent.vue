@@ -96,7 +96,7 @@
                     :observaciones="card.observaciones"
                     :produccionMaquina="card.produccionMaquina"
                   />
-                </div>
+</div>
               </div>
             </template>
           </div>
@@ -213,7 +213,7 @@ export default {
         )
       })
 
-      // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el rango de fechas especificado
+      // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el range de fechas especificado
       filteredParts.forEach((parte) => {
         this.cards.push({
           employeeNumber: parte.numero_trabajador,

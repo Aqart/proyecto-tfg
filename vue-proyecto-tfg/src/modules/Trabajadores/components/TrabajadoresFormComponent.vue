@@ -161,7 +161,7 @@ export default {
     handleSubmit() {
       const isEmpty = (value) => value === '' || value === 0 || value === null
 
-      const requiredFields = ['empleado', 'precio', 'maquina']
+      const requiredFields = ['numero_trabajador', 'precio', 'id_maquina']
       // Comprueba si algún campo del formulario está vacío
       const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
 
@@ -172,7 +172,7 @@ export default {
           message: 'No se pueden enviar campos vacíos'
         }
         this.$emit('errorForm', this.error)
-      } else if (this.tipo === 'Editar usuario' && this.objectsAreEqual(this.form, this.data)) {
+      } else if (this.tipo === 'Editar trabajador' && this.objectsAreEqual(this.form, this.data)) {
         this.error = {
           status: true,
           type: 'warning',
@@ -180,13 +180,14 @@ export default {
         }
         this.$emit('errorForm', this.error)
       } else {
-        console.log('Datos que se envían', this.form)
         // Crea un nuevo objeto con solo los campos que quieres enviar
         const dataToSend = {
+          id: this.form.id,
           numero_trabajador: this.form.numero_trabajador,
           precio: this.form.precio,
           id_maquina: this.form.id_maquina
         }
+        console.log('Datos que se envían', dataToSend)
         this.$emit('send', dataToSend)
         this.form = {}
         this.toggleModal()
