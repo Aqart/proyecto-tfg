@@ -62,7 +62,7 @@
       :isEditing="tipo === 'Editar usuario' ? true : false"
       @changeSelect="selectRol"
     />
-    <div class="flex flex-row items-center gap-4">
+    <div class="flex flex-row items-center gap-4 mt-4">
       <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
       <ButtonComponent
         :text="'Cancelar'"

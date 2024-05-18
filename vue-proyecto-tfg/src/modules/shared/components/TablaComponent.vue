@@ -103,7 +103,11 @@
                 </div>
               </button>
             </th>
-            <th scope="col" class="text-center no-print">Acciones</th>
+            <th scope="col" class="text-center no-print"
+              :class="formattedRoute === 'Usuarios' ? 'pr-6' : ''"
+            >
+              Acciones
+            </th>
           </tr>
         </thead>
         <tbody class="divide-gray-200 max-h-screen overflow-auto">
@@ -128,7 +132,7 @@
               <td
                 v-if="index === 'fecha_registro' || index === 'ultima_conexion'"
                 :key="`${el}-td-${index}-date`"
-                class="px-6 py-4"
+                class="px-3 py-4"
               >
                 <div v-if="el === null">
                   <div class="text-sm text-center text-stoneBackgroun-3">
@@ -150,7 +154,7 @@
               <td
                 v-else-if="index === 'id_maquina'"
                 :key="`${el}-td-${index}-maquina`"
-                class="px-6 py-4"
+                class="px-2 py-4"
               >
                 <div class="text-sm text-center text-stoneBackgroun-3">
                   {{
@@ -175,21 +179,23 @@
                 </div>
               </td>
             </template>
-            <td class="py-4 no-print text-center">
+            <td class="flex flex-col sm:flex-row items-center py-6 no-print"
+              :class="formattedRoute === 'Usuarios' ? 'gap-3 mr-4' : 'justify-around'"
+            >
               <span
-                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group pl-12 pr-7"
-                v-if="formattedRoute === 'Máquinas'"
+                class="flex sm:flex-row flex-col items-center text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+                v-if="formattedRoute === 'Máquinas' || formattedRoute === 'Usuarios'"
                 @click="toggleModalOpenInfo(body.id)"
                 :data-id="body.id"
               >
-                <FontAwesomeIcon :icon="['far', 'eye']" />
                 <span
-                  class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
-                  >Inf.</span
-                >
+                  class="invisible group-hover:visible mr-2 transition-all duration-100 ease-in-out"
+                  >Info
+                </span>
+                <FontAwesomeIcon :icon="['far', 'eye']" />
               </span>
               <span
-                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+                class="flex sm:flex-row items-center flex-col text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
@@ -226,7 +232,8 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <InfoMaquinaComponent v-if="modalType === 'info'" :data="item" @close="toggleModalClose" />
+      <InfoMaquinaComponent v-if="modalType === 'infoMaquina'" :data="item" @close="toggleModalClose" />
+      <InfoUsuarioComponent v-if="modalType === 'infoUsuario'" :data="item" @close="toggleModalClose" />
       <TrabajadoresFormComponent
         v-if="modalType === 'trabajador'"
         :data="item || {}"
@@ -322,6 +329,9 @@ export default {
     ),
     InfoMaquinaComponent: defineAsyncComponent(
       () => import('@/modules/Maquinas/components/InfoMaquinaComponent.vue')
+    ),
+    InfoUsuarioComponent: defineAsyncComponent(
+      () => import('@/modules/Usuarios/components/InfoUsuarioComponent.vue')
     ),
     LoadingComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/LoadingComponent.vue')
@@ -526,11 +536,20 @@ export default {
       this.showModal = !this.showModal
     },
     toggleModalOpenInfo(id) {
+      const formattedRoute =
+        this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
       this.cerrarMensaje()
       this.itemId = id
       this.getItemById(this.itemId)
+      console.log(this.item)
       this.modalTitle = `Información de ${this.item.nombre}`
-      this.modalType = 'info'
+      this.modalType = 'infoMaquina'
+      if(formattedRoute == 'usuarios'){
+        // const empleado = this.getEmpleados.find(empleado => empleado.numero_trabajador == this.item.numero_trabajador)
+        // const nombreEmpleado = empleado.nombre + " " + empleado.apellido1 + " " + empleado.apellido2 + " (" + empleado.numero_trabajador + ")"
+        this.modalTitle = `Información del empleado`
+        this.modalType = 'infoUsuario'
+      } 
       this.showModal = !this.showModal
     },
     toggleModalClose() {
@@ -568,6 +587,7 @@ export default {
   },
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
+    ...mapGetters('Trabajadores', ['getEmpleados']),
 
     formattedHeader() {
       return this.filteredHeader

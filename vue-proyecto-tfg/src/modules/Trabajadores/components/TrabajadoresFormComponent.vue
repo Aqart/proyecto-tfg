@@ -35,7 +35,7 @@
       :isEditing="tipo === 'Editar trabajador' ? true : false"
       @changeSelect="selectMaquina"
     />
-    <div class="flex flex-row items-center gap-4">
+    <div class="flex flex-row items-center gap-4 mt-4">
       <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
       <ButtonComponent
         :text="'Cancelar'"
@@ -82,7 +82,7 @@ export default {
     )
   },
   computed: {
-    ...mapGetters('Trabajadores', ['getEmpleados']),
+    ...mapGetters('Trabajadores', ['getEmpleados', 'getTrabajadores']),
     ...mapGetters('Maquinas', ['getMaquinas']),
     textoBoton() {
       return this.tipo === 'Editar trabajador' ? 'Modificar' : 'Guardar'
@@ -165,6 +165,11 @@ export default {
       // Comprueba si algún campo del formulario está vacío
       const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
 
+
+      // Comprueba que el num_trabajador no tenga asociada ya ese id_maquina
+      const trabajadores = this.getTrabajadores
+      const trabajador = trabajadores.find(trabajador => trabajador.numero_trabajador === this.form.numero_trabajador)
+
       if (hasEmptyFields) {
         this.error = {
           status: true,
@@ -177,6 +182,14 @@ export default {
           status: true,
           type: 'warning',
           message: 'No se ha modificado ningún campo'
+        }
+        this.$emit('errorForm', this.error)
+      } else  if (trabajador && trabajador.id_maquina === this.form.id_maquina) {
+        const maquina = this.getMaquinas.find(maquina => maquina.id === this.form.id_maquina)
+        this.error = {
+          status: true,
+          type: 'warning',
+          message: `El trabajador ${this.form.numero_trabajador} - ${trabajador.nombre_completo} ya tiene asociada la máquina ${maquina.nombre}`
         }
         this.$emit('errorForm', this.error)
       } else {

@@ -88,13 +88,15 @@
         :hidden="listItems.length === 0"
         text="Confirmar"
         @click="confirmDelete"
-        bgColor="flex justify-center items-center gap-5 bg-stone text-secondary hover:ring-2 hover:ring-stone hover:bg-stoneBackground-4 hover:text-stoneBackground-5 py-4 text-lg"
+        bgColor="bg-primary"
+        otherClasses="flex justify-center items-center gap-5 text-lg rounded-lg w-full py-4 mt-4 hover:ring-2 hover:ring-primary hover:bg-opacity-80"
       />
       <ButtonComponent
         :icon="['fas', 'circle-xmark']"
         text="Cancelar"
         @click="toggleModal"
-        bgColor="flex justify-center items-center gap-5 bg-secondary text-stone hover:bg-stoneBackground-5 hover:ring-2 hover:ring-stoneBackground-5 py-4 text-lg"
+        bgColor="bg-secondary"
+        otherClasses="flex justify-center items-center gap-5 text-lg rounded-lg w-full py-4 mt-4 hover:ring-2 hover:bg-opacity-80"
       />
     </div>
   </div>
