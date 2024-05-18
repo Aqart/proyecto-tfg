@@ -268,7 +268,9 @@ export default {
   methods: {
     checkInput() {
       // Actualiza inputLength con la longitud de la entrada
-      this.inputLength = this.nbloque.length
+      if(this.nbloque){
+        this.inputLength = this.nbloque.length
+      }
 
       // Comprueba si la entrada es numérica y tiene exactamente 5 dígitos
       if (!/^\d{5}$/.test(this.nbloque)) {

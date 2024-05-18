@@ -2,13 +2,13 @@
   <div class="relative">
     <label
       :for="label"
-      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+      class="block text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
     >
       {{ label }}
     </label>
     <div
       @click="toggleOptions"
-      class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary flex justify-between items-center w-full py-2.5 px-4 shadow-sm cursor-pointer select-none"
+      class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-secondary flex justify-between items-center w-full py-2.5 px-4 shadow-sm cursor-pointer select-none"
       tabindex="0"
       ref="select"
     >
@@ -16,7 +16,7 @@
       <FontAwesomeIcon
         :icon="['fas', 'caret-down']"
         class="text-gray-700 ml-2 w-3 h-3"
-        :class="showOptions ? 'rotate-90 transition-all duration-300 ease-in-out' : ''"
+        :class="showOptions ? 'rotate-90 transition-all duration-200 ease-in-out' : ''"
       />
     </div>
     <transition name="fade">
@@ -108,3 +108,30 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.fade-enter-active {
+  transition: all 0.2s ease;
+}
+.fade-enter-from {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+.fade-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Estilos de transición para la salida */
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+.fade-leave-from {
+  transform: translateY(0);
+  opacity: 1;
+}
+.fade-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+</style>
