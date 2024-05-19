@@ -161,7 +161,7 @@ export default {
     handleSubmit() {
       const isEmpty = (value) => value === '' || value === 0 || value === null
 
-      const requiredFields = ['numero_trabajador', 'precio', 'id_maquina']
+      const requiredFields = ['numero_trabajador', 'precio']
       // Comprueba si algún campo del formulario está vacío
       const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
 
