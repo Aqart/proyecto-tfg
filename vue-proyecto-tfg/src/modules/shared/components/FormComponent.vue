@@ -22,7 +22,7 @@
         @changeSelect="handleSelectChange"
       />
     </div>
-    <div class="flex flex-row items-center gap-4">
+    <div class="flex flex-row items-center gap-4 mt-4">
       <ButtonComponent :text="textoBoton" 
         bgColor="bg-secondary"
         class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4"
