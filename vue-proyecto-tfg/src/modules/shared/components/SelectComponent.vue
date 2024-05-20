@@ -71,13 +71,12 @@ export default {
   },
   computed: {
     allOptions() {
-      // if (this.label === 'Máquina') {
-      //   return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
-      // } else {
-      //   console.log(this.options)
-      //   return this.options
-      // }
-      return []
+      if (this.label === 'Máquina') {
+        return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
+      } else {
+        console.log(this.options)
+        return this.options
+      }
     },
     mappedSelectedOption() {
       if (this.selectedOption === 'placeholder') {

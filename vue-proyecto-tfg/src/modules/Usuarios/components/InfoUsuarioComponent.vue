@@ -42,7 +42,7 @@
                 {{ dataEmpleado.ultimaConexion }}
               </p>
             </li>
-            <li class="pb-2 pt-2 sm:pt-3 sm:pb-3 flex flex-col">
+            <!-- <li class="pb-2 pt-2 sm:pt-3 sm:pb-3 flex flex-col">
               <template v-if="dataEmpleado.maquinasCostes.length > 0">
                 <table class="table-auto w-full mt-2">
                   <thead>
@@ -64,7 +64,7 @@
               <p v-else class="text-stoneBackgroundContrast-3 text-lg font-semibold truncate">
                 No tiene máquinas ni costes asociados
               </p>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -88,14 +88,14 @@ export default {
         nombreCompleto: '',
         fechaRegistro: '',
         ultimaConexion: 'Registro sin completar',
-        maquinasCostes: []
+        // maquinasCostes: []
       }
     }
   },
   computed: {
-    ...mapGetters('Trabajadores', ['getTrabajadores']),
+    // ...mapGetters('Trabajadores', ['getTrabajadores']),
     ...mapGetters('Trabajadores', ['getEmpleados']),
-    ...mapGetters('Maquinas', ['getMaquinas']),
+    // ...mapGetters('Maquinas', ['getMaquinas']),
   },
   created(){
     this.dataEmpleado.fechaRegistro = new Date(this.data.fecha_registro).toLocaleString('es-ES', {
@@ -115,31 +115,25 @@ export default {
                       })
     }
 
-    const trabajador = this.getTrabajadores.filter(
-      (trabajador) => trabajador.numero_trabajador === this.data.numero_trabajador
-    )
+    // const trabajador = this.getTrabajadores.filter(
+    //   (trabajador) => trabajador.numero_trabajador === this.data.numero_trabajador
+    // )
 
     const empleado = this.getEmpleados.find(
       (empleado) => empleado.numero_trabajador === this.data.numero_trabajador
     )
-    console.log(this.data)
-    console.log(trabajador)
-    console.log(empleado)
 
-    if (trabajador) {
+    if (empleado) {
       this.dataEmpleado.nombreCompleto = empleado.nombre + ' ' + empleado.apellido1 + ' ' + empleado.apellido2
-      this.dataEmpleado.maquinasCostes = trabajador.map((trabajador) => {
-        const maquina = this.getMaquinas.find((maquina) => maquina.id === trabajador.id_maquina)
-        return {
-          maquina: maquina ? maquina.nombre : 'Sin máquina asociada',
-          coste: trabajador.precio ? trabajador.precio : 'Sin coste asociado'
-        }
-      })
+      // this.dataEmpleado.maquinasCostes = trabajador.map((trabajador) => {
+      //   const maquina = this.getMaquinas.find((maquina) => maquina.id === trabajador.id_maquina)
+      //   return {
+      //     maquina: maquina ? maquina.nombre : 'Sin máquina asociada',
+      //     coste: trabajador.precio ? trabajador.precio : 'Sin coste asociado'
+      //   }
+      // })
     }
 
-  },
-  methods: {
-    
   }
 }
 </script>
