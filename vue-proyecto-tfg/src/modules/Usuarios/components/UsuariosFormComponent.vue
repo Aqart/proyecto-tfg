@@ -1,24 +1,53 @@
 <template>
   <form @submit.prevent="handleSubmit" class="px-10 pb-10" novalidate>
     <label
-      for="numWorker"
-      class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+      for="nombre"
+      class="block mt-4 mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
     >
-      Nº de trabajador
+      Nombre
     </label>
     <input
-      v-model="form.numero_trabajador"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-      type="number"
-      name="numWorker"
-      id="numWorker"
-      min="1"
-      placeholder="Número de trabajador"
-      @keydown="preventNonNumericInput"
+      v-model="form.nombre"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      type="text"
+      name="nombre"
+      id="nombre"
+      placeholder="Nombre del empleado"
     />
-    <span class="block mt-0 mb-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
-      {{ errorMsg }}
-    </span>
+    <div class="flex sm:flex-row flex-col items-start justify-between gap-x-3">
+      <div class="sm:w-1/2 w-full">
+        <label
+          for="apellido1"
+          class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Primer apellido
+        </label>
+        <input
+          v-model="form.apellido1"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
+          type="text"
+          name="apellido1"
+          id="apellido1"
+          placeholder="Primer apellido"
+        />
+      </div>
+      <div class="sm:w-1/2 w-full">
+        <label
+          for="apellido2"
+          class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Segundo apellido
+        </label>
+        <input
+          v-model="form.apellido2"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
+          type="text"
+          name="apellido2"
+          id="apellido2"
+          placeholder="Segundo apellido"
+        />
+      </div>
+    </div>
     <label
       for="email"
       class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
@@ -27,7 +56,7 @@
     </label>
     <input
       v-model="form.email"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
       type="email"
       name="email"
       id="email"
@@ -48,26 +77,54 @@
     </span>
     <input
       v-model="form.password"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
       type="password"
       name="password"
       id="password"
       placeholder="•••••••••"
     />
-    <SelectComponent
-      :value="form.roles || 0"
-      label="Roles"
-      :options="roles"
-      :placeholder="'Seleccione un rol'"
-      :isEditing="tipo === 'Editar usuario' ? true : false"
-      @changeSelect="selectRol"
-    />
+    <div class="flex sm:flex-row flex-col items-start justify-between gap-x-3">
+      <div class="sm:w-1/2 w-full">
+        <label
+          for="numWorker"
+          class="block mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+        >
+          Nº de trabajador
+        </label>
+        <input
+          v-model="form.numero_trabajador"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
+          type="number"
+          name="numWorker"
+          id="numWorker"
+          min="1"
+          placeholder="Número de trabajador"
+          @keydown="preventNonNumericInput"
+        />
+        <span class="block mt-0 mb-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
+          {{ errorMsg }}
+        </span>
+      </div>
+      <SelectComponent
+        class="mb-4 sm:w-1/2 w-full"
+        :value="form.roles || 0"
+        label="Roles"
+        :options="roles"
+        :placeholder="'Seleccione un rol'"
+        :isEditing="tipo === 'Editar usuario' ? true : false"
+        @changeSelect="selectRol"
+      />
+    </div>
     <div class="flex flex-row items-center gap-4 mt-4">
-      <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
+      <ButtonComponent :text="textoBoton" bgColor="bg-secondary" 
+        class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4" 
+        :icon="['fas', 'floppy-disk']"
+      />
       <ButtonComponent
+        :icon="['fas', 'circle-xmark']"
         :text="'Cancelar'"
         bgColor="bg-primary"
-        class="hover:ring-2 hover:ring-primary hover:bg-opacity-80"
+        class="hover:ring-2 hover:ring-primary hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4"
         @click="toggleModal"
       />
     </div>
@@ -76,6 +133,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -101,7 +159,9 @@ export default {
   },
   data() {
     return {
-      form: { ...this.data },
+      form: {
+        ...this.data
+      },
       error: {
         status: false,
         type: '',
@@ -118,7 +178,16 @@ export default {
       () => import('@/modules/shared/components/SelectComponent.vue')
     )
   },
+  created() {
+    const empleado = this.getEmpleados.find(empleado => empleado.numero_trabajador == this.data.numero_trabajador);
+    if(empleado){
+      this.form.nombre = empleado.nombre
+      this.form.apellido1 = empleado.apellido1
+      this.form.apellido2 = empleado.apellido2
+    }
+  },
   computed: {
+    ...mapGetters('Trabajadores', ['getEmpleados']),
     textoBoton() {
       return this.tipo === 'Editar usuario' ? 'Modificar' : 'Guardar'
     },
@@ -184,7 +253,7 @@ export default {
     handleSubmit() {
       const isEmpty = (value) => value === '' || value === 0 || value === null
 
-      const requiredFields = ['numero_trabajador', 'email', 'roles']
+      const requiredFields = ['nombre', 'apellido1', 'numero_trabajador', 'email', 'roles']
       if (this.tipo === 'Añadir nuevo usuario') requiredFields.push('password')
 
       const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
@@ -212,7 +281,7 @@ export default {
         this.error.message = 'El formato del email no es válido'
         this.$emit('errorForm', this.error)
         return
-      } else if(this.users.some(user => user.email === this.form.email)) {
+      } else if(this.tipo === 'Añadir nuevo usuario' && this.users.some(user => user.email === this.form.email)) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'El email ya está registrado para otro usuario'

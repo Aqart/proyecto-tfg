@@ -73,39 +73,38 @@
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
             </th>
-            <th
-              v-for="key in formattedHeader"
-              :key="key"
-              :colspan="key === 'Apellidos' ? 2 : 1"
-              scope="col"
-              class="px-6 py-3"
-            >
-              <button
-                @click="sortTable(key)"
-                class="flex items-center w-full"
-                :class="key !== 'nombre' && key !== 'email' ? 'justify-center' : 'justify-start'"
+            <template v-for="key in formattedHeader" :key="key">
+              <th
+                v-if="key !== 'fecha_registro' && key !== 'ultima_conexion'"
+                :colspan="key === 'Apellidos' ? 2 : 1"
+                scope="col"
+                class="px-6 py-3"
               >
-                <div
-                  v-html="formatIndex(key)"
-                  :class="key !== 'nombre' || key !== 'email' ? 'text-center' : ''"
-                ></div>
-                <div v-show="sortField === key" class="relative ml-2">
-                  <FontAwesomeIcon
-                    :icon="['fas', 'sort-up']"
-                    class="absolute w-4 h-4 bottom-[-.4rem] no-print"
-                    :class="{ 'opacity-50': sortDirection === -1 }"
-                  />
-                  <FontAwesomeIcon
-                    :icon="['fas', 'sort-down']"
-                    class="absolute w-4 h-4 top-[-.4rem] no-print"
-                    :class="{ 'opacity-50': sortDirection === 1 }"
-                  />
-                </div>
-              </button>
-            </th>
-            <th scope="col" class="text-center no-print"
-              :class="formattedRoute === 'Usuarios' ? 'pr-6' : ''"
-            >
+                <button
+                  @click="sortTable(key)"
+                  class="flex items-center w-full"
+                  :class="key !== 'nombre' && key !== 'email' ? 'justify-center' : 'justify-start'"
+                >
+                  <div
+                    v-html="formatIndex(key)"
+                    :class="key !== 'nombre' || key !== 'email' ? 'text-center' : ''"
+                  ></div>
+                  <div v-show="sortField === key" class="relative ml-2">
+                    <FontAwesomeIcon
+                      :icon="['fas', 'sort-up']"
+                      class="absolute w-4 h-4 bottom-[-.4rem] no-print"
+                      :class="{ 'opacity-50': sortDirection === -1 }"
+                    />
+                    <FontAwesomeIcon
+                      :icon="['fas', 'sort-down']"
+                      class="absolute w-4 h-4 top-[-.4rem] no-print"
+                      :class="{ 'opacity-50': sortDirection === 1 }"
+                    />
+                  </div>
+                </button>
+              </th>
+            </template>
+            <th scope="col" class="px-6 py-3 text-center no-print">
               Acciones
             </th>
           </tr>
@@ -130,31 +129,9 @@
             </td>
             <template v-for="(el, index) in body">
               <td
-                v-if="index === 'fecha_registro' || index === 'ultima_conexion'"
-                :key="`${el}-td-${index}-date`"
-                class="px-3 py-4"
-              >
-                <div v-if="el === null">
-                  <div class="text-sm text-center text-stoneBackgroun-3">
-                    Registro sin completar
-                  </div>
-                </div>
-                <div v-else class="text-sm text-center text-stoneBackgroun-3">
-                  {{
-                    new Date(el).toLocaleString('es-ES', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })
-                  }}
-                </div>
-              </td>
-              <td
-                v-else-if="index === 'id_maquina'"
+                v-if="index === 'id_maquina'"
                 :key="`${el}-td-${index}-maquina`"
-                class="px-2 py-4"
+                class="px-6 py-4"
               >
                 <div class="text-sm text-center text-stoneBackgroun-3">
                   {{
@@ -173,29 +150,31 @@
                   {{ el }}
                 </div>
               </th>
-              <td v-else-if="index !== 'id'" :key="`${el}-td-${index}`" class="px-6 py-4">
-                <div class="text-sm text-center text-stoneBackgroun-3">
+              <td v-else-if="index !== 'id' && index !== 'fecha_registro' && index !== 'ultima_conexion'" :key="`${el}-td-${index}`" class="px-6 py-4">
+                <div class="text-sm text-center text-stoneBackground-3">
                   {{ el }}
                 </div>
               </td>
             </template>
-            <td class="flex flex-col sm:flex-row items-center py-6 no-print"
-              :class="formattedRoute === 'Usuarios' ? 'gap-3 mr-4' : 'justify-around'"
+            <td class="flex flex-col px-6 py-4 no-print"
+              :class="(formattedRoute === 'Usuarios' || formattedRoute === 'Máquinas') ? 'items-start gap-1' : 'items-center'"
             >
               <span
-                class="flex sm:flex-row flex-col items-center text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+                class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+                :class="formattedRoute==='Máquinas' || formattedRoute === 'Usuarios' ? 'md:pl-6 lg:pl-16' : ''"
                 v-if="formattedRoute === 'Máquinas' || formattedRoute === 'Usuarios'"
                 @click="toggleModalOpenInfo(body.id)"
                 :data-id="body.id"
               >
+                <FontAwesomeIcon :icon="['far', 'eye']" />
                 <span
-                  class="invisible group-hover:visible mr-2 transition-all duration-100 ease-in-out"
+                  class="invisible group-hover:visible ml-2 transition-all duration-100 ease-in-out"
                   >Info
                 </span>
-                <FontAwesomeIcon :icon="['far', 'eye']" />
               </span>
               <span
-                class="flex sm:flex-row items-center flex-col text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+                class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+                :class="formattedRoute==='Máquinas' || formattedRoute === 'Usuarios' ? 'md:pl-6 lg:pl-16' : ''"
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
@@ -677,15 +656,17 @@ export default {
                 const maquinaNull = "Sin máquina asociada"
                 return maquinaNull.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
               }
-            } else if (key === 'ultima_conexion' || key === 'fecha_registro') {
-              if(item[key] === null){
-                return 'Registro sin completar'.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
-              }
-              // Convierte la fecha a una cadena de texto en el formato dd/mm/yyyy, hh:mm
-              const fechaObj = new Date(item[key]);
-              const fecha = `${fechaObj.getDate().toString().padStart(2, '0')}/${(fechaObj.getMonth() + 1).toString().padStart(2, '0')}/${fechaObj.getFullYear()}, ${fechaObj.getHours().toString().padStart(2, '0')}:${fechaObj.getMinutes().toString().padStart(2, '0')}`;
-              return fecha.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
-            } else if(item[key]){
+            } 
+            // else if (key === 'ultima_conexion' || key === 'fecha_registro') {
+            //   if(item[key] === null){
+            //     return 'Registro sin completar'.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+            //   }
+            //   // Convierte la fecha a una cadena de texto en el formato dd/mm/yyyy, hh:mm
+            //   const fechaObj = new Date(item[key]);
+            //   const fecha = `${fechaObj.getDate().toString().padStart(2, '0')}/${(fechaObj.getMonth() + 1).toString().padStart(2, '0')}/${fechaObj.getFullYear()}, ${fechaObj.getHours().toString().padStart(2, '0')}:${fechaObj.getMinutes().toString().padStart(2, '0')}`;
+            //   return fecha.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+            // } 
+            else if(item[key]){
               return item[key].toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
             }
           });
