@@ -34,29 +34,51 @@ const ParteCortabloques = {
 
     // Crear un parte de cortabloques
     crear: async (req, res, next) => {
+        console.log(req.body)
         const {
             fecha_inicio,
             hora_inicio,
             fecha_fin,
             hora_fin,
-            id_maquina,
-            id_trabajador,
+            observaciones,
+            numero_trabajador,
+            numero_bloque,
+            bis,
+            retal,
+            produccionMaquina,
         } = req.body
         try {
             await pool.query(
-                'INSERT INTO PARTE_CORTABLOQUES (fecha_inicio, hora_inicio, fecha_fin, hora_fin, id_maquina, id_trabajador) VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO PARTE_CORTABLOQUES (fecha_inicio, hora_inicio, fecha_fin, hora_fin, observaciones, numero_trabajador, numero_bloque, bis, retal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
                     fecha_inicio,
                     hora_inicio,
                     fecha_fin,
                     hora_fin,
-                    id_maquina,
-                    id_trabajador,
+                    observaciones,
+                    numero_trabajador,
+                    numero_bloque,
+                    bis,
+                    retal,
                 ]
             )
             const [rowsParte] = await pool.query(
                 'SELECT LAST_INSERT_ID() as id'
             )
+
+            produccionMaquina.forEach(async (produccion) => {
+                await pool.query(
+                    'INSERT INTO PRODUCCION_MAQUINA (id_parte, largo, ancho, grosor, cantidad) VALUES (?, ?, ?, ?, ?)',
+                    [
+                        rowsParte[0].id,
+                        produccion.largo,
+                        produccion.ancho,
+                        produccion.grosor,
+                        produccion.numeroPiezas,
+                    ]
+                )
+            })
+
             res.status(201).json({
                 message: 'Parte de cortabloques creado correctamente',
                 id: rowsParte[0].id,

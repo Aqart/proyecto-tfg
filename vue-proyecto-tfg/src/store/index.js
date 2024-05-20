@@ -11,6 +11,7 @@ import Transportes from '@/modules/Transportes/store'
 import Trabajadores from '@/modules/Trabajadores/store'
 import Usuarios from '@/modules/Usuarios/store'
 import ListadoPartes from '@/modules/ListadoPartes/store'
+import ControlesHorarios from '@/modules/ControlesHorarios/store'
 
 const store = createStore({
   modules: {
@@ -24,7 +25,8 @@ const store = createStore({
     Transportes,
     Trabajadores,
     Usuarios,
-    ListadoPartes
+    ListadoPartes,
+    ControlesHorarios
   }
 })
 
