@@ -268,16 +268,19 @@ export default {
   methods: {
     checkInput() {
       // Actualiza inputLength con la longitud de la entrada
-      if(this.nbloque){
+      if (this.nbloque) {
         this.inputLength = this.nbloque.length
+      } else {
+        this.inputLength = 0
       }
-
+      console.log('Input length', this.inputLength)
       // Comprueba si la entrada es numérica y tiene exactamente 5 dígitos
-      if (!/^\d{5}$/.test(this.nbloque)) {
-        this.showAlert = true
-        this.$nextTick(() => {
-          this.$refs.nbloqueInput.focus()
-        })
+      if (!this.toggleRetalActive && this.inputLength > 0) {
+        if (!/^\d{5}$/.test(this.nbloque)) {
+          this.showAlert = true
+        } else {
+          this.showAlert = false
+        }
       } else {
         this.showAlert = false
       }
@@ -308,6 +311,23 @@ export default {
       return `${horas}:${minutos}`
     },
     handleSubmit() {
+      if (this.toggleRetalActive === true) {
+        this.nbloque = null
+      } else {
+        if (!/^\d{5}$/.test(this.nbloque)) {
+          this.showModal = false
+          this.showAlert = true
+          return
+        } else {
+          this.showAlert = false
+        }
+      }
+
+      if (this.produccionMaquina.length === 0) {
+        alert('Debes añadir al menos un registro de producción')
+        return
+      }
+
       if (this.produccionMaquina.length > 0) {
         for (const item of this.produccionMaquina) {
           delete item.editing
@@ -318,18 +338,28 @@ export default {
         }
       }
       const form = {
-        nbloque: parseInt(this.nbloque) || null,
-        employeeNumber: parseInt(this.employeeNumber),
-        fechaInicio: this.fechaInicioActual,
-        horaInicio: this.horaInicioActual,
-        fechaFin: this.fechaFinActual,
-        horaFin: this.horaFinActual,
+        numero_bloque: parseInt(this.nbloque) || null,
+        numero_trabajador: parseInt(this.employeeNumber),
+        fecha_inicio: this.fechaInicioActual,
+        hora_inicio: this.horaInicioActual,
+        fecha_fin: this.fechaFinActual,
+        hora_fin: this.horaFinActual,
         retal: this.toggleRetalActive,
         bis: this.toggleBisActive,
         observaciones: this.observaciones,
         produccionMaquina: this.produccionMaquina
       }
       console.log('Form', form)
+      console.log('store', this.$store)
+      this.$store
+        .dispatch('ControlesHorarios/addParteCortabloques', form)
+        .then(() => {
+          //this.handleClean()
+          this.showModal = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     handleClean() {
       this.nbloque = null
