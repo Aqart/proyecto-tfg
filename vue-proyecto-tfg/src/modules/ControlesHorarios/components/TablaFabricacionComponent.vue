@@ -87,6 +87,7 @@
                 type="number"
                 v-model="item.copy.largo"
                 step="0.1"
+                min="0"
                 class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 focus:border-stoneBackground-2 shadow-sm sm:text-xl"
                 :style="{
                   width: `${item.copy.largo ? item.copy.largo.toString().length + 4 : 4}ch`
@@ -102,6 +103,7 @@
                 type="number"
                 v-model="item.copy.ancho"
                 step="0.1"
+                min="0"
                 class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 focus:border-stoneBackground-2 shadow-sm sm:text-xl"
                 :style="{
                   width: `${item.copy.ancho ? item.copy.ancho.toString().length + 4 : 4}ch`
@@ -117,6 +119,7 @@
                 type="number"
                 v-model="item.copy.grosor"
                 step="0.1"
+                min="0"
                 class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 focus:border-stoneBackground-2 shadow-sm sm:text-xl"
                 :style="{
                   width: `${item.copy.grosor ? item.copy.grosor.toString().length + 4 : 4}ch`
@@ -130,6 +133,7 @@
                 type="number"
                 v-model="item.copy.numeroPiezas"
                 step="1"
+                min="0"
                 class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 focus:border-stoneBackground-2 shadow-sm sm:text-xl"
                 :style="{
                   width: `${
@@ -267,6 +271,28 @@ export default {
     },
     disabledCheckbox() {
       return this.items.length > 0 ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'
+    }
+  },
+  watch: {
+    largo() {
+      if (isNaN(this.largo) || this.largo < 0) {
+        this.largo = ''
+      }
+    },
+    ancho() {
+      if (isNaN(this.ancho) || this.ancho < 0) {
+        this.ancho = ''
+      }
+    },
+    grosor() {
+      if (isNaN(this.grosor) || this.grosor < 0) {
+        this.grosor = ''
+      }
+    },
+    numeroPiezas() {
+      if (isNaN(this.numeroPiezas) || this.numeroPiezas < 0) {
+        this.numeroPiezas = ''
+      }
     }
   }
 }

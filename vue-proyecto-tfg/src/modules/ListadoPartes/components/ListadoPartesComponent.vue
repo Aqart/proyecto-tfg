@@ -45,14 +45,15 @@
               <ButtonComponent
                 text="Mostrar partes"
                 bgColor="bg-secondary"
-                otherClasses="rounded-lg p-2.5 mt-0 shadow w-full lg:w-1/2"
+                otherClasses="rounded-lg p-2.5 mt-0 shadow w-full"
                 @click="changeFilter"
                 :icon="['fas', 'fa-clipboard-list']"
               />
               <ButtonComponent
+                v-if="beforeFilter"
                 text="Cambiar vista"
                 bgColor="bg-secondary"
-                otherClasses="rounded-lg p-2.5 mt-0 shadow w-full lg:w-1/2"
+                otherClasses="rounded-lg p-2.5 mt-0 shadow w-full"
                 @click="toggleView"
                 :icon="['fas', 'fa-exchange-alt']"
               />
@@ -96,7 +97,7 @@
                     :observaciones="card.observaciones"
                     :produccionMaquina="card.produccionMaquina"
                   />
-</div>
+                </div>
               </div>
             </template>
           </div>
