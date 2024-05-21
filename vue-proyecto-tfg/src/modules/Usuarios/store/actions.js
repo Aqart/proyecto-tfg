@@ -25,6 +25,7 @@ export const fetchUsuarios = async ({ commit }) => {
 
 export const createUsuario = async ({ commit }, usuario) => {
   const { numero_trabajador, email, roles, password } = usuario
+  const { nombre, apellido1, apellido2 } = usuario
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -39,8 +40,18 @@ export const createUsuario = async ({ commit }, usuario) => {
       }
     )
 
+    const response2 = await authApi.post(
+      'empleados',
+      { numero_trabajador, nombre, apellido1, apellido2 },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('idToken')}`
+        }
+      }
+    )
+
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
-    if (response.status === 201 && response.data) {
+    if ((response.status === 201 && response.data) && (response2.status === 201 && response2.data)) {
       console.log('Usuario creado:', response)
       // Actualiza el objeto usuario con la respuesta de la API
       commit('setNewUsuario', response.data.user)
@@ -82,16 +93,27 @@ export const editUsuario = async ({ commit }, usuario) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
-  const { id } = usuario
+  const { id, numero_trabajador, email, roles, password } = usuario
+  const { id_empleado, nombre, apellido1, apellido2 } = usuario
   try {
-    const response = await authApi.put(`/usuarios/${id}`, usuario, {
+    const response = await authApi.put(`/usuarios/${id}`, { numero_trabajador, email, roles, password }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
     })
 
+    const response2 = await authApi.post(
+      `empleados/${id_empleado}`,
+      { numero_trabajador, nombre, apellido1, apellido2 },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('idToken')}`
+        }
+      }
+    )
+
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
-    if (response.status === 200 && response.data) {
+    if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
       // Hacer un mutation que actualice los consumibles de Vuex
       commit('setUsuario', { id, usuario })
 

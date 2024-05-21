@@ -167,7 +167,10 @@ export default {
         type: '',
         message: ''
       },
-      errorMsg: ''
+      errorMsg: '',
+      nombre: '',
+      apellido1: '',
+      apellido2: '',
     }
   },
   components: {
@@ -181,8 +184,12 @@ export default {
   created() {
     const empleado = this.getEmpleados.find(empleado => empleado.numero_trabajador == this.data.numero_trabajador);
     if(empleado){
+      this.form.id_empleado = empleado.id
+      this.nombre = empleado.nombre
       this.form.nombre = empleado.nombre
+      this.apellido1 = empleado.apellido1
       this.form.apellido1 = empleado.apellido1
+      this.apellido2 = empleado.apellido2
       this.form.apellido2 = empleado.apellido2
     }
   },
@@ -239,7 +246,14 @@ export default {
       this.$emit('close')
     },
     objectsAreEqual(obj1, obj2) {
-      for (let prop in obj1) {
+      const fieldsToCompare = ['email', 'numero_trabajador', 'roles'];
+
+      if(this.form.password) return false
+
+      if(this.form.nombre.trim().toLowerCase() !== this.nombre.toLowerCase() || this.form.apellido1.trim().toLowerCase() !== this.apellido1.toLowerCase() || this.form.apellido2.trim().toLowerCase() !== this.apellido2.toLowerCase()){
+        return false
+      }
+      for (let prop in fieldsToCompare) {
         if (typeof obj1[prop] === 'string' && typeof obj2[prop] === 'string') {
           if (obj1[prop].trim() !== obj2[prop].trim()) {
             return false
