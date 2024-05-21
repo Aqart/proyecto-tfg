@@ -20,11 +20,13 @@
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
 import useUsuarios from '@/modules/Usuarios/composables/useUsuarios'
+import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   setup() {
     const { createUsuario, editUsuario, deleteUsuarios, getUsuario } = useUsuarios()
+    const { getEmpleados } = useTrabajadores()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -34,6 +36,7 @@ export default {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
           } else {
+            await getEmpleados()
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
@@ -43,6 +46,7 @@ export default {
             actualizarMensaje('error', message)
             actualizarMostrarMensaje(true)
           } else {
+            await getEmpleados()
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
