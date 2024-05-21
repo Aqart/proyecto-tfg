@@ -4,9 +4,7 @@
       <h1 class="text-4xl text-center text-stoneBackground-3 font-bold">Listado de partes</h1>
       <div>
         <div class="flex justify-center items-center">
-          <div
-            class="flex flex-col lg:flex-row py-5 sm:py-10 gap-3 w-full lg:justify-center items-center"
-          >
+          <div class="flex flex-col lg:flex-row py-5 gap-3 w-full lg:justify-center items-center">
             <div
               class="flex flex-col sm:flex-row gap-2 justify-between lg:justify-start items-center w-full"
             >
@@ -62,44 +60,55 @@
         </div>
       </div>
       <template v-if="beforeFilter">
-        <div v-if="cards.length === 0" class="flex justify-center items-center gap-5">
-          <div class="flex flex-col gap-5">
-            <!--Si no se encuentran resultados....-->
-            <h2 class="text-2xl text-center text-stoneBackground-3 font-bold">
-              No se han encontrado resultados
-            </h2>
+        <div class="flex justify-start items-center gap-5">
+          <div v-if="cards.length === 0" class="flex justify-center items-center gap-5">
+            <div class="flex flex-col gap-5">
+              <!--Si no se encuentran resultados....-->
+              <h2 class="text-2xl text-center text-stoneBackground-3 font-bold">
+                No se han encontrado resultados
+              </h2>
+            </div>
           </div>
-        </div>
-        <div v-else>
-          <SelectComponent
-            label="Ordenar por"
-            :options="orderByOptions"
-            @changeSelect="callMethod"
-            class="p-2 text-md"
-          />
-          <div>
-            <template v-if="isTableView">
-              <TablaListadoPartesComponent :cards="cards" />
-            </template>
-            <template v-else>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div v-for="(card, index) in cards" :key="index" class="p-2">
-                  <CardParteComponent
-                    :employeeNumber="card.employeeNumber"
-                    :employeeName="card.employeeName"
-                    :toggleRetalActive="card.toggleRetalActive"
-                    :nbloque="card.nbloque"
-                    :toggleBisActive="card.toggleBisActive"
-                    :fechaInicioActual="card.fechaInicioActual"
-                    :horaInicioActual="card.horaInicioActual"
-                    :fechaFinActual="card.fechaFinActual"
-                    :horaFinActual="card.horaFinActual"
-                    :observaciones="card.observaciones"
-                    :produccionMaquina="card.produccionMaquina"
-                  />
+          <div v-else class="flex flex-col">
+            <div class="flex flex-col items-start mb-3">
+              <span
+                class="w-1/2 inline-flex items-start justify-start m-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold flex-shrink-0"
+                @click="exportToPDF()"
+              >
+                <FontAwesomeIcon :icon="['fas', 'file-pdf']" class="mr-1" />Exportar a PDF
+              </span>
+              <SelectComponent
+                label="Ordenar por"
+                :options="orderByOptions"
+                @changeSelect="callMethod"
+                class="px-2 my-2 text-md w-full gap-5"
+              />
+            </div>
+
+            <div>
+              <template v-if="isTableView">
+                <TablaListadoPartesComponent :cards="cards" />
+              </template>
+              <template v-else>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div v-for="(card, index) in cards" :key="index" class="p-2">
+                    <CardParteComponent
+                      :employeeNumber="card.employeeNumber"
+                      :employeeName="card.employeeName"
+                      :toggleRetalActive="card.toggleRetalActive"
+                      :nbloque="card.nbloque"
+                      :toggleBisActive="card.toggleBisActive"
+                      :fechaInicioActual="card.fechaInicioActual"
+                      :horaInicioActual="card.horaInicioActual"
+                      :fechaFinActual="card.fechaFinActual"
+                      :horaFinActual="card.horaFinActual"
+                      :observaciones="card.observaciones"
+                      :produccionMaquina="card.produccionMaquina"
+                    />
+                  </div>
                 </div>
-              </div>
-            </template>
+              </template>
+            </div>
           </div>
         </div>
       </template>
@@ -111,11 +120,13 @@
   <script>
 import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 export default {
   data() {
     return {
-      isSortedAscending: true,
+      isSortedAscending: false,
       isSortedBlockNumberAsc: true,
       isTableView: true,
       beforeFilter: false,
@@ -125,7 +136,9 @@ export default {
       cards: [],
       orderByOptions: [
         { id: 'ordenarPorNumeroBloque', nombre: 'Número de bloque' },
-        { id: 'ordenarPorTrabajador', nombre: 'Trabajador' }
+        { id: 'ordenarPorTrabajador', nombre: 'Trabajador' },
+        { id: 'ordenarPorFechaInicio', nombre: 'Fecha de inicio' },
+        { id: 'ordenarPorFechaFin', nombre: 'Fecha de fin' }
       ]
     }
   },
@@ -135,6 +148,86 @@ export default {
     await this.fetchPartesCortabloques()
   },
   methods: {
+    async exportToPDF() {
+      // Ordenar las tarjetas antes de generar las filas para el PDF
+      if (this.orderByOptionSelected === 'ordenarPorNumeroBloque') {
+        this.ordenarPorNumeroBloque()
+      } else if (this.orderByOptionSelected === 'ordenarPorTrabajador') {
+        this.ordenarPorTrabajador()
+      } else if (this.orderByOptionSelected === 'ordenarPorFechaInicio') {
+        this.ordenarPorFechaInicio()
+      } else if (this.orderByOptionSelected === 'ordenarPorFechaFin') {
+        this.ordenarPorFechaFin()
+      }
+
+      const doc = new jsPDF('landscape')
+      const columns = [
+        { title: 'Trabajador', dataKey: 'employeeName' },
+        { title: 'Número de bloque', dataKey: 'nbloque' },
+        { title: 'Fecha y hora inicio', dataKey: 'fechaHoraInicio' },
+        { title: 'Fecha y hora fin', dataKey: 'fechaHoraFin' },
+        { title: 'Producción Máquina', dataKey: 'produccionMaquina' },
+        { title: 'Observaciones', dataKey: 'observaciones' }
+      ]
+      const rows = await this.cards.map((card) => {
+        const produccionMaquina = card.produccionMaquina
+          .map((item) => {
+            return `· ${item.largo} cm * ${item.ancho} cm * ${item.grosor} cm = ${item.cantidad} piezas`
+          })
+          .join('\n')
+
+        return {
+          employeeName: `${card.employeeNumber} - ${card.employeeName}`,
+          nbloque: card.nbloque || 'RETAL',
+          fechaHoraInicio: `${card.fechaInicioActual} ${card.horaInicioActual}`,
+          fechaHoraFin: `${card.fechaFinActual} ${card.horaFinActual}`,
+          produccionMaquina,
+          observaciones: card.observaciones
+        }
+      })
+      autoTable(doc, {
+        columns,
+        body: rows,
+        didDrawPage: function (data) {
+          // Obtén la posición final de la última celda en la página y añade una línea de separación
+          var lastCell = data.table.body[data.table.body.length - 1][0]
+          var x = lastCell.x
+          var y = lastCell.y + lastCell.height
+          doc.line(x, y, x + data.table.width, y)
+        },
+        theme: 'grid',
+        columnStyles: {
+          // Estilos generales para todas las columnas
+          fontSize: 12,
+          textCenter: true,
+          cellPadding: 2,
+          overflow: 'linebreak',
+          columnWidth: 'wrap',
+          cellHeight: 'auto',
+          cellWidth: 'auto',
+          halign: 'center',
+          valign: 'middle',
+          // Estilos específicos para las columnas 'Producción Máquina' y 'Observaciones'
+          produccionMaquina: { cellWidth: 80, halign: 'center', valign: 'middle' }, // Aumenta el ancho de la celda para 'Producción Máquina'
+          observaciones: {
+            cellWidth: 50,
+            overflow: 'ellipsize',
+            halign: 'center',
+            valign: 'middle'
+          } // Reduce el ancho de la celda para 'Observaciones'
+        },
+        headStyles: {
+          fillColor: [0, 0, 0],
+          textColor: [255, 255, 255]
+        },
+        margin: { top: 20, left: 15, right: 15, bottom: 10 },
+        addPageContent: function () {
+          doc.text(`Listado de partes`, 14, 15)
+        }
+      })
+
+      doc.save(` listado_partes.pdf`)
+    },
     callMethod(methodName) {
       console.log(methodName)
       if (this[methodName]) {
@@ -142,6 +235,30 @@ export default {
       } else {
         console.error(`El método ${methodName} no existe en este componente.`)
       }
+    },
+    ordenarPorFechaInicio() {
+      if (this.isSortedAscending) {
+        this.cards.sort((a, b) => {
+          return new Date(a.fechaInicioActual) - new Date(b.fechaInicioActual)
+        })
+      } else {
+        this.cards.sort((a, b) => {
+          return new Date(b.fechaInicioActual) - new Date(a.fechaInicioActual)
+        })
+      }
+      this.isSortedAscending = !this.isSortedAscending
+    },
+    ordenarPorFechaFin() {
+      if (this.isSortedAscending) {
+        this.cards.sort((a, b) => {
+          return new Date(a.fechaFinActual) - new Date(b.fechaFinActual)
+        })
+      } else {
+        this.cards.sort((a, b) => {
+          return new Date(b.fechaFinActual) - new Date(a.fechaFinActual)
+        })
+      }
+      this.isSortedAscending = !this.isSortedAscending
     },
     ordenarPorNumeroBloque() {
       if (this.isSortedBlockNumberAsc) {
@@ -232,7 +349,7 @@ export default {
           produccionMaquina: parte.produccionMaquina
         })
       })
-
+      this.ordenarPorFechaInicio()
       this.beforeFilter = true
       setTimeout(() => {
         this.loading = false
