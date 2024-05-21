@@ -265,7 +265,7 @@ export default {
       return true
     },
     handleSubmit() {
-      const isEmpty = (value) => value === '' || value === 0 || value === null
+      const isEmpty = (value) => value === '' || value === 0 || value === null || value === undefined
 
       const requiredFields = ['nombre', 'apellido1', 'numero_trabajador', 'email', 'roles']
       if (this.tipo === 'Añadir nuevo usuario') requiredFields.push('password')
