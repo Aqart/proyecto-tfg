@@ -12,6 +12,7 @@ export const fetchPartesCortabloques = async ({ commit }) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
+      console.log(response.data)
       // Actualizar el estado con los partes del cortabloques obtenidos
       commit('setPartesCortabloques', response.data)
     } else {

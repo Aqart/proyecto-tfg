@@ -13,7 +13,20 @@ const ParteCortabloques = {
             )
 
             rowsParte.forEach((parte) => {
-                parte.bis == 1 ? (parte.bis = true) : (parte.bis = false)
+                parte.fecha_inicio = new Date(
+                    parte.fecha_inicio.getTime() -
+                        parte.fecha_inicio.getTimezoneOffset() * 60000
+                )
+                    .toISOString()
+                    .split('T')[0]
+                parte.fecha_fin = new Date(
+                    parte.fecha_fin.getTime() -
+                        parte.fecha_fin.getTimezoneOffset() * 60000
+                )
+                    .toISOString()
+                    .split('T')[0]
+
+                parte.bis === 1 ? (parte.bis = true) : (parte.bis = false)
                 parte.retal === 1 ? (parte.retal = true) : (parte.retal = false)
                 if (parte.retal === true) {
                     parte.numero_bloque = null
