@@ -21,7 +21,7 @@
           </div>
         </transition>
       </div>
-      <div>
+      <!-- <div>
         <button
           @click="toggleParte('Pulidora')"
           class="flex items-center justify-between w-full px-5 py-3 text-3xl text-stoneBackground-3 bg-stoneBackground-2 hover:bg-stoneBackground-4 hover:text-stoneBackgroundContrast-4"
@@ -37,7 +37,7 @@
             <FormPartePulidora />
           </div>
         </transition>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -56,10 +56,10 @@ export default {
   components: {
     FormParteCortabloques: defineAsyncComponent(() =>
       import('@/modules/ControlesHorarios/components/FormParteCortabloquesComponent.vue')
-    ),
-    FormPartePulidora: defineAsyncComponent(() =>
-      import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
     )
+    // FormPartePulidora: defineAsyncComponent(() =>
+    //   import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
+    // )
   },
   methods: {
     toggleParte(parte) {

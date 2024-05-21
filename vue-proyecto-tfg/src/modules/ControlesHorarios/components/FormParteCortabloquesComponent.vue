@@ -240,10 +240,7 @@ export default {
       toggleBisActive: false,
       showAlert: false,
       showModal: false,
-
-      produccionMaquina: localStorage.getItem('produccionMaquina')
-        ? JSON.parse(localStorage.getItem('produccionMaquina'))
-        : []
+      produccionMaquina: []
     }
   },
   components: {
@@ -258,10 +255,14 @@ export default {
     )
   },
   created() {
-    this.fechaInicioActual = this.getFechaActual()
-    this.horaInicioActual = this.getHoraActual()
-    this.fechaFinActual = this.getFechaActual()
-    this.horaFinActual = this.getHoraActual()
+    this.toggleBisActive = localStorage.getItem('toggleBisActive') === 'true' || false
+    this.toggleRetalActive = localStorage.getItem('toggleRetalActive') === 'true' || false
+    this.fechaInicioActual = localStorage.getItem('fechaInicioActual') || this.getFechaActual()
+    this.horaInicioActual = localStorage.getItem('horaInicioActual') || this.getHoraActual()
+    this.fechaFinActual = localStorage.getItem('fechaFinActual') || this.getFechaActual()
+    this.horaFinActual = localStorage.getItem('horaFinActual') || this.getHoraActual()
+    this.nbloque = localStorage.getItem('nbloque') || null
+    this.observaciones = localStorage.getItem('observaciones') || ''
     this.employeeNumber = this.getEmployeeNumber || localStorage.getItem('employeeNumber')
     this.employeeName = this.getEmployeeName || localStorage.getItem('employeeName')
   },
@@ -280,6 +281,7 @@ export default {
           this.showAlert = true
         } else {
           this.showAlert = false
+          localStorage.setItem('nbloque', this.nbloque)
         }
       } else {
         this.showAlert = false
@@ -349,12 +351,11 @@ export default {
         observaciones: this.observaciones,
         produccionMaquina: this.produccionMaquina
       }
-      console.log('Form', form)
-      console.log('store', this.$store)
+
       this.$store
         .dispatch('ControlesHorarios/addParteCortabloques', form)
         .then(() => {
-          //this.handleClean()
+          this.handleClean()
           this.showModal = false
         })
         .catch((error) => {
@@ -373,11 +374,42 @@ export default {
       this.showAlert = false
       this.produccionMaquina = []
       localStorage.removeItem('items')
+      localStorage.removeItem('nbloque')
+      localStorage.removeItem('fechaInicioActual')
+      localStorage.removeItem('horaInicioActual')
+      localStorage.removeItem('fechaFinActual')
+      localStorage.removeItem('horaFinActual')
+      localStorage.removeItem('observaciones')
+      localStorage.removeItem('toggleBisActive')
+      localStorage.removeItem('toggleRetalActive')
     }
   },
   computed: {
     ...mapGetters('Auth', ['getEmployeeNumber']),
     ...mapGetters('Auth', ['getEmployeeName'])
+  },
+  watch: {
+    toggleBisActive() {
+      localStorage.setItem('toggleBisActive', this.toggleBisActive)
+    },
+    toggleRetalActive() {
+      localStorage.setItem('toggleRetalActive', this.toggleRetalActive)
+    },
+    fechaInicioActual() {
+      localStorage.setItem('fechaInicioActual', this.fechaInicioActual)
+    },
+    horaInicioActual() {
+      localStorage.setItem('horaInicioActual', this.horaInicioActual)
+    },
+    fechaFinActual() {
+      localStorage.setItem('fechaFinActual', this.fechaFinActual)
+    },
+    horaFinActual() {
+      localStorage.setItem('horaFinActual', this.horaFinActual)
+    },
+    observaciones() {
+      localStorage.setItem('observaciones', this.observaciones)
+    }
   }
 }
 </script>
