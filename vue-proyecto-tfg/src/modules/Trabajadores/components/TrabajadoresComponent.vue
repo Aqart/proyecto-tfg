@@ -35,12 +35,11 @@ export default {
 
         if (empleado) {
           const nombre_completo = empleado.nombre + ' ' + empleado.apellido1 + ' ' + empleado.apellido2
-          data = { 
+          data = {
             numero_trabajador: data.numero_trabajador, 
             nombre_completo, 
             ...data 
           }
-          console.log(data)
         }
 
         if (type === 'Añadir nuevo trabajador') {

@@ -41,6 +41,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar usuario') {
+          console.log(data)
           const { ok, message } = await editUsuario(data)
           if (!ok) {
             actualizarMensaje('error', message)

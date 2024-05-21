@@ -93,8 +93,10 @@ export const editUsuario = async ({ commit }, usuario) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
+
   const { id, numero_trabajador, email, roles, password } = usuario
   const { id_empleado, nombre, apellido1, apellido2 } = usuario
+  
   try {
     const response = await authApi.put(`/usuarios/${id}`, { numero_trabajador, email, roles, password }, {
       headers: {
@@ -102,20 +104,26 @@ export const editUsuario = async ({ commit }, usuario) => {
       }
     })
 
-    const response2 = await authApi.post(
-      `empleados/${id_empleado}`,
+    const response2 = await authApi.put(
+      `/empleados/${id_empleado}`,
       { numero_trabajador, nombre, apellido1, apellido2 },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
-      }
-    )
+    })
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
       // Hacer un mutation que actualice los consumibles de Vuex
-      commit('setUsuario', { id, usuario })
+      const userToCommit = {
+        numero_trabajador: usuario.numero_trabajador,
+        email: usuario.email,
+        roles: usuario.roles,
+      }
+      console.log(userToCommit)
+
+      commit('setUsuario', { id, userToCommit })
 
       return { ok: true, message: response.data.message }
     } else {
@@ -131,6 +139,7 @@ export const deleteUsuarios = async ({ commit }, usuarios) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
+  
   const results = []
 
   // Se utiliza bucle for...of en lugar de foreach para utilizar await y esperar a que cada promesa se resuelva antes de continuar con la siguiente iteración
@@ -144,7 +153,6 @@ export const deleteUsuarios = async ({ commit }, usuarios) => {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
       })
-
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
       if (response.status === 200 && response.data) {
         // Hacer un mutation que elimine los consumibles de Vuex

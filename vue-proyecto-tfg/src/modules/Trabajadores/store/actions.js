@@ -49,11 +49,13 @@ export const fetchEmpleados = async ({ commit }) => {
 }
 
 export const createTrabajador = async ({ commit }, trabajador) => {
+  console.log(trabajador)
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/trabajadores', trabajador, {
+    const { numero_trabajador, precio, id_maquina } = trabajador
+    const response = await authApi.post('/trabajadores', { numero_trabajador, precio, id_maquina }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
