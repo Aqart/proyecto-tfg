@@ -14,8 +14,8 @@
     </thead>
     <tbody class="bg-white">
       <template v-for="(card, index) in cards" :key="'card-' + index">
-        <tr class="border-t">
-          <td class="px-6 py-10 text-lg">{{ card.employeeName }}</td>
+        <tr class="border-t-4">
+          <td class="px-6 py-10 text-lg">{{ card.employeeNumber }} - {{ card.employeeName }}</td>
           <td class="px-6 py-10 text-lg font-bold text-stoneBackgroundContrast-2">
             {{ card.nbloque || 'Retal' }}
           </td>

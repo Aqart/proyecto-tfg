@@ -4,7 +4,7 @@
       <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow table-title">
         Listado de {{ formattedRoute }}
       </h1>
-      <div class="flex flex-col mt-3">
+      <div class="flex flex-col my-3">
         <span
           class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
           @click="toggleModalOpenNew()"
@@ -104,9 +104,7 @@
                 </button>
               </th>
             </template>
-            <th scope="col" class="px-6 py-3 text-center no-print">
-              Acciones
-            </th>
+            <th scope="col" class="px-6 py-3 text-center no-print">Acciones</th>
           </tr>
         </thead>
         <tbody class="divide-gray-200 max-h-screen overflow-auto">
@@ -150,18 +148,33 @@
                   {{ el }}
                 </div>
               </th>
-              <td v-else-if="index !== 'id' && index !== 'fecha_registro' && index !== 'ultima_conexion'" :key="`${el}-td-${index}`" class="px-6 py-4">
+              <td
+                v-else-if="
+                  index !== 'id' && index !== 'fecha_registro' && index !== 'ultima_conexion'
+                "
+                :key="`${el}-td-${index}`"
+                class="px-6 py-4"
+              >
                 <div class="text-sm text-center text-stoneBackground-3">
                   {{ el }}
                 </div>
               </td>
             </template>
-            <td class="flex flex-col px-6 py-4 no-print"
-              :class="(formattedRoute === 'Usuarios' || formattedRoute === 'Máquinas') ? 'items-start gap-1' : 'items-center'"
+            <td
+              class="flex flex-col px-6 py-4 no-print"
+              :class="
+                formattedRoute === 'Usuarios' || formattedRoute === 'Máquinas'
+                  ? 'items-start gap-1'
+                  : 'items-center'
+              "
             >
               <span
                 class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
-                :class="formattedRoute==='Máquinas' || formattedRoute === 'Usuarios' ? 'md:pl-6 lg:pl-16' : ''"
+                :class="
+                  formattedRoute === 'Máquinas' || formattedRoute === 'Usuarios'
+                    ? 'md:pl-6 lg:pl-16'
+                    : ''
+                "
                 v-if="formattedRoute === 'Máquinas' || formattedRoute === 'Usuarios'"
                 @click="toggleModalOpenInfo(body.id)"
                 :data-id="body.id"
@@ -174,7 +187,11 @@
               </span>
               <span
                 class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
-                :class="formattedRoute==='Máquinas' || formattedRoute === 'Usuarios' ? 'md:pl-6 lg:pl-16' : ''"
+                :class="
+                  formattedRoute === 'Máquinas' || formattedRoute === 'Usuarios'
+                    ? 'md:pl-6 lg:pl-16'
+                    : ''
+                "
                 @click="toggleModalOpenEdit(body.id)"
                 :data-id="body.id"
               >
@@ -211,8 +228,16 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <InfoMaquinaComponent v-if="modalType === 'infoMaquina'" :data="item" @close="toggleModalClose" />
-      <InfoUsuarioComponent v-if="modalType === 'infoUsuario'" :data="item" @close="toggleModalClose" />
+      <InfoMaquinaComponent
+        v-if="modalType === 'infoMaquina'"
+        :data="item"
+        @close="toggleModalClose"
+      />
+      <InfoUsuarioComponent
+        v-if="modalType === 'infoUsuario'"
+        :data="item"
+        @close="toggleModalClose"
+      />
       <TrabajadoresFormComponent
         v-if="modalType === 'trabajador'"
         :data="item || {}"
@@ -288,32 +313,32 @@ export default {
     }
   },
   components: {
-    SearchIconComponent: defineAsyncComponent(
-      () => import('@/assets/images/SearchIconComponent.vue')
+    SearchIconComponent: defineAsyncComponent(() =>
+      import('@/assets/images/SearchIconComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    FormComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/FormComponent.vue')
+    FormComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/FormComponent.vue')
     ),
-    DeleteConfirmationComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/DeleteConfirmationComponent.vue')
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     ),
-    UsuariosFormComponent: defineAsyncComponent(
-      () => import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
+    UsuariosFormComponent: defineAsyncComponent(() =>
+      import('@/modules/Usuarios/components/UsuariosFormComponent.vue')
     ),
-    TrabajadoresFormComponent: defineAsyncComponent(
-      () => import('@/modules/Trabajadores/components/TrabajadoresFormComponent.vue')
+    TrabajadoresFormComponent: defineAsyncComponent(() =>
+      import('@/modules/Trabajadores/components/TrabajadoresFormComponent.vue')
     ),
-    InfoMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/Maquinas/components/InfoMaquinaComponent.vue')
+    InfoMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/Maquinas/components/InfoMaquinaComponent.vue')
     ),
-    InfoUsuarioComponent: defineAsyncComponent(
-      () => import('@/modules/Usuarios/components/InfoUsuarioComponent.vue')
+    InfoUsuarioComponent: defineAsyncComponent(() =>
+      import('@/modules/Usuarios/components/InfoUsuarioComponent.vue')
     ),
-    LoadingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoadingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     )
   },
   setup() {
@@ -476,7 +501,7 @@ export default {
       if (formattedRoute == 'usuarios') {
         this.modalType = 'register'
         this.modalTitle = 'Añadir nuevo usuario'
-      } else if(formattedRoute == 'trabajadores') {
+      } else if (formattedRoute == 'trabajadores') {
         this.modalType = 'trabajador'
         this.modalTitle = 'Añadir nuevo trabajador'
       } else {
@@ -523,12 +548,12 @@ export default {
       console.log(this.item)
       this.modalTitle = `Información de ${this.item.nombre}`
       this.modalType = 'infoMaquina'
-      if(formattedRoute == 'usuarios'){
+      if (formattedRoute == 'usuarios') {
         // const empleado = this.getEmpleados.find(empleado => empleado.numero_trabajador == this.item.numero_trabajador)
         // const nombreEmpleado = empleado.nombre + " " + empleado.apellido1 + " " + empleado.apellido2 + " (" + empleado.numero_trabajador + ")"
         this.modalTitle = `Información del empleado`
         this.modalType = 'infoUsuario'
-      } 
+      }
       this.showModal = !this.showModal
     },
     toggleModalClose() {
@@ -643,20 +668,31 @@ export default {
 
       if (this.searchQuery) {
         // Utiliza el tipo de normalización Unicode "NFD" para eliminar los diacríticos
-        const searchValue = this.searchQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const searchValue = this.searchQuery
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
         result = result.filter((item) => {
           return Object.keys(item).some((key) => {
             if (key === 'id_maquina') {
               // Busca la máquina usando item[key] (que es el id_maquina)
               // El rango u0300-u036f es para los caracteres acentuados en unicode
-              const maquina = this.getMaquinas.find(maquina => maquina.id === item[key]);
+              const maquina = this.getMaquinas.find((maquina) => maquina.id === item[key])
               if (maquina) {
-                return maquina.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+                return maquina.nombre
+                  .normalize('NFD')
+                  .replace(/[\u0300-\u036f]/g, '')
+                  .toLowerCase()
+                  .includes(searchValue)
               } else {
-                const maquinaNull = "Sin máquina asociada"
-                return maquinaNull.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+                const maquinaNull = 'Sin máquina asociada'
+                return maquinaNull
+                  .normalize('NFD')
+                  .replace(/[\u0300-\u036f]/g, '')
+                  .toLowerCase()
+                  .includes(searchValue)
               }
-            } 
+            }
             // else if (key === 'ultima_conexion' || key === 'fecha_registro') {
             //   if(item[key] === null){
             //     return 'Registro sin completar'.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
@@ -665,12 +701,17 @@ export default {
             //   const fechaObj = new Date(item[key]);
             //   const fecha = `${fechaObj.getDate().toString().padStart(2, '0')}/${(fechaObj.getMonth() + 1).toString().padStart(2, '0')}/${fechaObj.getFullYear()}, ${fechaObj.getHours().toString().padStart(2, '0')}:${fechaObj.getMinutes().toString().padStart(2, '0')}`;
             //   return fecha.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
-            // } 
-            else if(item[key]){
-              return item[key].toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(searchValue);
+            // }
+            else if (item[key]) {
+              return item[key]
+                .toString()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .includes(searchValue)
             }
-          });
-        });
+          })
+        })
       }
 
       if (this.sortField) {
