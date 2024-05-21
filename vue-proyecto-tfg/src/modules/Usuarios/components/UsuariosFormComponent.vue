@@ -182,6 +182,7 @@ export default {
     )
   },
   created() {
+    console.log(this.data)
     const empleado = this.getEmpleados.find(empleado => empleado.numero_trabajador == this.data.numero_trabajador);
     if(empleado){
       this.form.id_empleado = empleado.id
@@ -248,21 +249,29 @@ export default {
     objectsAreEqual(obj1, obj2) {
       const fieldsToCompare = ['email', 'numero_trabajador', 'roles'];
 
-      if(this.form.password) return false
+      if (this.form.password) return false;
 
-      if(this.form.nombre.trim().toLowerCase() !== this.nombre.toLowerCase() || this.form.apellido1.trim().toLowerCase() !== this.apellido1.toLowerCase() || this.form.apellido2.trim().toLowerCase() !== this.apellido2.toLowerCase()){
-        return false
+      if(this.form.apellido2 === '' && this.apellido2 !== '') return false
+
+      if (
+        this.form.nombre.trim().toLowerCase() !== this.nombre.toLowerCase() ||
+        this.form.apellido1.trim().toLowerCase() !== this.apellido1.toLowerCase() ||
+        (this.form.apellido2 && this.form.apellido2.trim().toLowerCase() !== this.apellido2.toLowerCase()) ||
+        (this.apellido2 && this.form.apellido2 && this.form.apellido2.trim().toLowerCase() !== this.apellido2.toLowerCase())
+      ) {
+        return false;
       }
-      for (let prop in fieldsToCompare) {
+
+      for (let prop of fieldsToCompare) {
         if (typeof obj1[prop] === 'string' && typeof obj2[prop] === 'string') {
           if (obj1[prop].trim() !== obj2[prop].trim()) {
-            return false
+            return false;
           }
         } else if (obj1[prop] !== obj2[prop]) {
-          return false
+          return false;
         }
       }
-      return true
+      return true;
     },
     handleSubmit() {
       const isEmpty = (value) => value === '' || value === 0 || value === null || value === undefined
@@ -295,10 +304,16 @@ export default {
         this.error.message = 'El formato del email no es válido'
         this.$emit('errorForm', this.error)
         return
-      } else if(this.tipo === 'Añadir nuevo usuario' && this.users.some(user => user.email === this.form.email)) {
+      } else if(this.form.email !== this.data.email && this.users.some(user => user.email === this.form.email)) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'El email ya está registrado para otro usuario'
+        this.$emit('errorForm', this.error)
+        return
+      } else if(this.form.numero_trabajador !== this.data.numero_trabajador && this.users.some(user => user.numero_trabajador === this.form.numero_trabajador)) {
+        this.error.status = true
+        this.error.type = 'warning'
+        this.error.message = 'El número de trabajador está registrado para otro usuario'
         this.$emit('errorForm', this.error)
         return
       } else {

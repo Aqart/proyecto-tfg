@@ -12,13 +12,13 @@ const AuthController = {
         try {
             // Verifica si el usuario ya existe en la base de datos
             const [existingUser] = await pool.query(
-                'SELECT * FROM user WHERE email = ?',
-                [email]
+                'SELECT * FROM user WHERE (email = ? OR numero_trabajador = ?) AND id != ?',
+                [email, numero_trabajador, req.params.id]
             )
             if (existingUser.length > 0) {
                 return res
                     .status(400)
-                    .json({ message: 'El nombre de usuario ya está en uso' })
+                    .json({ message: 'El usuario ya existe' })
             }
 
             // Hashea la contraseña antes de guardarla en la base de datos
@@ -153,33 +153,32 @@ const AuthController = {
     },
     // Método para actualizar un usuario
     actualizar: async (req, res) => {
-        const { email, roles, password } = req.body
-        // Verifica si el usuario ya existe en la base de datos
-        const [existingUser] = await pool.query(
-            'SELECT * FROM user WHERE email = ? AND id != ?',
-            [email, req.params.id]
-        )
-        if (existingUser.length > 0) {
-            return res
-                .status(400)
-                .json({ message: 'El nombre de usuario ya existe' })
-        }
         try {
+            const { numero_trabajador, email, password, roles } = req.body
             const id = req.params.id
-            const { email, password, roles } = req.body
+            // Verifica si el usuario ya existe en la base de datos
+            const [existingUser] = await pool.query(
+                'SELECT * FROM user WHERE (email = ? OR numero_trabajador = ?) AND id != ?',
+                [email, numero_trabajador, req.params.id]
+            )
+            if (existingUser.length > 0) {
+                return res
+                    .status(400)
+                    .json({ message: 'El usuario ya existe' })
+            }
             // COMPROBAR QUE ESTA OPCIÓN FUNCIONA
             if (password) {
                 // Si se proporcionó un nuevo password, lo hashea y lo actualiza
                 const hashedPassword = await bcrypt.hash(password, 10)
                 const [rows, fields] = await pool.query(
-                    'UPDATE user SET email = ?, roles = ?, password = ? WHERE id = ?',
-                    [email, roles, hashedPassword, id]
+                    'UPDATE user SET email = ?, numero_trabajador = ?, roles = ?, password = ? WHERE id = ?',
+                    [email, numero_trabajador, roles, hashedPassword, id]
                 )
             } else {
                 // Si no se proporcionó un nuevo password, simplemente actualiza los otros campos
                 const [rows, fields] = await pool.query(
-                    'UPDATE user SET email = ?, roles = ? WHERE id = ?',
-                    [email, roles, id]
+                    'UPDATE user SET email = ?, numero_trabajador = ?, roles = ? WHERE id = ?',
+                    [email, numero_trabajador, roles, id]
                 )
             }
             // const hashedPassword = await bcrypt.hash(password, 10)

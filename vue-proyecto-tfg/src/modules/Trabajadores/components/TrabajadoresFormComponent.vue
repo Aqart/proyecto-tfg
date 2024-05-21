@@ -97,7 +97,6 @@ export default {
   methods: {
     selectFormattedEmpleados(){
       const empleados = this.getEmpleados
-      console.log(empleados)
       return empleados.map(empleado => {
         return {
           id: empleado.numero_trabajador,
@@ -168,7 +167,10 @@ export default {
 
       // Comprueba que el num_trabajador no tenga asociada ya ese id_maquina
       const trabajadores = this.getTrabajadores
-      const trabajador = trabajadores.find(trabajador => trabajador.numero_trabajador === this.form.numero_trabajador)
+      const trabajador = trabajadores.find(
+        trabajador => trabajador.numero_trabajador === this.form.numero_trabajador && trabajador.id_maquina === this.form.id_maquina
+      )
+      console.log(trabajador)
 
       if (hasEmptyFields) {
         this.error = {
@@ -184,7 +186,7 @@ export default {
           message: 'No se ha modificado ningún campo'
         }
         this.$emit('errorForm', this.error)
-      } else  if (trabajador && trabajador.id_maquina === this.form.id_maquina) {
+      } else  if (trabajador && this.data.id !== trabajador.id) {
         const maquina = this.getMaquinas.find(maquina => maquina.id === this.form.id_maquina)
         this.error = {
           status: true,
