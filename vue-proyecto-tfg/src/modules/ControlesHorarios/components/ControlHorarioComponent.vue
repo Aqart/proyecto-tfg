@@ -1,5 +1,13 @@
 <template>
   <div class="w-full mx-auto">
+    <MensajesComponent
+      v-if="getTipo !== 'warning'"
+      :message="getMensaje"
+      :type="getTipo"
+      :mostrarMensaje="getMostrar"
+      :textClasses="'text-lg'"
+      :iconClasses="'scale-150'"      
+    />
     <div class="bg-white shadow-md rounded-t-xl my-6">
       <div class="border-b border-gray-200">
         <button
@@ -17,7 +25,7 @@
         </button>
         <transition name="fade">
           <div v-if="isOpenCortabloques" class="px-0 py-5 sm:px-5">
-            <FormParteCortabloques />
+            <FormParteCortabloques @closeCortabloques="closeCortabloques" />
           </div>
         </transition>
       </div>
@@ -44,6 +52,8 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -56,10 +66,16 @@ export default {
   components: {
     FormParteCortabloques: defineAsyncComponent(() =>
       import('@/modules/ControlesHorarios/components/FormParteCortabloquesComponent.vue')
+    ),
+    MensajesComponent: defineAsyncComponent(
+      () => import('@/modules/shared/components/MensajesComponent.vue')
     )
     // FormPartePulidora: defineAsyncComponent(() =>
     //   import('@/modules/ControlesHorarios/components/FormPartePulidoraComponent.vue')
     // )
+  },
+  computed: {
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   methods: {
     toggleParte(parte) {
@@ -71,6 +87,12 @@ export default {
           this[`isOpen${maquina}`] = !this[`isOpen${maquina}`]
         }
       })
+    },
+    closeCortabloques(isClose){
+      this.isOpenCortabloques = isClose
+      setTimeout(() => {
+        this.isOpenCortabloques = true
+      }, 2000)
     },
     toggleTelar() {
       this.isOpenTelar = !this.isOpenTelar

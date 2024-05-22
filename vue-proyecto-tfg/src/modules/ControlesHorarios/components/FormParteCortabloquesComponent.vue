@@ -163,7 +163,7 @@
           <ButtonComponent
             text="Firmar parte"
             bgColor="bg-secondary"
-            @click.prevent="showModal = true"
+            @click.prevent="handleClick"
             :icon="['fas', 'file-signature']"
           />
           <ButtonComponent
@@ -241,7 +241,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -283,8 +283,14 @@ export default {
     this.observaciones = localStorage.getItem('observaciones') || ''
     this.employeeNumber = this.getEmployeeNumber || localStorage.getItem('employeeNumber')
     this.employeeName = this.getEmployeeName || localStorage.getItem('employeeName')
+    this.actualizarMostrarMensaje(false)
   },
   methods: {
+    ...mapActions('Shared', ['actualizarMensaje', 'actualizarMostrarMensaje']),
+    handleClick(){
+      this.showModal = true
+      this.actualizarMostrarMensaje(false)
+    },
     checkInput() {
       // Actualiza inputLength con la longitud de la entrada
       if (this.nbloque) {
@@ -314,6 +320,7 @@ export default {
       if (horaFin > this.horaInicioActual) {
         this.horaFinActual = horaFin
       } else {
+        
         alert('La hora de finalización debe ser mayor que la hora de inicio')
       }
     },
@@ -344,7 +351,9 @@ export default {
       }
 
       if (this.produccionMaquina.length === 0) {
-        alert('Debes añadir al menos un registro de producción')
+        this.actualizarMensaje({tipo: 'warning', mensaje: 'Debes añadir al menos un registro de producción'})
+        this.actualizarMostrarMensaje(true)
+        // alert('Debes añadir al menos un registro de producción')
         return
       }
 
@@ -375,6 +384,9 @@ export default {
         .then(() => {
           this.handleClean()
           this.showModal = false
+          this.actualizarMensaje({tipo: 'success', mensaje: 'Parte de cortabloques firmado correctamente'})
+          this.actualizarMostrarMensaje(true)
+          this.$emit('closeCortabloques', false)
         })
         .catch((error) => {
           console.log(error)
