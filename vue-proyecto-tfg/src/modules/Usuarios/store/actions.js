@@ -147,14 +147,22 @@ export const deleteUsuarios = async ({ commit }, usuarios) => {
   for (const usuario of usuarios) {
     const { id } = usuario
 
+    console.log(usuario)
+
     try {
       const response = await authApi.delete(`/usuarios/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
       })
+
+      const response2 = await authApi.delete(`/empleados/${usuario.numero_trabajador}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('idToken')}`
+        }
+      })
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
-      if (response.status === 200 && response.data) {
+      if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
         // Hacer un mutation que elimine los consumibles de Vuex
         commit('deleteUsuario', id)
         results.push({ id, ok: true, message: response.data.message })
