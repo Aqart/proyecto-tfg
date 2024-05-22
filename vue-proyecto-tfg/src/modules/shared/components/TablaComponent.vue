@@ -2,17 +2,17 @@
   <div class="relative w-full shadow-md flex flex-col mb-10">
     <div class="flex flex-row flex-wrap bg-stoneBackground-2 rounded-t-lg">
       <h1 class="text-4xl font-bold text-center p-10 text-stoneBackground-3 flex-grow table-title">
-        Listado de {{ formattedRoute }}
+        Listado de {{ formattedRoute.toLowerCase() }}
       </h1>
       <div class="flex flex-col my-3">
         <span
-          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 transition-all duration-150 ease-linear text-bold cursor-pointer hover:text-shadow hover:scale-105"
           @click="toggleModalOpenNew()"
         >
           <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
         </span>
         <span
-          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 transition-all duration-150 ease-linear text-bold cursor-pointer hover:text-shadow hover:scale-105"
           @click="exportToPDF()"
         >
           <FontAwesomeIcon :icon="['fas', 'file-pdf']" class="mr-1" />Exportar a PDF

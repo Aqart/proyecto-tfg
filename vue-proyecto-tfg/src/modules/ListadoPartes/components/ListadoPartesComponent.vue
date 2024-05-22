@@ -72,7 +72,7 @@
           <div v-else class="flex flex-col">
             <div class="flex flex-col items-start mb-3">
               <span
-                class="w-1/2 inline-flex items-start justify-start m-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold flex-shrink-0"
+                class="w-auto inline-flex items-center justify-start m-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold flex-shrink-0 cursor-pointer hover:text-shadow hover:scale-105 transition-transform duration-150 ease-in-out"
                 @click="exportToPDF()"
               >
                 <FontAwesomeIcon :icon="['fas', 'file-pdf']" class="mr-1" />Exportar a PDF
@@ -185,16 +185,22 @@ export default {
           observaciones: card.observaciones
         }
       })
+      const fechaInicioDate = new Date(this.fechaInicio)
+      const fechaFinDate = new Date(this.fechaFin)
+
+      const fechaInicio = `${fechaInicioDate.getDate().toString().padStart(2, '0')}${(
+        fechaInicioDate.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}${fechaInicioDate.getFullYear()}`
+      const fechaFin = `${fechaFinDate.getDate().toString().padStart(2, '0')}${(
+        fechaFinDate.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}${fechaFinDate.getFullYear()}`
       autoTable(doc, {
         columns,
         body: rows,
-        didDrawPage: function (data) {
-          // Obtén la posición final de la última celda en la página y añade una línea de separación
-          var lastCell = data.table.body[data.table.body.length - 1][0]
-          var x = lastCell.x
-          var y = lastCell.y + lastCell.height
-          doc.line(x, y, x + data.table.width, y)
-        },
         theme: 'grid',
         columnStyles: {
           // Estilos generales para todas las columnas
@@ -221,12 +227,18 @@ export default {
           textColor: [255, 255, 255]
         },
         margin: { top: 20, left: 15, right: 15, bottom: 10 },
-        addPageContent: function () {
-          doc.text(`Listado de partes`, 14, 15)
+        didDrawPage: async function () {
+          doc.text(
+            `Listado de partes: ${fechaInicioDate.toLocaleDateString()} - ${fechaFinDate.toLocaleDateString()}`,
+            14,
+            15
+          )
         }
       })
 
-      doc.save(` listado_partes.pdf`)
+      fechaInicio.replace(/[^0-9]/g, '')
+      fechaFin.replace(/[^0-9]/g, '')
+      doc.save(`listado_partes_${fechaInicio}${fechaFin}.pdf`)
     },
     callMethod(methodName) {
       console.log(methodName)

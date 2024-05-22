@@ -16,7 +16,7 @@
         >{{ crumb.text }}</router-link
       >
       <span v-else class="text-bold text-stoneBackgroundContrast-1 capitalize">{{
-        crumb.text.replace(/Energeticos/i, 'Energéticos').replace(/-/g, ' ')
+        crumb.text.replace(/Energeticos/i, 'Energéticos')
       }}</span>
     </span>
   </nav>

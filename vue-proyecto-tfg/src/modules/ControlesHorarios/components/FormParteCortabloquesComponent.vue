@@ -1,18 +1,50 @@
 <template>
   <div>
-    <form class="text-xl mx-10">
-      <div class="grid grid-cols-1 gap-6">
+    <form class="text-md md::text-xl mx-3 md:mx-10 break-words">
+      <div class="grid grid-cols-1 gap-6 items-center">
         <h3
-          class="font-bold mb-4 block text-xl w-full border border-gray-300 rounded-lg py-2 px-5 bg-stoneBackground-2 text-stoneBackgroundContrast-1"
+          class="font-bold mb-4 block text-lg md:text-xl w-full border border-gray-300 rounded-lg py-2 px-5 bg-stoneBackground-2 text-stoneBackgroundContrast-1"
         >
           Trabajador:
           <span class="ml-3 text-2xl font-bold">{{ employeeNumber }} - {{ employeeName }}</span>
         </h3>
-        <div class="flex flex-col md:flex-row justify-between items-start">
-          <div class="flex flex-col w-1/3">
-            <div class="flex flex-col gap-2">
-              <div class="flex flex-row items-center justify-between md:gap-4">
-                <span class="block text-xl font-medium text-gray-700 w-full">¿Es un Bis?</span>
+        <Transition name="fade">
+          <div v-if="!toggleRetalActive" class="mt-4 flex flex-col gap-2">
+            <label for="nbloque" class="block text-lg md:text-xl font-medium text-gray-700"
+              >Número de bloque</label
+            >
+            <input
+              type="text"
+              ref="nbloqueInput"
+              name="nbloque"
+              v-model="nbloque"
+              placeholder="Exactamente 5 dígitos"
+              class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 block w-full focus:border-stoneBackground-2 shadow-sm sm:text-lg md:text-xl"
+              @blur="checkInput"
+            />
+
+            <div v-if="showAlert">
+              <div
+                class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3"
+                role="alert"
+              >
+                <p class="font-bold text-lg">Has introducido {{ inputLength }} dígitos.</p>
+                <p class="text-sm">Debes introducir exactamente 5.</p>
+              </div>
+            </div>
+          </div>
+        </Transition>
+        <div class="flex flex-col sm:flex-row gap-2 justify-between items-start h-full">
+          <div
+            class="flex flex-col justify-around items-center sm:items-start px-2 w-full xl:w-auto h-full"
+          >
+            <div class="flex flex-row sm:flex-col gap-2 w-full justify-between h-full">
+              <div
+                class="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-1 xl:gap-10"
+              >
+                <span class="block text-lg md:text-xl font-medium text-gray-700 w-full"
+                  >¿Es un bis?</span
+                >
                 <div
                   class="flex justify-between items-center"
                   @click="toggleBisActive = !toggleBisActive"
@@ -30,10 +62,14 @@
                   </div>
                 </div>
               </div>
-              <div class="flex items-center gap-4">
-                <span class="block text-xl font-medium text-gray-700 w-full">¿Es un retal?</span>
+              <div
+                class="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-1 xl:gap-4"
+              >
+                <span class="block text-lg md:text-xl font-medium text-gray-700 w-full"
+                  >¿Es un retal?</span
+                >
                 <div
-                  class="flex justify-between items-center"
+                  class="ml-auto sm:ml-0 flex justify-between items-center"
                   @click="toggleRetalActive = !toggleRetalActive"
                 >
                   <div
@@ -50,86 +86,68 @@
                 </div>
               </div>
             </div>
-            <Transition name="fade">
-              <div v-if="!toggleRetalActive" class="mt-4 flex flex-col gap-2">
-                <label for="nbloque" class="block text-xl font-medium text-gray-700"
-                  >Número de Bloque</label
+          </div>
+          <div
+            class="flex flex-row items-center sm:items-start justify-between md:justify-around w-full md:w-3/4"
+          >
+            <div class="flex flex-col justify-between items-start h-full gap-10">
+              <div>
+                <label for="fecha" class="block text-lg md:text-xl font-medium text-gray-700"
+                  >Fecha de entrada</label
                 >
                 <input
-                  type="text"
-                  ref="nbloqueInput"
-                  name="nbloque"
-                  v-model="nbloque"
-                  placeholder="Exactamente 5 dígitos"
-                  class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 block w-full focus:border-stoneBackground-2 shadow-sm sm:text-xl"
-                  @blur="checkInput"
+                  type="date"
+                  name="fecha"
+                  id="fecha"
+                  v-model="fechaInicioActual"
+                  class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-lg md:text-xl border-gray-300 rounded-md"
                 />
-
-                <div v-if="showAlert">
-                  <div
-                    class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3"
-                    role="alert"
-                  >
-                    <p class="font-bold text-lg">Has introducido {{ inputLength }} dígitos.</p>
-                    <p class="text-sm">Debes introducir exactamente 5.</p>
-                  </div>
-                </div>
               </div>
-            </Transition>
-          </div>
-          <div class="flex flex-col justify-between items-start h-full gap-5">
-            <div>
-              <label for="fecha" class="block text-xl font-medium text-gray-700"
-                >Fecha Entrada</label
-              >
-              <input
-                type="date"
-                name="fecha"
-                id="fecha"
-                v-model="fechaInicioActual"
-                class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
-              />
+              <div>
+                <label for="hora" class="block text-lg md:text-xl font-medium text-gray-700"
+                  >Hora de entrada</label
+                >
+                <input
+                  type="time"
+                  name="hora"
+                  id="hora"
+                  v-model="horaInicioActual"
+                  class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-lg md:text-xl border-gray-300 rounded-md"
+                />
+              </div>
             </div>
-            <div>
-              <label for="hora" class="block text-xl font-medium text-gray-700">Hora Entrada</label>
-              <input
-                type="time"
-                name="hora"
-                id="hora"
-                v-model="horaInicioActual"
-                class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
-              />
-            </div>
-          </div>
-          <div class="flex flex-col justify-between items-start gap-20 h-full">
-            <div>
-              <label for="fecha" class="block text-xl font-medium text-gray-700"
-                >Fecha Salida</label
-              >
-              <input
-                type="date"
-                name="fecha"
-                id="fecha"
-                v-model="fechaFinActual"
-                class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label for="hora" class="block text-xl font-medium text-gray-700">Hora Salida</label>
-              <input
-                type="time"
-                name="hora"
-                id="hora"
-                v-model="horaFinActual"
-                class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-xl border-gray-300 rounded-md"
-              />
+            <div class="flex flex-col justify-between items-start gap-10 h-full">
+              <div>
+                <label for="fecha" class="block text-lg md:text-xl font-medium text-gray-700"
+                  >Fecha de salida</label
+                >
+                <input
+                  type="date"
+                  name="fecha"
+                  id="fecha"
+                  v-model="fechaFinActual"
+                  class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-lg md:text-xl border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label for="hora" class="block text-lg md:text-xl font-medium text-gray-700"
+                  >Hora de salida</label
+                >
+                <input
+                  type="time"
+                  name="hora"
+                  id="hora"
+                  v-model="horaFinActual"
+                  class="mt-1 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full shadow-sm sm:text-lg md:text-xl border-gray-300 rounded-md"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <TablaFabricacionComponent @updateItems="getproduccionMaquina" class="my-4" />
         <div class="shadow border border-opacity-0 p-2 rounded-lg">
-          <label for="obsevaciones" class="block text-xl font-medium text-gray-700"
+          <label for="obsevaciones" class="block text-lg md:text-xl font-medium text-gray-700"
             >Observaciones</label
           >
           <textarea
@@ -138,7 +156,7 @@
             placeholder="Escribe aquí tus observaciones..."
             rows="3"
             v-model="observaciones"
-            class="mt-1 p-5 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full sm:text-xl border-gray-300 rounded-md"
+            class="mt-1 p-5 focus:ring-stoneBackground-2 focus:border-stoneBackground-2 block w-full sm:text-lg md:text-xl border-gray-300 rounded-md"
           />
         </div>
         <div class="flex flex-row gap-2">
@@ -162,7 +180,7 @@
       :modalActive="showModal"
       @close="showModal = false"
     >
-      <div class="p-10 text-xl">
+      <div class="p-10 text-lg md:text-xl">
         <ul class="text-stoneBackground-3 font-bold flex flex-col gap-2">
           <li class="flex justify-between">
             <span>Trabajador:</span>
