@@ -10,9 +10,13 @@
         <FontAwesomeIcon
           :icon="['fas', 'square-check']"
           class="text-green-700 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
+          :class="iconClasses"
         />
         <!-- <strong class="font-bold">¡Éxito!&nbsp;</strong> -->
-        <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
+        <span class="block sm:inline text-center text-wrap mr-12"
+        :class="computedClass"
+        >
+        {{
           message
         }}</span>
         <ButtonComponent
@@ -33,8 +37,11 @@
         <FontAwesomeIcon
           :icon="['fas', 'circle-exclamation']"
           class="text-stoneBackgroundContrast-2 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
+          :class="iconClasses"
         />
-        <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
+        <span class="block sm:inline text-center text-wrap mr-12"
+        :class="computedClass"
+        >{{
           message
         }}</span>
         <ButtonComponent
@@ -55,8 +62,11 @@
         <FontAwesomeIcon
           :icon="['fas', 'triangle-exclamation']"
           class="text-stoneBackgroundContrast-6 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
+          :class="iconClasses"
         />
-        <span class="block sm:inline text-center text-wrap text-base sm:text-sm mr-12">{{
+        <span class="block sm:inline text-center text-wrap mr-12"
+        :class="computedClass"
+        >{{
           message
         }}</span>
         <ButtonComponent
@@ -64,6 +74,7 @@
           text="X"
           bgColor="bg-transparent"
           otherClasses="h-5 w-5 rounded-md inline-flex justify-center items-center hover:scale-105"
+          :class="iconClasses"
           @click="cerrarMensaje"
         />
       </div>
@@ -88,6 +99,19 @@ export default {
     mostrarMensaje: {
       type: Boolean,
       required: true
+    },
+    textClasses: {
+      type: String,
+      required: false
+    },
+    iconClasses: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    computedClass() {
+      return this.textClasses ? this.textClasses : 'text-sm'
     }
   },
   setup() {
