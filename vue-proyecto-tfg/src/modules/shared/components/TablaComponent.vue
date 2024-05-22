@@ -61,7 +61,7 @@
       <table class="min-w-full divide-y divide-gray-200 text-left" id="table">
         <thead class="text-lg font-bold text-stoneBackground-3 bg-stoneBackground-2 sticky top-0">
           <tr>
-            <th scope="col" class="p-4 no-print">
+            <th scope="col" class="p-6 no-print">
               <div class="flex items-center">
                 <input
                   @change="selectAllCheckboxes"
@@ -113,7 +113,7 @@
             :key="body.id"
             class="bg-gray-50 border-b hover:bg-gray-100"
           >
-            <td class="w-4 p-4 no-print">
+            <td class="w-4 p-6 no-print">
               <div class="flex items-center">
                 <input
                   id="checkbox-table-search-1"

@@ -61,6 +61,15 @@ export default {
 
     const deleteUsuariosSeleccionados = async (arrayData) => {
       try {
+        // No se incluye porque vuelve a mostrar el id del usuario en la tabla
+        // const empleados = await getEmpleados()
+        // arrayData.forEach(item => {
+        //   const empleado = empleados.find(emp => emp.numero_trabajador === item.numero_trabajador)
+        //   if (empleado){
+        //     item.id_empleado = empleado.id
+        //   }
+        // })
+        const empleados = await getEmpleados()
         const results = await deleteUsuarios(arrayData)
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
@@ -73,7 +82,10 @@ export default {
             actualizarMensaje('error', 'Error accediendo a los usuarios')
             actualizarMostrarMensaje(true)
           } else {
-            const nombres = dataFailed.map((result) => result.email).join(', ')
+            const nombres = dataFailed.map((result) => {
+              const empleado = empleados.find(emp => emp.numero_trabajador === result.numero_trabajador)
+              return empleado ? `${empleado.nombre} ${empleado.apellido1} (${empleado.numero_trabajador})` : result.email
+            }).join(', ')
             actualizarMensaje(
               'error',
               `Los siguientes usuarios no se pudieron eliminar: ${nombres}`
@@ -81,13 +93,18 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else {
-          const nombresSuccess = arrayData.map((result) => result.email).join(', ')
+          const nombresSuccess = arrayData.map((result) => {
+            const empleado = empleados.find(emp => emp.numero_trabajador === result.numero_trabajador)
+            return empleado ? `${empleado.nombre} ${empleado.apellido1} (${empleado.numero_trabajador})` : result.email
+          }).join(', ')
           console.log(nombresSuccess)
           actualizarMensaje(
             'success',
             `Los siguientes usuarios se han eliminado: ${nombresSuccess}`
           )
           actualizarMostrarMensaje(true)
+
+          
         }
       } catch (error) {
         console.error('Error deleting data', error)

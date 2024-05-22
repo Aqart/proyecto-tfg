@@ -71,7 +71,7 @@ const EmpleadoController = {
   eliminar: async (req, res, next) => {
     const { id } = req.params
     try {
-        await pool.query('DELETE FROM trabajador WHERE id = ?', [id])
+        await pool.query('DELETE FROM trabajador WHERE numero_trabajador = ?', [id])
         res.status(200).json({
             message: 'Empleado eliminado correctamente',
         })
