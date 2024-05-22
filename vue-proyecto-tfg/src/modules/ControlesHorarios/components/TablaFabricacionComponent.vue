@@ -162,7 +162,7 @@
               </span>
               <span
                 v-if="item.editing"
-                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group ml-2"
+                class="text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
                 @click="cancelEdit(item)"
               >
                 <FontAwesomeIcon :icon="['fas', 'circle-xmark']" />
