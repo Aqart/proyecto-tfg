@@ -10,6 +10,7 @@
     </template>
     <TablaComponent
       :data="getMateriasPrimas"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteMateriasPrimasSeleccionadas"
     />
@@ -23,6 +24,15 @@ import useMateriaPrima from '@/modules/MateriaPrima/composables/useMateriaPrima'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        cantidad_m3: 0,
+        precio: 0,
+      }],
+    }
+  },
   setup() {
     const { createMateriaPrima, editMateriaPrima, deleteMateriasPrimas, getMateriaPrima } =
       useMateriaPrima()

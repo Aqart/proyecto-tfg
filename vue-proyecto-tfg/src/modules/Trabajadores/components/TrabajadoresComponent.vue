@@ -10,6 +10,7 @@
     </template>
     <TablaComponent
       :data="getTrabajadores"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteTrabajadoresSeleccionados"
     />
@@ -24,6 +25,16 @@ import useShared from '@/modules/shared/composables/useShared'
 import { useStore } from 'vuex'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        numero_trabajador: 0,
+        nombre_completo: '',
+        precio: 0,
+        id_maquina: null,
+      }],
+    }
+  },
   setup() {
     const { createTrabajador, editTrabajador, deleteTrabajadores, getTrabajador, getEmpleados } = useTrabajadores()
     const store = useStore()

@@ -69,6 +69,7 @@
                   id="checkbox-all-search"
                   type="checkbox"
                   class="accent-stoneBackgroundContrast-1 w-4 h-4 bg-secondary-100 border-gray-300 rounded focus:ring-secondary"
+                  :class="disabledCheckbox"
                 />
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
@@ -208,7 +209,7 @@
               :colspan="filteredHeader.length * 2 + 1"
               class="text-center font-bold py-3 text-stoneBackgroundContrast-2 text-lg"
             >
-              No hay resultados
+              No hay registros
             </td>
           </tr>
           <tr
@@ -288,6 +289,10 @@ import html2pdf from 'html2pdf.js'
 export default {
   props: {
     data: {
+      type: Array,
+      required: true
+    },
+    headers: {
       type: Array,
       required: true
     }
@@ -515,6 +520,19 @@ export default {
             obj[key] = ''
           } else if (typeof this.data[0][key] == 'number') {
             obj[key] = null
+          } else {
+            obj[key] = null
+          }
+          return obj
+        }, {})
+      } else {
+        this.item = Object.keys(this.headers[0]).reduce((obj, key) => {
+          if (typeof this.headers[0][key] == 'string') {
+            obj[key] = ''
+          } else if (typeof this.headers[0][key] == 'number') {
+            obj[key] = null
+          } else {
+            obj[key] = null
           }
           return obj
         }, {})
@@ -592,7 +610,9 @@ export default {
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
     ...mapGetters('Trabajadores', ['getEmpleados']),
-
+    disabledCheckbox() {
+      return this.searchFilteredData.length > 0 ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'
+    },
     formattedHeader() {
       return this.filteredHeader
         .map((key) => {
@@ -660,7 +680,7 @@ export default {
       if (this.data && this.data.length > 0) {
         return Object.keys(this.data[0]).filter((key) => key !== 'id')
       } else {
-        return []
+        return Object.keys(this.headers[0])
       }
     },
     searchFilteredData() {
