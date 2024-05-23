@@ -10,6 +10,7 @@
     </template>
     <TablaComponent
       :data="getConsumibles"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteConsumiblesSeleccionados"
     />
@@ -23,6 +24,15 @@ import useConsumible from '@/modules/Consumible/composables/useConsumible'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        precio: 0,
+        id_maquina: null,
+      }],
+    }
+  },
   setup() {
     const { createConsumible, editConsumible, deleteConsumibles, getConsumible } = useConsumible()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()

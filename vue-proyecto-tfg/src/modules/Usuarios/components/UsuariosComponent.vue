@@ -10,6 +10,7 @@
     </template>
     <TablaComponent
       :data="getUsuarios"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteUsuariosSeleccionados"
     />
@@ -24,9 +25,18 @@ import useTrabajadores from '@/modules/Trabajadores/composables/useTrabajadores'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        numero_trabajador: 0,
+        email: '',
+        roles: null
+      }],
+    }
+  },
   setup() {
     const { createUsuario, editUsuario, deleteUsuarios, getUsuario } = useUsuarios()
-    const { getEmpleados } = useTrabajadores()
+    const { getEmpleados, getTrabajadores } = useTrabajadores()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -48,6 +58,7 @@ export default {
             actualizarMostrarMensaje(true)
           } else {
             await getEmpleados()
+            await getTrabajadores()
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
@@ -103,7 +114,7 @@ export default {
             `Los siguientes usuarios se han eliminado: ${nombresSuccess}`
           )
           actualizarMostrarMensaje(true)
-
+          await getTrabajadores()
           
         }
       } catch (error) {

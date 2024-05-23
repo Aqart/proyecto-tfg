@@ -22,6 +22,20 @@
             >¿Desea eliminar todos los registros de {{ itemType }}?</span
           >
         </div>
+        <div v-if="checkTrabajadores()">
+          <span v-if="listItems.length === 1">
+            <span class="font-semibold text-md text-red-500">Advertencia:</span>
+            <span class="font-regular text-md"
+              >El usuario a eliminar tiene un coste y/o máquina asociados</span
+            >
+          </span>
+          <span v-else>
+            <span class="font-semibold text-md text-red-500">Advertencia:</span>
+            <span class="font-regular text-md"
+              >Algunos usuarios a eliminar tienen un coste y/o máquina asociados</span
+            >
+          </span>
+        </div>
       </div>
     </div>
     <div v-else class="w-full sm:w-90 mx-auto items-center" role="alert">
@@ -36,6 +50,20 @@
             <span class="font-regular text-md"
               >Va a eliminar los siguientes registros de {{ itemType }}:</span
             >
+          </div>
+          <div v-if="checkTrabajadores()">
+            <span v-if="listItems.length === 1">
+              <span class="font-semibold text-md text-red-500">Advertencia:</span>
+              <span class="font-regular text-md"
+                >El usuario a eliminar tiene un coste y/o máquina asociados</span
+              >
+            </span>
+            <span v-else>
+              <span class="font-semibold text-md text-red-500">Advertencia:</span>
+              <span class="font-regular text-md"
+                >Algunos usuarios a eliminar tienen un coste y/o máquina asociados</span
+              >
+            </span>
           </div>
         </div>
       </div>
@@ -127,7 +155,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Maquinas', ['getMaquinas'])
+    ...mapGetters('Maquinas', ['getMaquinas']),
+    ...mapGetters('Trabajadores', ['getTrabajadores']),
   },
   components: {
     ButtonComponent: defineAsyncComponent(
@@ -139,6 +168,10 @@ export default {
       const maquinas = this.getMaquinas
       const maquina = maquinas.find(maquina => maquina.id === id)
       return maquina.nombre
+    },
+    checkTrabajadores(){
+      const trabajadores = this.getTrabajadores
+      return this.listItems.some(item => trabajadores.some(trabajador => trabajador.numero_trabajador === item.numero_trabajador));
     },
     confirmDelete() {
       this.$emit('delete', this.listItems)

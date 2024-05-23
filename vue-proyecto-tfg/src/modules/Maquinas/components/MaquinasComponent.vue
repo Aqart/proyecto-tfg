@@ -10,6 +10,7 @@
     </div>
     <TablaComponent
       :data="getMaquinas"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteMaquinasSeleccionadas"
     />
@@ -23,6 +24,15 @@ import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        produccion_m2: 0,
+        porcentaje_desperdicio: 0,
+      }],
+    }
+  },
   setup() {
     const { createMaquina, editMaquina, deleteMaquinas, getMaquina } = useMaquina()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()

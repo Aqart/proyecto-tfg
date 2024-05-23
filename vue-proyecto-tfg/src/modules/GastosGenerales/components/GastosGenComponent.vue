@@ -10,6 +10,7 @@
     </div>
     <TablaComponent
       :data="getGastosGenerales"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteGastosSeleccionados"
     />
@@ -23,6 +24,14 @@ import useGastoGeneral from '@/modules/GastosGenerales/composables/useGastoGener
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        precio: 0,
+      }],
+    }
+  },
   setup() {
     const { createGastoGeneral, editGastoGeneral, deleteGastosGenerales, getGastoGeneral } =
       useGastoGeneral()

@@ -10,6 +10,7 @@
     </div>
     <TablaComponent
       :data="getGastos"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteGastosSeleccionados"
     />
@@ -23,6 +24,15 @@ import useGasto from '@/modules/GastosEnergeticos/composables/useGasto'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        coste_energia: 0,
+        id_maquina: null,
+      }],
+    }
+  },
   setup() {
     const { createGasto, editGasto, deleteGastos, getGasto } = useGasto()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()

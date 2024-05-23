@@ -10,6 +10,7 @@
     </template>
     <TablaComponent
       :data="getTransportes"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteTransportesSeleccionados"
     />
@@ -23,6 +24,15 @@ import useTransporte from '@/modules/Transportes/composables/useTransporte'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        cantidad: 0,
+        precio: 0,
+      }],
+    }
+  },
   setup() {
     const { createTransporte, editTransporte, deleteTransportes, getTransporte } = useTransporte()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
