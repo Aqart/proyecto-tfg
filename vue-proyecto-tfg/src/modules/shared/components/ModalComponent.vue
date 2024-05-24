@@ -31,6 +31,7 @@
           <main>
             <MensajesComponent
               v-if="getTipo !== 'success'"
+              :textClasses="textMessage"
               :message="getMensaje"
               :type="getTipo"
               :mostrarMensaje="getMostrar"
@@ -60,6 +61,10 @@ export default {
     button: {
       type: Boolean,
       default: true
+    },
+    textMessage: {
+      type: String,
+      default: ''
     }
   },
   methods: {

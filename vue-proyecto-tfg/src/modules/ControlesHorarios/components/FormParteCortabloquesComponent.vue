@@ -177,6 +177,7 @@
     </form>
     <ModalComponent
       title="¿Está seguro que quiere firmar el parte?"
+      :textMessage="'text-md'"
       :modalActive="showModal"
       @close="showModal = false"
     >

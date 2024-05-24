@@ -4,7 +4,7 @@
       class="flex flex-col sm:grid sm:grid-cols-2 gap-3 justify-center sm:justify-start items-center sm:items-start"
     >
       <ButtonMenuComponent
-        name="Calcular Costes"
+        name="Calcular costes"
         path="calculadora"
         :icon="['fas', 'calculator']"
         :image="fondo11"
@@ -32,19 +32,19 @@
         :image="fondo"
       />
       <ButtonMenuComponent
-        name="Gastos Energéticos"
+        name="Gastos energéticos"
         path="gastos-energeticos"
         :icon="['fas', 'fa-bolt']"
         :image="fondo5"
       />
       <ButtonMenuComponent
-        name="Gastos Generales"
+        name="Gastos generales"
         path="gastos-generales"
         :icon="['fas', 'fa-euro-sign']"
         :image="fondo10"
       />
       <ButtonMenuComponent
-        name="Materias Primas"
+        name="Materias primas"
         path="materias-primas"
         :icon="['fas', 'fa-gem']"
         :image="fondo7"
