@@ -3,6 +3,12 @@
     <div class="flex flex-col gap-5 w-full">
       <h1 class="text-4xl text-center text-stoneBackground-3 font-bold">Listado de partes</h1>
       <div>
+        <MensajesComponent
+          :textClasses="'text-md'"
+          :message="getMensaje"
+          :type="getTipo"
+          :mostrarMensaje="getMostrar"
+        />
         <div class="flex justify-center items-center">
           <div class="flex flex-col lg:flex-row py-5 gap-3 w-full lg:justify-center items-center">
             <div
@@ -303,6 +309,7 @@ export default {
       return this.getEmpleados.find((empleado) => empleado.numero_trabajador === employeeNumber)
     },
     async changeFilter() {
+      this.actualizarMostrarMensaje(false)
       this.loading = true
       this.cards = []
       let response = await this.getPartesCortabloques
@@ -315,10 +322,22 @@ export default {
 
       // Comprobar si las fechas son válidas
       if (isNaN(fechaInicioDate.getTime()) || isNaN(fechaFinDate.getTime())) {
-        alert('Debes rellenar los campos de fecha')
+        this.loading = false
+        this.actualizarMensaje({tipo: 'warning', mensaje: 'Debes rellenar los campos de fecha'})
+        this.actualizarMostrarMensaje(true)
+        setTimeout(() => {
+          this.actualizarMostrarMensaje(false)
+        }, 5000)
+        //alert('Debes rellenar los campos de fecha')
         return
       } else if (fechaFinDate < fechaInicioDate) {
-        alert('La fecha de inicio no puede ser mayor que la fecha de fin')
+        this.loading = false
+        this.actualizarMensaje({tipo: 'warning', mensaje: 'La fecha de inicio no puede ser mayor que la fecha de fin'})
+        this.actualizarMostrarMensaje(true)
+        setTimeout(() => {
+          this.actualizarMostrarMensaje(false)
+        }, 5000)
+        //alert('La fecha de inicio no puede ser mayor que la fecha de fin')
         return
       }
 
@@ -374,11 +393,13 @@ export default {
       const dia = ('0' + fecha.getDate()).slice(-2)
       return `${año}-${mes}-${dia}`
     },
-    ...mapActions('ListadoPartes', ['fetchPartesCortabloques'])
+    ...mapActions('ListadoPartes', ['fetchPartesCortabloques']),
+    ...mapActions('Shared', ['actualizarMostrarMensaje', 'actualizarMensaje'])
   },
   computed: {
     ...mapGetters('ListadoPartes', ['getPartesCortabloques']),
-    ...mapGetters('Trabajadores', ['getEmpleados'])
+    ...mapGetters('Trabajadores', ['getEmpleados']),
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar']),
   },
   components: {
     ButtonComponent: defineAsyncComponent(() =>
@@ -395,6 +416,9 @@ export default {
     ),
     SelectComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/SelectComponent.vue')
+    ),
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }

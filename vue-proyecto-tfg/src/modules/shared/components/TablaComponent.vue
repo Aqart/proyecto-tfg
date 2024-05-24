@@ -755,6 +755,11 @@ export default {
 
       return result
     }
+  },
+  watch: {
+    selectedCheckboxes(newVal) {
+      this.isAllChecked = newVal.length !== 0
+    }
   }
 }
 </script>

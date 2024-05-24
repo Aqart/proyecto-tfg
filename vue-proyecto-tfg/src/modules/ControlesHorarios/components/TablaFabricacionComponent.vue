@@ -239,6 +239,14 @@ export default {
         } else {
           // Si el item es nuevo y está vacío, lo elimina
           this.items.splice(index, 1)
+          // Elimina el índice del item de selectedCheckboxes
+          const checkboxIndex = this.selectedCheckboxes.indexOf(index)
+          if (checkboxIndex > -1) {
+            this.selectedCheckboxes.splice(checkboxIndex, 1)
+          }
+          if(this.selectedCheckboxes.length === 0) {
+            this.isAllChecked = false
+          }
         }
       }
       // Guarda los elementos en el localStorage cuando se cancela la edición
@@ -260,6 +268,7 @@ export default {
         this.selectedCheckboxes = this.items.map((_, index) => index)
       } else {
         this.selectedCheckboxes = []
+        this.isAllChecked = false
       }
     }
   },
@@ -293,6 +302,9 @@ export default {
       if (isNaN(this.numeroPiezas) || this.numeroPiezas < 0) {
         this.numeroPiezas = ''
       }
+    },
+    selectedCheckboxes(newVal) {
+      this.isAllChecked = newVal.length !== 0
     }
   }
 }
