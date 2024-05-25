@@ -177,7 +177,7 @@
                     : ''
                 "
                 v-if="formattedRoute === 'Máquinas' || formattedRoute === 'Usuarios'"
-                @click="toggleModalOpenInfo(body.id)"
+                @click="toggleModalOpenInfo(body.id, false)"
                 :data-id="body.id"
               >
                 <FontAwesomeIcon :icon="['far', 'eye']" />
@@ -229,11 +229,6 @@
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
-      <InfoMaquinaComponent
-        v-if="modalType === 'infoMaquina'"
-        :data="item"
-        @close="toggleModalClose"
-      />
       <InfoUsuarioComponent
         v-if="modalType === 'infoUsuario'"
         :data="item"
@@ -262,6 +257,7 @@
         :items="selectedItems"
         :itemType="formattedRoute.toLowerCase()"
         :total="data.length"
+        @openModalInfo="toggleModalOpenInfo"
         @delete="deleteData"
         @close="toggleModalClose"
         @deselectItem="deselectCheckbox"
@@ -275,6 +271,13 @@
         @errorForm="handleError"
         @close="toggleModalClose"
       />
+    </ModalComponent>
+    <ModalComponent :title="modalTitle" :modalActive="showModalInfo" @close="toggleModalClose">
+      <InfoMaquinaComponent
+          v-if="modalType === 'infoMaquina'"
+          :data="item"
+          @close="toggleModalClose"
+        />
     </ModalComponent>
   </div>
 </template>
@@ -306,6 +309,8 @@ export default {
       selectedItems: [],
       isAllChecked: false,
       showModal: false,
+      showModalInfo: false,
+      showModalDeleteAfterInfo: false,
       modalType: null,
       itemId: null,
       item: null,
@@ -557,13 +562,12 @@ export default {
       this.getItemById(this.itemId)
       this.showModal = !this.showModal
     },
-    toggleModalOpenInfo(id) {
+    toggleModalOpenInfo(id, showModalDeleteAfterInfo) {
       const formattedRoute =
         this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
       this.cerrarMensaje()
       this.itemId = id
       this.getItemById(this.itemId)
-      console.log(this.item)
       this.modalTitle = `Información de ${this.item.nombre}`
       this.modalType = 'infoMaquina'
       if (formattedRoute == 'usuarios') {
@@ -571,17 +575,37 @@ export default {
         // const nombreEmpleado = empleado.nombre + " " + empleado.apellido1 + " " + empleado.apellido2 + " (" + empleado.numero_trabajador + ")"
         this.modalTitle = `Información del empleado`
         this.modalType = 'infoUsuario'
+        this.showModal = !this.showModal
+      } else {
+        console.log(this.item)
+        this.showModalInfo = true
+        this.showModalDeleteAfterInfo = showModalDeleteAfterInfo
       }
-      this.showModal = !this.showModal
     },
     toggleModalClose() {
       this.cerrarMensaje()
-      this.showModal = !this.showModal
-      this.modalTitle = ''
-      this.modalType = null
-      this.itemId = null
-      this.item = null
-      this.selectedItems = []
+      if(this.showModalInfo){
+        this.showModalInfo = !this.showModalInfo
+        // Comprueba si el modal de eliminación debe abrirse
+        if (this.showModalDeleteAfterInfo) {
+          console.log(this.modalTitle)
+          this.toggleModalDeletedSelected()
+        } else {
+          this.modalTitle = ''
+          this.modalType = null
+          this.itemId = null
+          this.item = null
+          this.selectedItems = []
+        }
+      } else {
+        console.log(this.modalTitle)
+        this.showModal = !this.showModal
+        this.modalTitle = ''
+        this.modalType = null
+        this.itemId = null
+        this.item = null
+        this.selectedItems = []
+      }
     },
     getItemById(id) {
       this.item = this.data.find((item) => item.id === id)
@@ -590,7 +614,7 @@ export default {
       this.cerrarMensaje()
       this.modalTitle = 'Eliminar'
       this.modalType = 'delete'
-      this.showModal = !this.showModal
+      this.showModal = true
       // Método para obtener los elementos a eliminar de selectedCheckboxes de data
       this.selectedItems = this.data.filter((item) => this.selectedCheckboxes.includes(item.id))
     },

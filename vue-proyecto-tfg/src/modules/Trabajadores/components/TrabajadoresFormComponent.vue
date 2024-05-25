@@ -36,11 +36,16 @@
       @changeSelect="selectMaquina"
     />
     <div class="flex flex-row items-center gap-4 mt-4">
-      <ButtonComponent :text="textoBoton" bgColor="bg-secondary" class="hover:bg-opacity-80" />
+      <ButtonComponent :text="textoBoton" 
+        bgColor="bg-secondary" 
+        class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4" 
+        :icon="['fas', 'floppy-disk']" 
+      />
       <ButtonComponent
+        :icon="['fas', 'circle-xmark']"
         :text="'Cancelar'"
         bgColor="bg-primary"
-        class="hover:ring-2 hover:ring-primary hover:bg-opacity-80"
+        class="hover:ring-2 hover:ring-primary hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4"
         @click="toggleModal"
       />
     </div>
