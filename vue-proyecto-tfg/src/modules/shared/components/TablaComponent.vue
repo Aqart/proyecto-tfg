@@ -758,7 +758,7 @@ export default {
   },
   watch: {
     selectedCheckboxes(newVal) {
-      this.isAllChecked = newVal.length !== 0
+      this.isAllChecked = newVal.length === this.searchFilteredData.length
     }
   }
 }

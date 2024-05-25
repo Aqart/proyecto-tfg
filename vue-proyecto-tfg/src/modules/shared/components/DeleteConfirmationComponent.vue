@@ -22,14 +22,8 @@
             >¿Desea eliminar todos los registros de {{ itemType }}?</span
           >
         </div>
-        <div v-if="checkTrabajadores()">
-          <span v-if="listItems.length === 1">
-            <span class="font-semibold text-md text-red-500">Advertencia:</span>
-            <span class="font-regular text-md"
-              >El usuario a eliminar tiene un coste y/o máquina asociados</span
-            >
-          </span>
-          <span v-else>
+        <div v-if="hasMaquinaCoste">
+          <span>
             <span class="font-semibold text-md text-red-500">Advertencia:</span>
             <span class="font-regular text-md"
               >Algunos usuarios a eliminar tienen un coste y/o máquina asociados</span
@@ -51,7 +45,7 @@
               >Va a eliminar los siguientes registros de {{ itemType }}:</span
             >
           </div>
-          <div v-if="checkTrabajadores()">
+          <div v-if="hasMaquinaCoste">
             <span v-if="listItems.length === 1">
               <span class="font-semibold text-md text-red-500">Advertencia:</span>
               <span class="font-regular text-md"
@@ -61,7 +55,7 @@
             <span v-else>
               <span class="font-semibold text-md text-red-500">Advertencia:</span>
               <span class="font-regular text-md"
-                >Algunos usuarios a eliminar tienen un coste y/o máquina asociados</span
+                >Los usuarios en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen un coste y/o máquina asociados</span
               >
             </span>
           </div>
@@ -77,6 +71,8 @@
             class="flex justify-between items-center w-full bg-stoneBackground-4 px-6 rounded-md text-md font-semibold text-stoneBackgroundContrast-1
             min-h-16"
             :class="{
+              'bg-stoneBackground-4': !item.hasMaquinaCoste,
+              'bg-stoneBackgroundContrast-6': item.hasMaquinaCoste,
               'col-span-full':
                 (item.nombre + ' ' + (item.email || '')).length > 30 ||
                 (item.email && item.email.length > 30) ||
@@ -151,7 +147,8 @@ export default {
   },
   data() {
     return {
-      listItems: []
+      listItems: [],
+      hasMaquinaCoste: false,
     }
   },
   computed: {
@@ -171,7 +168,15 @@ export default {
     },
     checkTrabajadores(){
       const trabajadores = this.getTrabajadores
-      return this.listItems.some(item => trabajadores.some(trabajador => trabajador.numero_trabajador === item.numero_trabajador));
+      const newListItems = this.listItems.map(item => {
+        const trabajador = trabajadores.find(trabajador => trabajador.numero_trabajador === item.numero_trabajador)
+        return {
+          ...item,
+          hasMaquinaCoste: trabajador ? true : false
+        }
+      })
+      this.listItems = newListItems
+      return newListItems.some(item => item.hasMaquinaCoste)
     },
     confirmDelete() {
       this.$emit('delete', this.listItems)
@@ -185,6 +190,11 @@ export default {
     deselectItem(id) {
       this.listItems = this.listItems.filter((item) => item.id !== id)
       this.$emit('deselectItem', id)
+    }
+  },
+  mounted() {
+    if(this.itemType === 'usuarios') {
+      this.hasMaquinaCoste = this.checkTrabajadores()
     }
   },
   watch: {
