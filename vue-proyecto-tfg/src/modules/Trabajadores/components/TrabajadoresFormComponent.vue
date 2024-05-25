@@ -206,6 +206,7 @@ export default {
         this.$emit('send', dataToSend)
         this.form = {}
         this.toggleModal()
+        window.scrollTo(0, 0)
       }
     }
   }

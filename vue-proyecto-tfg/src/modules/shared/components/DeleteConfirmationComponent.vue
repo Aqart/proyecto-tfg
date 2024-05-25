@@ -149,6 +149,7 @@ export default {
     return {
       listItems: [],
       hasMaquinaCoste: false,
+      hasRelMaquina: false
     }
   },
   computed: {
