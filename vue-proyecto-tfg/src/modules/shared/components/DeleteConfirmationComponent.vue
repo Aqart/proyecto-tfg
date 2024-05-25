@@ -19,15 +19,18 @@
         <span class="sr-only">Info</span>
         <div>
           <span class="font-regular text-lg"
-            >¿Desea eliminar todos los registros de {{ itemType }}?</span
-          >
+            >¿Desea eliminar todos los registros de {{ itemType }}?
+          </span>
         </div>
         <div v-if="hasMaquinaCoste">
           <span>
             <span class="font-semibold text-md text-red-500">Advertencia:</span>
-            <span class="font-regular text-md"
-              >Algunos usuarios a eliminar tienen un coste y/o máquina asociados</span
-            >
+            <span v-if="itemType === 'usuarios'" class="font-regular text-md"
+              >Algunos usuarios a eliminar tienen un coste y/o máquina asociados
+            </span>
+            <span v-else-if="itemType === 'máquinas'" class="font-regular text-md"
+              >Algunas máquinas a eliminar tienen consumibles/gastos energéticos/trabajadores asociados
+            </span>
           </span>
         </div>
       </div>
@@ -48,15 +51,24 @@
           <div v-if="hasMaquinaCoste">
             <span v-if="listItems.length === 1">
               <span class="font-semibold text-md text-red-500">Advertencia:</span>
-              <span class="font-regular text-md"
+              <span v-if="itemType === 'usuarios'" class="font-regular text-md"
                 >El usuario a eliminar tiene un coste y/o máquina asociados</span
               >
+              <span v-else-if="itemType === 'máquinas'" class="font-regular text-md"
+                >La máquina a eliminar tiene consumibles/gastos energéticos/trabajadores asociados
+              </span>
             </span>
             <span v-else>
               <span class="font-semibold text-md text-red-500">Advertencia:</span>
-              <span class="font-regular text-md"
-                >Los usuarios en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen un coste y/o máquina asociados</span
-              >
+              <span v-if="itemType === 'usuarios'" class="font-regular text-md"
+                >Los usuarios en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen un coste y/o máquina asociados
+              </span>
+              <span v-else-if="itemType === 'máquinas'" class="font-regular text-md"
+                >Las máquinas en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen consumibles/gastos energéticos/trabajadores asociados
+                <span>
+                  * Pinche en la máquina para más información
+                </span>
+              </span>
             </span>
           </div>
         </div>
@@ -73,13 +85,11 @@
             :class="{
               'bg-stoneBackground-4': !item.hasMaquinaCoste,
               'bg-stoneBackgroundContrast-6': item.hasMaquinaCoste,
-              'col-span-full':
-                (item.nombre + ' ' + (item.email || '')).length > 30 ||
-                (item.email && item.email.length > 30) ||
-                listItems.length === 1
+              'cursor-pointer': item.hasMaquinaCoste && itemType == 'máquinas'
             }"
+            @click="(item.hasMaquinaCoste && itemType === 'máquinas') ? openModalInfo(item) : null"
           >
-            <div class="">
+            <div>
               <template v-for="(el, index) in item">
                 <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
                   el
@@ -149,12 +159,13 @@ export default {
     return {
       listItems: [],
       hasMaquinaCoste: false,
-      hasRelMaquina: false
     }
   },
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
     ...mapGetters('Trabajadores', ['getTrabajadores']),
+    ...mapGetters('Consumible', ['getConsumibles']),
+    ...mapGetters('GastosEnergeticos', ['getGastos']),
   },
   components: {
     ButtonComponent: defineAsyncComponent(
@@ -162,6 +173,10 @@ export default {
     )
   },
   methods: {
+    openModalInfo(item){
+      console.log('openModalInfo', item.id)
+      this.$emit('openModalInfo', item.id, true)
+    },
     getNombreMaquina(id){
       const maquinas = this.getMaquinas
       const maquina = maquinas.find(maquina => maquina.id === id)
@@ -179,6 +194,22 @@ export default {
       this.listItems = newListItems
       return newListItems.some(item => item.hasMaquinaCoste)
     },
+    checkRelMaquinas(){
+      const consumibles = this.getConsumibles
+      const gastos = this.getGastos
+      const trabajadores = this.getTrabajadores
+      const newListItems = this.listItems.map(item => {
+        const consumible = consumibles.find(consumible => consumible.id_maquina === item.id)
+        const gasto = gastos.find(gasto => gasto.id_maquina === item.id)
+        const trabajador = trabajadores.find(trabajador => trabajador.id_maquina === item.id)
+        return {
+          ...item,
+          hasMaquinaCoste: consumible || gasto || trabajador ? true : false
+        }
+      })
+      this.listItems = newListItems
+      return newListItems.some(item => item.hasMaquinaCoste)
+    },
     confirmDelete() {
       this.$emit('delete', this.listItems)
     },
@@ -190,12 +221,14 @@ export default {
     },
     deselectItem(id) {
       this.listItems = this.listItems.filter((item) => item.id !== id)
+      if(!this.listItems.some(item => item.hasMaquinaCoste))
+        this.hasMaquinaCoste = false
       this.$emit('deselectItem', id)
     }
   },
   mounted() {
-    if(this.itemType === 'usuarios') {
-      this.hasMaquinaCoste = this.checkTrabajadores()
+    if(this.itemType === 'usuarios' || this.itemType === 'máquinas') {
+      this.hasMaquinaCoste = this.checkTrabajadores() || this.checkRelMaquinas()
     }
   },
   watch: {

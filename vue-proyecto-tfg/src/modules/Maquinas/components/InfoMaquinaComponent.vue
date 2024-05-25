@@ -191,17 +191,26 @@ export default {
       this.consumiblesMaquina = response.filter(
         (consumible) => consumible.id_maquina === this.data.id
       )
+      if(this.consumiblesMaquina.length > 0){
+        this.isOpenConsumibles = true
+      }
     },
     async obtenerTrabajadores() {
       const response = await this.getTrabajadores
       this.trabajadoresMaquina = response.filter(
         (trabajador) => trabajador.id_maquina === this.data.id
       )
+      if(this.trabajadoresMaquina.length > 0){
+        this.isOpenTrabajadores = true
+      }
       console.log(this.trabajadoresMaquina)
     },
     async obtenerGastos() {
       const response = await this.getGastos
       this.gastosMaquina = response.filter((gasto) => gasto.id_maquina === this.data.id)
+      if(this.gastosMaquina.length > 0){
+        this.isOpenGastos = true
+      }
     }
   },
   mounted() {
