@@ -6,7 +6,7 @@
 
     <div
       v-else-if="listItems.length === total"
-      class="sm:w-90 mx-auto flex items-center justify-end mb-2 relative"
+      class="sm:w-90 mx-auto flex flex-col items-end mb-2 relative"
       role="alert"
     >
       <FontAwesomeIcon
@@ -22,54 +22,77 @@
             >¿Desea eliminar todos los registros de {{ itemType }}?
           </span>
         </div>
-        <div v-if="hasMaquinaCoste">
-          <span>
-            <span class="font-semibold text-md text-red-500">Advertencia:</span>
-            <span v-if="itemType === 'usuarios'" class="font-regular text-md"
-              >Algunos usuarios a eliminar tienen un coste y/o máquina asociados
-            </span>
-            <span v-else-if="itemType === 'máquinas'" class="font-regular text-md"
-              >Algunas máquinas a eliminar tienen consumibles/gastos energéticos/trabajadores asociados
-            </span>
-          </span>
+      </div>
+      <div v-if="hasMaquinaCoste" class="w-full p-4 mt-12 rounded-md bg-red-200 bg-opacity-30 text-center">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <FontAwesomeIcon
+              :icon="['fas', 'exclamation-circle']"
+              class="h-7 w-7 text-red-400"
+            />
+          </div>
+          <div class="ml-2">
+            <h3 class="font-semibold text-xl text-red-400">Advertencia:</h3>
+            <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
+              <p v-if="itemType === 'usuarios'">
+                Algunos usuarios a eliminar tienen un coste y/o máquina asociados
+              </p>
+              <p v-else-if="itemType === 'máquinas'">
+                Algunas máquinas a eliminar tienen consumibles/gastos energéticos/trabajadores asociados
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div v-else class="w-full sm:w-90 mx-auto items-center" role="alert">
-      <div class="flex items-center pb-11">
-        <FontAwesomeIcon
-          :icon="['fas', 'triangle-exclamation']"
-          class="mr-3 text-2xl hidden sm:inline-block text-stoneBackground-3"
-        />
-        <div class="rounded-lg bg-stoneBackground-2 text-stoneBackground-3">
-          <span class="sr-only">Info</span>
-          <div>
-            <span class="font-regular text-md"
-              >Va a eliminar los siguientes registros de {{ itemType }}:</span
-            >
-          </div>
-          <div v-if="hasMaquinaCoste">
-            <span v-if="listItems.length === 1">
-              <span class="font-semibold text-md text-red-500">Advertencia:</span>
-              <span v-if="itemType === 'usuarios'" class="font-regular text-md"
-                >El usuario a eliminar tiene un coste y/o máquina asociados</span
+      <div class="flex flex-col items-center pb-11">
+        <div class="flex flex-row">
+          <FontAwesomeIcon
+            :icon="['fas', 'triangle-exclamation']"
+            class="mr-3 text-2xl hidden sm:inline-block text-stoneBackground-3"
+          />
+          <div class="rounded-lg bg-stoneBackground-2 text-stoneBackground-3">
+            <span class="sr-only">Info</span>
+            <div>
+              <span class="font-regular text-md"
+                >Va a eliminar los siguientes registros de {{ itemType }}:</span
               >
-              <span v-else-if="itemType === 'máquinas'" class="font-regular text-md"
-                >La máquina a eliminar tiene consumibles/gastos energéticos/trabajadores asociados
+            </div>
+          </div>
+        </div>
+        <div v-if="hasMaquinaCoste" class="w-full p-4 mt-12 rounded-md bg-red-200 bg-opacity-30 text-center">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <FontAwesomeIcon
+                :icon="['fas', 'exclamation-circle']"
+                class="h-7 w-7 text-red-400"
+              />
+            </div>
+            <div class="ml-2">
+              <span v-if="listItems.length === 1">
+                <h3 class="font-semibold text-xl text-red-400">Advertencia:</h3>
+                <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
+                  <p v-if="itemType === 'usuarios'">
+                    El usuario a eliminar tiene un coste y/o máquina asociados
+                  </p>
+                  <p v-else-if="itemType === 'máquinas'">
+                    La máquina a eliminar tiene consumibles/gastos energéticos/trabajadores asociados
+                  </p>
+                </div>
               </span>
-            </span>
-            <span v-else>
-              <span class="font-semibold text-md text-red-500">Advertencia:</span>
-              <span v-if="itemType === 'usuarios'" class="font-regular text-md"
-                >Los usuarios en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen un coste y/o máquina asociados
+              <span v-else>
+                <h3 class="font-semibold text-xl text-red-400">Advertencia:</h3>
+                <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
+                  <p v-if="itemType === 'usuarios'">
+                    Los usuarios en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen un coste y/o máquina asociados
+                  </p>
+                  <p v-else-if="itemType === 'máquinas'">
+                    Las máquinas en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen consumibles/gastos energéticos/trabajadores asociados
+                  </p>
+                </div>
               </span>
-              <span v-else-if="itemType === 'máquinas'" class="font-regular text-md"
-                >Las máquinas en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen consumibles/gastos energéticos/trabajadores asociados
-                <span>
-                  * Pinche en la máquina para más información
-                </span>
-              </span>
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -110,7 +133,7 @@
               text="X"
               bgColor="bg-transparent"
               otherClasses="h-6 w-6 rounded-md text-stoneBackgroundContrast-2 hover:scale-105 ml-2"
-              @click="deselectItem(item.id)"
+              @click.stop="deselectItem(item.id)"
             />
           </li>
         </ul>
