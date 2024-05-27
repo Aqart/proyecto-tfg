@@ -111,27 +111,14 @@ export default {
     },
     preventNonNumericInput(event) {
       // También se puede hacer con regex
-      if (
-        event.key === 'Backspace' ||
-        event.key === 'Delete' ||
-        event.key === 'ArrowUp' ||
-        event.key === 'ArrowDown' ||
-        event.key === 'Tab' ||
-        event.key === 'Shift' ||
-        event.key === 'CapsLock' ||
-        event.key === '.' ||
-        event.key === ',' ||
-        event.key === 'ArrowRight' ||
-        event.key === 'ArrowLeft'
-      ) {
-        this.errorMsg = ''
-        return
-      }
-      if (event.key < '0' || event.key > '9') {
-        this.errorMsg = 'Solo se permiten números'
-        event.preventDefault()
+      const regex = /^[0-9]*[.,]?[0-9]*$/;
+      const controlKeys = ['Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
+
+      if (controlKeys.includes(event.key) || regex.test(event.key)) {
+        this.errorMsg = '';
       } else {
-        this.errorMsg = ''
+        this.errorMsg = 'Solo se permiten números y decimales';
+        event.preventDefault();
       }
     },
     handleError(e) {
@@ -169,6 +156,20 @@ export default {
       // Comprueba si algún campo del formulario está vacío
       const hasEmptyFields = requiredFields.some((field) => isEmpty(this.form[field]))
 
+      // Permitir solo números, puntos y comas
+      // const regex = /^[0-9]+([.,][0-9]+)?$/;
+      // console.log(this.form.precio)
+      // const isValidInput = regex.test(this.form.precio);
+
+      // if (!isValidInput) {
+      //   this.error = {
+      //     status: true,
+      //     type: 'warning',
+      //     message: 'La entrada contiene caracteres no válidos. Solo se permiten números, puntos y comas.'
+      //   }
+      //   this.$emit('errorForm', this.error)
+      //   return
+      // }
 
       // Comprueba que el num_trabajador no tenga asociada ya ese id_maquina
       const trabajadores = this.getTrabajadores
@@ -181,7 +182,7 @@ export default {
         this.error = {
           status: true,
           type: 'warning',
-          message: 'No se pueden enviar campos vacíos'
+          message: 'No se pueden enviar campos vacíos o erróneos'
         }
         this.$emit('errorForm', this.error)
       } else if (this.tipo === 'Editar trabajador' && this.objectsAreEqual(this.form, this.data)) {
