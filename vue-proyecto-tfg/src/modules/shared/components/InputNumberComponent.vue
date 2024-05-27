@@ -60,30 +60,20 @@ export default {
   methods: {
     preventNonNumericInput(event) {
       // También se puede hacer con regex
-      if (
-        event.key === 'Backspace' ||
-        event.key === 'Delete' ||
-        event.key === 'ArrowUp' ||
-        event.key === 'ArrowDown' ||
-        event.key === 'Tab' ||
-        event.key === 'Shift' ||
-        event.key === 'CapsLock' ||
-        event.key === '.' ||
-        event.key === ',' ||
-        event.key === 'ArrowRight' ||
-        event.key === 'ArrowLeft'
-      ) {
-        this.errorMsg = ''
-        return
-      }
-      if (event.key < '0' || event.key > '9') {
-        this.errorMsg = 'Solo se permiten números'
-        event.preventDefault()
+      const regex = /^[0-9]*[.,]?[0-9]*$/;
+      const controlKeys = ['Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
+
+      if (controlKeys.includes(event.key) || regex.test(event.key)) {
+        this.errorMsg = '';
       } else {
-        this.errorMsg = ''
+        this.errorMsg = 'Solo se permiten números y decimales';
+        event.preventDefault();
       }
     },
     updateValue(key, event) {
+      // Permitir solo números, puntos y comas
+      // const regex = /[^0-9.,]/g;
+      // this.newInputValue = event.target.value.replace(regex, '');
       this.newInputValue = event.target.value
       this.$emit('changeNumber', { [key]: Number(this.newInputValue) })
     },
