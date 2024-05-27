@@ -91,16 +91,26 @@
         >
           Nº de trabajador
         </label>
-        <input
-          v-model="form.numero_trabajador"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
-          type="number"
-          name="numWorker"
-          id="numWorker"
-          min="1"
-          placeholder="Número de trabajador"
-          @keydown="preventNonNumericInput"
-        />
+        <div class="relative">
+          <input
+            :value="form.numero_trabajador"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary focus:ring-1 focus:outline-none block w-full px-4 py-3 mb-4 placeholder:first-letter:uppercase shadow-sm"
+            :class="{ 
+              'border-red-500 focus:border-red-500 focus:ring-red-500': noValidInput 
+            }"
+            type="number"
+            name="numWorker"
+            id="numWorker"
+            min="1"
+            placeholder="Número de trabajador"
+            @input="updateValue"
+            @keydown="preventNonNumericInput"
+          />
+          <FontAwesomeIcon :icon="['fas', 'fa-exclamation-circle']" 
+            class="absolute top-1/2 right-14 transform -translate-y-1/2 h-5 w-5 text-red-500"
+            v-if="noValidInput"
+          />
+        </div>
         <span class="block mt-0 mb-2 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
           {{ errorMsg }}
         </span>
@@ -172,6 +182,7 @@ export default {
       nombre: '',
       apellido1: '',
       apellido2: '',
+      noValidInput: false
     }
   },
   components: {
@@ -211,10 +222,18 @@ export default {
     }
   },
   methods: {
+    updateValue(event) {
+      this.form.numero_trabajador = event.target.value
+      if(this.form.numero_trabajador === '') {
+        this.noValidInput = true
+      } else {
+        this.noValidInput = false
+      }
+    },
     preventNonNumericInput(event) {
       // También se puede hacer con regex
       const regex = /^[0-9]*[.,]?[0-9]*$/;
-      const controlKeys = ['Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
+      const controlKeys = ['Suprimir', 'Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
 
       if (controlKeys.includes(event.key) || regex.test(event.key)) {
         this.errorMsg = '';
@@ -271,8 +290,8 @@ export default {
 
       // Permitir solo números, puntos y comas
       // const regex = /^[0-9]+([.,][0-9]+)?$/;
-      // console.log(this.form.precio)
-      // const isValidInput = regex.test(this.form.precio);
+      // console.log(this.form.numero_trabajador)
+      // const isValidInput = regex.test(this.form.numero_trabajador);
 
       // if (!isValidInput) {
       //   this.error = {
