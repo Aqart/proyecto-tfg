@@ -14,16 +14,26 @@
     >
       Coste trabajador
     </label>
-    <input
-      v-model="form.precio"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-      type="number"
-      name="numWorker"
-      id="numWorker"
-      min="1"
-      placeholder="Coste del trabajador"
-      @keydown="preventNonNumericInput"
-    />
+    <div class="relative">
+      <input
+        :value="form.precio"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+        :class="{ 
+          'border-red-400 focus:border-red-500 focus:ring-red-500': noValidInput 
+        }"
+        type="number"
+        name="numWorker"
+        id="numWorker"
+        min="1"
+        placeholder="Coste del trabajador"
+        @input="updateValue"
+        @keydown="preventNonNumericInput"
+      />
+      <FontAwesomeIcon :icon="['fas', 'fa-exclamation-circle']" 
+        class="absolute top-1/2 right-14 transform -translate-y-1/2 h-5 w-5 text-red-500"
+        v-if="noValidInput"
+      />
+    </div>
     <span class="block mb-4 text-xs font-light text-red-400" :style="{ fontSize: '12px' }">
       {{ errorMsg }}
     </span>
@@ -75,7 +85,8 @@ export default {
         type: '',
         message: ''
       },
-      errorMsg: ''
+      errorMsg: '',
+      noValidInput: false
     }
   },
   components: {
@@ -100,6 +111,10 @@ export default {
     }
   },
   methods: {
+    updateValue(event) {
+      this.form.precio = event.target.value
+      this.inputNumberErroneo()
+    },
     selectFormattedEmpleados(){
       const empleados = this.getEmpleados
       return empleados.map(empleado => {
@@ -109,10 +124,18 @@ export default {
         }
       })
     },
+    inputNumberErroneo() {
+      if(this.form.precio === '') {
+        this.noValidInput = true
+      } else {
+        this.noValidInput = false
+      }
+    },
     preventNonNumericInput(event) {
+      console.log(event.target.value)
       // También se puede hacer con regex
       const regex = /^[0-9]*[.,]?[0-9]*$/;
-      const controlKeys = ['Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
+      const controlKeys = ['Suprimir', 'Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
 
       if (controlKeys.includes(event.key) || regex.test(event.key)) {
         this.errorMsg = '';
