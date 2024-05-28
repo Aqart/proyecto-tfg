@@ -36,6 +36,7 @@ export default {
   setup() {
     const { createConsumible, editConsumible, deleteConsumibles, getConsumible } = useConsumible()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
@@ -66,6 +67,7 @@ export default {
 
     const deleteConsumiblesSeleccionados = async (arrayData) => {
       try {
+
         const results = await deleteConsumibles(arrayData)
         const failedResults = results.filter((result) => result.ok === false)
         if (failedResults.length > 0) {
@@ -93,6 +95,7 @@ export default {
             `Los siguientes consumibles se han eliminado: ${nombresSuccess}`
           )
           actualizarMostrarMensaje(true)
+          
         }
       } catch (error) {
         actualizarMensaje('error', 'Error eliminando los datos')
@@ -107,7 +110,7 @@ export default {
   },
   computed: {
     ...mapGetters('Consumible', ['getConsumibles']),
-    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar']),
   },
   components: {
     MensajesComponent: defineAsyncComponent(

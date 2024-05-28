@@ -3,12 +3,10 @@ export const setGastos = (state, data) => {
 }
 
 export const setGasto = (state, data) => {
-  state.gastos = state.gastos.map((gasto) => {
-    if (gasto.id == data.id) {
-      return { ...gasto, ...data.gasto }
-    }
-    return gasto
-  })
+  const index = state.gastos.findIndex(gasto => gasto.id === data.id);
+  if (index !== -1) {
+    state.gastos[index] = { ...state.gastos[index], ...data.gasto };
+  }
 }
 
 export const setResponse = (state, data) => {

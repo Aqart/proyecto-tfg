@@ -36,6 +36,7 @@ export default {
   setup() {
     const { createGasto, editGasto, deleteGastos, getGasto } = useGasto()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+
     const persistData = async (data, type) => {
       try {
         if (type === 'Añadir nuevo') {
@@ -98,7 +99,6 @@ export default {
         actualizarMostrarMensaje(true)
       }
     }
-
     return {
       persistData,
       deleteGastosSeleccionados
