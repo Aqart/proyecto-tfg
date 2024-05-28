@@ -28,22 +28,27 @@
         </li>
         <li class="flex flex-col gap-1">
           <h1 class="font-semibold text-md mt-3 mb-1 text-stoneBackgroundContrast-3">
-            Consumibles:
+            <FontAwesomeIcon :icon="['fas', 'fa-droplet']" class="mr-2" /> Consumibles:
           </h1>
           <div v-if="getConsumiblesMaquina(maquina.id).length">
-            <ul v-for="consumible in getConsumiblesMaquina(maquina.id)" :key="consumible.id">
+            <ul
+              v-for="consumible in getConsumiblesMaquina(maquina.id)"
+              :key="consumible.id"
+              class="ml-5"
+            >
               <li>> {{ consumible.nombre }} - {{ consumible.precio }}€</li>
             </ul>
           </div>
           <p v-else class="text-gray-400">No conlleva gasto</p>
 
           <h1 class="font-semibold text-md mt-3 mb-1 text-stoneBackgroundContrast-3">
-            Gastos Energéticos:
+            <FontAwesomeIcon :icon="['fas', 'fa-bolt']" class="mr-2" />Gastos energéticos:
           </h1>
           <div v-if="getGastosEnergeticos(maquina.id).length">
             <ul
               v-for="gastoEnergetico in getGastosEnergeticos(maquina.id)"
               :key="gastoEnergetico.id"
+              class="ml-5"
             >
               <li>> {{ gastoEnergetico.nombre }} - {{ gastoEnergetico.coste_energia }}€</li>
             </ul>
@@ -51,10 +56,10 @@
           <p v-else class="text-gray-400">No conlleva gasto</p>
 
           <h1 class="font-semibold text-md mt-3 mb-1 text-stoneBackgroundContrast-3">
-            Trabajadores:
+            <FontAwesomeIcon :icon="['fas', 'fa-person-digging']" class="mr-2" />Trabajadores:
           </h1>
           <div v-if="getTrabajadores(maquina.id).length">
-            <ul v-for="trabajador in getTrabajadores(maquina.id)" :key="trabajador.id">
+            <ul v-for="trabajador in getTrabajadores(maquina.id)" :key="trabajador.id" class="ml-5">
               <li>> {{ trabajador.nombre_completo }} - {{ trabajador.precio }}€</li>
             </ul>
           </div>
@@ -65,8 +70,20 @@
     <div class="flex flex-col bg-stoneBackground-1 bg-opacity-10 p-4 rounded-lg">
       <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between">
         <h3 class="text-center text-2xl mb-2 font-bold text-stoneBackground-3">
-          <span class="text-secondary font-semibold text-lg mr-2">Gastos generales: </span
-          >{{ gastoGeneral.toFixed(2) }}€
+          <span class="text-secondary font-semibold text-lg mr-2"
+            >Gastos generales
+            <div class="tooltip">
+              <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" class="text-warning" />
+              <span class="tooltiptext text-xs p-2"
+                >" Este valor representa la parte proporcional del total de los gastos, dividido
+                entre el número de máquinas y será utilizado para calcular el coste de fabricación.
+                "</span
+              >
+            </div>
+            :
+          </span>
+
+          {{ gastoGeneral.toFixed(2) / maquinas.length }}€
         </h3>
         <h3 class="text-center text-2xl mb-2 font-bold text-stoneBackground-3">
           <span class="text-secondary font-semibold text-lg mr-2">Coste materia prima: </span
@@ -78,64 +95,113 @@
         </h3>
       </div>
       <h1 class="text-center text-4xl font-bold text-stoneBackgroundContrast-2 mt-4">
-        <span class="font-semibold text-lg mr-2 text-stoneBackground-3">TOTAL: </span
-        >{{ precio.toFixed(2) }}€
+        <span class="font-semibold text-2xl mr-2 text-stoneBackground-3"
+          >Coste de fabricación: </span
+        >{{ precio.toFixed(2) }}€<span class="text-stoneBackground-3 text-lg"> /pieza.</span>
       </h1>
     </div>
   </div>
 </template>
 
 <script>
+/**
+ * Component for displaying a summary of calculations.
+ */
 export default {
   props: {
+    /**
+     * The price value.
+     */
     precio: {
       type: Number,
       required: true
     },
+    /**
+     * The array of machines.
+     */
     maquinas: {
       type: Array,
       required: true
     },
+    /**
+     * The array of consumables.
+     */
     consumibles: {
       type: Array,
       required: true
     },
+    /**
+     * The array of energy costs.
+     */
     gastosEnergeticos: {
       type: Array,
       required: true
     },
+    /**
+     * The array of workers.
+     */
     trabajadores: {
       type: Array,
       required: true
     },
+    /**
+     * The general expense value.
+     */
     gastoGeneral: {
       type: Number,
       required: true
     },
+    /**
+     * The material cost value.
+     */
     costeMaterial: {
       type: Number,
       required: true
     },
+    /**
+     * The waste cost value.
+     */
     costeDesperdicio: {
       type: Number,
       required: true
     },
+    /**
+     * The termination type.
+     */
     terminacion: {
       type: String,
       default: 'solo cortado'
     },
+    /**
+     * The packaging cost value.
+     */
     embalado: {
       type: Number,
       default: 0
     }
   },
   methods: {
+    /**
+     * Get the consumables for a specific machine.
+     * @param {number} maquina - The machine ID.
+     * @returns {Array} - The array of consumables for the machine.
+     */
     getConsumiblesMaquina(maquina) {
       return this.consumibles.filter((consumible) => consumible.id_maquina === maquina)
     },
+    /**
+     * Get the energy costs for a specific machine.
+     * @param {number} maquina - The machine ID.
+     * @returns {Array} - The array of energy costs for the machine.
+     */
     getGastosEnergeticos(maquina) {
       return this.gastosEnergeticos.filter((gasto) => gasto.id_maquina === maquina)
     },
+    /**
+     * Get the workers for a specific machine.
+     * @param {number} maquina - The machine ID.
+     * @returns {Array} - The array of workers for the machine.
+     */
     getTrabajadores(maquina) {
       return this.trabajadores.filter((trabajador) => trabajador.id_maquina === maquina)
     }
@@ -143,4 +209,30 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 420px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the icon */
+  left: 50%;
+  margin-left: -210px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+</style>

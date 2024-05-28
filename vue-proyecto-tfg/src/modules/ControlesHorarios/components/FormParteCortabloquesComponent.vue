@@ -274,6 +274,15 @@ export default {
     )
   },
   created() {
+    if (localStorage.getItem('fechaInicioActual')) {
+      //Si hay una diferencia de más de 1 día entre la fecha actual y la fecha de inicio, se limpian los campos
+      const fechaActual = new Date()
+      const fechaInicio = new Date(localStorage.getItem('fechaInicioActual'))
+      const diferencia = fechaActual - fechaInicio
+      if (diferencia > 86400000) {
+        this.handleClean()
+      }
+    }
     this.toggleBisActive = localStorage.getItem('toggleBisActive') === 'true' || false
     this.toggleRetalActive = localStorage.getItem('toggleRetalActive') === 'true' || false
     this.fechaInicioActual = localStorage.getItem('fechaInicioActual') || this.getFechaActual()
@@ -288,7 +297,7 @@ export default {
   },
   methods: {
     ...mapActions('Shared', ['actualizarMensaje', 'actualizarMostrarMensaje']),
-    handleClick(){
+    handleClick() {
       this.showModal = true
       this.actualizarMostrarMensaje(false)
     },
@@ -321,7 +330,6 @@ export default {
       if (horaFin > this.horaInicioActual) {
         this.horaFinActual = horaFin
       } else {
-        
         alert('La hora de finalización debe ser mayor que la hora de inicio')
       }
     },
@@ -352,9 +360,11 @@ export default {
       }
 
       if (this.produccionMaquina.length === 0) {
-        this.actualizarMensaje({tipo: 'warning', mensaje: 'Debes añadir al menos un registro de producción'})
+        this.actualizarMensaje({
+          tipo: 'warning',
+          mensaje: 'Debes añadir al menos un registro de producción'
+        })
         this.actualizarMostrarMensaje(true)
-        // alert('Debes añadir al menos un registro de producción')
         return
       }
 
@@ -385,7 +395,10 @@ export default {
         .then(() => {
           this.handleClean()
           this.showModal = false
-          this.actualizarMensaje({tipo: 'success', mensaje: 'Parte de cortabloques firmado correctamente'})
+          this.actualizarMensaje({
+            tipo: 'success',
+            mensaje: 'Parte de cortabloques firmado correctamente'
+          })
           this.actualizarMostrarMensaje(true)
           this.$emit('closeCortabloques', false)
         })
@@ -440,6 +453,9 @@ export default {
     },
     observaciones() {
       localStorage.setItem('observaciones', this.observaciones)
+    },
+    employeeNumber() {
+      localStorage.setItem('employeeNumber', this.employeeNumber)
     }
   }
 }
