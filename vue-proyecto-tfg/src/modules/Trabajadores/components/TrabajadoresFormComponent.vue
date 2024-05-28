@@ -17,9 +17,10 @@
     <div class="relative">
       <input
         :value="form.precio"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
+        class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
         :class="{ 
-          'border-red-400 focus:border-red-500 focus:ring-red-500': noValidInput 
+          'border-gray-300 focus:ring-secondary focus:ring-1 focus:border-secondary': !noValidInput, 
+          'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500': noValidInput 
         }"
         type="number"
         name="numWorker"
