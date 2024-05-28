@@ -2,17 +2,25 @@
   <div
     class="flex flex-col justify-center gap-6 p-6 bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg shadow-md"
   >
-    <h1 class="text-3xl font-bold text-stoneBackground-3">
-      Resumen de gasto:
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
+      <h1 class="text-3xl font-bold text-stoneBackground-3">
+        Resumen de gasto:
+        <span
+          >{{
+            $route.path.split('/').pop().charAt(0).toUpperCase() +
+            $route.path.split('/').pop().slice(1)
+          }}
+          ({{ terminacion.charAt(0).toUpperCase() + this.terminacion.slice(1)
+          }}{{ embalado > 0 ? ', Embalado' : ', No embalado' }})</span
+        >
+      </h1>
       <span
-        >{{
-          $route.path.split('/').pop().charAt(0).toUpperCase() +
-          $route.path.split('/').pop().slice(1)
-        }}
-        ({{ terminacion.charAt(0).toUpperCase() + this.terminacion.slice(1)
-        }}{{ embalado > 0 ? ', Embalado' : ', No embalado' }})</span
+        class="inline-flex items-center justify-end border border-transparent text-md font-bold rounded-md text-stoneBackgroundContrast-1 transition-all duration-150 ease-linear text-bold cursor-pointer hover:text-shadow hover:scale-105"
+        @click="exportToPDF()"
       >
-    </h1>
+        <FontAwesomeIcon :icon="['fas', 'file-pdf']" class="mr-1" />Exportar a PDF
+      </span>
+    </div>
     <div class="flex flex-row gap-7 flex-wrap justify-center">
       <ul
         v-for="(maquina, index) in maquinas"
@@ -104,6 +112,8 @@
 </template>
 
 <script>
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 /**
  * Component for displaying a summary of calculations.
  */
@@ -181,6 +191,48 @@ export default {
     }
   },
   methods: {
+    exportToPDF() {
+      const doc = new jsPDF()
+      const columns = [
+        'Nombre',
+        'Producción m²',
+        'Consumibles',
+        'Gastos energéticos',
+        'Trabajadores'
+      ]
+      const data = this.maquinas.flatMap((maquina) => [
+        [
+          maquina.nombre,
+          maquina.produccion_m2,
+          this.getConsumiblesMaquina(maquina.id)
+            .map((consumible) => `${consumible.nombre} - ${consumible.precio}€`)
+            .join('\n'),
+          this.getGastosEnergeticos(maquina.id)
+            .map((gasto) => `${gasto.nombre} - ${gasto.coste_energia}€`)
+            .join(', '),
+          this.getTrabajadores(maquina.id)
+            .map((trabajador) => `${trabajador.nombre_completo} - ${trabajador.precio}€`)
+            .join('\n')
+        ]
+      ])
+
+      autoTable(doc, { columns, body: data })
+
+      const additionalRows = [
+        ['Gastos generales', this.gastoGeneral.toFixed(2) / this.maquinas.length + '€'],
+        ['Precio de materia prima', this.costeMaterial.toFixed(2) + '€'],
+        ['Desperdicio', this.costeDesperdicio.toFixed(2) + '%'],
+        ['Coste de fabricación: ', this.precio.toFixed(2) + '€']
+      ]
+
+      autoTable(doc, {
+        columns: ['Concepto', 'Valor'],
+        body: additionalRows,
+        startY: doc.autoTable.previous.finalY + 10
+      })
+
+      doc.save('Resumen.pdf')
+    },
     /**
      * Get the consumables for a specific machine.
      * @param {number} maquina - The machine ID.
