@@ -455,6 +455,13 @@ ALTER TABLE `USER`
 --
 
 --
+-- Filtros para la tabla `PARTE_CORTABLOQUES`
+--
+
+ALTER TABLE `PARTE_CORTABLOQUES` ADD  CONSTRAINT `fk_parte_cortabloques_numero_trabajador` FOREIGN KEY (`numero_trabajador`) REFERENCES `TRABAJADOR_COSTES` (`numero_trabajador`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+
+--
 -- Filtros para la tabla `CONSUMIBLE`
 --
 ALTER TABLE `CONSUMIBLE`
