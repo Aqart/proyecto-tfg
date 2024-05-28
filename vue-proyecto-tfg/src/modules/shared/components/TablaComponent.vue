@@ -274,10 +274,10 @@
     </ModalComponent>
     <ModalComponent :title="modalTitle" :modalActive="showModalInfo" @close="toggleModalClose">
       <InfoMaquinaComponent
-          v-if="modalType === 'infoMaquina'"
-          :data="item"
-          @close="toggleModalClose"
-        />
+        v-if="modalType === 'infoMaquina'"
+        :data="item"
+        @close="toggleModalClose"
+      />
     </ModalComponent>
   </div>
 </template>
@@ -287,7 +287,8 @@ import useShared from '@/modules/shared/composables/useShared'
 import { mapGetters } from 'vuex'
 import { ref } from 'vue'
 import { defineAsyncComponent } from 'vue'
-import html2pdf from 'html2pdf.js'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 export default {
   props: {
@@ -406,72 +407,59 @@ export default {
   },
   methods: {
     async exportToPDF() {
-      // Crea un contenedor para el título y la tabla
-      const container = document.createElement('div')
+      const doc = new jsPDF('portrait', 'pt', 'a4')
 
-      // Agrega la tabla al contenedor
-      const originalElement = document.getElementById('table')
-      container.appendChild(originalElement)
-
-      // Crea una copia del contenedor
-      const printableElement = container.cloneNode(true)
-
-      // Elimina las columnas de acciones de la copia
-      const noPrintElements = printableElement.querySelectorAll('.no-print')
-      noPrintElements.forEach((element) => {
-        element.remove()
-      })
-      // Elimina todos los estilos de printableElement, excepto los necesarios para el formato de la tabla
-      const allElements = printableElement.getElementsByTagName('*')
-      for (let i = 0; i < allElements.length; i++) {
-        if (
-          allElements[i].tagName !== 'TABLE' &&
-          allElements[i].tagName !== 'TH' &&
-          allElements[i].tagName !== 'TD'
-        ) {
-          allElements[i].removeAttribute('style')
-          allElements[i].removeAttribute('class')
-        }
-      }
-      // Obtiene el título de la tabla
+      // Obtén el título de la tabla
       const title = document.querySelector('.table-title').innerText
 
-      // Crea un nuevo elemento para el título
-      const titleElement = document.createElement('h1')
-      titleElement.style.textAlign = 'center'
-      titleElement.style.fontSize = '48px'
-      titleElement.style.paddingBottom = '20px'
-      titleElement.innerText = title
+      // Agrega el título al PDF
+      doc.setFontSize(24)
+      doc.text(title, doc.internal.pageSize.getWidth() / 2, 40, { align: 'center' })
 
-      // Agrega el título al inicio de la copia de la tabla
-      printableElement.prepend(titleElement)
+      // Extrae los datos de la tabla
+      const tableElement = document.getElementById('table')
+      const headers = Array.from(tableElement.querySelectorAll('thead th'))
+        .filter((header, index) => index !== 0 && !header.classList.contains('no-print')) // Excluir columnas de checkbox y acciones
+        .map((header) => header.innerText)
 
+      let total = 0
+      const rows = Array.from(tableElement.querySelectorAll('tbody tr')).map((row) => {
+        const rowData = Array.from(row.querySelectorAll('td, th')) // Asegurarse de capturar tanto td como th
+          .filter((cell, index) => index !== 0 && !cell.classList.contains('no-print')) // Excluir columnas de checkbox y acciones
+          .map((cell) => cell.innerText)
+
+        // Sumar el precio de la columna correspondiente (asumimos que la columna "Precio" es la segunda)
+        const price = parseFloat(rowData[1])
+        if (!isNaN(price)) {
+          total += price
+        }
+
+        return rowData
+      })
+
+      // Añadir una fila de total al final del cuerpo de la tabla
+      const totalRow = Array(headers.length).fill('')
+      totalRow[headers.indexOf('Precio')] = `Total: ${total}€`
+      rows.push(totalRow)
+
+      // Usa autoTable para agregar la tabla al PDF
+      autoTable(doc, {
+        head: [headers],
+        body: rows,
+        startY: 60,
+        theme: 'grid',
+        headStyles: { fillColor: [128, 128, 128] }, // Color de fondo de la cabecera
+        styles: { fontSize: 10, cellPadding: 4 } // Estilos de la tabla
+      })
+
+      // Guarda el PDF
       const date = new Date()
       const dateStr = date.toLocaleDateString().replace(/\//g, '')
       const timeStr = date.toLocaleTimeString().replace(/:/g, '')
       const dateTimeStr = `${dateStr}${timeStr}`
-
       const formattedRoute =
         this.$route.path.slice(1).charAt(0).toLowerCase() + this.$route.path.slice(2)
-
-      // Genera el PDF de la copia
-      const opt = {
-        margin: [1, 0.5, 1, 0.5],
-        filename: `${formattedRoute}_${dateTimeStr}.pdf`,
-        image: { type: 'webp', quality: 1 },
-        html2canvas: { scale: 5 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-      }
-      try {
-        this.loading = true
-        await html2pdf().set(opt).from(printableElement).save()
-      } catch (e) {
-        console.error('Error al generar el pdf', e)
-      } finally {
-        this.loading = false
-        location.reload()
-      }
+      doc.save(`${formattedRoute}_${dateTimeStr}.pdf`)
     },
     sortTable(field) {
       if (this.sortField === field) {
@@ -584,7 +572,7 @@ export default {
     },
     toggleModalClose() {
       this.cerrarMensaje()
-      if(this.showModalInfo){
+      if (this.showModalInfo) {
         this.showModalInfo = !this.showModalInfo
         // Comprueba si el modal de eliminación debe abrirse
         if (this.showModalDeleteAfterInfo) {
@@ -635,7 +623,9 @@ export default {
     ...mapGetters('Maquinas', ['getMaquinas']),
     ...mapGetters('Trabajadores', ['getEmpleados']),
     disabledCheckbox() {
-      return this.searchFilteredData.length > 0 ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'
+      return this.searchFilteredData.length > 0
+        ? ''
+        : 'pointer-events-none opacity-50 cursor-not-allowed'
     },
     formattedHeader() {
       return this.filteredHeader
