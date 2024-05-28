@@ -93,6 +93,7 @@ export default {
             `Las siguientes máquinas se han eliminado: ${nombresSuccess}`
           )
           actualizarMostrarMensaje(true)
+
         }
       } catch (error) {
         actualizarMensaje('error', 'Error eliminando los datos')

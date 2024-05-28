@@ -75,7 +75,7 @@
               </h2>
             </div>
           </div>
-          <div v-else class="flex flex-col">
+          <div v-else class="w-full flex flex-col">
             <div class="flex flex-col items-start mb-3">
               <span
                 class="w-auto inline-flex items-center justify-start m-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold flex-shrink-0 cursor-pointer hover:text-shadow hover:scale-105 transition-transform duration-150 ease-in-out"

@@ -20,6 +20,9 @@ const useMaquina = () => {
 
   const deleteMaquinas = async (maquinas) => {
     const resp = await store.dispatch('Maquinas/deleteMaquinas', maquinas)
+    await store.dispatch('GastosEnergeticos/fetchGastos')
+    await store.dispatch('Consumible/fetchConsumibles')
+    await store.dispatch('Trabajadores/fetchTrabajadores')
     return resp
   }
 

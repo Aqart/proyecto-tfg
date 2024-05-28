@@ -5,7 +5,7 @@
     </div>
 
     <div
-      v-else-if="listItems.length === total"
+      v-else-if="listItems.length === total && listItems.length !== 1"
       class="sm:w-90 mx-auto flex flex-col items-end mb-2 relative"
       role="alert"
     >
