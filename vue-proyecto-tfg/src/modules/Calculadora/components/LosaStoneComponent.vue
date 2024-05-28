@@ -66,70 +66,28 @@
         <ul
           class="py-2 items-center w-full text-lg text-secondary bg-stoneBackground-2 bg-opacity-50 border border-stone border-opacity-50 rounded-lg sm:flex"
         >
-          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
+          <li
+            v-for="(option, index) in terminaciones"
+            :key="option.id"
+            class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r"
+          >
             <div class="flex items-center ps-3">
               <input
-                id="soloCortado"
+                :id="option.id"
                 type="radio"
                 v-model="terminacion"
-                value="0"
+                :value="option.value"
                 name="terminacion"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
-                checked
+                :checked="index === 0"
               />
               <label
-                for="soloCortado"
+                :for="option.id"
                 class="w-full py-3 ms-2 text-lg font-bold text-secondary flex flex-row gap-1.5 items-center"
-                >Solo cortado <span class="text-xs">(por defecto)</span></label
               >
-            </div>
-          </li>
-          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-            <div class="flex items-center ps-3">
-              <input
-                id="apomazado"
-                type="radio"
-                v-model="terminacion"
-                value="20"
-                name="terminacion"
-                data-terminacion="Apomazado"
-                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-              />
-              <label for="apomazado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-                >Apomazado</label
-              >
-            </div>
-          </li>
-          <li class="w-full border-b border-stone border-opacity-50 sm:border-b-0 sm:border-r">
-            <div class="flex items-center ps-3">
-              <input
-                id="envejecido"
-                type="radio"
-                v-model="terminacion"
-                value="30"
-                name="terminacion"
-                data-terminacion="Envejecido"
-                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-              />
-              <label for="envejecido" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-                >Envejecido</label
-              >
-            </div>
-          </li>
-          <li class="w-full">
-            <div class="flex items-center ps-3">
-              <input
-                id="abujardado"
-                type="radio"
-                v-model="terminacion"
-                value="40"
-                name="terminacion"
-                data-terminacion="Abujardado"
-                class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-3"
-              />
-              <label for="abujardado" class="w-full py-3 ms-2 text-lg font-bold text-secondary"
-                >Abujardado</label
-              >
+                {{ option.label }}
+                <span v-if="index === 0" class="text-xs">(por defecto)</span>
+              </label>
             </div>
           </li>
         </ul>
@@ -142,45 +100,27 @@
           Embalaje
         </label>
         <ul class="grid w-full gap-6 md:grid-cols-2">
-          <li>
+          <li v-for="(option, index) in embalajes" :key="option.id">
             <input
               v-model="embalaje"
               type="radio"
-              id="noEmbalado"
+              :id="option.id"
               name="embalaje"
-              value="0"
+              :value="option.value"
               class="hidden peer"
-              checked
+              :checked="index === 0"
+              required
             />
             <label
-              for="noEmbalado"
+              :for="option.id"
               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
             >
               <div class="block">
                 <div class="w-full text-lg font-semibold flex flex-row gap-1.5 items-center">
-                  No embalado <span class="text-xs">(por defecto)</span>
+                  {{ option.label }}
+                  <span v-if="index === 0" class="text-xs">(por defecto)</span>
                 </div>
-                <div class="w-full text-lg">No conlleva cargo extra</div>
-              </div>
-            </label>
-          </li>
-          <li>
-            <input
-              v-model="embalaje"
-              type="radio"
-              id="embalado"
-              name="embalaje"
-              value="20"
-              class="hidden peer"
-              required
-            />
-            <label
-              for="embalado"
-              class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-stoneBackgroundContrast-1 peer-checked:text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-1 hover:bg-gray-100 peer-checked:shadow peer-checked:text-shadow"
-            >
-              <div class="block">
-                <div class="w-full text-lg font-semibold">Embalado</div>
-                <div class="w-full text-lg">Conlleva cargo extra</div>
+                <div class="w-full text-lg">{{ option.description }}</div>
               </div>
             </label>
           </li>
@@ -240,7 +180,22 @@ export default {
       tabajadoresMaquina: [],
       gastosEnergeticosMaquina: [],
       options: [],
-      isSubmitted: false
+      isSubmitted: false,
+      terminaciones: [
+        { id: 'soloCortado', value: '0', label: 'Solo cortado' },
+        { id: 'apomazado', value: '1.30', label: 'Apomazado' },
+        { id: 'envejecido', value: '2.25', label: 'Envejecido' },
+        { id: 'abujardado', value: '4.32', label: 'Abujardado' }
+      ],
+      embalajes: [
+        {
+          id: 'noEmbalado',
+          value: '0',
+          label: 'No embalado',
+          description: 'No conlleva cargo extra'
+        },
+        { id: 'embalado', value: '2.5', label: 'Embalado', description: 'Conlleva cargo extra' }
+      ]
     }
   },
   computed: {
@@ -356,12 +311,12 @@ export default {
         console.log('Sumables', this.sumables)
         this.sumables = this.sumables / this.produccion
         console.log('Sumables-produccion', this.sumables)
-        this.sumables +=
-          Number(this.costeMaterial) + Number(this.terminacion) + Number(this.embalaje)
         this.calcularArea()
         this.calcularPorcentajeDesperdicio()
         this.calcularDesperdicio()
 
+        this.sumables +=
+          Number(this.costeMaterial) + Number(this.terminacion) + Number(this.embalaje)
         this.totalPrecio = Number(this.sumables) + Number(this.precioDesperdicio)
         //this.sumables =
       } catch (e) {
@@ -471,20 +426,20 @@ export default {
     // InputTextComponent: defineAsyncComponent(
     //   () => import('@/modules/shared/components/InputTextComponent.vue')
     // ),
-    SelectMaquinaComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectMaquinaComponent.vue')
+    SelectMaquinaComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectMaquinaComponent.vue')
     ),
-    InputNumberComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputNumberComponent.vue')
+    InputNumberComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    LoandingComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/LoadingComponent.vue')
+    LoandingComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/LoadingComponent.vue')
     ),
-    ResumenComponent: defineAsyncComponent(
-      () => import('@/modules/Calculadora/components/ResumenComponent.vue')
+    ResumenComponent: defineAsyncComponent(() =>
+      import('@/modules/Calculadora/components/ResumenComponent.vue')
     )
   },
   watch: {
@@ -570,9 +525,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   z-index: 10;
-  box-shadow:
-    1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+  box-shadow: 1px 1px 10px #aaaaaa, -1px -1px 10px #ffffff;
 }
 .input + .check::before {
   content: '';
