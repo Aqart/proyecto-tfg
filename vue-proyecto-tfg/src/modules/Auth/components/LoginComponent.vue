@@ -113,9 +113,8 @@ export default {
         setTimeout(() => {
           errorMessage.value.show = !errorMessage.value.show
         }, 6 * 1000)
-        router.push('/home')
       } else {
-        console.log(message)
+        router.push('/home')
       }
     }
 
