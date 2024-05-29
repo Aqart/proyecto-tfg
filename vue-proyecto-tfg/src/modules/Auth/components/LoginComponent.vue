@@ -120,8 +120,9 @@ export default {
         setTimeout(() => {
           actualizarMostrarMensaje(false)
         }, 6 * 1000)
-      } else {
         router.push('/home')
+      } else {
+        console.log(message)
       }
     }
 

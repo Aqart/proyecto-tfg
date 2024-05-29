@@ -127,6 +127,14 @@
                 <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre_completo'">{{ el }}</span>
                 <span :key="`${el}-del`" class="text-wrap" v-if="index == 'id_maquina'"> - {{ getNombreMaquina(el) }}</span>
               </template>
+              <div class="tooltip">
+                <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" class="text-warning" />
+                <span class="tooltiptext text-xs p-2"
+                  >" Este valor representa la parte proporcional del total de los gastos, dividido
+                  entre el número de máquinas y será utilizado para calcular el coste de fabricación.
+                  "</span
+                >
+              </div>
             </div>
             <ButtonComponent
               type="button"
@@ -264,3 +272,33 @@ export default {
   }
 }
 </script>
+
+
+
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 420px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the icon */
+  left: 50%;
+  margin-left: -210px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
