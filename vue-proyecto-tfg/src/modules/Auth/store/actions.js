@@ -1,7 +1,6 @@
 import authApi from '@/api/stoneApi'
 import { jwtDecode } from 'jwt-decode'
 import router from '@/router'
-import { getEmployeeNumber } from './getters'
 
 // export const myAction = async ({ commit }) => {
 
