@@ -134,7 +134,7 @@ export default {
     return {
       isSortedAscending: false,
       isSortedBlockNumberAsc: true,
-      isTableView: true,
+      isTableView: window.innerWidth > 768,
       beforeFilter: false,
       fechaInicio: '',
       fechaFin: '',
@@ -149,11 +149,20 @@ export default {
     }
   },
   async created() {
+    window.addEventListener('resize', this.checkIfMobile)
     this.fechaInicio = this.getFechaActual()
     this.fechaFin = this.getFechaActual()
     await this.fetchPartesCortabloques()
   },
+  beforeUnmount() {
+    // Cambia 'unmounted' a 'beforeUnmount'
+    window.removeEventListener('resize', this.checkIfMobile)
+  },
   methods: {
+    checkIfMobile() {
+      console.log(this.isTableView)
+      this.isTableView = window.innerWidth > 768 // Cambia a 'true' para PC y 'false' para móvil
+    },
     async exportToPDF() {
       // Ordenar las tarjetas antes de generar las filas para el PDF
       if (this.orderByOptionSelected === 'ordenarPorNumeroBloque') {
@@ -323,7 +332,7 @@ export default {
       // Comprobar si las fechas son válidas
       if (isNaN(fechaInicioDate.getTime()) || isNaN(fechaFinDate.getTime())) {
         this.loading = false
-        this.actualizarMensaje({tipo: 'warning', mensaje: 'Debes rellenar los campos de fecha'})
+        this.actualizarMensaje({ tipo: 'warning', mensaje: 'Debes rellenar los campos de fecha' })
         this.actualizarMostrarMensaje(true)
         setTimeout(() => {
           this.actualizarMostrarMensaje(false)
@@ -332,7 +341,10 @@ export default {
         return
       } else if (fechaFinDate < fechaInicioDate) {
         this.loading = false
-        this.actualizarMensaje({tipo: 'warning', mensaje: 'La fecha de inicio no puede ser mayor que la fecha de fin'})
+        this.actualizarMensaje({
+          tipo: 'warning',
+          mensaje: 'La fecha de inicio no puede ser mayor que la fecha de fin'
+        })
         this.actualizarMostrarMensaje(true)
         setTimeout(() => {
           this.actualizarMostrarMensaje(false)
@@ -399,7 +411,7 @@ export default {
   computed: {
     ...mapGetters('ListadoPartes', ['getPartesCortabloques']),
     ...mapGetters('Trabajadores', ['getEmpleados']),
-    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar']),
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
   components: {
     ButtonComponent: defineAsyncComponent(() =>

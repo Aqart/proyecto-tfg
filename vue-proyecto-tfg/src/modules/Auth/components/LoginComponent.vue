@@ -1,9 +1,9 @@
 <template>
   <div>
     <MensajesComponent
-      :type="getTipo"
-      :message="getMensaje"
-      :mostrarMensaje="getMostrar"
+      :type="errorMessage.type"
+      :message="errorMessage.message"
+      :mostrarMensaje="errorMessage.show"
     />
     <h1 class="text-5xl text-stoneBackground-1 mb-3">{{ title }}</h1>
     <form @submit.prevent="handleSubmit">
@@ -51,11 +51,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { defineAsyncComponent, ref } from 'vue'
 import useAuth from '../composables/useAuth'
 import { useRouter } from 'vue-router'
-import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   props: {
@@ -65,15 +63,14 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   setup() {
-    const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const formattedDate = new Date().toLocaleString().slice(0, 19).replace('T', ' ')
     const userForm = ref({
       email: '',
@@ -97,28 +94,24 @@ export default {
         message: ''
       }
       if (!userForm.value.email || !userForm.value.password) {
-        actualizarMensaje('warning', 'Debes rellenar todos los campos')
-        actualizarMostrarMensaje(true)
-        //errorMessage.value.type = 'warning'
-        //errorMessage.value.show = true
-        //errorMessage.value.message = 'Debes rellenar todos los campos'
+        errorMessage.value.type = 'warning'
+        errorMessage.value.show = true
+        errorMessage.value.message = 'Debes rellenar todos los campos'
         setTimeout(() => {
-          actualizarMostrarMensaje(false)
+          errorMessage.value.show = !errorMessage.value.show
         }, 6 * 1000)
         return
       }
       const { ok, message } = await loginUser(userForm.value)
 
       if (!ok) {
-        actualizarMensaje('error', message)
-        actualizarMostrarMensaje(true)
-        //errorMessage.value.type = 'error'
-        //errorMessage.value.show = !ok
-        //errorMessage.value.message = message
+        errorMessage.value.type = 'error'
+        errorMessage.value.show = !ok
+        errorMessage.value.message = message
       }
-      if (ok) {
+      if (errorMessage.value.show) {
         setTimeout(() => {
-          actualizarMostrarMensaje(false)
+          errorMessage.value.show = !errorMessage.value.show
         }, 6 * 1000)
         router.push('/home')
       } else {
@@ -127,9 +120,6 @@ export default {
     }
 
     return { userForm, errorMessage, handleSubmit }
-  },
-  computed: {
-    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   }
 }
 </script>

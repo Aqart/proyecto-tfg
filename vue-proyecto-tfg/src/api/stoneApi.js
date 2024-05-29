@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const authApi = axios.create({
-  //baseURL: 'https://g8hlqxnq-3000.uks1.devtunnels.ms/'
-  baseURL: 'http://localhost:3000'
+  baseURL: 'https://g8hlqxnq-3000.uks1.devtunnels.ms/'
+  //baseURL: 'http://localhost:3000'
 })
 
 // Agrega un interceptor de solicitud para incluir el token JWT en los encabezados de autorización
