@@ -18,9 +18,9 @@
       <input
         :value="form.precio"
         class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
-        :class="{ 
-          'border-gray-300 focus:ring-secondary focus:ring-1 focus:border-secondary': !noValidInput, 
-          'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500': noValidInput 
+        :class="{
+          'border-gray-300 focus:ring-secondary focus:ring-1 focus:border-secondary': !noValidInput,
+          'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500': noValidInput
         }"
         type="number"
         name="numWorker"
@@ -30,7 +30,8 @@
         @input="updateValue"
         @keydown="preventNonNumericInput"
       />
-      <FontAwesomeIcon :icon="['fas', 'fa-exclamation-circle']" 
+      <FontAwesomeIcon
+        :icon="['fas', 'fa-exclamation-circle']"
         class="absolute top-1/2 right-14 transform -translate-y-1/2 h-5 w-5 text-red-500"
         v-if="noValidInput"
       />
@@ -47,10 +48,11 @@
       @changeSelect="selectMaquina"
     />
     <div class="flex flex-row items-center gap-4 mt-4">
-      <ButtonComponent :text="textoBoton" 
-        bgColor="bg-secondary" 
-        class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4" 
-        :icon="['fas', 'floppy-disk']" 
+      <ButtonComponent
+        :text="textoBoton"
+        bgColor="bg-secondary"
+        class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4"
+        :icon="['fas', 'floppy-disk']"
       />
       <ButtonComponent
         :icon="['fas', 'circle-xmark']"
@@ -91,11 +93,11 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    SelectComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/SelectComponent.vue')
+    SelectComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/SelectComponent.vue')
     )
   },
   computed: {
@@ -116,9 +118,9 @@ export default {
       this.form.precio = event.target.value
       this.inputNumberErroneo()
     },
-    selectFormattedEmpleados(){
-      const empleados = this.getEmpleados
-      return empleados.map(empleado => {
+    async selectFormattedEmpleados() {
+      const empleados = await this.getEmpleados
+      return empleados.map((empleado) => {
         return {
           id: empleado.numero_trabajador,
           nombre: `${empleado.numero_trabajador} - ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}`
@@ -126,7 +128,7 @@ export default {
       })
     },
     inputNumberErroneo() {
-      if(this.form.precio === '') {
+      if (this.form.precio === '') {
         this.noValidInput = true
       } else {
         this.noValidInput = false
@@ -135,14 +137,26 @@ export default {
     preventNonNumericInput(event) {
       console.log(event.target.value)
       // También se puede hacer con regex
-      const regex = /^[0-9]*[.,]?[0-9]*$/;
-      const controlKeys = ['Suprimir', 'Enter', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'Tab', 'Shift', 'CapsLock', 'ArrowRight', 'ArrowLeft'];
+      const regex = /^[0-9]*[.,]?[0-9]*$/
+      const controlKeys = [
+        'Suprimir',
+        'Enter',
+        'Backspace',
+        'Delete',
+        'ArrowUp',
+        'ArrowDown',
+        'Tab',
+        'Shift',
+        'CapsLock',
+        'ArrowRight',
+        'ArrowLeft'
+      ]
 
       if (controlKeys.includes(event.key) || regex.test(event.key)) {
-        this.errorMsg = '';
+        this.errorMsg = ''
       } else {
-        this.errorMsg = 'Solo se permiten números y decimales';
-        event.preventDefault();
+        this.errorMsg = 'Solo se permiten números y decimales'
+        event.preventDefault()
       }
     },
     handleError(e) {
@@ -198,7 +212,9 @@ export default {
       // Comprueba que el num_trabajador no tenga asociada ya ese id_maquina
       const trabajadores = this.getTrabajadores
       const trabajador = trabajadores.find(
-        trabajador => trabajador.numero_trabajador === this.form.numero_trabajador && trabajador.id_maquina === this.form.id_maquina
+        (trabajador) =>
+          trabajador.numero_trabajador === this.form.numero_trabajador &&
+          trabajador.id_maquina === this.form.id_maquina
       )
       console.log(trabajador)
 
@@ -216,8 +232,8 @@ export default {
           message: 'No se ha modificado ningún campo'
         }
         this.$emit('errorForm', this.error)
-      } else  if (trabajador && this.data.id !== trabajador.id) {
-        const maquina = this.getMaquinas.find(maquina => maquina.id === this.form.id_maquina)
+      } else if (trabajador && this.data.id !== trabajador.id) {
+        const maquina = this.getMaquinas.find((maquina) => maquina.id === this.form.id_maquina)
         this.error = {
           status: true,
           type: 'warning',

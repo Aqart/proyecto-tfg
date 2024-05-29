@@ -20,7 +20,9 @@
       />
     </div>
     <transition name="fade">
-      <div v-if="showOptions && allOptions.length > 0" class="bg-white border border-gray-400 w-full mt-3 rounded shadow"
+      <div
+        v-if="showOptions && allOptions.length > 0"
+        class="bg-white border border-gray-400 w-full mt-3 rounded shadow"
         :class="{ 'max-h-64 overflow-auto': allOptions.length > 7 }"
       >
         <div
@@ -32,7 +34,10 @@
           {{ option.nombre }}
         </div>
       </div>
-      <div v-else-if="showOptions" class="bg-white border border-gray-400 w-full mt-3 rounded shadow px-4 py-4">
+      <div
+        v-else-if="showOptions"
+        class="bg-white border border-gray-400 w-full mt-3 rounded shadow px-4 py-4"
+      >
         No hay {{ label.toLowerCase() }} para mostrar
       </div>
     </transition>
@@ -74,7 +79,7 @@ export default {
       if (this.label === 'Máquina') {
         return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
       } else {
-        console.log(this.options)
+        console.log('OPTIONS', this.options)
         return this.options
       }
     },
