@@ -13,7 +13,7 @@
           :class="iconClasses"
         />
         <!-- <strong class="font-bold">¡Éxito!&nbsp;</strong> -->
-        <span class="block sm:inline text-center text-wrap mr-12"
+        <span class="block sm:inline text-center text-wrap mr-12 sm:text-md"
         :class="computedClass"
         >
         {{
@@ -39,7 +39,7 @@
           class="text-stoneBackgroundContrast-2 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
           :class="iconClasses"
         />
-        <span class="block sm:inline text-center text-wrap mr-12"
+        <span class="block sm:inline text-center text-wrap mr-12 sm:text-md"
         :class="computedClass"
         >{{
           message
@@ -64,7 +64,7 @@
           class="text-stoneBackgroundContrast-6 scale-125 flex-shrink-0 inline w-4 h-4 me-3"
           :class="iconClasses"
         />
-        <span class="block sm:inline text-center text-wrap mr-12"
+        <span class="block sm:inline text-center text-wrap mr-12 sm:text-md"
         :class="computedClass"
         >{{
           message

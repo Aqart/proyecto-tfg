@@ -30,6 +30,7 @@
           </header>
           <main>
             <MensajesComponent
+              class="mt-4"
               v-if="getTipo !== 'success'"
               :textClasses="textMessage"
               :message="getMensaje"

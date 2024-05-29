@@ -32,7 +32,7 @@
             />
           </div>
           <div class="ml-2">
-            <h3 class="font-semibold text-xl text-red-400">Advertencia:</h3>
+            <h3 class="font-semibold text-xl text-red-500">Advertencia:</h3>
             <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
               <p v-if="itemType === 'usuarios'">
                 Algunos usuarios a eliminar tienen un coste y/o máquina asociados
@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <div v-if="hasMaquinaCoste" class="w-full p-4 mt-12 rounded-md bg-red-200 bg-opacity-30 text-center">
+        <div v-if="hasMaquinaCoste" class="w-full p-4 mt-12 rounded-md bg-red-200 bg-opacity-20 text-center">
           <div class="flex">
             <div class="flex-shrink-0">
               <FontAwesomeIcon
@@ -71,7 +71,7 @@
             </div>
             <div class="ml-2">
               <span v-if="listItems.length === 1">
-                <h3 class="font-semibold text-xl text-red-400">Advertencia:</h3>
+                <h3 class="font-semibold text-xl text-red-500">Advertencia:</h3>
                 <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
                   <p v-if="itemType === 'usuarios'">
                     El usuario a eliminar tiene un coste y/o máquina asociados
@@ -82,13 +82,13 @@
                 </div>
               </span>
               <span v-else>
-                <h3 class="font-semibold text-xl text-red-400">Advertencia:</h3>
+                <h3 class="font-semibold text-xl text-red-500">Advertencia:</h3>
                 <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
                   <p v-if="itemType === 'usuarios'">
-                    Los usuarios en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen un coste y/o máquina asociados
+                    Los usuarios <span class="font-extrabold text-lg text-stoneBackgroundContrast-6 ">RESALTADOS</span> tienen un coste y/o máquina asociados
                   </p>
                   <p v-else-if="itemType === 'máquinas'">
-                    Las máquinas en <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >AMARILLO</span> tienen consumibles/gastos energéticos/trabajadores asociados
+                    Las máquinas <span class="font-semibold text-lg text-stoneBackgroundContrast-6" >RESALTADAS</span> tienen consumibles/gastos energéticos/trabajadores asociados
                   </p>
                 </div>
               </span>
@@ -103,37 +103,40 @@
           <li
             v-for="item in listItems"
             :key="item.id"
-            class="flex justify-between items-center w-full bg-stoneBackground-4 px-6 rounded-md text-md font-semibold text-stoneBackgroundContrast-1
+            class="flex justify-between items-center w-full px-6 rounded-md text-md font-semibold text-stoneBackgroundContrast-1
+            bg-stoneBackground-4
             min-h-16"
             :class="{
-              'bg-stoneBackground-4': !item.hasMaquinaCoste,
-              'bg-stoneBackgroundContrast-6': item.hasMaquinaCoste,
-              'cursor-pointer': item.hasMaquinaCoste && itemType == 'máquinas'
+              'border-2 border-stoneBackgroundContrast-6': item.hasMaquinaCoste,
             }"
-            @click="(item.hasMaquinaCoste && itemType === 'máquinas') ? openModalInfo(item) : null"
           >
             <div>
-              <template v-for="(el, index) in item">
-                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
-                  el
-                }}</span>
-                <span
-                  :key="`${el}-del`"
-                  class="text-wrap"
-                  v-if="index == 'apellido1'"
-                  v-html="`&nbsp;${el}`"
-                ></span>
-                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'email'">{{ el }}</span>
-                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre_completo'">{{ el }}</span>
-                <span :key="`${el}-del`" class="text-wrap" v-if="index == 'id_maquina'"> - {{ getNombreMaquina(el) }}</span>
-              </template>
-              <div class="tooltip">
-                <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" class="text-warning" />
-                <span class="tooltiptext text-xs p-2"
-                  >" Este valor representa la parte proporcional del total de los gastos, dividido
-                  entre el número de máquinas y será utilizado para calcular el coste de fabricación.
-                  "</span
+              <div class="flex items-center">
+                <template v-for="(el, index) in item">
+                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
+                    el
+                  }}</span>
+                  <span
+                    :key="`${el}-del`"
+                    class="text-wrap"
+                    v-if="index == 'apellido1'"
+                    v-html="`&nbsp;${el}`"
+                  ></span>
+                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'email'">{{ el }}</span>
+                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre_completo'">{{ el }}</span>
+                  <span :key="`${el}-del`" class="text-wrap" v-if="index == 'id_maquina'"> - {{ getNombreMaquina(el) }}</span>
+                </template>
+                <div class="tooltip ml-4 flex flex-row items-center"
+                  v-if="item.hasMaquinaCoste && itemType === 'máquinas'"
                 >
+                  <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" 
+                    class="cursor-pointer h-6 w-6 text-stoneBackgroundContrast-2 text-opacity-85"
+                    @click="(item.hasMaquinaCoste && itemType === 'máquinas') ? openModalInfo(item) : null"
+                  />
+                  <span class="tooltiptext text-xs p-2 text-wrap">
+                    Información de {{ item.nombre }}
+                  </span>
+                </div>
               </div>
             </div>
             <ButtonComponent
@@ -278,24 +281,55 @@ export default {
 <style scoped>
 .tooltip {
   position: relative;
-  display: inline-block;
+  display: flex;
 }
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 420px;
+  width: 220px;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
   position: absolute;
   z-index: 1;
-  bottom: 125%; /* Position the tooltip above the icon */
-  left: 50%;
-  margin-left: -210px;
-  opacity: 0;
+  left: 100%; /* Position the tooltip to the right of the icon */
+  bottom: 50%; /* Adjust this value as needed */
+  margin-left: 10px; /* Add some space between the icon and the tooltip */
+  opacity: 0.5;
   transition: opacity 0.3s;
+  transform: translateY(50%);
 }
+
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .tooltip .tooltiptext {
+    font-size: 10px;
+    width: 180px;
+    left: 50%; /* Center the tooltip */
+    bottom: -100%; /* Position the tooltip below the icon */
+    transform: translateX(-50%); /* Adjust the tooltip's position */
+    margin-left: 0; /* Remove the space between the icon and the tooltip */
+    text-align: center; /* Center the text */
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .tooltip .tooltiptext {
+    font-size: 12px;
+    width: 200px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .tooltip .tooltiptext {
+    font-size: 13px;
+    font-weight: normal;
+    width: 220px;
+  }
+}
+
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
