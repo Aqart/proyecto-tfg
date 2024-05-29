@@ -119,6 +119,17 @@
         </div>
       </template>
       <LoadingComponent :loading="loading" :fullScreen="true" size="48px" />
+      <ModalComponent
+        title="Editar parte"
+        :modalActive="editMode"
+        :button="true"
+        headClass="mt-[65%] sm:mt-[30%] md:mt-[30%] lg:mt-[20%] xl:mt-[10%] mb-2 mx-auto"
+        bodyClass="p-0"
+        titleClass="p-0"
+        @close="editMode = false"
+      >
+        <FormEditParteCortabloquesComponent class="mb-5" />
+      </ModalComponent>
     </div>
   </div>
 </template>
@@ -135,6 +146,7 @@ export default {
       isSortedAscending: false,
       isSortedBlockNumberAsc: true,
       isTableView: window.innerWidth > 768,
+      editMode: true,
       beforeFilter: false,
       fechaInicio: '',
       fechaFin: '',
@@ -431,6 +443,12 @@ export default {
     ),
     MensajesComponent: defineAsyncComponent(() =>
       import('@/modules/shared/components/MensajesComponent.vue')
+    ),
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
+    ),
+    FormEditParteCortabloquesComponent: defineAsyncComponent(() =>
+      import('@/modules/ListadoPartes/components/FormEditParteCortabloquesComponent.vue')
     )
   }
 }
