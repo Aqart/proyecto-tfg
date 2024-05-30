@@ -47,7 +47,7 @@
       :isEditing="tipo === 'Editar trabajador' ? true : false"
       @changeSelect="selectMaquina"
     />
-    <div class="flex flex-row items-center gap-4 mt-4">
+    <div class="flex flex-col mt-6 sm:flex-row items-center sm:gap-4 sm:mt-4">
       <ButtonComponent
         :text="textoBoton"
         bgColor="bg-secondary"
@@ -118,8 +118,8 @@ export default {
       this.form.precio = event.target.value
       this.inputNumberErroneo()
     },
-    async selectFormattedEmpleados() {
-      const empleados = await this.getEmpleados
+    selectFormattedEmpleados() {
+      const empleados = this.getEmpleados
       return empleados.map((empleado) => {
         return {
           id: empleado.numero_trabajador,
