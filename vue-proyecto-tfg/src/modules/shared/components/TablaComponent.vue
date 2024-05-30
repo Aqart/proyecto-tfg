@@ -499,7 +499,7 @@ export default {
       return (this.modalTitle = name)
     },
     scrollToTop() {
-      this.$refs.modalComponent.scrollTop = 0;
+      this.$refs.modalComponent.$el.scrollTop = 0;
     },
     toggleModalOpenNew() {
       this.cerrarMensaje()
