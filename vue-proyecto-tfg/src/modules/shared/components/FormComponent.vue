@@ -22,7 +22,7 @@
         @changeSelect="handleSelectChange"
       />
     </div>
-    <div class="flex flex-row items-center gap-4 mt-4">
+    <div class="flex flex-col mt-6 sm:flex-row items-center sm:gap-4 sm:mt-4">
       <ButtonComponent :text="textoBoton" 
         bgColor="bg-secondary"
         class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4"
@@ -128,12 +128,14 @@ export default {
         this.error.type = 'warning'
         this.error.message = 'Está introduciendo campos vacíos o erróneos'
         this.$emit('errorForm', this.error)
+        window.scrollTo(0, 0)
         // return
       } else if (this.objectsAreEqual(this.form, this.data)) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'No se ha modificado ningún campo'
         this.$emit('errorForm', this.error)
+        window.scrollTo(0, 0)
       } else {
         console.log('Datos que se envían', this.form)
         this.$emit('send', this.form)

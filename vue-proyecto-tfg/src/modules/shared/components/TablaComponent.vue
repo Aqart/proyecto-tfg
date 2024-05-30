@@ -228,7 +228,13 @@
       </table>
     </div>
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
-    <ModalComponent :title="modalTitle" :modalActive="showModal" @close="toggleModalClose">
+    <ModalComponent :title="modalTitle" 
+      ref="modalComponent"
+      :modalActive="showModal"
+      :headClass="modalType === 'register' ? 'mt-[30%] sm:mt-[0%]' : ''"
+      :bodyClass="modalType === 'register' ? 'sm:pt-6 mb-2' : 'pt-6'"
+      @close="toggleModalClose"
+    >
       <InfoUsuarioComponent
         v-if="modalType === 'infoUsuario'"
         :data="item"
@@ -251,6 +257,7 @@
         @send="getNewData"
         @errorForm="handleError"
         @close="toggleModalClose"
+        @scrollToTop="scrollToTop"
       />
       <DeleteConfirmationComponent
         v-if="modalType === 'delete'"
@@ -490,6 +497,9 @@ export default {
     },
     modalName(name) {
       return (this.modalTitle = name)
+    },
+    scrollToTop() {
+      this.$refs.modalComponent.scrollTop = 0;
     },
     toggleModalOpenNew() {
       this.cerrarMensaje()

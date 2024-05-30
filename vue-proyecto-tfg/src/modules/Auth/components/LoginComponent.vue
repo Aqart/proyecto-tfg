@@ -117,11 +117,11 @@ export default {
         // errorMessage.value.show = !ok
         // errorMessage.value.message = message
       } else {
-        setTimeout(() => {
-          actualizarMostrarMensaje(false)
-        }, 6 * 1000)
         router.push('/home')
       }
+      setTimeout(() => {
+          actualizarMostrarMensaje(false)
+        }, 6 * 1000)
       // if (ok) {
       //   setTimeout(() => {
       //     errorMessage.value.show = !errorMessage.value.show

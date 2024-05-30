@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="px-10 pb-10" novalidate>
+  <form @submit.prevent="handleSubmit" class="sm:px-10 px-6 pb-10" novalidate>
     <label
       for="nombre"
       class="block mt-4 mb-2 text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
@@ -126,7 +126,7 @@
         @changeSelect="selectRol"
       />
     </div>
-    <div class="flex flex-row items-center gap-4 mt-4">
+    <div class="flex flex-col mt-6 sm:flex-row items-center sm:gap-4 sm:mt-4">
       <ButtonComponent :text="textoBoton" 
         bgColor="bg-secondary" 
         class="hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4" 
@@ -314,6 +314,7 @@ export default {
           message: 'No se pueden enviar campos vacíos o erróneos'
         }
         this.$emit('errorForm', this.error)
+        this.$emit('scrollToTop');
       } else if (this.tipo === 'Editar usuario' && this.objectsAreEqual(this.form, this.data)) {
         this.error = {
           status: true,
@@ -321,23 +322,27 @@ export default {
           message: 'No se ha modificado ningún campo'
         }
         this.$emit('errorForm', this.error)
+        this.$emit('scrollToTop');
       } else if (!emailFormat.test(this.form.email)) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'El formato del email no es válido'
         this.$emit('errorForm', this.error)
+        this.$emit('scrollToTop');
         return
       } else if(this.form.email !== this.data.email && this.users.some(user => user.email === this.form.email)) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'El email ya está registrado para otro usuario'
         this.$emit('errorForm', this.error)
+        this.$emit('scrollToTop');
         return
-      } else if(this.form.numero_trabajador !== this.data.numero_trabajador && this.users.some(user => user.numero_trabajador === this.form.numero_trabajador)) {
+      } else if(Number(this.form.numero_trabajador) !== this.data.numero_trabajador && this.users.some(user => user.numero_trabajador === Number(this.form.numero_trabajador))) {
         this.error.status = true
         this.error.type = 'warning'
         this.error.message = 'El número de trabajador está registrado para otro usuario'
         this.$emit('errorForm', this.error)
+        this.$emit('scrollToTop');
         return
       } else {
         console.log('Datos que se envían', this.form)

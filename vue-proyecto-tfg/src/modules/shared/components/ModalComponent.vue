@@ -34,8 +34,7 @@
           </header>
           <main :class="bodyClass">
             <MensajesComponent
-              class="mt-4"
-              v-if="getTipo !== 'success'"
+              v-if="getMostrar && getTipo !== 'success'"
               :textClasses="textMessage"
               :message="getMensaje"
               :type="getTipo"
