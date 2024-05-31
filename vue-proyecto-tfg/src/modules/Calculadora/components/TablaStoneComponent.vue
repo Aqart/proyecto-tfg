@@ -58,6 +58,7 @@
                 v-model="terminacion"
                 :value="option.value"
                 name="terminacion"
+                :data-terminacion="option.label"
                 class="accent-stoneBackgroundContrast-1 w-8 h-8 text-stone bg-stone border-stoneBackground-5"
                 :checked="index === 0"
               />
@@ -201,7 +202,6 @@ export default {
     getTerminacionTexto() {
       // Busca el input seleccionado en el DOM
       const inputSeleccionado = this.$el.querySelector(`input[name="terminacion"]:checked`)
-
       // Devuelve el atributo 'data-terminacion' del input seleccionado
       return inputSeleccionado ? inputSeleccionado.dataset.terminacion : ''
     },
