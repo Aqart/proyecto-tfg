@@ -32,7 +32,7 @@
       /> -->
       <SelectComponent
         placeholder="Selecione una máquina"
-        label="Maquina"
+        label="Máquina"
         :options="filteredOptions"
         @changeSelect="addMaquinasArray"
       />

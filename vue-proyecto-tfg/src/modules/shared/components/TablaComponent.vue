@@ -6,7 +6,7 @@
       </h1>
       <div class="flex flex-col my-3">
         <span
-          class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 transition-all duration-150 ease-linear text-bold cursor-pointer hover:text-shadow hover:scale-105"
+          class="inline-flex items-center sm:justify-end mx-4 my-2 border border-transparent text-lg font-bold rounded-md text-stoneBackgroundContrast-1 transition-all duration-150 ease-linear text-bold cursor-pointer hover:text-shadow hover:scale-105"
           @click="toggleModalOpenNew()"
         >
           <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
@@ -230,6 +230,7 @@
     <LoadingComponent :fullScreen="true" :loading="loading" size="48px" />
     <ModalComponent :title="modalTitle" 
       ref="modalComponent"
+      :textMessage="'text-md'"
       :modalActive="showModal"
       :headClass="modalType === 'register' ? 'mt-[30%] sm:mt-[0%]' : ''"
       :bodyClass="modalType === 'register' ? 'sm:pt-6 mb-2' : 'pt-6'"
@@ -329,6 +330,9 @@ export default {
       loading: false,
       apellidos: ''
     }
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
   components: {
     SearchIconComponent: defineAsyncComponent(() =>

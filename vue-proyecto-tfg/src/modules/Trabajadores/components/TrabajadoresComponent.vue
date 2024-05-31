@@ -3,6 +3,7 @@
     <template v-if="getMostrar">
       <MensajesComponent
         v-if="getTipo !== 'warning'"
+        :textClasses="'text-md'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"

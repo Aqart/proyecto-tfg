@@ -3,7 +3,7 @@
     <template v-if="mostrarMensaje">
       <!-- Success -->
       <div
-        class="flex flex-row items-center justify-between px-4 py-3 text-sm text-green-800 border border-green-600 rounded-lg bg-green-50 bg-opacity-20 shadow-sm"
+        class="flex flex-row items-center justify-between px-4 py-3 text-green-800 border border-green-600 rounded-lg bg-green-50 bg-opacity-20 shadow-sm"
         role="alert"
         v-if="type === 'success'"
       >

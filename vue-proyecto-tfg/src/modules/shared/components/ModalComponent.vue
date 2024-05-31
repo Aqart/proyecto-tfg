@@ -14,7 +14,7 @@
         >
           <!-- Modal header -->
           <header
-            class="flex items-start justify-between p-4 border-b rounded-t bg-stoneBackground-2"
+            class="sticky flex items-start justify-between p-4 border-b rounded-t bg-stoneBackground-2"
           >
             <h3
               class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow pt-1 pl-2"
@@ -32,7 +32,9 @@
             >
             </ButtonComponent>
           </header>
-          <main :class="bodyClass">
+          <main :class="bodyClass"
+            class="overflow-y-auto max-h-[calc(100vh-1rem)]"
+          >
             <MensajesComponent
               v-if="getMostrar && getTipo !== 'success'"
               :textClasses="textMessage"

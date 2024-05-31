@@ -123,7 +123,7 @@
         title="Editar parte"
         :modalActive="editMode"
         :button="true"
-        headClass="mt-[65%] sm:mt-[30%] md:mt-[30%] lg:mt-[20%] xl:mt-[10%] mb-2 mx-auto"
+        headClass="mt-[20%] sm:mt-[0%] mb-2"
         bodyClass="p-0"
         titleClass="p-0"
         @close="editMode = false"

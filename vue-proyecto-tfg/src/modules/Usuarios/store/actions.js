@@ -94,8 +94,11 @@ export const editUsuario = async ({ commit }, usuario) => {
     return { ok: false, message: '....' }
   }
 
+  console.log(usuario)
   const { id, numero_trabajador, email, roles, password } = usuario
   const { id_empleado, nombre, apellido1, apellido2 } = usuario
+  console.log(id, numero_trabajador, email, roles, password)
+  console.log(id_empleado, nombre, apellido1, apellido2)
   
   try {
     const response = await authApi.put(`/usuarios/${id}`, { numero_trabajador, email, roles, password }, {
@@ -112,6 +115,9 @@ export const editUsuario = async ({ commit }, usuario) => {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
     })
+
+    console.log(response)
+    console.log(response2)
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
