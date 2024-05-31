@@ -3,6 +3,7 @@
     <template v-if="getMostrar">
       <MensajesComponent
         v-if="getTipo !== 'warning'"
+        :textClasses="'text-md'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -51,7 +52,7 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar usuario') {
-          console.log(data)
+          console.log("Usuarios Comp", data)
           const { ok, message } = await editUsuario(data)
           if (!ok) {
             actualizarMensaje('error', message)
