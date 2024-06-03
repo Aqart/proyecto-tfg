@@ -34,10 +34,15 @@
             </div>
           </Transition>
           <SelectComponent
+            v-if="card"
             :options="trabajadores"
-            :value="employeeNumber"
+            :placeholder="`${
+              card.employeeNumber
+                ? `${card.employeeNumber} - ${card.employeeName}`
+                : 'Selecciona un trabajador'
+            }`"
             label=""
-            :isEditing="true"
+            @changeSelect="selectEmployee"
           />
         </div>
         <div
@@ -153,7 +158,10 @@
           </div>
         </div>
 
-        <TablaEditFabricacionComponent @updateItems="getproduccionMaquina" />
+        <TablaEditFabricacionComponent
+          :card="produccionMaquina"
+          @updateItems="getproduccionMaquina"
+        />
         <div class="shadow bg-gray-50 border rounded-lg p-5">
           <label for="obsevaciones" class="block text-md md:text-md font-medium text-gray-700"
             >Observaciones</label
@@ -169,16 +177,10 @@
         </div>
         <div class="flex flex-row gap-2">
           <ButtonComponent
-            text="Firmar parte"
+            text="Aceptar"
             bgColor="bg-secondary"
-            @click.prevent="handleClick"
+            @click.prevent="handleSubmit"
             :icon="['fas', 'file-signature']"
-          />
-          <ButtonComponent
-            text="Limpiar"
-            bgColor="bg-secondary"
-            @click="handleClean"
-            :icon="['fas', 'eraser']"
           />
         </div>
       </div>
@@ -190,6 +192,12 @@
 import { defineAsyncComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  props: {
+    card: {
+      type: [Object, Array, null],
+      required: true
+    }
+  },
   data() {
     return {
       nbloque: null,
@@ -200,7 +208,6 @@ export default {
       horaFinActual: '',
       observaciones: '',
       employeeNumber: null,
-      employeeName: null,
       toggleRetalActive: false,
       toggleBisActive: false,
       showAlert: false,
@@ -221,25 +228,6 @@ export default {
     )
   },
   async created() {
-    if (localStorage.getItem('fechaInicioActual')) {
-      //Si hay una diferencia de más de 1 día entre la fecha actual y la fecha de inicio, se limpian los campos
-      const fechaActual = new Date()
-      const fechaInicio = new Date(localStorage.getItem('fechaInicioActual'))
-      const diferencia = fechaActual - fechaInicio
-      if (diferencia > 86400000) {
-        this.handleClean()
-      }
-    }
-    this.toggleBisActive = localStorage.getItem('toggleBisActive') === 'true' || false
-    this.toggleRetalActive = localStorage.getItem('toggleRetalActive') === 'true' || false
-    this.fechaInicioActual = localStorage.getItem('fechaInicioActual') || this.getFechaActual()
-    this.horaInicioActual = localStorage.getItem('horaInicioActual') || this.getHoraActual()
-    this.fechaFinActual = localStorage.getItem('fechaFinActual') || this.getFechaActual()
-    this.horaFinActual = localStorage.getItem('horaFinActual') || this.getHoraActual()
-    this.nbloque = localStorage.getItem('nbloque') || null
-    this.observaciones = localStorage.getItem('observaciones') || ''
-    this.employeeNumber = this.getEmployeeNumber || localStorage.getItem('employeeNumber')
-    this.employeeName = this.getEmployeeName || localStorage.getItem('employeeName')
     this.actualizarMostrarMensaje(false)
     this.trabajadores = await this.getTrabajadores.map((trabajador) => ({
       id: trabajador.numero_trabajador,
@@ -247,6 +235,9 @@ export default {
     }))
   },
   methods: {
+    selectEmployee(value) {
+      this.employeeNumber = value
+    },
     ...mapActions('Shared', ['actualizarMensaje', 'actualizarMostrarMensaje']),
     handleClick() {
       this.showModal = true
@@ -266,7 +257,6 @@ export default {
           this.showAlert = true
         } else {
           this.showAlert = false
-          localStorage.setItem('nbloque', this.nbloque)
         }
       } else {
         this.showAlert = false
@@ -274,6 +264,7 @@ export default {
     },
     getproduccionMaquina(items) {
       this.produccionMaquina = items
+      console.log('Items', items)
       delete this.produccionMaquina.editing
     },
     setHoraFin() {
@@ -298,26 +289,26 @@ export default {
       return `${horas}:${minutos}`
     },
     handleSubmit() {
-      if (this.toggleRetalActive === true) {
-        this.nbloque = null
-      } else {
-        if (!/^\d{5}$/.test(this.nbloque)) {
-          this.showModal = false
-          this.showAlert = true
-          return
-        } else {
-          this.showAlert = false
-        }
-      }
+      // if (this.toggleRetalActive === true) {
+      //   this.nbloque = null
+      // } else {
+      //   if (!/^\d{5}$/.test(this.nbloque)) {
+      //     this.showModal = false
+      //     this.showAlert = true
+      //     return
+      //   } else {
+      //     this.showAlert = false
+      //   }
+      // }
 
-      if (this.produccionMaquina.length === 0) {
-        this.actualizarMensaje({
-          tipo: 'warning',
-          mensaje: 'Debes añadir al menos un registro de producción'
-        })
-        this.actualizarMostrarMensaje(true)
-        return
-      }
+      // if (this.produccionMaquina.length === 0) {
+      //   this.actualizarMensaje({
+      //     tipo: 'warning',
+      //     mensaje: 'Debes añadir al menos un registro de producción'
+      //   })
+      //   this.actualizarMostrarMensaje(true)
+      //   return
+      // }
 
       if (this.produccionMaquina.length > 0) {
         for (const item of this.produccionMaquina) {
@@ -328,6 +319,7 @@ export default {
           item.numeroPiezas = Number(item.numeroPiezas)
         }
       }
+      console.log('Select numero trabajador', this.employeeNumber)
       const form = {
         numero_bloque: parseInt(this.nbloque) || null,
         numero_trabajador: parseInt(this.employeeNumber),
@@ -341,73 +333,45 @@ export default {
         produccionMaquina: this.produccionMaquina
       }
 
-      this.$store
-        .dispatch('ControlesHorarios/addParteCortabloques', form)
-        .then(() => {
-          this.handleClean()
-          this.showModal = false
-          this.actualizarMensaje({
-            tipo: 'success',
-            mensaje: 'Parte de cortabloques firmado correctamente'
-          })
-          this.actualizarMostrarMensaje(true)
-          this.$emit('closeCortabloques', false)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    handleClean() {
-      this.nbloque = null
-      this.fechaInicioActual = this.getFechaActual()
-      this.horaInicioActual = this.getHoraActual()
-      this.fechaFinActual = this.getFechaActual()
-      this.horaFinActual = this.getHoraActual()
-      this.observaciones = ''
-      this.toggleRetalActive = false
-      this.toggleBisActive = false
-      this.showAlert = false
-      this.produccionMaquina = []
-      localStorage.removeItem('items')
-      localStorage.removeItem('nbloque')
-      localStorage.removeItem('fechaInicioActual')
-      localStorage.removeItem('horaInicioActual')
-      localStorage.removeItem('fechaFinActual')
-      localStorage.removeItem('horaFinActual')
-      localStorage.removeItem('observaciones')
-      localStorage.removeItem('toggleBisActive')
-      localStorage.removeItem('toggleRetalActive')
+      console.log('Formulario editado', form)
+      // this.$store
+      //   .dispatch('ControlesHorarios/addParteCortabloques', form)
+      //   .then(() => {
+      //     this.handleClean()
+      //     this.showModal = false
+      //     this.actualizarMensaje({
+      //       tipo: 'success',
+      //       mensaje: 'Parte de cortabloques firmado correctamente'
+      //     })
+      //     this.actualizarMostrarMensaje(true)
+      //     this.$emit('closeCortabloques', false)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     }
   },
   computed: {
-    ...mapGetters('Auth', ['getEmployeeNumber']),
-    ...mapGetters('Auth', ['getEmployeeName']),
-    ...mapGetters('Trabajadores', ['getTrabajadores'])
+    ...mapGetters('Trabajadores', ['getTrabajadores']),
+    getEmployeeNumber() {
+      console.log('Employee number', this.employeeNumber)
+      return this.employeeNumber
+    }
   },
   watch: {
-    toggleBisActive() {
-      localStorage.setItem('toggleBisActive', this.toggleBisActive)
-    },
-    toggleRetalActive() {
-      localStorage.setItem('toggleRetalActive', this.toggleRetalActive)
-    },
-    fechaInicioActual() {
-      localStorage.setItem('fechaInicioActual', this.fechaInicioActual)
-    },
-    horaInicioActual() {
-      localStorage.setItem('horaInicioActual', this.horaInicioActual)
-    },
-    fechaFinActual() {
-      localStorage.setItem('fechaFinActual', this.fechaFinActual)
-    },
-    horaFinActual() {
-      localStorage.setItem('horaFinActual', this.horaFinActual)
-    },
-    observaciones() {
-      localStorage.setItem('observaciones', this.observaciones)
-    },
-    employeeNumber() {
-      localStorage.setItem('employeeNumber', this.employeeNumber)
+    card() {
+      this.nbloque = this.card.nbloque
+      this.fechaInicioActual = this.card.fechaInicioActual
+      this.horaInicioActual = this.card.horaInicioActual
+      this.fechaFinActual = this.card.fechaFinActual
+      this.horaFinActual = this.card.horaFinActual
+      this.observaciones = this.card.observaciones
+      this.toggleRetalActive = this.card.toggleRetalActive
+      this.toggleBisActive = this.card.toggleBisActive
+      console.log('Card', this.card.employeeNumber)
+      this.employeeNumber = `${this.card.employeeNumber}`
+      console.log('Emplot', this.employeeNumber)
+      this.produccionMaquina = this.card.produccionMaquina
     }
   }
 }

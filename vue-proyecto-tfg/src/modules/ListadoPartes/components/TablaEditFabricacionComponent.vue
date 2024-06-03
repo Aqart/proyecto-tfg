@@ -4,7 +4,7 @@
       class="flex flex-col sm:flex-row items-start sm:justify-between sm:items-center px-5 pt-5 pb-3"
     >
       <span
-        class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-md font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold"
+        class="inline-flex items-center justify-end mx-4 my-2 border border-transparent text-md font-bold rounded-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-4 text-bold cursor-pointer"
         @click="addNewItem"
       >
         <FontAwesomeIcon :icon="['fas', 'plus']" class="mr-1" />Añadir nuevo
@@ -43,7 +43,6 @@
                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
               </div>
             </th>
-
             <th scope="col" class="p-2">Largo</th>
             <th scope="col" class="p-2">Ancho</th>
             <th scope="col" class="p-2">Grosor</th>
@@ -127,18 +126,16 @@
               />
             </td>
 
-            <td class="px-3 py-4" v-if="!item.editing">{{ item.numeroPiezas }} <sup>pz.</sup></td>
+            <td class="px-3 py-4" v-if="!item.editing">{{ item.cantidad }} <sup>pz.</sup></td>
             <td class="px-3 py-4" v-else>
               <input
                 type="number"
-                v-model="item.copy.numeroPiezas"
+                v-model="item.copy.cantidad"
                 step="1"
                 min="0"
                 class="p-2 border border-gray-300 rounded-md focus:ring-stoneBackground-2 focus:border-stoneBackground-2 shadow-sm sm:text-md"
                 :style="{
-                  width: `${
-                    item.copy.numeroPiezas ? item.copy.numeroPiezas.toString().length + 4 : 4
-                  }ch`
+                  width: `${item.copy.cantidad ? item.copy.cantidad.toString().length + 4 : 4}ch`
                 }"
               />
             </td>
@@ -178,134 +175,88 @@
 
 <script>
 export default {
+  props: {
+    card: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
-      items: [],
+      items: this.card,
       selectedCheckboxes: [],
-      selectedItems: [],
       isAllChecked: false
     }
   },
-  created() {
-    // Carga los elementos desde el localStorage cuando se crea el componente
-    const storedItems = localStorage.getItem('edititems')
-    if (storedItems) {
-      this.items = JSON.parse(storedItems)
-      this.$emit('updateItems', this.items)
+  computed: {
+    disabledButton() {
+      return this.selectedCheckboxes.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
+    },
+    disabledCheckbox() {
+      return this.items.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
     }
   },
   methods: {
+    addNewItem() {
+      this.items.push({
+        largo: 0,
+        ancho: 0,
+        grosor: 0,
+        cantidad: 0,
+        editing: true,
+        copy: {
+          largo: 0,
+          ancho: 0,
+          grosor: 0,
+          cantidad: 0
+        }
+      })
+    },
     startEdit(item) {
-      // Hacer una copia profunda del item antes de empezar a editar
-      item.original = JSON.parse(JSON.stringify(item))
-      // También crea una copia para guardar los cambios temporales durante la edición
-      item.copy = JSON.parse(JSON.stringify(item))
       item.editing = true
+      item.copy = { ...item }
+    },
+    cancelEdit(item) {
+      item.editing = false
+      item.largo = item.copy.largo
+      item.ancho = item.copy.ancho
+      item.grosor = item.copy.grosor
+      item.cantidad = item.copy.cantidad
     },
     saveAndDeleteEmptyItems(item) {
-      // Solo guarda los cambios si el item no está vacío
-      if (item.copy) {
-        Object.assign(item, item.copy)
+      if (item.copy.largo && item.copy.ancho && item.copy.grosor && item.copy.cantidad) {
+        item.largo = item.copy.largo
+        item.ancho = item.copy.ancho
+        item.grosor = item.copy.grosor
+        item.cantidad = item.copy.cantidad
         item.editing = false
-        delete item.copy
-        item.largo = parseFloat(item.largo).toFixed(2)
-        item.ancho = parseFloat(item.ancho).toFixed(2)
-        item.grosor = parseFloat(item.grosor).toFixed(2)
-
-        // Guarda los elementos en el localStorage cuando se guardan los cambios
-        delete item.original
-        delete item.copy
-        localStorage.setItem('items', JSON.stringify(this.items))
-        this.$emit('updateItems', this.items)
       } else {
-        // Si el item está vacío, cancela la edición
-        this.cancelEdit(item)
+        const index = this.items.indexOf(item)
+        if (index > -1) this.items.splice(index, 1)
       }
     },
     deleteSelectedItems() {
       this.items = this.items.filter((_, index) => !this.selectedCheckboxes.includes(index))
       this.selectedCheckboxes = []
-      localStorage.setItem('items', JSON.stringify(this.items))
-      this.$emit('updateItems', this.items)
-    },
-    cancelEdit(item) {
-      const index = this.items.indexOf(item)
-      if (index > -1) {
-        if (item.original) {
-          // Si se estaba editando el item, restaura los valores originales
-          Object.assign(item, item.original)
-          item.editing = false
-          delete item.original
-        } else {
-          // Si el item es nuevo y está vacío, lo elimina
-          this.items.splice(index, 1)
-          // Elimina el índice del item de selectedCheckboxes
-          const checkboxIndex = this.selectedCheckboxes.indexOf(index)
-          if (checkboxIndex > -1) {
-            this.selectedCheckboxes.splice(checkboxIndex, 1)
-          }
-          if (this.selectedCheckboxes.length === 0) {
-            this.isAllChecked = false
-          }
-        }
-      }
-      // Guarda los elementos en el localStorage cuando se cancela la edición
-      localStorage.setItem('edititems', JSON.stringify(this.items))
-      this.$emit('updateItems', this.items)
-    },
-    addNewItem() {
-      this.items.push({
-        largo: '',
-        ancho: '',
-        grosor: '',
-        numeroPiezas: '',
-        editing: true,
-        copy: {}
-      })
+      this.isAllChecked = false
     },
     selectAllCheckboxes(event) {
-      if (event.target.checked) {
-        this.selectedCheckboxes = this.items.map((_, index) => index)
-      } else {
-        this.selectedCheckboxes = []
-        this.isAllChecked = false
-      }
-    }
-  },
-  computed: {
-    disabledButton() {
-      return this.selectedCheckboxes.length > 0
-        ? ''
-        : 'pointer-events-none opacity-50 cursor-not-allowed'
-    },
-    disabledCheckbox() {
-      return this.items.length > 0 ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'
+      this.selectedCheckboxes = event.target.checked ? this.items.map((_, index) => index) : []
     }
   },
   watch: {
-    largo() {
-      if (isNaN(this.largo) || this.largo < 0) {
-        this.largo = ''
-      }
-    },
-    ancho() {
-      if (isNaN(this.ancho) || this.ancho < 0) {
-        this.ancho = ''
-      }
-    },
-    grosor() {
-      if (isNaN(this.grosor) || this.grosor < 0) {
-        this.grosor = ''
-      }
-    },
-    numeroPiezas() {
-      if (isNaN(this.numeroPiezas) || this.numeroPiezas < 0) {
-        this.numeroPiezas = ''
-      }
-    },
-    selectedCheckboxes(newVal) {
-      this.isAllChecked = newVal.length !== 0
+    card: {
+      handler() {
+        this.items = this.card
+      },
+      deep: true
     }
   }
 }
 </script>
+
+<style scoped>
+.table-auto {
+  min-width: 100%;
+}
+</style>

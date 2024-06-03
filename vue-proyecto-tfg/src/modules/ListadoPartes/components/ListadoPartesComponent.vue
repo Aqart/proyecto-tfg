@@ -93,7 +93,7 @@
 
             <div>
               <template v-if="isTableView">
-                <TablaListadoPartesComponent :cards="cards" />
+                <TablaListadoPartesComponent :cards="cards" @editTable="editElement" />
               </template>
               <template v-else>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -110,6 +110,7 @@
                       :horaFinActual="card.horaFinActual"
                       :observaciones="card.observaciones"
                       :produccionMaquina="card.produccionMaquina"
+                      @editCard="editMode = true"
                     />
                   </div>
                 </div>
@@ -128,7 +129,7 @@
         titleClass="p-0"
         @close="editMode = false"
       >
-        <FormEditParteCortabloquesComponent class="mb-5" />
+        <FormEditParteCortabloquesComponent class="mb-5" :card="selectedElement" />
       </ModalComponent>
     </div>
   </div>
@@ -146,12 +147,14 @@ export default {
       isSortedAscending: false,
       isSortedBlockNumberAsc: true,
       isTableView: window.innerWidth > 768,
-      editMode: true,
+      editMode: false,
       beforeFilter: false,
       fechaInicio: '',
       fechaFin: '',
       loading: false,
       cards: [],
+      selectedCardId: null,
+      selectedElement: null,
       orderByOptions: [
         { id: 'ordenarPorNumeroBloque', nombre: 'Número de bloque' },
         { id: 'ordenarPorTrabajador', nombre: 'Trabajador' },
@@ -171,8 +174,11 @@ export default {
     window.removeEventListener('resize', this.checkIfMobile)
   },
   methods: {
+    editElement(card) {
+      this.editMode = true
+      this.selectedElement = card
+    },
     checkIfMobile() {
-      console.log(this.isTableView)
       this.isTableView = window.innerWidth > 768 // Cambia a 'true' para PC y 'false' para móvil
     },
     async exportToPDF() {
@@ -334,6 +340,7 @@ export default {
       this.loading = true
       this.cards = []
       let response = await this.getPartesCortabloques
+      console.log('PARTE CORTABLOQUES', response)
 
       // Convertir las fechas a objetos Date y establecer la hora
       const fechaInicioDate = new Date(this.fechaInicio)
