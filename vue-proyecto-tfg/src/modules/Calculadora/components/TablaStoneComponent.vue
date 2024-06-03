@@ -32,7 +32,8 @@
       /> -->
       <SelectComponent
         placeholder="Selecione una máquina"
-        label="Máquina"
+        label="Máquina usada en el proceso"
+        otherClasses="block text-xl font-bold first-letter:uppercase text-shadow text-stoneBackground-3"
         :options="filteredOptions"
         @changeSelect="addMaquinasArray"
       />

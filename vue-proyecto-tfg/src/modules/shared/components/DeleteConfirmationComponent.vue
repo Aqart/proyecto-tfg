@@ -218,6 +218,7 @@ export default {
     },
     checkTrabajadores(){
       const trabajadores = this.getTrabajadores
+      console.log(trabajadores)
       const newListItems = this.listItems.map(item => {
         const trabajador = trabajadores.find(trabajador => trabajador.numero_trabajador === item.numero_trabajador)
         return {

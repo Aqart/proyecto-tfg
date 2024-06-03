@@ -208,7 +208,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Trabajadores', ['getEmpleados']),
+    ...mapGetters('Trabajadores', ['getEmpleados', 'getAllEmpleados']),
     textoBoton() {
       return this.tipo === 'Editar usuario' ? 'Modificar' : 'Guardar'
     },
@@ -282,6 +282,8 @@ export default {
       return true;
     },
     handleSubmit() {
+      const empleados = this.getAllEmpleados;
+      console.log(empleados)
       const isEmpty = (value) => value === '' || value === 0 || value === null || value === undefined
 
       const requiredFields = ['nombre', 'apellido1', 'numero_trabajador', 'email', 'roles']
@@ -333,14 +335,16 @@ export default {
       } else if(this.form.email !== this.data.email && this.users.some(user => user.email === this.form.email)) {
         this.error.status = true
         this.error.type = 'warning'
-        this.error.message = 'El email ya está registrado para otro usuario'
+        this.error.message = 'El email pertenece a otro usuario'
         this.$emit('errorForm', this.error)
         this.$emit('scrollToTop');
         return
-      } else if(Number(this.form.numero_trabajador) !== this.data.numero_trabajador && this.users.some(user => user.numero_trabajador === Number(this.form.numero_trabajador))) {
+      } else if(Number(this.form.numero_trabajador) !== this.data.numero_trabajador && empleados.some(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))) {
+        console.log(empleados)
+        const sameEmployee = empleados.find(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))
         this.error.status = true
         this.error.type = 'warning'
-        this.error.message = 'El número de trabajador está registrado para otro usuario'
+        this.error.message = sameEmployee.activo === 0 ? 'El número pertenece a un usuario dado de baja' : 'El número de trabajador pertenece a otro usuario'
         this.$emit('errorForm', this.error)
         this.$emit('scrollToTop');
         return

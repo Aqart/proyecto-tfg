@@ -46,7 +46,7 @@ app.get('/empleados', EmpleadoController.obtenerTodos)
 app.post('/empleados', EmpleadoController.crear)
 app.get('/empleados/:id', EmpleadoController.obtenerPorId)
 app.put('/empleados/:id', EmpleadoController.actualizar)
-app.delete('/empleados/:id', EmpleadoController.eliminar)
+app.delete('/empleados/:id', EmpleadoController.desactivar)
 
 // Endpoints para Máquinas
 app.get('/maquinas', MaquinaController.obtenerTodas)

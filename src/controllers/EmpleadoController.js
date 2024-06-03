@@ -1,7 +1,7 @@
 import { pool } from '../db.js'
 
 const EmpleadoController = {
-  // Obtener todos los trabajadores
+  // Obtener todos los trabajadores activos
   obtenerTodos: async (req, res, next) => {
     try {
         const [rows, fields] = await pool.query(
@@ -66,6 +66,22 @@ const EmpleadoController = {
         next(error)
     }
   },
+
+  // Desactivar un trabajador
+    desactivar: async (req, res, next) => {
+        const { id } = req.params
+        try {
+            await pool.query(
+                'UPDATE trabajador SET activo = 0 WHERE numero_trabajador = ?',
+                [id]
+            )
+            res.status(200).json({
+                message: 'Empleado desactivado correctamente',
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
 
   // Eliminar un trabajador
   eliminar: async (req, res, next) => {

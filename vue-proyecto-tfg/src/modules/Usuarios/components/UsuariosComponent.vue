@@ -116,6 +116,7 @@ export default {
           )
           actualizarMostrarMensaje(true)
           await getTrabajadores()
+          await getEmpleados()
           
         }
       } catch (error) {
