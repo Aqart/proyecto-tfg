@@ -332,8 +332,11 @@ export default {
     toggleView() {
       this.isTableView = !this.isTableView
     },
-    getEmployeeByNumber(employeeNumber) {
-      return this.getEmpleados.find((empleado) => empleado.numero_trabajador === employeeNumber)
+    async getEmployeeByNumber(employeeNumber) {
+      const empleado = await this.getEmpleados.find(
+        (empleado) => empleado.numero_trabajador === employeeNumber
+      )
+      return empleado
     },
     async changeFilter() {
       this.actualizarMostrarMensaje(false)
@@ -394,12 +397,12 @@ export default {
       })
 
       // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el range de fechas especificado
-      filteredParts.forEach((parte) => {
+      filteredParts.forEach(async (parte) => {
+        const empleado = await this.getEmployeeByNumber(parte.numero_trabajador)
+        console.log('EMPLEADO', empleado)
         this.cards.push({
           employeeNumber: parte.numero_trabajador,
-          employeeName: `${this.getEmployeeByNumber(parte.numero_trabajador).nombre} ${
-            this.getEmployeeByNumber(parte.numero_trabajador).apellido1
-          }`,
+          employeeName: `${empleado.nombre} ${empleado.apellido1}`,
           toggleRetalActive: parte.retal,
           nbloque: parte.numero_bloque,
           toggleBisActive: parte.bis,
