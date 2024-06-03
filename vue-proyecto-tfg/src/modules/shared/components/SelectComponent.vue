@@ -2,7 +2,8 @@
   <div class="relative">
     <label
       :for="label"
-      class="block text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3"
+      class=""
+      :class="otherClasses !== '' ? otherClasses : 'block text-xl font-medium first-letter:uppercase text-shadow text-stoneBackground-3'"
     >
       {{ label }}
     </label>
@@ -54,6 +55,10 @@ export default {
     placeholder: {
       type: String,
       default: 'Seleccione una opción'
+    },
+    otherClasses: {
+      type: String,
+      default: ''
     },
     label: {
       type: String,

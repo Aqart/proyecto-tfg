@@ -1,0 +1,13 @@
+DELIMITER //
+
+CREATE TRIGGER after_trabajador_update
+AFTER UPDATE ON TRABAJADOR
+FOR EACH ROW
+BEGIN
+    IF NEW.activo = FALSE THEN
+        DELETE FROM TRABAJADOR_COSTES WHERE numero_trabajador = NEW.numero_trabajador;
+    END IF;
+END;
+//
+
+DELIMITER ;

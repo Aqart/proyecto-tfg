@@ -3,6 +3,10 @@ export const getTrabajadores = (state) => {
 }
 
 export const getEmpleados = (state) => {
+  return state.empleados.filter(empleado => empleado.activo === 1)
+}
+
+export const getAllEmpleados = (state) => {
   return state.empleados
 }
 
