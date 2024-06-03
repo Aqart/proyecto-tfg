@@ -229,9 +229,9 @@ export default {
   },
   async created() {
     this.actualizarMostrarMensaje(false)
-    this.trabajadores = await this.getTrabajadores.map((trabajador) => ({
+    this.trabajadores = await this.getEmpleados.map((trabajador) => ({
       id: trabajador.numero_trabajador,
-      nombre: `${trabajador.numero_trabajador} - ${trabajador.nombre_completo}`
+      nombre: `${trabajador.numero_trabajador} - ${trabajador.nombre} ${trabajador.apellido1} ${trabajador.apellido2}`
     }))
   },
   methods: {
@@ -352,7 +352,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Trabajadores', ['getTrabajadores']),
+    ...mapGetters('Trabajadores', ['getEmpleados']),
     getEmployeeNumber() {
       console.log('Employee number', this.employeeNumber)
       return this.employeeNumber
