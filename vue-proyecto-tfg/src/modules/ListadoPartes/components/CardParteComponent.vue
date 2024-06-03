@@ -1,11 +1,11 @@
 <template>
   <div class="h-full">
     <!-- CardParteComponent -->
-    <div class="w-full mx-auto overflow-hidden h-full">
-      <div class="h-full">
-        <div
-          class="p-10 text-md bg-white rounded-lg shadow-lg h-full border border-stoneBackgroundContrast-1"
-        >
+    <div
+      class="px-10 pt-10 pb-5 text-md bg-white rounded-lg shadow-lg h-full border border-stoneBackgroundContrast-1 group"
+    >
+      <div class="w-full mx-auto overflow-hidden h-full">
+        <div class="h-full">
           <ul class="text-stoneBackground-3 font-bold flex flex-col gap-1">
             <li v-if="!toggleRetalActive" class="flex justify-between break-words">
               <span>Nº de bloque:</span>
@@ -44,6 +44,21 @@
               </ul>
             </li>
           </ul>
+          <div class="flex flex-row py-5 invisible group-hover:visible gap-2">
+            <span
+              class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+              @click.prevent="editCard"
+            >
+              <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
+              <span class="ml-2 transition-all duration-100 ease-in-out">Editar</span>
+            </span>
+            <span
+              class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+            >
+              <FontAwesomeIcon :icon="['fas', 'trash-can']" />
+              <span class="ml-2 transition-all duration-100 ease-in-out">Eliminar</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -95,6 +110,11 @@ export default {
     produccionMaquina: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    editCard() {
+      this.$emit('editCard')
     }
   },
   computed: {

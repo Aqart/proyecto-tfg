@@ -12,9 +12,10 @@
         <th scope="col" class="p-4">Fecha de fin</th>
       </tr>
     </thead>
+
     <tbody class="bg-white">
       <template v-for="(card, index) in cards" :key="'card-' + index">
-        <tr class="border-t-4">
+        <tr class="border-t-4 group">
           <td class="px-6 py-10 text-lg">{{ card.employeeNumber }} - {{ card.employeeName }}</td>
           <td class="px-6 py-10 text-lg font-bold text-stoneBackgroundContrast-2">
             {{ card.nbloque || 'Retal' }}
@@ -24,6 +25,23 @@
           </td>
           <td class="px-6 py-10 text-lg">
             {{ formatFechaHora(card.fechaFinActual, card.horaFinActual) }}
+          </td>
+          <td
+            class="flex flex-col px-6 py-10 no-print invisible group-hover:visible transition-all duration-100 ease-in-out"
+          >
+            <span
+              class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer"
+              @click.prevent="editTable(card)"
+            >
+              <FontAwesomeIcon :icon="['fas', 'pen-to-square']" />
+              <span class="ml-2">Editar</span>
+            </span>
+            <span
+              class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer"
+            >
+              <FontAwesomeIcon :icon="['fas', 'trash-can']" />
+              <span class="ml-2">Eliminar</span>
+            </span>
           </td>
         </tr>
         <tr>
@@ -76,6 +94,9 @@ export default {
     }
   },
   methods: {
+    editTable(card) {
+      this.$emit('editTable', card)
+    },
     formatFechaHora(fecha, hora) {
       if (!fecha || !hora) {
         return ''
