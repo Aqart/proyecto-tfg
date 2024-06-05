@@ -5,6 +5,7 @@ const useUsuarios = () => {
 
   const getUsuarios = async () => {
     const resp = await store.dispatch('Usuarios/fetchUsuarios')
+    console.log(resp)
     return resp
   }
 

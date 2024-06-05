@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 31-05-2024 a las 20:46:19
+-- Tiempo de generación: 05-06-2024 a las 17:49:25
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -40,8 +40,8 @@ CREATE TABLE `CONSUMIBLE` (
 
 INSERT INTO `CONSUMIBLE` (`id`, `nombre`, `precio`, `id_maquina`) VALUES
 (1, 'Consumible 1', 1200.51, 1),
-(2, 'Consumible 2', 4500, 6),
-(3, 'Consumible 3', 4500, 4);
+(2, 'Consumible 2', 4500, 1),
+(3, 'Consumible 3', 4500, 7);
 
 -- --------------------------------------------------------
 
@@ -61,9 +61,9 @@ CREATE TABLE `GASTO_ENERGETICO` (
 --
 
 INSERT INTO `GASTO_ENERGETICO` (`id`, `nombre`, `coste_energia`, `id_maquina`) VALUES
-(1, 'Electricidad', 10500, 4),
+(1, 'Electricidad', 10500, 6),
 (2, 'Gas', 5500, 1),
-(3, 'Agua', 7000, NULL);
+(3, 'Agua', 7000, 2);
 
 -- --------------------------------------------------------
 
@@ -111,8 +111,7 @@ INSERT INTO `MAQUINA` (`id`, `nombre`, `produccion_m2`, `porcentaje_desperdicio`
 (5, 'Monohilo', 310, 10),
 (6, 'Cortabloques', 600, 30),
 (7, 'Linea losa', 400, 10),
-(8, 'Multidisco', 500, 40),
-(10, 'Multihilo', 30000, 10);
+(8, 'Multidisco', 500, 40);
 
 -- --------------------------------------------------------
 
@@ -163,7 +162,10 @@ INSERT INTO `PARTE_CORTABLOQUES` (`id`, `fecha_inicio`, `fecha_fin`, `hora_inici
 (2, '2024-05-15', '2024-05-15', '08:00:00', '13:00:00', 'Observaciones prueba', 102, 222222, 0, 0),
 (3, '2024-05-14', '2024-05-14', '08:00:00', '13:00:00', 'Observaciones prueba', 103, 333333, 0, 0),
 (4, '2024-05-15', '2024-05-17', '08:00:00', '16:00:00', 'Observaciones prueba', 104, NULL, 0, 1),
-(5, '2024-05-28', '2024-05-28', '13:55:00', '13:55:00', 'hakfhsdkf', 105, NULL, 0, 1);
+(5, '2024-05-28', '2024-05-28', '13:55:00', '13:55:00', 'hakfhsdkf', 101, NULL, 0, 1),
+(6, '2024-05-29', '2024-05-29', '12:23:00', '15:23:00', 'observación de prueba', 101, 45678, 1, 0),
+(7, '2024-05-29', '2024-05-29', '16:55:00', '20:55:00', 'observación del trabajador pedro', 104, 87654, 1, 0),
+(8, '2024-05-29', '2024-05-29', '17:46:00', '17:46:00', 'Sgnwgbdgb', 101, 12986, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -193,7 +195,10 @@ INSERT INTO `PRODUCCION_MAQUINA` (`id`, `id_parte`, `largo`, `ancho`, `grosor`, 
 (14, 3, 200, 100, 20, 5),
 (15, 4, 100, 50, 10, 10),
 (16, 4, 200, 100, 20, 5),
-(17, 5, 1, 1, 2, 3);
+(17, 5, 1, 1, 2, 3),
+(18, 6, 120, 65, 3, 13),
+(19, 7, 123, 59.5, 2, 10),
+(20, 8, 12, 10, 14, 2);
 
 -- --------------------------------------------------------
 
@@ -215,27 +220,12 @@ CREATE TABLE `TRABAJADOR` (
 --
 
 INSERT INTO `TRABAJADOR` (`id`, `numero_trabajador`, `nombre`, `apellido1`, `apellido2`, `activo`) VALUES
+(1, 101, 'Juan', 'Pérez', 'García', 1),
 (2, 102, 'María', 'López', 'Martínez', 1),
-(3, 103, 'Carlos José', 'González', 'Fernández', 1),
-(5, 105, 'Ana María', 'García', 'Hernández', 1),
-(6, 106, 'Sara María', 'Rodríguez', 'Gómez', 1),
-(7, 107, 'Luis', 'Fernández', 'Pérez', 1),
-(8, 108, 'Elena', 'Martín', 'González', 1),
-(13, 101, 'Juan', 'Pérez', 'García', 1),
-(17, 109, 'Pedro Manuel', 'Sánchez', 'Costa', 1),
-(19, 110, 'emp10', '10', '10', 0);
-
---
--- Disparadores `TRABAJADOR`
---
-DELIMITER $$
-CREATE TRIGGER `after_trabajador_update` AFTER UPDATE ON `TRABAJADOR` FOR EACH ROW BEGIN
-    IF NEW.activo = FALSE THEN
-        DELETE FROM TRABAJADOR_COSTES WHERE numero_trabajador = NEW.numero_trabajador;
-    END IF;
-END
-$$
-DELIMITER ;
+(3, 103, 'Carlos', 'González', 'Fernández', 1),
+(4, 104, 'Pedro', 'Martínez', 'López', 1),
+(7, 105, 'Usuario', 'Cinco', 'Cinco', 1),
+(8, 106, 'Usuario', 'Seis', 'Seis', 1);
 
 -- --------------------------------------------------------
 
@@ -255,8 +245,11 @@ CREATE TABLE `TRABAJADOR_COSTES` (
 --
 
 INSERT INTO `TRABAJADOR_COSTES` (`id`, `numero_trabajador`, `precio`, `id_maquina`) VALUES
-(12, 102, 14000, NULL),
-(13, 103, 14000, 7);
+(11, 101, 5400, 1),
+(12, 102, 14000, 2),
+(13, 103, 14000, 4),
+(14, 104, 10000, 2),
+(17, 105, 3000, 4);
 
 -- --------------------------------------------------------
 
@@ -300,15 +293,12 @@ CREATE TABLE `USER` (
 --
 
 INSERT INTO `USER` (`id`, `email`, `password`, `numero_trabajador`, `fecha_registro`, `ultima_conexion`, `roles`) VALUES
-(7, 'usuario2@example.com', '$2b$10$UCOnfmb3uP.3urPHD/WDFes1s2PL5wT.NzX.AHsdnoMgMJLQ8vnkK', 102, '2024-05-15 12:16:58', '2024-05-30 18:44:53', 'ADMIN'),
-(8, 'usuario3@example.com', '$2b$10$xHy1yDJNL09tsQWOCaWFhuKY6SQi2HUdZk.EWW8EipglRlkT9dMZm', 103, '2024-05-15 12:16:58', '2024-05-15 15:36:10', 'TRABAJADOR'),
-(9, 'usuario4@example.com', '$2b$10$Ee8oqt3iwvpEQphJHpW18..eMXv331Lw.3hJCWvezBAupAaTAPGty', 104, '2024-05-15 10:16:58', NULL, 'TRABAJADOR'),
-(10, 'usuario5@example.com', 'password5', 105, '2024-05-15 10:16:58', NULL, 'TRABAJADOR'),
-(11, 'usuario6@example.com', 'password6', 106, '2024-05-15 10:16:58', NULL, 'TRABAJADOR'),
-(12, 'usuario7@example.com', 'password7', 107, '2024-05-15 10:16:58', NULL, 'TRABAJADOR'),
-(13, 'usuario8@example.com', 'password8', 108, '2024-05-15 10:16:58', NULL, 'TRABAJADOR'),
-(18, 'admin@admin.es', '$2b$10$CU/1s6JvGOb/2zTsNQGpneaTTIS//wyRTbjUqo8woam5A5sE.kQtu', 101, '2024-05-30 18:48:26', '2024-05-31 15:34:34', 'ADMIN'),
-(52, 'usuario9@example.com', '$2b$10$yUHyRiyjrY1qYVzFt12EmehePCmgLTG1UyxjkhhhjURG.stABFJ3C', 109, '2024-05-31 18:06:46', NULL, 'TRABAJADOR');
+(6, 'admin@admin.es', '$2b$10$c2Zs3zhkY0gZTaNC5HJHxOZ3nCGvLAWWAq9svtrOnWd3ZBAXPph2a', 101, '2024-05-15 08:16:58', '2024-06-05 15:03:38', 'ADMIN'),
+(7, 'usuario2@example.com', '$2b$10$Ee8oqt3iwvpEQphJHpW18..eMXv331Lw.3hJCWvezBAupAaTAPGty', 102, '2024-05-15 08:16:58', '2024-05-29 12:09:43', 'TRABAJADOR'),
+(8, 'usuario3@example.com', '$2b$10$xHy1yDJNL09tsQWOCaWFhuKY6SQi2HUdZk.EWW8EipglRlkT9dMZm', 103, '2024-05-15 08:16:58', '2024-05-15 11:36:10', 'TRABAJADOR'),
+(9, 'pedro@sueloparaexterior.com', '$2b$10$qvuT493HkvvuTXUhW2MsMO/uhuopby8cuVMeEZvw5jkUXtmoyL.7i', 104, '2024-05-15 08:16:58', '2024-05-29 16:35:23', 'TRABAJADOR'),
+(14, 'usuario5@example.com', '$2b$10$6W1EYxVrO4f9El.hSaovsO6XfNGJ9XVwx95Frzq7SBfNJCanpJE4K', 105, '2024-06-05 15:34:15', NULL, 'TRABAJADOR'),
+(15, 'usuario6@example.com', '$2b$10$syL3Buxdii8FpOvSQeMBgO2.M0t/9n8jeuyvmWVvMwGXHUBT0i8Ou', 106, '2024-06-05 15:47:35', NULL, 'TRABAJADOR');
 
 --
 -- Índices para tablas volcadas
@@ -414,49 +404,49 @@ ALTER TABLE `GASTO_GENERAL`
 -- AUTO_INCREMENT de la tabla `MAQUINA`
 --
 ALTER TABLE `MAQUINA`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `MATERIA_PRIMA`
 --
 ALTER TABLE `MATERIA_PRIMA`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `PARTE_CORTABLOQUES`
 --
 ALTER TABLE `PARTE_CORTABLOQUES`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `PRODUCCION_MAQUINA`
 --
 ALTER TABLE `PRODUCCION_MAQUINA`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `TRABAJADOR`
 --
 ALTER TABLE `TRABAJADOR`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `TRABAJADOR_COSTES`
 --
 ALTER TABLE `TRABAJADOR_COSTES`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `TRANSPORTE`
 --
 ALTER TABLE `TRANSPORTE`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `USER`
 --
 ALTER TABLE `USER`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
@@ -466,26 +456,38 @@ ALTER TABLE `USER`
 -- Filtros para la tabla `CONSUMIBLE`
 --
 ALTER TABLE `CONSUMIBLE`
-  ADD CONSTRAINT `consumible_ibfk_1` FOREIGN KEY (`id_maquina`) REFERENCES `MAQUINA` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `CONSUMIBLE_ibfk_1` FOREIGN KEY (`id_maquina`) REFERENCES `MAQUINA` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `GASTO_ENERGETICO`
 --
 ALTER TABLE `GASTO_ENERGETICO`
-  ADD CONSTRAINT `gasto_energetico_ibfk_1` FOREIGN KEY (`id_maquina`) REFERENCES `MAQUINA` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `GASTO_ENERGETICO_ibfk_1` FOREIGN KEY (`id_maquina`) REFERENCES `MAQUINA` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `PARTE_CORTABLOQUES`
+--
+ALTER TABLE `PARTE_CORTABLOQUES`
+  ADD CONSTRAINT `fk_parte_cortabloques_numero_trabajador` FOREIGN KEY (`numero_trabajador`) REFERENCES `TRABAJADOR` (`numero_trabajador`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `PRODUCCION_MAQUINA`
 --
 ALTER TABLE `PRODUCCION_MAQUINA`
-  ADD CONSTRAINT `produccion_maquina_ibfk_1` FOREIGN KEY (`id_parte`) REFERENCES `PARTE_CORTABLOQUES` (`id`);
+  ADD CONSTRAINT `PRODUCCION_MAQUINA_ibfk_1` FOREIGN KEY (`id_parte`) REFERENCES `PARTE_CORTABLOQUES` (`id`);
+
+--
+-- Filtros para la tabla `TRABAJADOR`
+--
+ALTER TABLE `TRABAJADOR`
+  ADD CONSTRAINT `fk_trabaj_user_numtrabajador` FOREIGN KEY (`numero_trabajador`) REFERENCES `USER` (`numero_trabajador`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `TRABAJADOR_COSTES`
 --
 ALTER TABLE `TRABAJADOR_COSTES`
-  ADD CONSTRAINT `fk_trabajador_costes_numero_trabajador` FOREIGN KEY (`numero_trabajador`) REFERENCES `TRABAJADOR` (`numero_trabajador`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `trabajador_costes_ibfk_1` FOREIGN KEY (`id_maquina`) REFERENCES `MAQUINA` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `TRABAJADOR_COSTES_ibfk_1` FOREIGN KEY (`id_maquina`) REFERENCES `MAQUINA` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_trabajador_costes_numero_trabajador` FOREIGN KEY (`numero_trabajador`) REFERENCES `TRABAJADOR` (`numero_trabajador`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

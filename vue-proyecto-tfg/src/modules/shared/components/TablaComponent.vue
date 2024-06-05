@@ -32,7 +32,8 @@
           @click="toggleModalDeletedSelected"
         >
           <FontAwesomeIcon :icon="['fas', 'trash-can']" class="mr-2 hover:text-secondary" />
-          Eliminar seleccionados
+          <span v-if="formattedRoute === 'Usuarios'">Desactivar seleccionados</span>
+          <span v-else>Eliminar seleccionados</span>
           <span v-if="selectedCheckboxes.length > 0">&nbsp;({{ selectedCheckboxes.length }})</span>
         </a>
       </div>
@@ -113,11 +114,14 @@
             v-for="body in searchFilteredData"
             :key="body.id"
             class="bg-gray-50 border-b hover:bg-gray-100"
+            :class="body.status === 'Inactivo' ? 'text-gray-400 opacity-50' : ''"
           >
             <td class="w-4 p-6 no-print">
               <div class="flex items-center">
                 <input
                   id="checkbox-table-search-1"
+                  :disabled="body.status === 'Inactivo'" 
+                  :class="body.status === 'Inactivo' ? 'cursor-not-allowed' : ''"
                   type="checkbox"
                   :value="body.id"
                   v-model="selectedCheckboxes"
@@ -417,6 +421,13 @@ export default {
     }
   },
   methods: {
+    isStatusCheck(){
+      // si body contiene status, entonces si status es Inactivo deshabilitar checkboxes
+      console.log(this.searchFilteredData)
+      if (this.searchFilteredData.some((item) => item.status === 'Inactivo')) {
+        return 'cursor-not-allowed opacity-50'
+      }
+    },
     async exportToPDF() {
       const doc = new jsPDF('portrait', 'pt', 'a4')
 

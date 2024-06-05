@@ -36,7 +36,7 @@ export default {
     }
   },
   setup() {
-    const { createUsuario, editUsuario, deleteUsuarios, getUsuario } = useUsuarios()
+    const { createUsuario, editUsuario, deleteUsuarios, getUsuario, getUsuarios } = useUsuarios()
     const { getEmpleados, getTrabajadores } = useTrabajadores()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
@@ -117,6 +117,7 @@ export default {
           actualizarMostrarMensaje(true)
           await getTrabajadores()
           await getEmpleados()
+          await getUsuarios()
           
         }
       } catch (error) {

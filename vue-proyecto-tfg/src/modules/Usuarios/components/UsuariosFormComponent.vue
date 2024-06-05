@@ -339,7 +339,7 @@ export default {
         this.$emit('errorForm', this.error)
         this.$emit('scrollToTop');
         return
-      } else if(Number(this.form.numero_trabajador) !== this.data.numero_trabajador && empleados.some(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))) {
+      } else if(this.form.numero_trabajador !== this.data.numero_trabajador && empleados.some(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))) {
         console.log(empleados)
         const sameEmployee = empleados.find(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))
         this.error.status = true
