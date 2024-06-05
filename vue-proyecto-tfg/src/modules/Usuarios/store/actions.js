@@ -11,10 +11,30 @@ export const fetchUsuarios = async ({ commit }) => {
       }
     })
 
+    const response2 = await authApi.get('/empleados', { headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
-    if (response.status === 200 && response.data) {
+    if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
+
+      const usuariosConEstado = response.data.map(usuario => {
+        // Encuentra el empleado correspondiente al usuario
+        const empleado = response2.data.find(empleado => empleado.numero_trabajador === usuario.numero_trabajador)
+    
+        // Retorna el usuario con el campo activo del empleado
+        return {
+          ...usuario,
+          status: empleado ? (empleado.activo === 1 ? 'Activo' : 'Inactivo') : null
+        }
+      })
+    
       // Actualizar el estado con los Usuarios obtenidos
-      commit('setUsuarios', response.data)
+      commit('setUsuarios', usuariosConEstado)
+      console.log(response2.data)
+      console.log(usuariosConEstado)
+
     } else {
       console.error('Error al obtener los usuarios:', response.message)
     }
@@ -156,21 +176,21 @@ export const deleteUsuarios = async ({ commit }, usuarios) => {
     console.log(usuario)
 
     try {
-      const response = await authApi.delete(`/usuarios/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('idToken')}`
-        }
-      })
+      // const response = await authApi.delete(`/usuarios/${id}`, {
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      //   }
+      // })
 
-      const response2 = await authApi.delete(`/empleados/${usuario.numero_trabajador}`, {
+      const response = await authApi.delete(`/empleados/${usuario.numero_trabajador}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`
         }
       })
       // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
-      if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
+      if ((response.status === 200 && response.data)) {
         // Hacer un mutation que elimine los consumibles de Vuex
-        commit('deleteUsuario', id)
+        // commit('deleteUsuario', id)
         results.push({ id, ok: true, message: response.data.message })
       } else {
         console.error('Error al eliminar Usuario:', response.data.message)

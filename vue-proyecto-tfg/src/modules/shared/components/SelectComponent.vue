@@ -94,7 +94,7 @@ export default {
       }
       console.log('SELECTED OPTION', this.selectedOption)
       const foundOption = this.allOptions.find(
-        (option) => option.id === Number(this.selectedOption)
+        (option) => option.id === this.selectedOption
       )
       console.log('FOUND OPTION', foundOption)
       return foundOption ? foundOption.nombre : 'Sin máquina asociada'

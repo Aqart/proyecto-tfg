@@ -119,34 +119,42 @@ app.use((err, req, res, next) => {
     })
 })
 
-// Función para buscar un puerto disponible
-function buscarPuertoDisponible(port) {
-    return new Promise((resolve, reject) => {
-        const server = app.listen(port, () => {
-            server.close(() => {
-                resolve(port)
-            })
-        })
-        server.on('error', (err) => {
-            if (err.code === 'EADDRINUSE') {
-                buscarPuertoDisponible(port + 1)
-                    .then(resolve)
-                    .catch(reject)
-            } else {
-                reject(err)
-            }
-        })
-    })
-}
 
-// Iniciar el servidor en un puerto disponible
-buscarPuertoDisponible(3000)
-    .then((port) => {
-        const PORT = process.env.PORT || port
-        app.listen(PORT, () => {
-            console.log(`Servidor escuchando en el puerto ${PORT}`)
-        })
-    })
-    .catch((err) => {
-        console.error('Error al buscar puerto disponible:', err)
-    })
+const puerto = process.env.PORT || 3000;
+app.listen(puerto, () => {
+    console.log(`Servidor escuchando en el puerto ${puerto}`);
+});
+
+// // Función para buscar un puerto disponible
+// function buscarPuertoDisponible(port) {
+//     return new Promise((resolve, reject) => {
+//         const server = net.createServer()
+//         server.listen(port, () => {
+//             server.close(() => {
+//                 resolve(port)
+//             })
+//         })
+//         server.on('error', (err) => {
+//             if (err.code === 'EADDRINUSE') {
+//                 // Asegúrate de retornar esta promesa
+//                 return buscarPuertoDisponible(port + 1)
+//                     .then(resolve)
+//                     .catch(reject)
+//             } else {
+//                 reject(err)
+//             }
+//         })
+//     })
+// }
+
+// // Iniciar el servidor en un puerto disponible
+// buscarPuertoDisponible(3000)
+//     .then((port) => {
+//         const PORT = process.env.PORT || port
+//         app.listen(PORT, () => {
+//             console.log(`Servidor escuchando en el puerto ${PORT}`)
+//         })
+//     })
+//     .catch((err) => {
+//         console.error('Error al buscar puerto disponible:', err)
+//     })

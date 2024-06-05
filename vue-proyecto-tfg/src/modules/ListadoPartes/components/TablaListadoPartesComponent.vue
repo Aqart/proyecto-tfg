@@ -10,6 +10,7 @@
         <th scope="col" class="p-4">Número de bloque</th>
         <th scope="col" class="p-4">Fecha de inicio</th>
         <th scope="col" class="p-4">Fecha de fin</th>
+        <th scope="col" class="p-4">Acciones</th>
       </tr>
     </thead>
 
