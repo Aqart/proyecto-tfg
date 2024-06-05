@@ -1,5 +1,4 @@
-import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
-
+const pool = require('../db.js').pool
 const GastoGeneralController = {
     // Obtener todos los gastos generales
     obtenerTodos: async (req, res, next) => {
@@ -83,4 +82,4 @@ const GastoGeneralController = {
     },
 }
 
-export default GastoGeneralController
+module.exports = GastoGeneralController

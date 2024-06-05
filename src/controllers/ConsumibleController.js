@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const ConsumibleController = {
     // Obtener todos los consumibles
@@ -82,4 +82,4 @@ const ConsumibleController = {
     },
 }
 
-export default ConsumibleController
+module.exports = ConsumibleController

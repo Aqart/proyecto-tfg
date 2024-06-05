@@ -316,11 +316,12 @@ export default {
           item.largo = parseFloat(item.largo)
           item.ancho = parseFloat(item.ancho)
           item.grosor = parseFloat(item.grosor)
-          item.numeroPiezas = Number(item.numeroPiezas)
+          item.cantidad = parseInt(item.cantidad)
         }
       }
       console.log('Select numero trabajador', this.employeeNumber)
       const form = {
+        id: this.card.id,
         numero_bloque: parseInt(this.nbloque) || null,
         numero_trabajador: parseInt(this.employeeNumber),
         fecha_inicio: this.fechaInicioActual,
@@ -332,23 +333,20 @@ export default {
         observaciones: this.observaciones,
         produccionMaquina: this.produccionMaquina
       }
-
-      console.log('Formulario editado', form)
-      // this.$store
-      //   .dispatch('ControlesHorarios/addParteCortabloques', form)
-      //   .then(() => {
-      //     this.handleClean()
-      //     this.showModal = false
-      //     this.actualizarMensaje({
-      //       tipo: 'success',
-      //       mensaje: 'Parte de cortabloques firmado correctamente'
-      //     })
-      //     this.actualizarMostrarMensaje(true)
-      //     this.$emit('closeCortabloques', false)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      //console.log('Form', form)
+      this.$store
+        .dispatch('ListadoPartes/editParteCortabloques', form)
+        .then(() => {
+          this.actualizarMensaje({
+            tipo: 'success',
+            mensaje: 'Parte de cortabloques editado correctamente'
+          })
+          this.actualizarMostrarMensaje(true)
+          this.$emit('closeCortabloques', false)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   },
   computed: {

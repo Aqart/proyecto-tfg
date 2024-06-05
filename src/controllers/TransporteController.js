@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importa el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const TransporteController = {
     // Obtener todos los transportes de materias primas
@@ -80,4 +80,4 @@ const TransporteController = {
     },
 }
 
-export default TransporteController
+module.exports = TransporteController

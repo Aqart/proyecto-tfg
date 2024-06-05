@@ -39,6 +39,7 @@
             </span>
             <span
               class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer"
+              @click.prevent="deleteTable(card)"
             >
               <FontAwesomeIcon :icon="['fas', 'trash-can']" />
               <span class="ml-2">Eliminar</span>
@@ -97,6 +98,9 @@ export default {
   methods: {
     editTable(card) {
       this.$emit('editTable', card)
+    },
+    deleteTable(card) {
+      this.$emit('deleteTable', card)
     },
     formatFechaHora(fecha, hora) {
       if (!fecha || !hora) {

@@ -1,18 +1,18 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 //Controladores
-import AuthController from './controllers/AuthController.js'
-import TrabajadorController from './controllers/TrabajadorController.js'
-import MaquinaController from './controllers/MaquinaController.js'
-import ConsumibleController from './controllers/ConsumibleController.js'
-import GastoEnergeticoController from './controllers/GastoEnergeticoController.js'
-import GastoGeneralController from './controllers/GastoGeneralController.js'
-import MateriaPrimaController from './controllers/MateriaPrimaController.js'
-import TransporteController from './controllers/TransporteController.js'
-import EmpleadoController from './controllers/EmpleadoController.js'
-import ParteCortabloquesController from './controllers/ParteCortabloquesController.js'
+const AuthController = require('./controllers/AuthController.js')
+const TrabajadorController = require('./controllers/TrabajadorController.js')
+const MaquinaController = require('./controllers/MaquinaController.js')
+const ConsumibleController = require('./controllers/ConsumibleController.js')
+const GastoEnergeticoController = require('./controllers/GastoEnergeticoController.js')
+const GastoGeneralController = require('./controllers/GastoGeneralController.js')
+const MateriaPrimaController = require('./controllers/MateriaPrimaController.js')
+const TransporteController = require('./controllers/TransporteController.js')
+const EmpleadoController = require('./controllers/EmpleadoController.js')
+const ParteCortabloquesController = require('./controllers/ParteCortabloquesController.js')
 
 const app = express()
 
@@ -119,42 +119,9 @@ app.use((err, req, res, next) => {
     })
 })
 
-
-const puerto = process.env.PORT || 3000;
+const puerto = process.env.PORT || 3000
 app.listen(puerto, () => {
-    console.log(`Servidor escuchando en el puerto ${puerto}`);
-});
+    console.log(`Servidor escuchando en el puerto ${puerto}`)
+})
 
-// // Función para buscar un puerto disponible
-// function buscarPuertoDisponible(port) {
-//     return new Promise((resolve, reject) => {
-//         const server = net.createServer()
-//         server.listen(port, () => {
-//             server.close(() => {
-//                 resolve(port)
-//             })
-//         })
-//         server.on('error', (err) => {
-//             if (err.code === 'EADDRINUSE') {
-//                 // Asegúrate de retornar esta promesa
-//                 return buscarPuertoDisponible(port + 1)
-//                     .then(resolve)
-//                     .catch(reject)
-//             } else {
-//                 reject(err)
-//             }
-//         })
-//     })
-// }
-
-// // Iniciar el servidor en un puerto disponible
-// buscarPuertoDisponible(3000)
-//     .then((port) => {
-//         const PORT = process.env.PORT || port
-//         app.listen(PORT, () => {
-//             console.log(`Servidor escuchando en el puerto ${PORT}`)
-//         })
-//     })
-//     .catch((err) => {
-//         console.error('Error al buscar puerto disponible:', err)
-//     })
+module.exports = app

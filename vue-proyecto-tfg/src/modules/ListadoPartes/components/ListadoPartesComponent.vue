@@ -93,7 +93,11 @@
 
             <div>
               <template v-if="isTableView">
-                <TablaListadoPartesComponent :cards="cards" @editTable="editElement" />
+                <TablaListadoPartesComponent
+                  :cards="cards"
+                  @editTable="editElement"
+                  @deleteTable="deleteElement"
+                />
               </template>
               <template v-else>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -129,7 +133,11 @@
         titleClass="p-0"
         @close="editMode = false"
       >
-        <FormEditParteCortabloquesComponent class="mb-5" :card="selectedElement" />
+        <FormEditParteCortabloquesComponent
+          class="mb-5"
+          :card="selectedElement"
+          @closeCortabloques="editMode = false"
+        />
       </ModalComponent>
     </div>
   </div>
@@ -177,6 +185,23 @@ export default {
     editElement(card) {
       this.editMode = true
       this.selectedElement = card
+    },
+    deleteElement(card) {
+      // Llamar a la acción de eliminar
+      this.$store
+        .dispatch('ListadoPartes/deleteParteCortabloques', card.id)
+        .then(() => {
+          this.actualizarMensaje({
+            tipo: 'success',
+            mensaje: 'Parte de cortabloques eliminado correctamente'
+          })
+          this.actualizarMostrarMensaje(true)
+          //this.$emit('closeCortabloques', false)
+          this.changeFilter()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     checkIfMobile() {
       this.isTableView = window.innerWidth > 768 // Cambia a 'true' para PC y 'false' para móvil
@@ -399,8 +424,8 @@ export default {
       // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el range de fechas especificado
       filteredParts.forEach(async (parte) => {
         const empleado = await this.getEmployeeByNumber(parte.numero_trabajador)
-        console.log('EMPLEADO', empleado)
         this.cards.push({
+          id: parte.id,
           employeeNumber: parte.numero_trabajador,
           employeeName: `${empleado.nombre} ${empleado.apellido1}`,
           toggleRetalActive: parte.retal,
@@ -460,6 +485,13 @@ export default {
     FormEditParteCortabloquesComponent: defineAsyncComponent(() =>
       import('@/modules/ListadoPartes/components/FormEditParteCortabloquesComponent.vue')
     )
+  },
+  watch: {
+    editMode() {
+      if (this.editMode === false) {
+        this.changeFilter()
+      }
+    }
   }
 }
 </script>
