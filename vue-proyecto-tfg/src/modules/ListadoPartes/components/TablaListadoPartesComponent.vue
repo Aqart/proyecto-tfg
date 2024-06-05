@@ -1,6 +1,6 @@
 <template>
   <table
-    class="border border-opacity-0 rounded-lg overflow-hidden bg-stoneBackground-2 text-center w-full"
+    class="border border-opacity-0 rounded-lg overflow-auto bg-stoneBackground-2 text-center w-full"
   >
     <thead
       class="text-lg font-bold text-stoneBackground-3 bg-stoneBackground-2 sticky top-0 rounded-t-lg"
