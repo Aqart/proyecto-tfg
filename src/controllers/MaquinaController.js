@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const MaquinaController = {
     // Obtener todas las máquinas
@@ -77,4 +77,4 @@ const MaquinaController = {
     },
 }
 
-export default MaquinaController
+module.exports = MaquinaController

@@ -183,7 +183,7 @@ export default {
   },
   data() {
     return {
-      items: this.card,
+      items: [...this.card],
       selectedCheckboxes: [],
       isAllChecked: false
     }
@@ -198,7 +198,7 @@ export default {
   },
   methods: {
     addNewItem() {
-      this.items.push({
+      const newItem = {
         largo: 0,
         ancho: 0,
         grosor: 0,
@@ -210,7 +210,9 @@ export default {
           grosor: 0,
           cantidad: 0
         }
-      })
+      }
+      this.items.push(newItem)
+      this.$emit('update:card', this.items)
     },
     startEdit(item) {
       item.editing = true
@@ -234,11 +236,13 @@ export default {
         const index = this.items.indexOf(item)
         if (index > -1) this.items.splice(index, 1)
       }
+      this.$emit('updateItems', this.items)
     },
     deleteSelectedItems() {
       this.items = this.items.filter((_, index) => !this.selectedCheckboxes.includes(index))
       this.selectedCheckboxes = []
       this.isAllChecked = false
+      this.$emit('updateItems', this.items)
     },
     selectAllCheckboxes(event) {
       this.selectedCheckboxes = event.target.checked ? this.items.map((_, index) => index) : []
@@ -247,7 +251,7 @@ export default {
   watch: {
     card: {
       handler() {
-        this.items = this.card
+        this.items = [...this.card]
       },
       deep: true
     }

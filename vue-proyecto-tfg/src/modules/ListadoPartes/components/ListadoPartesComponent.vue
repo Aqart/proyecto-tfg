@@ -129,7 +129,11 @@
         titleClass="p-0"
         @close="editMode = false"
       >
-        <FormEditParteCortabloquesComponent class="mb-5" :card="selectedElement" />
+        <FormEditParteCortabloquesComponent
+          class="mb-5"
+          :card="selectedElement"
+          @closeCortabloques="editMode = false"
+        />
       </ModalComponent>
     </div>
   </div>
@@ -399,8 +403,8 @@ export default {
       // Ahora puedes trabajar con filteredParts, que solo incluye las partes que ocurren en el range de fechas especificado
       filteredParts.forEach(async (parte) => {
         const empleado = await this.getEmployeeByNumber(parte.numero_trabajador)
-        console.log('EMPLEADO', empleado)
         this.cards.push({
+          id: parte.id,
           employeeNumber: parte.numero_trabajador,
           employeeName: `${empleado.nombre} ${empleado.apellido1}`,
           toggleRetalActive: parte.retal,
@@ -460,6 +464,13 @@ export default {
     FormEditParteCortabloquesComponent: defineAsyncComponent(() =>
       import('@/modules/ListadoPartes/components/FormEditParteCortabloquesComponent.vue')
     )
+  },
+  watch: {
+    editMode() {
+      if (this.editMode === false) {
+        this.changeFilter()
+      }
+    }
   }
 }
 </script>

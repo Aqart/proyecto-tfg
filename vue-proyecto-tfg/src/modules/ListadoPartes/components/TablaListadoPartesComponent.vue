@@ -95,6 +95,7 @@ export default {
   },
   methods: {
     editTable(card) {
+      console.log(card)
       this.$emit('editTable', card)
     },
     formatFechaHora(fecha, hora) {

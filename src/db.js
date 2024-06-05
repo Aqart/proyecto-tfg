@@ -1,9 +1,16 @@
-import mysql from 'mysql2/promise' // Importamos el módulo mysql2/promise para interactuar con MySQL
-import dotenv from 'dotenv' // Importamos el módulo dotenv para cargar las variables de entorno
+const mysql = require('mysql2/promise') // Import the mysql2/promise module to interact with MySQL
+const dotenv = require('dotenv') // Import the dotenv module to load environment variables
 
-dotenv.config() // Cargamos las variables de entorno desde el archivo .env
+dotenv.config() // Load environment variables from the .env file
 
-// Configuración de la conexión a la base de datos
+// Configuration for the database connection
+// const dbConfig = {
+//     host: '217.61.210.26',
+//     port: 3306,
+//     user: 'udb_api',
+//     password: 'F&78p01xo',
+//     database: 'transforstone_app',
+// }
 const dbConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -12,8 +19,8 @@ const dbConfig = {
     database: process.env.DB_DATABASE,
 }
 
-// Crear el pool de conexiones
+// Create the connection pool
 const pool = mysql.createPool(dbConfig)
 
-// Exportar el pool de conexiones
-export { pool }
+// Export the connection pool
+module.exports = { pool }

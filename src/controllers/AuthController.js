@@ -1,9 +1,9 @@
 // AuthController.js
 
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-import { pool } from '../db.js' // Importa el pool de conexión si estás utilizando pools
+const pool = require('../db.js').pool // Importa el pool de conexión si estás utilizando pools
 
 const AuthController = {
     // Registro de usuario
@@ -16,9 +16,7 @@ const AuthController = {
                 [email, numero_trabajador, req.params.id]
             )
             if (existingUser.length > 0) {
-                return res
-                    .status(400)
-                    .json({ message: 'El usuario ya existe' })
+                return res.status(400).json({ message: 'El usuario ya existe' })
             }
 
             // Hashea la contraseña antes de guardarla en la base de datos
@@ -77,7 +75,6 @@ const AuthController = {
                 process.env.JWT_SECRET,
                 { expiresIn: '4h' }
             )
-            console.log(user[0])
             const { roles, numero_trabajador } = user[0]
             //llamar a la base de datos y obtener el nombre de completo del trabajador
             const [trabajador] = await pool.query(
@@ -162,9 +159,7 @@ const AuthController = {
                 [email, numero_trabajador, req.params.id]
             )
             if (existingUser.length > 0) {
-                return res
-                    .status(400)
-                    .json({ message: 'El usuario ya existe' })
+                return res.status(400).json({ message: 'El usuario ya existe' })
             }
             // COMPROBAR QUE ESTA OPCIÓN FUNCIONA
             if (password) {
@@ -243,7 +238,6 @@ const AuthController = {
     },
     editarUltimaConexion: async (req, res) => {
         try {
-            console.log('Conexion editar back', req.body)
             const { email, password } = req.body
             // Busca al usuario en la base de datos
             const [user] = await pool.query(
@@ -270,12 +264,10 @@ const AuthController = {
             const lastConnection = spainDate
                 .replace(/\//g, '-')
                 .replace(',', '')
-            console.log(lastConnection)
             const [rows, fields] = await pool.query(
                 'UPDATE user SET ultima_conexion = STR_TO_DATE(?, "%d-%m-%Y %H:%i:%s") WHERE email = ?',
                 [lastConnection, email]
             )
-            console.log(rows)
             res.status(200).json({
                 message: 'Ultima conexión actualizada correctamente',
             })
@@ -299,4 +291,4 @@ const AuthController = {
     },
 }
 
-export default AuthController
+module.exports = AuthController

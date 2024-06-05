@@ -1,4 +1,4 @@
-import { pool } from '../db.js'
+const pool = require('../db.js').pool
 
 const TrabajadorController = {
     // Obtener todos los trabajadores
@@ -101,4 +101,4 @@ const TrabajadorController = {
     },
 }
 
-export default TrabajadorController
+module.exports = TrabajadorController
