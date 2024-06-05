@@ -93,7 +93,11 @@
 
             <div>
               <template v-if="isTableView">
-                <TablaListadoPartesComponent :cards="cards" @editTable="editElement" />
+                <TablaListadoPartesComponent
+                  :cards="cards"
+                  @editTable="editElement"
+                  @deleteTable="deleteElement"
+                />
               </template>
               <template v-else>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -181,6 +185,23 @@ export default {
     editElement(card) {
       this.editMode = true
       this.selectedElement = card
+    },
+    deleteElement(card) {
+      // Llamar a la acción de eliminar
+      this.$store
+        .dispatch('ListadoPartes/deleteParteCortabloques', card.id)
+        .then(() => {
+          this.actualizarMensaje({
+            tipo: 'success',
+            mensaje: 'Parte de cortabloques eliminado correctamente'
+          })
+          this.actualizarMostrarMensaje(true)
+          //this.$emit('closeCortabloques', false)
+          this.changeFilter()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     checkIfMobile() {
       this.isTableView = window.innerWidth > 768 // Cambia a 'true' para PC y 'false' para móvil

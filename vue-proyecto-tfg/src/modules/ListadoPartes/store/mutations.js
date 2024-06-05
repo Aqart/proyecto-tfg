@@ -8,3 +8,7 @@ export const editParteCortabloques = (state, data) => {
   state.partesCortabloques[index] = data
   console.log('state.partesCortabloques', state.partesCortabloques)
 }
+
+export const deleteParteCortabloques = (state, id) => {
+  state.partesCortabloques = state.partesCortabloques.filter((parte) => parte.id !== id)
+}

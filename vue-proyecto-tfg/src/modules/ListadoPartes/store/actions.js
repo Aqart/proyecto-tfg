@@ -48,3 +48,26 @@ export const editParteCortabloques = async ({ commit }, parte) => {
     console.error('Error al editar el parte del cortabloques:', error.message)
   }
 }
+
+export const deleteParteCortabloques = async ({ commit }, id) => {
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  try {
+    const response = await authApi.delete(pathPartes + '/cortabloques/' + id, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+
+    // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+    if (response.status === 200 && response.data) {
+      // Actualizar el estado eliminando el parte del cortabloques
+      commit('deleteParteCortabloques', id)
+    } else {
+      console.error('Error al eliminar el parte del cortabloques:', response.message)
+    }
+  } catch (error) {
+    console.error('Error al eliminar el parte del cortabloques:', error.message)
+  }
+}

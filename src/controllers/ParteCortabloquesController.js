@@ -248,6 +248,11 @@ const ParteCortabloques = {
     eliminar: async (req, res, next) => {
         const { id } = req.params
         try {
+            await pool.query(
+                'DELETE FROM PRODUCCION_MAQUINA WHERE id_parte = ?',
+                [id]
+            )
+
             await pool.query('DELETE FROM PARTE_CORTABLOQUES WHERE id = ?', [
                 id,
             ])
