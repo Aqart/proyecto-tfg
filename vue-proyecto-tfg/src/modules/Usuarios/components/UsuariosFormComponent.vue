@@ -103,7 +103,7 @@
             name="numWorker"
             id="numWorker"
             min="1"
-            placeholder="Número de trabajador"
+            :placeholder="lastWorkNumber()"
             @input="updateValue"
             @keydown="preventNonNumericInput"
           />
@@ -231,6 +231,10 @@ export default {
     }
   },
   methods: {
+    lastWorkNumber(){
+      const lastEmployee = this.getEmpleados.reduce((prev, current) => (prev.numero_trabajador > current.numero_trabajador) ? prev : current);
+      return `Siguiente: ${lastEmployee.numero_trabajador + 1}`;
+    },
     activateUser() {
       this.form.status = 'Activo'
       this.handleSubmit()

@@ -114,7 +114,7 @@
           }"
         >
           <span class="font-semibold"
-            ><FontAwesomeIcon :icon="['fas', 'fa-bolt']" class="mr-2" />Gastos Energéticos</span
+            ><FontAwesomeIcon :icon="['fas', 'fa-bolt']" class="mr-2" />Gastos energéticos</span
           >
           <div class="icon mr-2" :class="{ open: isOpenGastos }">
             <span class="bar"></span>
