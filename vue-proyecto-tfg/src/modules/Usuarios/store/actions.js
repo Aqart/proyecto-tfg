@@ -116,9 +116,9 @@ export const editUsuario = async ({ commit }, usuario) => {
 
   console.log(usuario)
   const { id, numero_trabajador, email, roles, password } = usuario
-  const { id_empleado, nombre, apellido1, apellido2 } = usuario
-  console.log(id, numero_trabajador, email, roles, password)
-  console.log(id_empleado, nombre, apellido1, apellido2)
+  const { id_empleado, nombre, apellido1, apellido2, status } = usuario
+
+  let active = status === 'Activo' ? 1 : 0;
   
   try {
     const response = await authApi.put(`/usuarios/${id}`, { numero_trabajador, email, roles, password }, {
@@ -129,7 +129,7 @@ export const editUsuario = async ({ commit }, usuario) => {
 
     const response2 = await authApi.put(
       `/empleados/${id_empleado}`,
-      { numero_trabajador, nombre, apellido1, apellido2 },
+      { numero_trabajador, nombre, apellido1, apellido2, active },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('idToken')}`

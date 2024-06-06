@@ -126,6 +126,14 @@
         @changeSelect="selectRol"
       />
     </div>
+    <ButtonComponent
+      v-if="tipo === 'Editar usuario' && data.status === 'Inactivo'"
+      :icon="['fas', 'user-check']"
+      :text="'Activar usuario'"
+      bgColor="bg-green-500 bg-opacity-40"
+      class="hover:ring-2 hover:ring-white hover:bg-opacity-90 hover:text-white flex justify-center items-center gap-5 text-md py-4 mt-4"
+      @click="activateUser"
+    />
     <div class="flex flex-col mt-6 sm:flex-row items-center sm:gap-4 sm:mt-4">
       <ButtonComponent :text="textoBoton" 
         bgColor="bg-secondary" 
@@ -139,7 +147,7 @@
         class="hover:ring-2 hover:ring-primary hover:bg-opacity-80 flex justify-center items-center gap-5 text-lg py-4 mt-4"
         @click="toggleModal"
       />
-    </div>
+      </div>
   </form>
 </template>
 
@@ -223,6 +231,10 @@ export default {
     }
   },
   methods: {
+    activateUser() {
+      this.form.status = 'Activo'
+      this.handleSubmit()
+    },
     updateValue(event) {
       this.form.numero_trabajador = event.target.value
       if(this.form.numero_trabajador === '') {
@@ -255,7 +267,7 @@ export default {
       this.$emit('close')
     },
     objectsAreEqual(obj1, obj2) {
-      const fieldsToCompare = ['email', 'numero_trabajador', 'roles'];
+      const fieldsToCompare = ['email', 'numero_trabajador', 'roles', 'status'];
 
       if (this.form.password) return false;
 
@@ -283,7 +295,6 @@ export default {
     },
     handleSubmit() {
       const empleados = this.getAllEmpleados;
-      console.log(empleados)
       const isEmpty = (value) => value === '' || value === 0 || value === null || value === undefined
 
       const requiredFields = ['nombre', 'apellido1', 'numero_trabajador', 'email', 'roles']
@@ -308,6 +319,9 @@ export default {
 
       // Regex para el formato del email
       const emailFormat = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+
+      console.log('Formulario: ', this.form)
+      console.log('Datos entrada: ', this.data)
 
       if (hasEmptyFields) {
         this.error = {
