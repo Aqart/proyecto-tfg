@@ -1,4 +1,4 @@
-//SELECT * FROM `PARTE_CORTABLOQUES` ORDER BY `fecha_inicio`,`hora_inicio`,`fecha_fin`,`hora_fin`;
+//SELECT * FROM `partes_cortabloques` ORDER BY `fecha_inicio`,`hora_inicio`,`fecha_fin`,`hora_fin`;
 const pool = require('../db.js').pool
 
 const ParteCortabloques = {
@@ -6,10 +6,10 @@ const ParteCortabloques = {
     obtenerTodos: async (req, res, next) => {
         try {
             const [rowsParte, fieldsParte] = await pool.query(
-                'SELECT * FROM PARTE_CORTABLOQUES ORDER BY fecha_inicio, hora_inicio, fecha_fin, hora_fin'
+                'SELECT * FROM partes_cortabloques ORDER BY fecha_inicio, hora_inicio, fecha_fin, hora_fin'
             )
             const [rowsProduccion, fieldsProduccion] = await pool.query(
-                'SELECT * FROM PRODUCCION_MAQUINA ORDER BY id_parte, id'
+                'SELECT * FROM produccion_maquina ORDER BY id_parte, id'
             )
 
             rowsParte.forEach((parte) => {
@@ -62,7 +62,7 @@ const ParteCortabloques = {
         } = req.body
         try {
             await pool.query(
-                'INSERT INTO PARTE_CORTABLOQUES (fecha_inicio, hora_inicio, fecha_fin, hora_fin, observaciones, numero_trabajador, numero_bloque, bis, retal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO partes_cortabloques (fecha_inicio, hora_inicio, fecha_fin, hora_fin, observaciones, numero_trabajador, numero_bloque, bis, retal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
                     fecha_inicio,
                     hora_inicio,
@@ -81,7 +81,7 @@ const ParteCortabloques = {
 
             produccionMaquina.forEach(async (produccion) => {
                 await pool.query(
-                    'INSERT INTO PRODUCCION_MAQUINA (id_parte, largo, ancho, grosor, cantidad) VALUES (?, ?, ?, ?, ?)',
+                    'INSERT INTO produccion_maquina (id_parte, largo, ancho, grosor, cantidad) VALUES (?, ?, ?, ?, ?)',
                     [
                         rowsParte[0].id,
                         produccion.largo,
@@ -105,7 +105,7 @@ const ParteCortabloques = {
         const { id } = req.params
         try {
             const [rowsParte, fieldsParte] = await pool.query(
-                'SELECT * FROM PARTE_CORTABLOQUES WHERE id = ?',
+                'SELECT * FROM partes_cortabloques WHERE id = ?',
                 [id]
             )
             if (rowsParte.length === 0) {
@@ -138,7 +138,7 @@ const ParteCortabloques = {
 
         try {
             await pool.query(
-                'UPDATE PARTE_CORTABLOQUES SET bis= ?, fecha_fin = ?,  fecha_inicio = ?, hora_fin = ?, hora_inicio = ?,  numero_bloque = ?, numero_trabajador = ?, observaciones = ?, retal = ? WHERE id = ?',
+                'UPDATE partes_cortabloques SET bis= ?, fecha_fin = ?,  fecha_inicio = ?, hora_fin = ?, hora_inicio = ?,  numero_bloque = ?, numero_trabajador = ?, observaciones = ?, retal = ? WHERE id = ?',
                 [
                     bis,
                     fecha_fin,
@@ -155,7 +155,7 @@ const ParteCortabloques = {
 
             for (const produccion of produccionMaquina) {
                 const [rowsProduccion, fieldsProduccion] = await pool.query(
-                    'SELECT * FROM PRODUCCION_MAQUINA WHERE id_parte = ?',
+                    'SELECT * FROM produccion_maquina WHERE id_parte = ?',
                     [id]
                 )
 
@@ -167,7 +167,7 @@ const ParteCortabloques = {
                     ) {
                         console.log('Eliminando', rowsProduccion[i].id)
                         await pool.query(
-                            'DELETE FROM PRODUCCION_MAQUINA WHERE id = ?',
+                            'DELETE FROM produccion_maquina WHERE id = ?',
                             [rowsProduccion[i].id]
                         )
                     }
@@ -175,7 +175,7 @@ const ParteCortabloques = {
 
                 if (produccion.id === null || produccion.id === undefined) {
                     await pool.query(
-                        'INSERT INTO PRODUCCION_MAQUINA (id_parte, largo, ancho, grosor, cantidad) VALUES (?, ?, ?, ?, ?)',
+                        'INSERT INTO produccion_maquina (id_parte, largo, ancho, grosor, cantidad) VALUES (?, ?, ?, ?, ?)',
                         [
                             id,
                             produccion.largo,
@@ -187,7 +187,7 @@ const ParteCortabloques = {
                 }
 
                 const [rows, fieldsProduccionUpdate] = await pool.query(
-                    'UPDATE PRODUCCION_MAQUINA SET largo = ?, ancho = ?, grosor = ?, cantidad = ? WHERE id = ?',
+                    'UPDATE produccion_maquina SET largo = ?, ancho = ?, grosor = ?, cantidad = ? WHERE id = ?',
                     [
                         produccion.largo,
                         produccion.ancho,
@@ -200,12 +200,12 @@ const ParteCortabloques = {
             }
 
             const [rowsParte, fieldsParte] = await pool.query(
-                'SELECT * FROM PARTE_CORTABLOQUES WHERE id = ?',
+                'SELECT * FROM partes_cortabloques WHERE id = ?',
                 [id]
             )
 
             const [rowsProduccion, fieldsProduccion] = await pool.query(
-                'SELECT * FROM PRODUCCION_MAQUINA WHERE id_parte = ?',
+                'SELECT * FROM produccion_maquina WHERE id_parte = ?',
                 [id]
             )
             console.log('rowsProduccion', rowsProduccion)
@@ -249,11 +249,11 @@ const ParteCortabloques = {
         const { id } = req.params
         try {
             await pool.query(
-                'DELETE FROM PRODUCCION_MAQUINA WHERE id_parte = ?',
+                'DELETE FROM produccion_maquina WHERE id_parte = ?',
                 [id]
             )
 
-            await pool.query('DELETE FROM PARTE_CORTABLOQUES WHERE id = ?', [
+            await pool.query('DELETE FROM partes_cortabloques WHERE id = ?', [
                 id,
             ])
             res.status(200).json({

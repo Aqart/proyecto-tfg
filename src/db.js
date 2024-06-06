@@ -3,14 +3,8 @@ const dotenv = require('dotenv') // Import the dotenv module to load environment
 
 dotenv.config() // Load environment variables from the .env file
 
-// Configuration for the database connection
-// const dbConfig = {
-//     host: '217.61.210.26',
-//     port: 3306,
-//     user: 'udb_api',
-//     password: 'F&78p01xo',
-//     database: 'transforstone_app',
-// }
+//Configuration for the database connection
+
 const dbConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
