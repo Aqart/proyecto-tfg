@@ -120,12 +120,14 @@ export default {
     },
     selectFormattedEmpleados() {
       const empleados = this.getEmpleados
-      return empleados.map((empleado) => {
-        return {
-          id: empleado.numero_trabajador,
-          nombre: `${empleado.numero_trabajador} - ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}`
-        }
-      })
+      return empleados
+        .filter(empleado => empleado.activo === 1)
+        .map((empleado) => {
+          return {
+            id: empleado.numero_trabajador,
+            nombre: `${empleado.numero_trabajador} - ${empleado.nombre} ${empleado.apellido1} ${empleado.apellido2}`
+          }
+        })
     },
     inputNumberErroneo() {
       if (this.form.precio === '') {

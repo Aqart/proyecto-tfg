@@ -50,7 +50,8 @@ import {
   faSortAlphaDown,
   faExchangeAlt,
   faUser,
-  faExclamationCircle
+  faExclamationCircle,
+  faUserCheck
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion, faEye } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -102,7 +103,8 @@ library.add(
   faSortAlphaDown,
   faExchangeAlt,
   faUser,
-  faExclamationCircle
+  faExclamationCircle,
+  faUserCheck
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')

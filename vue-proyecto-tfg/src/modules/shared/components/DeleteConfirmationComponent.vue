@@ -19,7 +19,7 @@
         <span class="sr-only">Info</span>
         <div>
           <span class="font-regular text-lg"
-            >¿Desea eliminar todos los registros de {{ itemType }}?
+            >¿Desea {{ itemType === 'usuarios' ? 'desactivar' : 'eliminar' }} todos los registros de {{ itemType }}?
           </span>
         </div>
       </div>
@@ -35,10 +35,10 @@
             <h3 class="font-semibold text-xl text-red-500">Advertencia:</h3>
             <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
               <p v-if="itemType === 'usuarios'">
-                Algunos usuarios a eliminar tienen un coste y/o máquina asociados
+                Algunos usuarios tienen un coste y/o máquina asociados
               </p>
               <p v-else-if="itemType === 'máquinas'">
-                Algunas máquinas a eliminar tienen consumibles/gastos energéticos/trabajadores asociados
+                Algunas máquinas tienen consumibles/gastos energéticos/trabajadores asociados
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@
             <span class="sr-only">Info</span>
             <div>
               <span class="font-regular text-md"
-                >Va a eliminar los siguientes registros de {{ itemType }}:</span
+                >Va a {{ itemType === 'usuarios' ? 'desactivar' : 'eliminar' }} los siguientes registros de {{ itemType }}:</span
               >
             </div>
           </div>
@@ -69,15 +69,15 @@
                 class="h-7 w-7 text-red-400"
               />
             </div>
-            <div class="ml-2">
+            <div class="m-auto">
               <span v-if="listItems.length === 1">
                 <h3 class="font-semibold text-xl text-red-500">Advertencia:</h3>
                 <div class="mt-2 text-md leading-5 text-stoneBackgroundContrast-2">
                   <p v-if="itemType === 'usuarios'">
-                    El usuario a eliminar tiene un coste y/o máquina asociados
+                    El usuario tiene un coste y/o máquina asociados
                   </p>
                   <p v-else-if="itemType === 'máquinas'">
-                    La máquina a eliminar tiene consumibles/gastos energéticos/trabajadores asociados
+                    La máquina tiene consumibles/gastos energéticos/trabajadores asociados
                   </p>
                 </div>
               </span>

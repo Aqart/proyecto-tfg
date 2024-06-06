@@ -268,7 +268,7 @@
         v-if="modalType === 'delete'"
         :items="selectedItems"
         :itemType="formattedRoute.toLowerCase()"
-        :total="data.length"
+        :total="adjustedTotal"
         @openModalInfo="toggleModalOpenInfo"
         @delete="deleteData"
         @close="toggleModalClose"
@@ -502,7 +502,9 @@ export default {
     },
     selectAllCheckboxes(event) {
       if (event.target.checked) {
-        this.selectedCheckboxes = this.searchFilteredData.map((item) => item.id)
+        this.selectedCheckboxes = this.searchFilteredData
+          .filter(item => !item.status || item.status !== 'Inactivo')
+          .map((item) => item.id)
       } else {
         this.selectedCheckboxes = []
       }
@@ -647,6 +649,12 @@ export default {
   computed: {
     ...mapGetters('Maquinas', ['getMaquinas']),
     ...mapGetters('Trabajadores', ['getEmpleados']),
+    adjustedTotal() {
+      if (this.formattedRoute === 'Usuarios') {
+        return this.data.filter(item => !item.status || item.status !== 'Inactivo').length;
+      }
+      return this.data.length;
+    },
     disabledCheckbox() {
       return this.searchFilteredData.length > 0
         ? ''
@@ -797,7 +805,11 @@ export default {
   },
   watch: {
     selectedCheckboxes(newVal) {
-      this.isAllChecked = newVal.length === this.searchFilteredData.length
+      let filteredData = this.searchFilteredData;
+      if (this.formattedRoute === 'Usuarios') {
+        filteredData = this.searchFilteredData.filter(item => !item.status || item.status !== 'Inactivo');
+      }
+      this.isAllChecked = newVal.length === filteredData.length;
     }
   }
 }

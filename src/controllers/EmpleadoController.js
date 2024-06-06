@@ -49,11 +49,11 @@ const EmpleadoController = {
     // Actualizar un trabajador
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { numero_trabajador, nombre, apellido1, apellido2 } = req.body
+        const { numero_trabajador, nombre, apellido1, apellido2, active } = req.body
         try {
             await pool.query(
-                'UPDATE trabajador SET numero_trabajador = ?, nombre = ?, apellido1 = ?, apellido2 = ? WHERE id = ?',
-                [numero_trabajador, nombre, apellido1, apellido2, id]
+                'UPDATE trabajador SET numero_trabajador = ?, nombre = ?, apellido1 = ?, apellido2 = ?, activo = ? WHERE id = ?',
+                [numero_trabajador, nombre, apellido1, apellido2, active, id]
             )
             res.status(200).json({
                 message: 'Empleado actualizado correctamente',

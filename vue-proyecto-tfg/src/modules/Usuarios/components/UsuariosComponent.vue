@@ -52,7 +52,6 @@ export default {
             actualizarMostrarMensaje(true)
           }
         } else if (type === 'Editar usuario') {
-          console.log("Usuarios Comp", data)
           const { ok, message } = await editUsuario(data)
           if (!ok) {
             actualizarMensaje('error', message)
@@ -60,6 +59,7 @@ export default {
           } else {
             await getEmpleados()
             await getTrabajadores()
+            await getUsuarios()
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }
@@ -100,7 +100,7 @@ export default {
             }).join(', ')
             actualizarMensaje(
               'error',
-              `Los siguientes usuarios no se pudieron eliminar: ${nombres}`
+              `Los siguientes usuarios no se pudieron desactivar: ${nombres}`
             )
             actualizarMostrarMensaje(true)
           }
@@ -112,7 +112,7 @@ export default {
           console.log(nombresSuccess)
           actualizarMensaje(
             'success',
-            `Los siguientes usuarios se han eliminado: ${nombresSuccess}`
+            `Los siguientes usuarios se han desactivado: ${nombresSuccess}`
           )
           actualizarMostrarMensaje(true)
           await getTrabajadores()
@@ -121,8 +121,8 @@ export default {
           
         }
       } catch (error) {
-        console.error('Error deleting data', error)
-        actualizarMensaje('error', 'Error eliminando los datos')
+        console.error('Error changing data', error)
+        actualizarMensaje('error', 'Error desactivando los datos')
         actualizarMostrarMensaje(true)
       }
     }
