@@ -203,7 +203,6 @@ export default {
     )
   },
   created() {
-    console.log(this.data)
     const empleado = this.getEmpleados.find(empleado => empleado.numero_trabajador == this.data.numero_trabajador);
     if(empleado){
       this.form.id_empleado = empleado.id
@@ -226,7 +225,6 @@ export default {
   },
   watch: {
     data(newVal) {
-      console.log(newVal)
       this.form = { ...newVal }
     }
   },
