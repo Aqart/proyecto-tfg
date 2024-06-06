@@ -1,11 +1,11 @@
 const pool = require('../db.js').pool
 
-const TrabajadorController = {
+const trabajadorController = {
     // Obtener todos los trabajadores
     obtenerTodos: async (req, res, next) => {
         try {
             const [rows, fields] = await pool.query(
-                "SELECT tc.id, tc.numero_trabajador, CONCAT(t.nombre, ' ', t.apellido1, ' ', t.apellido2) AS nombre_completo, tc.precio, tc.id_maquina FROM trabajador_costes AS tc JOIN TRABAJADOR AS t ON tc.numero_trabajador = t.numero_trabajador"
+                "SELECT tc.id, tc.numero_trabajador, CONCAT(t.nombre, ' ', t.apellido1, ' ', t.apellido2) AS nombre_completo, tc.precio, tc.id_maquina FROM trabajador_costes AS tc JOIN trabajador AS t ON tc.numero_trabajador = t.numero_trabajador"
             )
 
             res.status(200).json(rows)
@@ -24,7 +24,7 @@ const TrabajadorController = {
             )
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
-                message: 'Trabajador creado correctamente',
+                message: 'trabajador creado correctamente',
                 id: rows[0].id,
             })
         } catch (error) {
@@ -43,7 +43,7 @@ const TrabajadorController = {
             if (rows.length === 0) {
                 return res
                     .status(404)
-                    .json({ message: 'Trabajador no encontrado' })
+                    .json({ message: 'trabajador no encontrado' })
             }
             res.status(200).json(rows[0])
         } catch (error) {
@@ -52,17 +52,17 @@ const TrabajadorController = {
     },
 
     // Obtener un trabajador por su número de trabajador
-    obtenerPorNumTrabajador: async (req, res, next) => {
+    obtenerPorNumtrabajador: async (req, res, next) => {
         const { numero_trabajador } = req.params
         try {
             const [rows, fields] = await pool.query(
-                "SELECT tc.id, tc.numero_trabajador, CONCAT(t.nombre, ' ', t.apellido1, ' ', t.apellido2) AS nombre_completo, tc.precio, tc.id_maquina FROM trabajador_costes AS tc JOIN TRABAJADOR AS t ON tc.numero_trabajador = t.numero_trabajador WHERE t.numero_trabajador = ?",
+                "SELECT tc.id, tc.numero_trabajador, CONCAT(t.nombre, ' ', t.apellido1, ' ', t.apellido2) AS nombre_completo, tc.precio, tc.id_maquina FROM trabajador_costes AS tc JOIN trabajador AS t ON tc.numero_trabajador = t.numero_trabajador WHERE t.numero_trabajador = ?",
                 [numero_trabajador]
             )
             if (rows.length === 0) {
                 return res
                     .status(404)
-                    .json({ message: 'Trabajador no encontrado' })
+                    .json({ message: 'trabajador no encontrado' })
             }
             res.status(200).json(rows[0])
         } catch (error) {
@@ -80,7 +80,7 @@ const TrabajadorController = {
                 [numero_trabajador, precio, id_maquina, id]
             )
             res.status(200).json({
-                message: 'Trabajador actualizado correctamente',
+                message: 'trabajador actualizado correctamente',
             })
         } catch (error) {
             next(error)
@@ -93,7 +93,7 @@ const TrabajadorController = {
         try {
             await pool.query('DELETE FROM trabajador_costes WHERE id = ?', [id])
             res.status(200).json({
-                message: 'Trabajador eliminado correctamente',
+                message: 'trabajador eliminado correctamente',
             })
         } catch (error) {
             next(error)
@@ -101,4 +101,4 @@ const TrabajadorController = {
     },
 }
 
-module.exports = TrabajadorController
+module.exports = trabajadorController

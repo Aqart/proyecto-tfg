@@ -3,21 +3,21 @@ const dotenv = require('dotenv') // Import the dotenv module to load environment
 
 dotenv.config() // Load environment variables from the .env file
 
-// Configuration for the database connection
-// const dbConfig = {
-//     host: '217.61.210.26',
-//     port: 3306,
-//     user: 'udb_api',
-//     password: 'F&78p01xo',
-//     database: 'transforstone_app',
-// }
+//Configuration for the database connection
 const dbConfig = {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    host: '217.61.210.26',
+    port: 3306,
+    user: 'udb_api',
+    password: 'z88l7Sh9!',
+    database: 'transforstone_app',
 }
+// const dbConfig = {
+//     host: process.env.DB_HOST,
+//     port: process.env.DB_PORT,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DATABASE,
+// }
 
 // Create the connection pool
 const pool = mysql.createPool(dbConfig)
