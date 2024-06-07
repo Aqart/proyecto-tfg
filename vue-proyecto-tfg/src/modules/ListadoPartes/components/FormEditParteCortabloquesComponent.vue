@@ -301,14 +301,14 @@ export default {
       //   }
       // }
 
-      // if (this.produccionMaquina.length === 0) {
-      //   this.actualizarMensaje({
-      //     tipo: 'warning',
-      //     mensaje: 'Debes añadir al menos un registro de producción'
-      //   })
-      //   this.actualizarMostrarMensaje(true)
-      //   return
-      // }
+      if (this.produccionMaquina.length === 0) {
+        this.actualizarMensaje({
+          tipo: 'warning',
+          mensaje: 'Debes añadir al menos un registro de producción'
+        })
+        this.actualizarMostrarMensaje(true)
+        return
+      }
 
       if (this.produccionMaquina.length > 0) {
         for (const item of this.produccionMaquina) {
@@ -319,7 +319,7 @@ export default {
           item.cantidad = parseInt(item.cantidad)
         }
       }
-      console.log('Select numero trabajador', this.employeeNumber)
+      // console.log('Select numero trabajador', this.employeeNumber)
       const form = {
         id: this.card.id,
         numero_bloque: parseInt(this.nbloque) || null,
@@ -333,10 +333,11 @@ export default {
         observaciones: this.observaciones,
         produccionMaquina: this.produccionMaquina
       }
-      console.log('Form', form)
+      // console.log('Form', form)
       this.$store
         .dispatch('ListadoPartes/editParteCortabloques', form)
         .then(() => {
+          this.showModal = false
           this.actualizarMensaje({
             tipo: 'success',
             mensaje: 'Parte de cortabloques editado correctamente'
@@ -370,6 +371,7 @@ export default {
       this.employeeNumber = `${this.card.employeeNumber}`
       console.log('Emplot', this.employeeNumber)
       this.produccionMaquina = this.card.produccionMaquina
+      this.actualizarMostrarMensaje(false)
     }
   }
 }
