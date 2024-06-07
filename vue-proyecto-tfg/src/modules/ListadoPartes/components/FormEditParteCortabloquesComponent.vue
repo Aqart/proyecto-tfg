@@ -333,7 +333,7 @@ export default {
         observaciones: this.observaciones,
         produccionMaquina: this.produccionMaquina
       }
-      //console.log('Form', form)
+      console.log('Form', form)
       this.$store
         .dispatch('ListadoPartes/editParteCortabloques', form)
         .then(() => {

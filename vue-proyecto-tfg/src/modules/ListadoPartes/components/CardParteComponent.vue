@@ -54,6 +54,7 @@
             </span>
             <span
               class="flex flex-row items-center justify-start text-md text-stoneBackgroundContrast-1 hover:text-stoneBackgroundContrast-5 cursor-pointer group"
+              @click.prevent="deleteCard"
             >
               <FontAwesomeIcon :icon="['fas', 'trash-can']" />
               <span class="ml-2 transition-all duration-100 ease-in-out">Eliminar</span>
@@ -115,6 +116,9 @@ export default {
   methods: {
     editCard() {
       this.$emit('editCard')
+    },
+    deleteCard(){
+      this.$emit('deleteCard')
     }
   },
   computed: {
