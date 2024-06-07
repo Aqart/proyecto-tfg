@@ -4,6 +4,7 @@
       <h1 class="text-4xl text-center text-stoneBackground-3 font-bold">Listado de partes</h1>
       <div>
         <MensajesComponent
+          v-if="getTipo !== 'warning'"
           :textClasses="'text-md'"
           :message="getMensaje"
           :type="getTipo"
@@ -96,7 +97,7 @@
                 <TablaListadoPartesComponent
                   :cards="cards"
                   @editTable="editElement"
-                  @deleteTable="deleteElement"
+                  @deleteTable="toggleModalDelete"
                 />
               </template>
               <template v-else>
@@ -114,7 +115,8 @@
                       :horaFinActual="card.horaFinActual"
                       :observaciones="card.observaciones"
                       :produccionMaquina="card.produccionMaquina"
-                      @editCard="editMode = true"
+                      @editCard="editElement(card)"
+                      @deleteCard="toggleModalDelete(card)"
                     />
                   </div>
                 </div>
@@ -140,6 +142,21 @@
         />
       </ModalComponent>
     </div>
+    <ModalComponent
+      title="Eliminar parte"
+      :modalActive="deleteMode"
+      :bodyClass="'pt-6'"
+      @close="toggleModalClose"
+    >
+      <DeleteConfirmationComponent
+        v-if="deleteMode"
+        :items="deleteCard"
+        :itemType="'parte cortabloques'"
+        :total="deleteCard.length"
+        @delete="deleteElement"
+        @close="toggleModalClose"
+      />
+    </ModalComponent>
   </div>
 </template>
   
@@ -156,6 +173,7 @@ export default {
       isSortedBlockNumberAsc: true,
       isTableView: window.innerWidth > 768,
       editMode: false,
+      deleteMode: false,
       beforeFilter: false,
       fechaInicio: '',
       fechaFin: '',
@@ -163,6 +181,7 @@ export default {
       cards: [],
       selectedCardId: null,
       selectedElement: null,
+      deleteCard: [],
       orderByOptions: [
         { id: 'ordenarPorNumeroBloque', nombre: 'Número de bloque' },
         { id: 'ordenarPorTrabajador', nombre: 'Trabajador' },
@@ -182,11 +201,23 @@ export default {
     window.removeEventListener('resize', this.checkIfMobile)
   },
   methods: {
+    toggleModalDelete(card){
+      this.deleteMode = true
+      this.deleteCard.push(card)
+      this.actualizarMostrarMensaje(false)
+    },
+    toggleModalClose() {
+      this.deleteMode = false
+      this.deleteCard = []
+      this.actualizarMostrarMensaje(false)
+    },
     editElement(card) {
       this.editMode = true
       this.selectedElement = card
     },
-    deleteElement(card) {
+    deleteElement(listCards) {
+      this.toggleModalClose()
+      const card = listCards[0]
       // Llamar a la acción de eliminar
       this.$store
         .dispatch('ListadoPartes/deleteParteCortabloques', card.id)
@@ -200,6 +231,11 @@ export default {
           this.changeFilter()
         })
         .catch((error) => {
+          this.actualizarMensaje({
+            tipo: 'error',
+            mensaje: 'Error al eliminar el parte de cortabloques'
+          })
+          this.actualizarMostrarMensaje(true)
           console.log(error)
         })
     },
@@ -484,6 +520,9 @@ export default {
     ),
     FormEditParteCortabloquesComponent: defineAsyncComponent(() =>
       import('@/modules/ListadoPartes/components/FormEditParteCortabloquesComponent.vue')
+    ),
+    DeleteConfirmationComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/DeleteConfirmationComponent.vue')
     )
   },
   watch: {

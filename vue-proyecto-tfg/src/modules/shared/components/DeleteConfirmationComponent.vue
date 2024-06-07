@@ -3,7 +3,39 @@
     <div v-if="listItems.length === 0" class="text-gray-500 w-full">
       <p>No hay {{ itemType }} para eliminar</p>
     </div>
-
+    <div v-else-if="itemType === 'parte cortabloques'"
+      class="sm:w-90 mx-auto flex flex-col items-end sm:mb-2 relative"
+      role="alert"
+    >
+      <FontAwesomeIcon
+          :icon="['far', 'circle-question']"
+          class="sm:mr-3 pr-6 text-5xl sm:text-7xl sm:inline-block text-stoneBackgroundContrast-2 absolute sm:left-2 left-0 -top-1 sm:top-6 sm:-mt-9 sm:-ml-0"
+        />
+        <div
+          class="rounded-lg bg-stoneBackground-2 text-stoneBackground-3 p-4 sm:w-5/6 text-center"
+        >
+          <span class="sr-only">Info</span>
+          <div class="font-regular text-lg">
+            <p class="ml-8 sm:ml-0">¿Desea eliminar el siguiente {{ itemType }}?</p>
+            <ul 
+              class="min-w-full sm:px-8 max-w-md divide-y divide-stoneBackground-1 divide-opacity-50 pt-4 text-stoneBackgroundContrast-1"
+            >
+              <li class="pb-2 pt-2 sm:pt-3 sm:pb-3 flex flex-row justify-between">
+                <p class="font-light">Trabajador:</p> 
+                <p>{{ items[0].employeeName }} ({{ items[0].employeeNumber }})</p>
+              </li>
+              <li class="pb-2 pt-2 sm:pt-3 sm:pb-3 flex flex-row justify-between">
+                <p class="font-light">Fecha de inicio:</p> 
+                <p>{{ formatDate(items[0].fechaInicioActual) }}</p>
+              </li>
+              <li class="pt-2 sm:pt-3 flex flex-row justify-between">
+                <p class="font-light">Fecha de fin:</p> 
+                <p>{{ formatDate(items[0].fechaFinActual) }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
     <div
       v-else-if="listItems.length === total && listItems.length !== 1"
       class="sm:w-90 mx-auto flex flex-col items-end mb-2 relative"
@@ -115,7 +147,7 @@
                 <template v-for="(el, index) in item">
                   <span :key="`${el}-del`" class="text-wrap" v-if="index == 'nombre'">{{
                     el
-                  }}</span>
+                  }}&nbsp;</span>
                   <span
                     :key="`${el}-del`"
                     class="text-wrap"
@@ -150,7 +182,7 @@
         </ul>
       </div>
     </div>
-    <div class="sm:w-90 mx-auto flex justify-between gap-9">
+    <div class="sm:w-90 sm:mx-auto flex sm:flex-row flex-col items-center sm:justify-between sm:gap-9">
       <ButtonComponent
         :icon="['fas', 'floppy-disk']"
         :hidden="listItems.length === 0"
@@ -207,6 +239,10 @@ export default {
     )
   },
   methods: {
+    formatDate(date) {
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return new Date(date).toLocaleDateString('es-ES', options);
+    },
     openModalInfo(item){
       console.log('openModalInfo', item.id)
       this.$emit('openModalInfo', item.id, true)
@@ -262,6 +298,7 @@ export default {
     }
   },
   mounted() {
+    console.log("Delete", this.items, this.total)
     if(this.itemType === 'usuarios' || this.itemType === 'máquinas') {
       this.hasMaquinaCoste = this.checkTrabajadores() || this.checkRelMaquinas()
     }
