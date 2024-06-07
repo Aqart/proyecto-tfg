@@ -2,14 +2,15 @@
   <div class="flex items-center justify-center">
     <div class="flex flex-col gap-5 w-full">
       <h1 class="text-4xl text-center text-stoneBackground-3 font-bold">Listado de partes</h1>
+      <MensajesComponent
+        v-if="!editMode && getTipo !== 'warning'"
+        :textClasses="'text-lg'"
+        :message="getMensaje"
+        :type="getTipo"
+        :mostrarMensaje="getMostrar"
+        :iconClasses="'scale-150'"  
+      />
       <div>
-        <MensajesComponent
-          v-if="getTipo !== 'warning'"
-          :textClasses="'text-md'"
-          :message="getMensaje"
-          :type="getTipo"
-          :mostrarMensaje="getMostrar"
-        />
         <div class="flex justify-center items-center">
           <div class="flex flex-col lg:flex-row py-5 gap-3 w-full lg:justify-center items-center">
             <div
@@ -400,7 +401,6 @@ export default {
       return empleado
     },
     async changeFilter() {
-      this.actualizarMostrarMensaje(false)
       this.loading = true
       this.cards = []
       let response = await this.getPartesCortabloques
@@ -449,6 +449,7 @@ export default {
         const fechaInicioDateSeg = fechaInicioDate.getTime()
         const fechaFinDateSeg = fechaFinDate.getTime()
 
+        
         // Devolver true si la fecha de inicio de la parte ocurre dentro del rango de fechas y la fecha de fin no excede el límite superior del rango
         return (
           fechaInicioParteSeg >= fechaInicioDateSeg &&
@@ -530,6 +531,15 @@ export default {
       if (this.editMode === false) {
         this.changeFilter()
       }
+    },
+    getMensaje(newVal) {
+      console.log('getMensaje changed:', newVal);
+    },
+    getTipo(newVal) {
+      console.log('getTipo changed:', newVal);
+    },
+    getMostrar(newVal) {
+      console.log('getMostrar changed:', newVal);
     }
   }
 }
