@@ -230,8 +230,12 @@ export default {
   },
   methods: {
     lastWorkNumber(){
-      const lastEmployee = this.getEmpleados.reduce((prev, current) => (prev.numero_trabajador > current.numero_trabajador) ? prev : current);
-      return `Siguiente: ${lastEmployee.numero_trabajador + 1}`;
+      if (this.getEmpleados.length === 0) {
+        return 'Número trabajador';
+      } else {
+        const lastEmployee = this.getEmpleados.reduce((prev, current) => (prev.numero_trabajador > current.numero_trabajador) ? prev : current);
+        return `Siguiente: ${lastEmployee.numero_trabajador + 1}`;
+      }
     },
     activateUser() {
       this.form.status = 'Activo'
