@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+src/trash
 .DS_Store
 dist
 dist-ssr
@@ -31,3 +32,6 @@ coverage
 
 test-results/
 playwright-report/
+
+playwright.config.js
+e2e/*

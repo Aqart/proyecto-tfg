@@ -1,3 +1,8 @@
 node_modules
 .env
 .DS_Store
+babel.config.js
+hashedpw.js
+package copy.json
+Dockerfile
+docker-compose.yml
