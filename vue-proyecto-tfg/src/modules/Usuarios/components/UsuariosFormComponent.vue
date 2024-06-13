@@ -310,7 +310,6 @@ export default {
 
       // Permitir solo números, puntos y comas
       // const regex = /^[0-9]+([.,][0-9]+)?$/;
-      // console.log(this.form.numero_trabajador)
       // const isValidInput = regex.test(this.form.numero_trabajador);
 
       // if (!isValidInput) {
@@ -326,8 +325,6 @@ export default {
       // Regex para el formato del email
       const emailFormat = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
 
-      console.log('Formulario: ', this.form)
-      console.log('Datos entrada: ', this.data)
 
       if (hasEmptyFields) {
         this.error = {
@@ -360,7 +357,6 @@ export default {
         this.$emit('scrollToTop');
         return
       } else if(this.form.numero_trabajador !== this.data.numero_trabajador && empleados.some(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))) {
-        console.log(empleados)
         const sameEmployee = empleados.find(empleado => empleado.numero_trabajador === Number(this.form.numero_trabajador))
         this.error.status = true
         this.error.type = 'warning'
@@ -369,7 +365,6 @@ export default {
         this.$emit('scrollToTop');
         return
       } else {
-        console.log('Datos que se envían', this.form)
         this.$emit('send', this.form)
         this.form = {}
         this.toggleModal()

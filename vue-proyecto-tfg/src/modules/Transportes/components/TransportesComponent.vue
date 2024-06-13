@@ -74,7 +74,6 @@ export default {
             return await getTransporte(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a los transportes')
             actualizarMostrarMensaje(true)
@@ -88,7 +87,6 @@ export default {
           }
         } else {
           const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
-          console.log(nombresSuccess)
           actualizarMensaje(
             'success',
             `Los siguientes transportes se han eliminado: ${nombresSuccess}`

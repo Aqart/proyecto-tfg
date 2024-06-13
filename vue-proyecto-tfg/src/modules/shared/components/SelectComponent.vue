@@ -84,7 +84,6 @@ export default {
       if (this.label === 'Máquina') {
         return [{ id: null, nombre: 'Sin máquina asociada' }, ...this.options]
       } else {
-        console.log('OPTIONS', this.options)
         return this.options
       }
     },
@@ -92,11 +91,9 @@ export default {
       if (this.selectedOption === 'placeholder') {
         return this.placeholder
       }
-      console.log('SELECTED OPTION', this.selectedOption)
       const foundOption = this.allOptions.find(
         (option) => option.id === this.selectedOption
       )
-      console.log('FOUND OPTION', foundOption)
       return foundOption ? foundOption.nombre : 'Sin máquina asociada'
     }
   },
@@ -111,7 +108,6 @@ export default {
       this.showOptions = !this.showOptions
     },
     selectOption(option) {
-      console.log('OPTION', option)
       this.selectedOption = option.id
       this.showOptions = false
       this.$emit('changeSelect', option.id)
@@ -124,7 +120,6 @@ export default {
   },
   watch: {
     value(newValue) {
-      console.log('VALUE', newValue)
     }
   }
 }

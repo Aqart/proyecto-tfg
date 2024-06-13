@@ -47,7 +47,6 @@ const ParteCortabloques = {
 
     // Crear un parte de cortabloques
     crear: async (req, res, next) => {
-        console.log(req.body)
         const {
             fecha_inicio,
             hora_inicio,
@@ -165,7 +164,6 @@ const ParteCortabloques = {
                         i < rowsProduccion.length;
                         i++
                     ) {
-                        console.log('Eliminando', rowsProduccion[i].id)
                         await pool.query(
                             'DELETE FROM produccion_maquina WHERE id = ?',
                             [rowsProduccion[i].id]
@@ -208,7 +206,6 @@ const ParteCortabloques = {
                 'SELECT * FROM produccion_maquina WHERE id_parte = ?',
                 [id]
             )
-            console.log('rowsProduccion', rowsProduccion)
             rowsParte.forEach((parte) => {
                 parte.fecha_inicio = new Date(
                     parte.fecha_inicio.getTime() -
@@ -231,7 +228,6 @@ const ParteCortabloques = {
                 parte.produccionMaquina = []
                 rowsProduccion.forEach((produccion) => {
                     if (produccion.id_parte === parte.id) {
-                        console.log('Produccion', produccion)
                         parte.produccionMaquina.push(produccion)
                     }
                 })

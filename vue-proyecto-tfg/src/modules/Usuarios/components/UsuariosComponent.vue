@@ -89,7 +89,6 @@ export default {
             return await getUsuario(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a los usuarios')
             actualizarMostrarMensaje(true)
@@ -109,7 +108,6 @@ export default {
             const empleado = empleados.find(emp => emp.numero_trabajador === result.numero_trabajador)
             return empleado ? `${empleado.nombre} ${empleado.apellido1} (${empleado.numero_trabajador})` : result.email
           }).join(', ')
-          console.log(nombresSuccess)
           actualizarMensaje(
             'success',
             `Los siguientes usuarios se han desactivado: ${nombresSuccess}`

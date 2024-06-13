@@ -89,7 +89,7 @@ export const getMaquinaById = async ({ commit }, id) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener la máquina:', error)
+    console.error('Error al obtener la máquina:', error)
     return { ok: false, message: 'Error en el acceso a máquinas' }
   }
 }

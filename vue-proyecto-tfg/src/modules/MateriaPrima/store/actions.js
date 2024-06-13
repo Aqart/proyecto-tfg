@@ -73,7 +73,7 @@ export const getMateriaPrimaById = async ({ commit }, id) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener la materia prima:', error)
+    console.error('Error al obtener la materia prima:', error)
     return { ok: false, message: 'Error en el acceso a materias primas' }
   }
 }

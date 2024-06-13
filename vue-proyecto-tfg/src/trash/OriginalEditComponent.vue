@@ -73,11 +73,9 @@ export default {
 
     onMounted(async () => {
       const consumible = await getConsumible(router.currentRoute.value.params.id)
-      console.log('edit cons', consumible)
       consumibleForm.value.nombre = consumible.nombre
       consumibleForm.value.precio = Number(consumible.precio)
       consumibleOriginal.value = { nombre: consumible.nombre, precio: Number(consumible.precio) }
-      console.log('EditConsumibleComponent', consumibleForm)
     })
 
     const nombreConsumible = computed(() => {
@@ -86,7 +84,6 @@ export default {
 
     // Método que se ejecuta cuando se envía el formulario
     const handleSubmit = async (newFormValues) => {
-      console.log('Lo que recibo del consumibleForm', newFormValues)
       try {
         const { message } = await editConsumible(router.currentRoute.value.params.id, newFormValues)
         actualizarMensaje('success', message)
@@ -120,7 +117,6 @@ export default {
             return
           }
 
-          console.log('Datos del form', consumibleForm.value)
 
           const { ok, message } = await editConsumible(router.currentRoute.value.params.id, consumibleForm.value)
 

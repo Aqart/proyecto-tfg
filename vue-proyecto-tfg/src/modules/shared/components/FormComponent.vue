@@ -137,7 +137,6 @@ export default {
         this.$emit('errorForm', this.error)
         window.scrollTo(0, 0)
       } else {
-        console.log('Datos que se envían', this.form)
         this.$emit('send', this.form)
         this.form = {}
         this.toggleModal()
@@ -161,9 +160,7 @@ export default {
       return this.form
     },
     handleSelectChange(value) {
-      console.log('Valor', value)
       this.form.id_maquina = value
-      console.log('Form', this.form)
     },
     checkType(type) {
       if (type === 'string') {

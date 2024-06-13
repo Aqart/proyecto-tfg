@@ -32,8 +32,6 @@ export const fetchUsuarios = async ({ commit }) => {
     
       // Actualizar el estado con los Usuarios obtenidos
       commit('setUsuarios', usuariosConEstado)
-      console.log(response2.data)
-      console.log(usuariosConEstado)
 
     } else {
       console.error('Error al obtener los usuarios:', response.message)
@@ -72,7 +70,6 @@ export const createUsuario = async ({ commit }, usuario) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if ((response.status === 201 && response.data) && (response2.status === 201 && response2.data)) {
-      console.log('Usuario creado:', response)
       // Actualiza el objeto usuario con la respuesta de la API
       commit('setNewUsuario', response.data.user)
       return { ok: true, message: response.data.message }
@@ -104,7 +101,7 @@ export const getUsuarioById = async ({ commit }, id) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el Usuario:', error)
+    console.error('Error al obtener el Usuario:', error)
     return { ok: false, message: 'Error en el acceso a usuarios' }
   }
 }
@@ -114,7 +111,6 @@ export const editUsuario = async ({ commit }, usuario) => {
     return { ok: false, message: '....' }
   }
 
-  console.log(usuario)
   const { id, numero_trabajador, email, roles, password } = usuario
   const { id_empleado, nombre, apellido1, apellido2, status } = usuario
 
@@ -136,8 +132,6 @@ export const editUsuario = async ({ commit }, usuario) => {
         }
     })
 
-    console.log(response)
-    console.log(response2)
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if ((response.status === 200 && response.data) && (response2.status === 200 && response2.data)) {
@@ -147,7 +141,6 @@ export const editUsuario = async ({ commit }, usuario) => {
         email: usuario.email,
         roles: usuario.roles,
       }
-      console.log(userToCommit)
 
       commit('setUsuario', { id, userToCommit })
 
@@ -173,7 +166,6 @@ export const deleteUsuarios = async ({ commit }, usuarios) => {
   for (const usuario of usuarios) {
     const { id } = usuario
 
-    console.log(usuario)
 
     try {
       // const response = await authApi.delete(`/usuarios/${id}`, {

@@ -29,9 +29,6 @@ export default {
   },
   computed: {
     ...mapGetters('Consumible', ['getConsumibleById'])
-  },
-  created() {
-    console.log('Consumible', this.getConsumibleById(this.$route.params.id))
   }
 }
 </script>

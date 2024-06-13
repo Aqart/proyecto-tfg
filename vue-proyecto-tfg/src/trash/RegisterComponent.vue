@@ -133,7 +133,7 @@ export default {
           }, 6 * 1000)
         }
       } catch (error) {
-        console.log(error)
+        console.error(error)
       } finally {
         setTimeout(() => {
           loading.value = false

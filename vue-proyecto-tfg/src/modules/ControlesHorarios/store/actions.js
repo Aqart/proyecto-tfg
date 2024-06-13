@@ -3,7 +3,6 @@ export const addParteCortabloques = async ({ commit }, form) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
-  console.log('addParteCortabloques', form)
   try {
     const response = await authApi.post('/partes/cortabloques', form, {
       headers: {

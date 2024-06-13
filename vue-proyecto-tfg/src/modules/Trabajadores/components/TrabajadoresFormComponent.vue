@@ -109,7 +109,6 @@ export default {
   },
   watch: {
     data(newVal) {
-      console.log(newVal)
       this.form = { ...newVal }
     }
   },
@@ -137,7 +136,6 @@ export default {
       }
     },
     preventNonNumericInput(event) {
-      console.log(event.target.value)
       // También se puede hacer con regex
       const regex = /^[0-9]*[.,]?[0-9]*$/
       const controlKeys = [
@@ -167,11 +165,9 @@ export default {
       console.error('Dentro del handleError', this.error.message)
     },
     selectEmpleado(id) {
-      console.log(id)
       this.form.numero_trabajador = id
     },
     selectMaquina(id) {
-      console.log(id)
       this.form.id_maquina = id
     },
     toggleModal() {
@@ -198,7 +194,6 @@ export default {
 
       // Permitir solo números, puntos y comas
       // const regex = /^[0-9]+([.,][0-9]+)?$/;
-      // console.log(this.form.precio)
       // const isValidInput = regex.test(this.form.precio);
 
       // if (!isValidInput) {
@@ -218,7 +213,6 @@ export default {
           trabajador.numero_trabajador === this.form.numero_trabajador &&
           trabajador.id_maquina === this.form.id_maquina
       )
-      console.log(trabajador)
 
       if (hasEmptyFields) {
         this.error = {
@@ -250,7 +244,6 @@ export default {
           precio: this.form.precio,
           id_maquina: this.form.id_maquina
         }
-        console.log('Datos que se envían', dataToSend)
         this.$emit('send', dataToSend)
         this.form = {}
         this.toggleModal()

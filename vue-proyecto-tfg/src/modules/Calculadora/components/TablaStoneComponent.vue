@@ -232,7 +232,6 @@ export default {
     calcularDesperdicio() {
       this.precioDesperdicio = (this.porcentajeDesperdicio / 100) * this.sumables // this.sumables +
       // (20 + (this.porcentajeDesperdicio / 100) * this.area * 20).toFixed(2)
-      console.log('Precio desperdicio', this.precioDesperdicio)
     },
     async calculatePrice() {
       try {
@@ -245,7 +244,6 @@ export default {
 
         this.maquinas.forEach((maquina) => {
           this.produccion += maquina.produccion_m2
-          console.log('Produccion', Number(this.produccion))
         })
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
         this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
@@ -256,36 +254,27 @@ export default {
           (sum, consumible) => sum + consumible.precio,
           0
         )
-        console.log('Suma de consumibles', consumiblesSum)
         const trabajadoresSum = this.trabajadores.reduce(
           (sum, trabajador) => sum + trabajador.precio,
           0
         )
-        console.log('Suma de trabajadores', trabajadoresSum)
         const gastosEnergeticosSum = this.gastosEnergeticos.reduce(
           (sum, gastoEnergetico) => sum + gastoEnergetico.coste_energia,
           0
         )
-        console.log('Suma de gastos energeticos', gastosEnergeticosSum)
         this.gastoGeneral =
           (this.getGastosGenerales.reduce((sum, gastoGeneral) => sum + gastoGeneral.precio, 0) /
             this.getMaquinas.length) *
           this.maquinas.length
-        console.log('Gasto general', this.gastoGeneral)
-        console.log('Coste material', this.costeMaterial)
         this.sumables =
           Number(consumiblesSum) +
           Number(trabajadoresSum) +
           Number(gastosEnergeticosSum) +
           Number(this.gastoGeneral)
-        console.log('Sumables', this.sumables)
         this.sumables = this.sumables / this.produccion
-        console.log('Sumables-produccion', this.sumables)
         this.sumables += Number(this.costeMaterial)
         this.porcentajeDesperdicio = this.maquinas[0].porcentaje_desperdicio
-        console.log('Porcentaje de desperdicio', this.porcentajeDesperdicio)
         this.calcularDesperdicio()
-        console.log('Precio desperdicio', this.precioDesperdicio)
         this.totalPrecio =
           Number(this.sumables) +
           Number(this.precioDesperdicio) +

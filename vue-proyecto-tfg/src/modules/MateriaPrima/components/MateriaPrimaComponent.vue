@@ -75,7 +75,6 @@ export default {
             return await getMateriaPrima(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a las materias primas')
             actualizarMostrarMensaje(true)
@@ -89,7 +88,6 @@ export default {
           }
         } else {
           const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
-          console.log(nombresSuccess)
           actualizarMensaje(
             'success',
             `Las siguientes materias primas se han eliminado correctamente: ${nombresSuccess}`

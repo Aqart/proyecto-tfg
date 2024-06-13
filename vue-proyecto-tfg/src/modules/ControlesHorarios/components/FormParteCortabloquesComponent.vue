@@ -308,7 +308,6 @@ export default {
       } else {
         this.inputLength = 0
       }
-      console.log('Input length', this.inputLength)
       // Comprueba si la entrada es numérica y tiene exactamente 5 dígitos
       if (!this.toggleRetalActive && this.inputLength > 0) {
         if (!/^\d{5}$/.test(this.nbloque)) {
@@ -403,7 +402,6 @@ export default {
           this.$emit('closeCortabloques', false)
         })
         .catch((error) => {
-          console.log(error)
         })
     },
     handleClean() {

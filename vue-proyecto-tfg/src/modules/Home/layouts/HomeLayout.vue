@@ -209,11 +209,9 @@ export default {
         !userForm.value.newPassword ||
         !userForm.value.repeatedPassword
       ) {
-        console.log('Debes rellenar todos los campos')
         showModal.value = true
       } else {
         if (userForm.value.newPassword !== userForm.value.repeatedPassword) {
-          console.log('Las contraseñas no coinciden', userForm.value.email)
           showModal.value = true
         } else {
           userForm.value = {
@@ -221,9 +219,7 @@ export default {
             oldPassword: userForm.value.oldPassword,
             newPassword: userForm.value.newPassword
           }
-          console.log('Cambiar contraseña', userForm.value)
           const { ok, message } = await resetPassword(userForm.value)
-          console.log(ok, message)
         }
       }
     }

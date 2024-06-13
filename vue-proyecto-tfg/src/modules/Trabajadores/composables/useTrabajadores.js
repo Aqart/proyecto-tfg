@@ -10,7 +10,6 @@ const useTrabajadores = () => {
 
   const getEmpleados = async () => {
     const resp = await store.dispatch('Trabajadores/fetchEmpleados')
-    console.log(resp)
     return resp
   }
 
