@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 06-06-2024 a las 03:39:39
--- Versión del servidor: 10.6.17-MariaDB-log
+-- Tiempo de generación: 13-06-2024 a las 19:41:04
+-- Versión del servidor: 10.6.18-MariaDB-log
 -- Versión de PHP: 8.2.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -20,6 +20,10 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `transforstone_app`
 --
+
+CREATE DATABASE IF NOT EXISTS `transforstone_app` 
+DEFAULT CHARACTER 
+SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -39,9 +43,11 @@ CREATE TABLE `consumible` (
 --
 
 INSERT INTO `consumible` (`id`, `nombre`, `precio`, `id_maquina`) VALUES
-(1, 'consumible 1', 1200.51, 1),
-(2, 'consumible 2', 4500, 1),
-(3, 'consumible 3', 4500, 7);
+(6, 'Consumibles MULTI-HILO', 10, 12),
+(7, 'Consumibles TELAR', 10, 13),
+(8, 'Consumibles CORTA-BLOQUES', 10, 14),
+(9, 'Consumibles DISCO-PUENTE', 10, 15),
+(10, 'Consumibles PULIDORA', 10, 16);
 
 -- --------------------------------------------------------
 
@@ -61,9 +67,11 @@ CREATE TABLE `gasto_energetico` (
 --
 
 INSERT INTO `gasto_energetico` (`id`, `nombre`, `coste_energia`, `id_maquina`) VALUES
-(1, 'Electricidad', 10500, 6),
-(2, 'Gas', 5500, 1),
-(3, 'Agua', 7000, 2);
+(4, 'Gasto Energético MULTI-HILO', 10, 12),
+(5, 'Gasto Energético TELAR', 10, 13),
+(6, 'Gasto Energético CORTA-BLOQUES', 10, 14),
+(7, 'Gasto Energético DISCO-PUENTE', 10, 15),
+(8, 'Gasto Energético PULIDORA', 10, 16);
 
 -- --------------------------------------------------------
 
@@ -82,10 +90,7 @@ CREATE TABLE `gasto_general` (
 --
 
 INSERT INTO `gasto_general` (`id`, `nombre`, `precio`) VALUES
-(1, 'Gasto General 1', 5000),
-(2, 'Gasto General 2', 5000),
-(3, 'Gasto General 3', 5000),
-(4, 'Marketing', 30000);
+(5, 'Gastos Sin Asignar', 10);
 
 -- --------------------------------------------------------
 
@@ -105,13 +110,11 @@ CREATE TABLE `maquina` (
 --
 
 INSERT INTO `maquina` (`id`, `nombre`, `produccion_m2`, `porcentaje_desperdicio`) VALUES
-(1, 'Telar', 28520, 7),
-(2, 'Pulidora', 28000, 1),
-(4, 'Discopuente', 35000, 30),
-(5, 'Monohilo', 310, 10),
-(6, 'Cortabloques', 600, 30),
-(7, 'Linea losa', 400, 10),
-(8, 'Multidisco', 500, 40);
+(12, 'Multi-hilo', 51708, 10),
+(13, 'Telar', 17553, 10),
+(14, 'Corta-bloques', 21874, 10),
+(15, 'Disco-puente', 42000, 10),
+(16, 'Pulidora', 32000, 10);
 
 -- --------------------------------------------------------
 
@@ -131,8 +134,8 @@ CREATE TABLE `materia_prima` (
 --
 
 INSERT INTO `materia_prima` (`id`, `nombre`, `cantidad_m3`, `precio`) VALUES
-(1, 'Bloque de primera', 1426.7, 260),
-(2, 'Bloque de segunda', 1576.61, 200);
+(5, 'Bloques de 1ª', 877, 260),
+(6, 'Bloques de 2ª', 1126, 200);
 
 -- --------------------------------------------------------
 
@@ -158,15 +161,8 @@ CREATE TABLE `partes_cortabloques` (
 --
 
 INSERT INTO `partes_cortabloques` (`id`, `fecha_inicio`, `fecha_fin`, `hora_inicio`, `hora_fin`, `observaciones`, `numero_trabajador`, `numero_bloque`, `bis`, `retal`) VALUES
-(1, '2024-05-15', '2024-05-16', '08:00:00', '09:00:00', 'Observaciones prueba', 101, 111111, 0, 0),
-(2, '2024-05-15', '2024-05-15', '08:00:00', '13:00:00', 'Observaciones prueba', 102, 222222, 0, 0),
-(3, '2024-05-14', '2024-05-14', '08:00:00', '13:00:00', 'Observaciones prueba', 103, 333333, 0, 0),
-(4, '2024-05-15', '2024-05-17', '08:00:00', '16:00:00', 'Observaciones prueba', 104, NULL, 0, 1),
-(5, '2024-05-28', '2024-05-28', '13:55:00', '13:55:00', 'hakfhsdkf', 101, NULL, 0, 1),
-(6, '2024-05-29', '2024-05-29', '12:23:00', '15:23:00', 'observación de prueba', 101, 45678, 1, 0),
-(7, '2024-05-29', '2024-05-29', '16:55:00', '20:55:00', 'observación del trabajdor pedro', 104, 87654, 1, 0),
-(8, '2024-05-29', '2024-05-29', '17:46:00', '17:46:00', 'Sgnwgbdgb', 101, 12986, 0, 0),
-(9, '2024-06-06', '2024-06-06', '03:26:00', '03:26:00', 'wefwefcw', 101, 88899, 1, 0);
+(10, '2024-06-13', '2024-06-06', '03:47:00', '03:47:00', 'Prueba', 999, 77778, 1, 0),
+(12, '2024-06-11', '2024-06-11', '16:38:00', '16:38:00', 'Prueba', 101, 25500, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -188,19 +184,10 @@ CREATE TABLE `produccion_maquina` (
 --
 
 INSERT INTO `produccion_maquina` (`id`, `id_parte`, `largo`, `ancho`, `grosor`, `cantidad`) VALUES
-(9, 1, 100, 50, 10, 10),
-(10, 1, 200, 100, 20, 5),
-(11, 2, 100, 50, 10, 10),
-(12, 2, 200, 100, 20, 5),
-(13, 3, 100, 50, 10, 10),
-(14, 3, 200, 100, 20, 5),
-(15, 4, 100, 50, 10, 10),
-(16, 4, 200, 100, 20, 5),
-(17, 5, 1, 1, 2, 3),
-(18, 6, 120, 65, 3, 13),
-(19, 7, 123, 59.5, 2, 10),
-(20, 8, 12, 10, 14, 2),
-(21, 9, 12, 12, 12, 12);
+(22, 10, 58, 10, 5, 6),
+(24, 12, 60, 40, 2, 5),
+(25, 12, 40, 40, 2, 10),
+(26, 12, 100, 60, 2, 50);
 
 -- --------------------------------------------------------
 
@@ -222,12 +209,26 @@ CREATE TABLE `trabajador` (
 --
 
 INSERT INTO `trabajador` (`id`, `numero_trabajador`, `nombre`, `apellido1`, `apellido2`, `activo`) VALUES
-(1, 101, 'Juan', 'Pérez', 'García', 1),
-(2, 102, 'María', 'López', 'Martínez', 1),
-(3, 103, 'Carlos', 'González', 'Fernández', 1),
-(4, 104, 'Pedro', 'Martínez', 'López', 1),
-(7, 105, 'Usuario', 'Cinco', 'Cinco', 1),
-(8, 106, 'Usuario', 'Seis', 'Seis', 1);
+(1, 101, 'Administrador', '.', '.', 1),
+(4, 999, 'Pedro', 'Martínez', 'López', 0),
+(9, 1, 'Juan ', 'Pérez', 'González', 1),
+(10, 2, 'Esteban', 'Pérez', 'González', 1),
+(11, 3, 'Ana ', 'Marín', 'Fernández', 1),
+(12, 4, 'Páqui', 'Navarro', 'López', 1),
+(13, 5, 'Pepe', 'Boluda', 'Reyez', 1),
+(14, 6, 'Darío', 'Frutos', 'García', 1);
+
+--
+-- Disparadores `trabajador`
+--
+DELIMITER $$
+CREATE TRIGGER `after_trabajador_update` AFTER UPDATE ON `trabajador` FOR EACH ROW BEGIN
+    IF NEW.activo = FALSE THEN
+        DELETE FROM trabajador_costes WHERE numero_trabajador = NEW.numero_trabajador;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -247,12 +248,8 @@ CREATE TABLE `trabajador_costes` (
 --
 
 INSERT INTO `trabajador_costes` (`id`, `numero_trabajador`, `precio`, `id_maquina`) VALUES
-(11, 101, 5400, 1),
-(12, 102, 14000, 2),
-(13, 103, 14000, 4),
-(14, 104, 10000, 2),
-(17, 105, 3000, 4),
-(18, 104, 150, 1);
+(19, 101, 600000, NULL),
+(20, 1, 30000, NULL);
 
 -- --------------------------------------------------------
 
@@ -272,8 +269,7 @@ CREATE TABLE `transporte` (
 --
 
 INSERT INTO `transporte` (`id`, `nombre`, `cantidad`, `precio`) VALUES
-(1, 'Viaje 1', 173, 150),
-(2, 'Viaje 2', 200, 150);
+(3, 'Transporte de Cantera a Fábrica', 10, 10);
 
 -- --------------------------------------------------------
 
@@ -296,12 +292,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `password`, `numero_trabajador`, `fecha_registro`, `ultima_conexion`, `roles`) VALUES
-(6, 'admin@admin.es', '$2b$10$c2Zs3zhkY0gZTaNC5HJHxOZ3nCGvLAWWAq9svtrOnWd3ZBAXPph2a', 101, '2024-05-15 08:16:58', '2024-06-06 01:35:43', 'ADMIN'),
-(7, 'usuario2@example.com', '$2b$10$Ee8oqt3iwvpEQphJHpW18..eMXv331Lw.3hJCWvezBAupAaTAPGty', 102, '2024-05-15 08:16:58', '2024-05-29 12:09:43', 'TRABAJADOR'),
-(8, 'usuario3@example.com', '$2b$10$xHy1yDJNL09tsQWOCaWFhuKY6SQi2HUdZk.EWW8EipglRlkT9dMZm', 103, '2024-05-15 08:16:58', '2024-05-15 11:36:10', 'TRABAJADOR'),
-(9, 'pedro@sueloparaexterior.com', '$2b$10$qvuT493HkvvuTXUhW2MsMO/uhuopby8cuVMeEZvw5jkUXtmoyL.7i', 104, '2024-05-15 08:16:58', '2024-06-06 01:28:31', 'TRABAJADOR'),
-(14, 'usuario5@example.com', '$2b$10$6W1EYxVrO4f9El.hSaovsO6XfNGJ9XVwx95Frzq7SBfNJCanpJE4K', 105, '2024-06-05 15:34:15', NULL, 'TRABAJADOR'),
-(15, 'usuario6@example.com', '$2b$10$syL3Buxdii8FpOvSQeMBgO2.M0t/9n8jeuyvmWVvMwGXHUBT0i8Ou', 106, '2024-06-05 15:47:35', NULL, 'TRABAJADOR');
+(6, 'admin@admin.es', '$2b$10$qH8/KkSHlxFQEKPyK8hya.hSbuJc1f7kgtHG0uq/qvc2VxBk5w.CS', 101, '2024-05-15 08:16:58', '2024-06-13 17:29:08', 'ADMIN'),
+(9, 'pedro@sueloparaexterior.com', '$2b$10$qvuT493HkvvuTXUhW2MsMO/uhuopby8cuVMeEZvw5jkUXtmoyL.7i', 999, '2024-05-15 08:16:58', '2024-06-06 13:35:19', 'TRABAJADOR'),
+(16, 'marketing@transforstone.com', '$2b$10$jlxC4zu1X8b8O0rKyulwP.Xto/zXHNjLTEDTDOLpsm0vJj9rcdACu', 1, '2024-06-11 14:46:39', NULL, 'ADMIN'),
+(17, 'e.perez@transforstone.com', '$2b$10$9Kj4AXM5N7f/.HIRT6n2Y.kmlTOdG6TN30oOp1agszCI69.FGnXfe', 2, '2024-06-11 14:49:22', NULL, 'TRABAJADOR'),
+(18, 'ventas@transforstone.com', '$2b$10$vvBx2UiAx0KovbFo3tmwZ.natvlkFepoPHPKVFXwnN37Ji5gAht2q', 3, '2024-06-11 14:50:15', NULL, 'TRABAJADOR'),
+(19, 'oficina@transforstone.com', '$2b$10$ht4UJYmi/ADtZ.Z46QrbA.0zSLh6zex7c0eRGuEutDtrWNiG8hjPK', 4, '2024-06-11 14:50:54', NULL, 'TRABAJADOR'),
+(20, 'produccion@transforstone.com', '$2b$10$yU5e9yVA8pIce/nLmwFJP.Wby7CMDhotMcdO26Nevc05Gv3bRm7cq', 5, '2024-06-11 14:51:37', NULL, 'TRABAJADOR'),
+(21, 'tecnico.ot@transforstone.com', '$2b$10$vxUhEGQi3TbL3KBZYmpd.eEQVBXCbFUdTil/KkV6uku17wkDNBZ/K', 6, '2024-06-11 14:52:45', NULL, 'TRABAJADOR');
 
 --
 -- Índices para tablas volcadas
@@ -389,67 +387,67 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `consumible`
 --
 ALTER TABLE `consumible`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `gasto_energetico`
 --
 ALTER TABLE `gasto_energetico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `gasto_general`
 --
 ALTER TABLE `gasto_general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `maquina`
 --
 ALTER TABLE `maquina`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `materia_prima`
 --
 ALTER TABLE `materia_prima`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `partes_cortabloques`
 --
 ALTER TABLE `partes_cortabloques`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `produccion_maquina`
 --
 ALTER TABLE `produccion_maquina`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `trabajador`
 --
 ALTER TABLE `trabajador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `trabajador_costes`
 --
 ALTER TABLE `trabajador_costes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `transporte`
 --
 ALTER TABLE `transporte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas

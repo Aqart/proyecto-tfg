@@ -48,6 +48,7 @@ export default {
             actualizarMostrarMensaje(true)
           } else {
             await getEmpleados()
+            await getUsuarios()
             actualizarMensaje('success', message)
             actualizarMostrarMensaje(true)
           }

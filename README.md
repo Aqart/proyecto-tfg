@@ -3,7 +3,7 @@
 ## Intalación de la Base de datos
 1. Importar archivo .sql del directorio "db" en MySQL
 2. Configuracion de la base de datos
-    - Configuracion del archivo .env en la ruta principal
+    - Configuracion del archivo .env en la ruta principal (si no existe crear)
         ```php
         DB_HOST=localhost
         DB_PORT=3306
