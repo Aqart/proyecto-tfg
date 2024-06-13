@@ -74,9 +74,6 @@ export default {
     InputNumberComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/InputNumberComponent.vue')
     ),
-    InputPasswordComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/InputPasswordComponent.vue')
-    ),
     ButtonComponent: defineAsyncComponent(
       () => import('@/modules/shared/components/ButtonComponent.vue')
     ),
