@@ -123,14 +123,12 @@ export default {
   },
   computed: {
     formattedFechaInicioActual() {
-      console.log(this.fechaInicioActual)
       if (!this.fechaInicioActual || !this.horaInicioActual) {
         return ''
       }
       const fecha = new Date(this.fechaInicioActual.split('T')[0] + 'T' + this.horaInicioActual)
       const optionsFecha = { day: '2-digit', month: '2-digit', year: 'numeric' }
       const optionsHora = { hour: '2-digit', minute: '2-digit', hour12: false }
-      console.log(fecha.toLocaleDateString('es-ES', optionsFecha))
       return (
         fecha.toLocaleDateString('es-ES', optionsFecha) +
         ' - ' +
@@ -144,8 +142,6 @@ export default {
       const fecha = new Date(this.fechaFinActual.split('T')[0] + 'T' + this.horaFinActual)
       const optionsFecha = { day: '2-digit', month: '2-digit', year: 'numeric' }
       const optionsHora = { hour: '2-digit', minute: '2-digit', hour12: false }
-      console.log(this.fechaFinActual)
-      console.log(fecha.toLocaleDateString('es-ES', optionsFecha))
       return (
         fecha.toLocaleDateString('es-ES', optionsFecha) +
         ' - ' +

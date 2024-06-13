@@ -250,7 +250,6 @@ export default {
       } else {
         this.inputLength = 0
       }
-      console.log('Input length', this.inputLength)
       // Comprueba si la entrada es numérica y tiene exactamente 5 dígitos
       if (!this.toggleRetalActive && this.inputLength > 0) {
         if (!/^\d{5}$/.test(this.nbloque)) {
@@ -264,7 +263,6 @@ export default {
     },
     getproduccionMaquina(items) {
       this.produccionMaquina = items
-      console.log('Items', items)
       delete this.produccionMaquina.editing
     },
     setHoraFin() {
@@ -319,7 +317,6 @@ export default {
           item.cantidad = parseInt(item.cantidad)
         }
       }
-      // console.log('Select numero trabajador', this.employeeNumber)
       const form = {
         id: this.card.id,
         numero_bloque: parseInt(this.nbloque) || null,
@@ -333,7 +330,6 @@ export default {
         observaciones: this.observaciones,
         produccionMaquina: this.produccionMaquina
       }
-      // console.log('Form', form)
       this.$store
         .dispatch('ListadoPartes/editParteCortabloques', form)
         .then(() => {
@@ -346,14 +342,13 @@ export default {
           this.$emit('closeCortabloques', false)
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     }
   },
   computed: {
     ...mapGetters('Trabajadores', ['getEmpleados']),
     getEmployeeNumber() {
-      console.log('Employee number', this.employeeNumber)
       return this.employeeNumber
     }
   },
@@ -367,9 +362,7 @@ export default {
       this.observaciones = this.card.observaciones
       this.toggleRetalActive = this.card.toggleRetalActive
       this.toggleBisActive = this.card.toggleBisActive
-      console.log('Card', this.card.employeeNumber)
       this.employeeNumber = `${this.card.employeeNumber}`
-      console.log('Emplot', this.employeeNumber)
       this.produccionMaquina = this.card.produccionMaquina
       this.actualizarMostrarMensaje(false)
     }

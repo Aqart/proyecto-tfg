@@ -36,7 +36,6 @@ export const fetchEmpleados = async ({ commit }) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Actualizar el estado con los empleados obtenidos
-      console.log(response.data)
       commit('setEmpleados', response.data)
 
       return response.data
@@ -49,7 +48,6 @@ export const fetchEmpleados = async ({ commit }) => {
 }
 
 export const createTrabajador = async ({ commit }, trabajador) => {
-  console.log(trabajador)
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
@@ -63,7 +61,6 @@ export const createTrabajador = async ({ commit }, trabajador) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 201 && response.data) {
-      console.log(response.data)
       if (response.data.id) {
         trabajador.id = response.data.id
       }
@@ -97,7 +94,7 @@ export const getTrabajadorById = async ({ commit }, id) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el trabajador:', error)
+    console.error('Error al obtener el trabajador:', error)
     return { ok: false, message: 'Error en el acceso a trabajadores' }
   }
 }
@@ -116,7 +113,6 @@ export const editTrabajador = async ({ commit }, trabajador) => {
 
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
-      console.log(response.data)
       // Hacer un mutation que actualice los consumibles de Vuex
       commit('setTrabajador', { id, trabajador })
 

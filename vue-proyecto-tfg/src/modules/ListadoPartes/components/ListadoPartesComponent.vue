@@ -237,7 +237,6 @@ export default {
             mensaje: 'Error al eliminar el parte de cortabloques'
           })
           this.actualizarMostrarMensaje(true)
-          console.log(error)
         })
     },
     checkIfMobile() {
@@ -336,7 +335,6 @@ export default {
       doc.save(`listado_partes_${fechaInicio}${fechaFin}.pdf`)
     },
     callMethod(methodName) {
-      console.log(methodName)
       if (this[methodName]) {
         this[methodName]()
       } else {
@@ -404,7 +402,6 @@ export default {
       this.loading = true
       this.cards = []
       let response = await this.getPartesCortabloques
-      console.log('PARTE CORTABLOQUES', response)
 
       // Convertir las fechas a objetos Date y establecer la hora
       const fechaInicioDate = new Date(this.fechaInicio)
@@ -533,13 +530,10 @@ export default {
       }
     },
     getMensaje(newVal) {
-      console.log('getMensaje changed:', newVal);
     },
     getTipo(newVal) {
-      console.log('getTipo changed:', newVal);
     },
     getMostrar(newVal) {
-      console.log('getMostrar changed:', newVal);
     }
   }
 }

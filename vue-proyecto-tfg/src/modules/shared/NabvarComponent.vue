@@ -68,7 +68,6 @@ export default {
   },
   created() {
     this.employeeName = this.getEmployeeName || localStorage.getItem('employeeName')
-    console.log(this.employeeName)
   },
 
   components: {

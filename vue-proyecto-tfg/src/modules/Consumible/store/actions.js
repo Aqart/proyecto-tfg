@@ -27,7 +27,6 @@ export const createConsumible = async ({ commit }, consumible) => {
     return { ok: false, message: '....' }
   }
   try {
-    console.log('Action', consumible)
     const response = await authApi.post('/consumibles', consumible, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
@@ -73,7 +72,6 @@ export const getConsumibleById = async ({ commit }, id) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el consumible:', error)
     return { ok: false, message: 'Error en el acceso a consumibles' }
   }
 }

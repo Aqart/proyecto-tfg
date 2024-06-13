@@ -35,9 +35,7 @@ export const loginUser = async ({ dispatch, commit }, user) => {
   try {
     const { data } = await authApi.post('/login', { email, password })
     const isExpired = await dispatch('isTokenExpired')
-    console.log('DATA', data)
     if (!isExpired) {
-      console.log(data)
       commit('loginUser', {
         email: email,
         idToken: localStorage.getItem('idToken'),
@@ -62,7 +60,6 @@ export const loginUser = async ({ dispatch, commit }, user) => {
     delete user.password
     return { ok: true, message: '....' }
   } catch (error) {
-    console.log(error)
     return { ok: false, message: 'Email o Contraseña inválidos' }
   }
 }
@@ -111,7 +108,6 @@ export const obtenerRoles = async ({ commit }) => {
     )
     commit('setRoles', data[0].roles)
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -136,7 +132,6 @@ export const changePassword = async ({ state, dispatch }, user) => {
 
     return { ok: true, message: data.message }
   } catch (error) {
-    console.log(error)
     return { ok: false, message: 'Contraseña incorrecta' }
   }
 }
@@ -156,7 +151,6 @@ export const lastLoginConnection = async ({ state }, user) => {
     )
     return { ok: true, message: data.message }
   } catch (error) {
-    console.log(error)
     return { ok: false, message: 'Error al obtener la última conexión' }
   }
 }

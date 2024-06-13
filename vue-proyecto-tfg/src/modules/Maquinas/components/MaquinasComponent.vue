@@ -74,7 +74,6 @@ export default {
             return await getMaquina(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a las máquinas')
             actualizarMostrarMensaje(true)
@@ -88,7 +87,6 @@ export default {
           }
         } else {
           const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
-          console.log(nombresSuccess)
           actualizarMensaje(
             'success',
             `Las siguientes máquinas se han eliminado: ${nombresSuccess}`

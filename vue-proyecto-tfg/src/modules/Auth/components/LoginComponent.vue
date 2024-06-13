@@ -86,7 +86,6 @@ export default {
       message: ''
     })
 
-    console.log(userForm.value.ultima_conexion)
     const router = useRouter()
     const { loginUser } = useAuth()
 

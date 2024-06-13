@@ -203,7 +203,6 @@ export default {
       if(this.trabajadoresMaquina.length > 0){
         this.isOpenTrabajadores = true
       }
-      console.log(this.trabajadoresMaquina)
     },
     async obtenerGastos() {
       const response = await this.getGastos

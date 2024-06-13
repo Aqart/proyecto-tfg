@@ -90,7 +90,6 @@ export default {
             return await getTrabajador(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a los trabajadores')
             actualizarMostrarMensaje(true)

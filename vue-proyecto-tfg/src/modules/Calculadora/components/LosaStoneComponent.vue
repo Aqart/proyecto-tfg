@@ -230,16 +230,13 @@ export default {
         let precioM3 = b.cantidad_m3 * b.precio
         return a + precioM3
       }, 0)
-      console.log(totalPrecioMateriaPrima)
       const totalCantidadM3MateriaPrima = materiasPrimas.reduce((a, b) => {
         return a + b.cantidad_m3
       }, 0)
-      console.log(totalCantidadM3MateriaPrima)
       const totalPrecioTransporte = transporte.reduce((a, b) => {
         let totalPrecioTransporte = b.cantidad * b.precio
         return a + totalPrecioTransporte
       }, 0)
-      console.log(totalPrecioTransporte)
       let totalMateriaPrima =
         (totalPrecioMateriaPrima / totalCantidadM3MateriaPrima +
           totalPrecioTransporte / totalCantidadM3MateriaPrima) *
@@ -257,13 +254,10 @@ export default {
       })
 
       this.porcentajeDesperdicio = 100 - porcentajeTotal
-      console.log('Porcentaje desperdicio', this.porcentajeDesperdicio)
     },
     calcularDesperdicio() {
-      console.log('Area', this.area)
       this.precioDesperdicio = (this.porcentajeDesperdicio / 100) * this.area * this.sumables // this.sumables +
       // (20 + (this.porcentajeDesperdicio / 100) * this.area * 20).toFixed(2)
-      console.log('Precio desperdicio', this.precioDesperdicio)
     },
     async calculatePrice() {
       try {
@@ -276,7 +270,6 @@ export default {
 
         this.maquinas.forEach((maquina) => {
           this.produccion += maquina.produccion_m2
-          console.log('Produccion', Number(this.produccion))
         })
         this.consumibles = await this.getConsumiblesPorMaquina(this.maquinas)
         this.trabajadores = await this.getTrabajadoresPorMaquina(this.maquinas)
@@ -287,31 +280,24 @@ export default {
           (sum, consumible) => sum + consumible.precio,
           0
         )
-        console.log('Suma de consumibles', consumiblesSum)
         const trabajadoresSum = this.trabajadores.reduce(
           (sum, trabajador) => sum + trabajador.precio,
           0
         )
-        console.log('Suma de trabajadores', trabajadoresSum)
         const gastosEnergeticosSum = this.gastosEnergeticos.reduce(
           (sum, gastoEnergetico) => sum + gastoEnergetico.coste_energia,
           0
         )
-        console.log('Suma de gastos energeticos', gastosEnergeticosSum)
         this.gastoGeneral =
           (this.getGastosGenerales.reduce((sum, gastoGeneral) => sum + gastoGeneral.precio, 0) /
             this.getMaquinas.length) *
           this.maquinas.length
-        console.log('Gasto general', this.gastoGeneral)
-        console.log('Coste material', this.costeMaterial)
         this.sumables =
           Number(consumiblesSum) +
           Number(trabajadoresSum) +
           Number(gastosEnergeticosSum) +
           Number(this.gastoGeneral)
-        console.log('Sumables', this.sumables)
         this.sumables = this.sumables / this.produccion
-        console.log('Sumables-produccion', this.sumables)
         this.calcularArea()
         this.calcularPorcentajeDesperdicio()
         this.calcularDesperdicio()
@@ -360,7 +346,6 @@ export default {
         sum += this.largo[key]
       }
       this.largo = sum
-      console.log(this.largo)
       return this.largo
     },
     handleChangeAncho(e) {

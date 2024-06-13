@@ -96,7 +96,6 @@ export default {
       this.$emit('changeNumber', { [key]: Number(this.newInputValue) })
     },
     handleError() {
-      console.log('Error de campo vacío InputNumber')
       this.$emit('errorNumber', 'Este campo no puede estar vacio')
     },
     formatText(text) {

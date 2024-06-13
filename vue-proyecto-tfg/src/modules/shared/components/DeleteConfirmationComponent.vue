@@ -244,7 +244,6 @@ export default {
       return new Date(date).toLocaleDateString('es-ES', options);
     },
     openModalInfo(item){
-      console.log('openModalInfo', item.id)
       this.$emit('openModalInfo', item.id, true)
     },
     getNombreMaquina(id){
@@ -254,7 +253,6 @@ export default {
     },
     checkTrabajadores(){
       const trabajadores = this.getTrabajadores
-      console.log(trabajadores)
       const newListItems = this.listItems.map(item => {
         const trabajador = trabajadores.find(trabajador => trabajador.numero_trabajador === item.numero_trabajador)
         return {
@@ -298,7 +296,6 @@ export default {
     }
   },
   mounted() {
-    console.log("Delete", this.items, this.total)
     if(this.itemType === 'usuarios' || this.itemType === 'máquinas') {
       this.hasMaquinaCoste = this.checkTrabajadores() || this.checkRelMaquinas()
     }

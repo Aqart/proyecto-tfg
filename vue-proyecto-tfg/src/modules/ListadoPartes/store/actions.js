@@ -26,7 +26,6 @@ export const editParteCortabloques = async ({ commit }, parte) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
-  console.log('parte', parte.id)
   const id = parte.id
   delete parte.id
   try {
@@ -39,7 +38,6 @@ export const editParteCortabloques = async ({ commit }, parte) => {
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
       // Actualizar el estado con el parte del cortabloques editado
-      console.log('response.data.parte', response.data.parte)
       commit('editParteCortabloques', response.data.parte)
     } else {
       console.error('Error al editar el parte del cortabloques:', response.message)

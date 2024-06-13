@@ -73,7 +73,6 @@ export default {
             return await getGastoGeneral(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a los gastos generales')
             actualizarMostrarMensaje(true)
@@ -87,7 +86,6 @@ export default {
           }
         } else {
           const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
-          console.log(nombresSuccess)
           actualizarMensaje(
             'success',
             `Los siguientes consumibles se han eliminado: ${nombresSuccess}`

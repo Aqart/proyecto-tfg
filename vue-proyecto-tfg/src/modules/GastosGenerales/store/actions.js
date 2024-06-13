@@ -70,7 +70,7 @@ export const getGastoGenById = async ({ commit }, id) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el gasto:', error)
+    console.error('Error al obtener el gasto:', error)
     return { ok: false, message: 'Error en el acceso a gastos generales' }
   }
 }
@@ -96,7 +96,7 @@ export const editGastoGen = async ({ commit }, gasto) => {
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al editar el gasto:', error)
+    console.error('Error al editar el gasto:', error)
   }
 }
 

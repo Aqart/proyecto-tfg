@@ -11,14 +11,12 @@ export const setResponse = (state, data) => {
 }
 
 export const setUsuario = (state, data) => {
-  console.log("Mutation", data)
   state.usuarios = state.usuarios.map((usuario) => {
     if (usuario.id === data.id) {
       return { ...usuario, ...data.userToCommit }
     }
     return usuario
   })
-  console.log("Mutation", state.usuarios)
 }
 
 export const deleteUsuario = (state, id) => {

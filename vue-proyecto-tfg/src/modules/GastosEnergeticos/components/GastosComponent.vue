@@ -75,7 +75,6 @@ export default {
             return await getGasto(result.id)
           })
           const dataFailed = await Promise.all(dataFailedPromises)
-          console.log('dataFailed: ', dataFailed[0].ok)
           if (!dataFailed[0].ok) {
             actualizarMensaje('error', 'Error accediendo a los gastos energéticos')
             actualizarMostrarMensaje(true)

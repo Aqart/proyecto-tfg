@@ -423,7 +423,6 @@ export default {
   methods: {
     isStatusCheck(){
       // si body contiene status, entonces si status es Inactivo deshabilitar checkboxes
-      console.log(this.searchFilteredData)
       if (this.searchFilteredData.some((item) => item.status === 'Inactivo')) {
         return 'cursor-not-allowed opacity-50'
       }
@@ -592,7 +591,6 @@ export default {
         this.modalType = 'infoUsuario'
         this.showModal = !this.showModal
       } else {
-        console.log(this.item)
         this.showModalInfo = true
         this.showModalDeleteAfterInfo = showModalDeleteAfterInfo
       }
@@ -603,7 +601,6 @@ export default {
         this.showModalInfo = !this.showModalInfo
         // Comprueba si el modal de eliminación debe abrirse
         if (this.showModalDeleteAfterInfo) {
-          console.log(this.modalTitle)
           this.toggleModalDeletedSelected()
         } else {
           this.modalTitle = ''
@@ -613,7 +610,6 @@ export default {
           this.selectedItems = []
         }
       } else {
-        console.log(this.modalTitle)
         this.showModal = !this.showModal
         this.modalTitle = ''
         this.modalType = null
@@ -642,7 +638,6 @@ export default {
     }
     // async maquinaById(id) {
     //   const maquina = await this.getMaquinas().find((maquina) => maquina.id === id)
-    //   console.log(maquina)
     //   return maquina
     // }
   },
