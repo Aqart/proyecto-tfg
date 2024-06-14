@@ -23,12 +23,37 @@ export const fetchTrabajadores = async ({ commit }) => {
   }
 }
 
+export const fetchEmpleados = async ({ commit }) => {
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  try {
+    const response = await authApi.get('/empleados', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+    // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+    if (response.status === 200 && response.data) {
+      // Actualizar el estado con los empleados obtenidos
+      commit('setEmpleados', response.data)
+
+      return response.data
+    } else {
+      console.error('Error al obtener los empleados:', response.message)
+    }
+  } catch (error) {
+    console.error('Error al obtener los empleados:', error.message)
+  }
+}
+
 export const createTrabajador = async ({ commit }, trabajador) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }
   try {
-    const response = await authApi.post('/trabajadores', trabajador, {
+    const { numero_trabajador, precio, id_maquina } = trabajador
+    const response = await authApi.post('/trabajadores', { numero_trabajador, precio, id_maquina }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('idToken')}`
       }
@@ -62,17 +87,19 @@ export const getTrabajadorById = async ({ commit }, id) => {
     })
     // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
     if (response.status === 200 && response.data) {
+      response.data.ok = true
       return response.data
     } else {
       console.error('Error al obtener el trabajador:', response.message)
       return { ok: false, message: response.message }
     }
   } catch (error) {
-    console.log('Error al obtener el trabajador:', error)
+    console.error('Error al obtener el trabajador:', error)
+    return { ok: false, message: 'Error en el acceso a trabajadores' }
   }
 }
 
-export const editConsumible = async ({ commit }, trabajador) => {
+export const editTrabajador = async ({ commit }, trabajador) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }
   }

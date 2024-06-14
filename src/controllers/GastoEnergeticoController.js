@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const GastoEnergeticoController = {
     // Obtener todos los gastos energéticos
@@ -15,11 +15,11 @@ const GastoEnergeticoController = {
 
     // Crear un nuevo gasto energetico
     crear: async (req, res, next) => {
-        const { nombre, precio } = req.body
+        const { nombre, coste_energia, id_maquina } = req.body
         try {
             await pool.query(
-                'INSERT INTO gasto_energetico (nombre, precio) VALUES (?, ?)',
-                [nombre, precio]
+                'INSERT INTO gasto_energetico (nombre, coste_energia, id_maquina) VALUES (?, ?, ?)',
+                [nombre, coste_energia, id_maquina]
             )
 
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
@@ -55,11 +55,11 @@ const GastoEnergeticoController = {
     // Actualizar un gasto energetico
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, precio } = req.body
+        const { nombre, coste_energia, id_maquina } = req.body
         try {
             await pool.query(
-                'UPDATE gasto_energetico SET nombre = ?, precio = ? WHERE id = ?',
-                [nombre, precio, id]
+                'UPDATE gasto_energetico SET nombre = ?, coste_energia = ?, id_maquina = ? WHERE id = ?',
+                [nombre, coste_energia, id_maquina, id]
             )
             res.status(200).json({
                 message: 'Gasto energético actualizado correctamente',
@@ -83,4 +83,4 @@ const GastoEnergeticoController = {
     },
 }
 
-export default GastoEnergeticoController
+module.exports = GastoEnergeticoController

@@ -7,6 +7,8 @@ import router from '@/router'
 // }
 export const createUser = async ({ state }, user) => {
   const { email, roles, password } = user
+  const numero_trabajador = user.numWorker
+
   if (localStorage.getItem('idToken') === null) {
     //this.$router.push({ name: 'login' })
     return { ok: false, message: '...' }
@@ -14,7 +16,7 @@ export const createUser = async ({ state }, user) => {
   try {
     const { data } = await authApi.post(
       '/registro',
-      { email, roles, password },
+      { numero_trabajador, email, roles, password },
       {
         headers: {
           Athorization: `Bearer ${localStorage.getItem('idToken')}`
@@ -33,12 +35,13 @@ export const loginUser = async ({ dispatch, commit }, user) => {
   try {
     const { data } = await authApi.post('/login', { email, password })
     const isExpired = await dispatch('isTokenExpired')
-
     if (!isExpired) {
       commit('loginUser', {
         email: email,
         idToken: localStorage.getItem('idToken'),
         roles: data.roles,
+        employeeNumber: localStorage.getItem('employeeNumber'),
+        employeeName: localStorage.getItem('employeeName'),
         someThingRequired: data.something_required
       })
     } else {
@@ -46,17 +49,17 @@ export const loginUser = async ({ dispatch, commit }, user) => {
         email: email,
         idToken: data.token,
         roles: data.roles,
+        employeeNumber: data.numero_trabajador,
+        employeeName: data.nombre_completo,
         someThingRequired: data.something_required
       })
     }
     if (data.something_required === 'NOT') {
-      console.log('user antes de lastLoginConnection', user)
       await dispatch('lastLoginConnection', user)
     }
     delete user.password
     return { ok: true, message: '....' }
   } catch (error) {
-    console.log(error)
     return { ok: false, message: 'Email o Contraseña inválidos' }
   }
 }
@@ -105,7 +108,6 @@ export const obtenerRoles = async ({ commit }) => {
     )
     commit('setRoles', data[0].roles)
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -130,7 +132,6 @@ export const changePassword = async ({ state, dispatch }, user) => {
 
     return { ok: true, message: data.message }
   } catch (error) {
-    console.log(error)
     return { ok: false, message: 'Contraseña incorrecta' }
   }
 }
@@ -150,7 +151,6 @@ export const lastLoginConnection = async ({ state }, user) => {
     )
     return { ok: true, message: data.message }
   } catch (error) {
-    console.log(error)
     return { ok: false, message: 'Error al obtener la última conexión' }
   }
 }

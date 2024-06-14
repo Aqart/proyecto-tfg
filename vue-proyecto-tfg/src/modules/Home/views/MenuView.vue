@@ -4,23 +4,23 @@
       class="flex flex-col sm:grid sm:grid-cols-2 gap-3 justify-center sm:justify-start items-center sm:items-start"
     >
       <ButtonMenuComponent
-        name="Calcular Costes"
+        name="Calcular costes"
         path="calculadora"
         :icon="['fas', 'calculator']"
         :image="fondo11"
       />
       <ButtonMenuComponent
-        name="Controles horarios"
-        path="controles-horarios"
-        :icon="['fas', 'fa-list-check']"
-        :image="fondo12"
+        name="Generador de partes"
+        path="generador-partes"
+        :icon="['fas', 'fa-clipboard-list']"
+        :image="fondo8"
       />
     </div>
     <div
       class="flex flex-col sm:grid sm:grid-cols-3 gap-3 justify-center sm:justify-start items-center sm:items-start"
     >
       <ButtonMenuComponent
-        name="Maquinas"
+        name="Máquinas"
         path="maquinas"
         :icon="['fas', 'fa-oil-well']"
         :image="fondo6"
@@ -32,19 +32,19 @@
         :image="fondo"
       />
       <ButtonMenuComponent
-        name="Gastos Energéticos"
+        name="Gastos energéticos"
         path="gastos-energeticos"
         :icon="['fas', 'fa-bolt']"
         :image="fondo5"
       />
       <ButtonMenuComponent
-        name="Gastos Generales"
+        name="Gastos generales"
         path="gastos-generales"
         :icon="['fas', 'fa-euro-sign']"
         :image="fondo10"
       />
       <ButtonMenuComponent
-        name="Materias Primas"
+        name="Materias primas"
         path="materias-primas"
         :icon="['fas', 'fa-gem']"
         :image="fondo7"
@@ -53,7 +53,7 @@
         name="Transportes"
         path="Transportes"
         :icon="['fas', 'fa-truck']"
-        :image="fondo8"
+        :image="fondo12"
       />
       <ButtonMenuComponent
         name="Trabajadores"
@@ -67,23 +67,29 @@
         :icon="['fas', 'fa-users']"
         :image="fondo4"
       />
+      <ButtonMenuComponent
+        name="Listado de partes"
+        path="listado-partes"
+        :icon="['fas', 'fa-list-check']"
+        :image="fondo9"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import fondo from '@/assets/images/resources/fondo.jpg'
-import fondo3 from '@/assets/images/resources/fondo-3.jpg'
-import fondo4 from '@/assets/images/resources/fondo-4.jpg'
-import fondo5 from '@/assets/images/resources/fondo-5.jpg'
-import fondo6 from '@/assets/images/resources/fondo-6.jpg'
-import fondo7 from '@/assets/images/resources/fondo-7.jpg'
-import fondo8 from '@/assets/images/resources/fondo-8.jpg'
-import fondo9 from '@/assets/images/resources/fondo-9.jpg'
-import fondo10 from '@/assets/images/resources/fondo-10.jpg'
-import fondo11 from '@/assets/images/resources/fondo-11.jpg'
-import fondo12 from '@/assets/images/resources/fondo-12.jpg'
+import fondo from '@/assets/images/resources/fondo.webp'
+import fondo3 from '@/assets/images/resources/fondo-3.webp'
+import fondo4 from '@/assets/images/resources/fondo-4.webp'
+import fondo5 from '@/assets/images/resources/fondo-5.webp'
+import fondo6 from '@/assets/images/resources/fondo-6.webp'
+import fondo7 from '@/assets/images/resources/fondo-7.webp'
+import fondo8 from '@/assets/images/resources/fondo-8.webp'
+import fondo9 from '@/assets/images/resources/fondo-9.webp'
+import fondo10 from '@/assets/images/resources/fondo-10.webp'
+import fondo11 from '@/assets/images/resources/fondo-11.webp'
+import fondo12 from '@/assets/images/resources/fondo-12.webp'
 
 export default {
   data() {
@@ -102,8 +108,8 @@ export default {
     }
   },
   components: {
-    ButtonMenuComponent: defineAsyncComponent(() =>
-      import('@/modules/Home/components/ButtonMenuComponent.vue')
+    ButtonMenuComponent: defineAsyncComponent(
+      () => import('@/modules/Home/components/ButtonMenuComponent.vue')
     )
   }
 }

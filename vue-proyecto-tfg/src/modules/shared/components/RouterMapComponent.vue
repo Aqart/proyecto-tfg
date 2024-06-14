@@ -12,11 +12,11 @@
       <router-link
         v-if="crumb.to"
         :to="crumb.to"
-        class="text-bold text-stoneBackgroundContrast-1 capitalize"
+        class="text-bold text-stoneBackgroundContrast-1"
         >{{ crumb.text }}</router-link
       >
-      <span v-else class="text-bold text-stoneBackgroundContrast-1 capitalize">{{
-        crumb.text.replace(/Energeticos/i, 'Energéticos').replace(/-/g, ' ')
+      <span v-else class="text-bold text-stoneBackgroundContrast-1">{{
+        crumb.text.replace(/energeticos/i, 'energéticos')
       }}</span>
     </span>
   </nav>
@@ -35,8 +35,10 @@ export default {
       pathArray.shift()
 
       const breadcrumbs = pathArray.map((path, i) => {
+        let words = path.replace(/-/g, ' ').split(' ')
+        words = words.map((word, index) => index === 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : word.toLowerCase())
         return {
-          text: path,
+          text: words.join(' '),
           to: i < pathArray.length - 1 ? '/' + pathArray.slice(0, i + 1).join('/') : null
         }
       })

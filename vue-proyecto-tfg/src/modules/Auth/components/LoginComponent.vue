@@ -1,11 +1,11 @@
 <template>
   <div>
     <MensajesComponent
-      :type="errorMessage.type"
-      :message="errorMessage.message"
-      :mostrarMensaje="errorMessage.show"
+      :type="getTipo"
+      :message="getMensaje"
+      :mostrarMensaje="getMostrar"
     />
-    <h1 class="text-5xl text-stoneBackground-1 mb-3">{{ title }}</h1>
+    <h1 class="text-4xl sm:text-5xl text-stoneBackground-1 mb-3">{{ title }}</h1>
     <form @submit.prevent="handleSubmit">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
         Correo Electrónico
@@ -51,9 +51,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { defineAsyncComponent, ref } from 'vue'
 import useAuth from '../composables/useAuth'
 import { useRouter } from 'vue-router'
+import useShared from '@/modules/shared/composables/useShared'
 
 export default {
   props: {
@@ -63,15 +65,16 @@ export default {
     }
   },
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   },
   setup() {
-    const formattedDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+    const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
+    const formattedDate = new Date().toLocaleString().slice(0, 19).replace('T', ' ')
     const userForm = ref({
       email: '',
       password: '',
@@ -83,7 +86,6 @@ export default {
       message: ''
     })
 
-    console.log(userForm.value.ultima_conexion)
     const router = useRouter()
     const { loginUser } = useAuth()
 
@@ -94,31 +96,44 @@ export default {
         message: ''
       }
       if (!userForm.value.email || !userForm.value.password) {
-        errorMessage.value.type = 'warning'
-        errorMessage.value.show = true
-        errorMessage.value.message = 'Debes rellenar todos los campos'
+        actualizarMensaje('warning', 'Debes rellenar todos los campos')
+        actualizarMostrarMensaje(true)
+        // errorMessage.value.type = 'warning'
+        // errorMessage.value.show = true
+        // errorMessage.value.message = 'Debes rellenar todos los campos'
         setTimeout(() => {
-          errorMessage.value.show = !errorMessage.value.show
+          actualizarMostrarMensaje(false)
+          // errorMessage.value.show = !errorMessage.value.show
         }, 6 * 1000)
         return
       }
       const { ok, message } = await loginUser(userForm.value)
 
       if (!ok) {
-        errorMessage.value.type = 'error'
-        errorMessage.value.show = !ok
-        errorMessage.value.message = message
-      }
-      if (errorMessage.value.show) {
-        setTimeout(() => {
-          errorMessage.value.show = !errorMessage.value.show
-        }, 6 * 1000)
+        actualizarMensaje('error', message)
+        actualizarMostrarMensaje(true)
+        // errorMessage.value.type = 'error'
+        // errorMessage.value.show = !ok
+        // errorMessage.value.message = message
       } else {
         router.push('/home')
       }
+      setTimeout(() => {
+          actualizarMostrarMensaje(false)
+        }, 6 * 1000)
+      // if (ok) {
+      //   setTimeout(() => {
+      //     errorMessage.value.show = !errorMessage.value.show
+      //   }, 6 * 1000)
+      // } else {
+      //   router.push('/home')
+      // }
     }
 
     return { userForm, errorMessage, handleSubmit }
+  },
+  computed: {
+    ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   }
 }
 </script>

@@ -4,18 +4,22 @@
       v-show="modalActive"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed inset-0 flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full backdrop-blur-md bg-bgFrom/30"
+      class="fixed inset-0 flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-full backdrop-blur-md bg-bgFrom/30"
     >
       <Transition name="modal-inner">
         <div
           v-show="modalActive"
-          class="relative w-full max-w-2xl max-h-full bg-stoneBackground-2 rounded-lg shadow"
+          class="relative w-full max-w-2xl bg-stoneBackground-2 rounded-lg shadow"
+          :class="headClass"
         >
           <!-- Modal header -->
           <header
-            class="flex items-start justify-between p-4 border-b rounded-t bg-stoneBackground-2"
+            class="sticky flex items-start justify-between p-4 border-b rounded-t bg-stoneBackground-2"
           >
-            <h3 class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow pt-1 pl-2">
+            <h3
+              class="text-2xl font-semibold text-secondary drop-shadow-sm text-shadow pt-1 pl-2"
+              :class="titleClass"
+            >
               {{ title }}
             </h3>
             <ButtonComponent
@@ -28,9 +32,12 @@
             >
             </ButtonComponent>
           </header>
-          <main>
+          <main :class="bodyClass"
+            class="overflow-y-auto max-h-[calc(100vh-1rem)]"
+          >
             <MensajesComponent
-              v-if="getTipo !== 'success'"
+              v-if="getMostrar && getTipo !== 'success'"
+              :textClasses="textMessage"
               :message="getMensaje"
               :type="getTipo"
               :mostrarMensaje="getMostrar"
@@ -42,7 +49,6 @@
     </div>
   </Transition>
 </template>
-
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters } from 'vuex'
@@ -60,6 +66,22 @@ export default {
     button: {
       type: Boolean,
       default: true
+    },
+    textMessage: {
+      type: String,
+      default: ''
+    },
+    headClass: {
+      type: String,
+      default: ''
+    },
+    bodyClass: {
+      type: String,
+      default: ''
+    },
+    titleClass: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -70,13 +92,12 @@ export default {
   computed: {
     ...mapGetters('Shared', ['getTipo', 'getMensaje', 'getMostrar'])
   },
-
   components: {
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
-    MensajesComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/MensajesComponent.vue')
+    MensajesComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/MensajesComponent.vue')
     )
   }
 }

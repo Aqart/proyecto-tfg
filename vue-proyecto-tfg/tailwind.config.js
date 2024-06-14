@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 import textShadow from 'tailwindcss-textshadow'
+
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}', './node_modules/flowbite/**/*.js'],
   theme: {
     extend: {
       fontFamily: {
@@ -21,15 +22,15 @@ export default {
           2: '#F2EADF',
           3: '#59544F',
           4: '#D9D0C7',
-          5: '#A6847C'
+          5: '#826059'
         },
         stoneBackgroundContrast: {
-          1: '#509396',
+          1: '#366063',
           2: '#A5302F',
           3: '#4F595A',
           4: '#2F6A70',
           5: '#7C97A6',
-          6: '#F0CA00'
+          6: '#DCB039 '
         }
       },
       textShadow: {

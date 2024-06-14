@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importa el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const TransporteController = {
     // Obtener todos los transportes de materias primas
@@ -13,11 +13,11 @@ const TransporteController = {
 
     // Crear un nuevo transporte de materia prima
     crear: async (req, res, next) => {
-        const { nombre, unidades_mes, precio } = req.body
+        const { nombre, cantidad, precio } = req.body
         try {
             await pool.query(
-                'INSERT INTO transporte (nombre, unidades_mes, precio) VALUES (?, ?, ?)',
-                [nombre, unidades_mes, precio]
+                'INSERT INTO transporte (nombre, cantidad, precio) VALUES (?, ?, ?)',
+                [nombre, cantidad, precio]
             )
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
@@ -51,11 +51,11 @@ const TransporteController = {
     // Actualizar un transporte de materia prima
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, unidades_mes, precio } = req.body
+        const { nombre, cantidad, precio } = req.body
         try {
             await pool.query(
-                'UPDATE transporte SET nombre = ?, unidades_mes = ?, precio = ? WHERE id = ?',
-                [nombre, unidades_mes, precio, id]
+                'UPDATE transporte SET nombre = ?, cantidad = ?, precio = ? WHERE id = ?',
+                [nombre, cantidad, precio, id]
             )
             res.status(200).json({
                 message:
@@ -80,4 +80,4 @@ const TransporteController = {
     },
 }
 
-export default TransporteController
+module.exports = TransporteController

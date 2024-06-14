@@ -18,6 +18,7 @@ import {
   faPenToSquare,
   faTrashCan,
   faPlus,
+  faMinus,
   faSquareCheck,
   faHouse,
   faTriangleExclamation,
@@ -38,9 +39,21 @@ import {
   faCalculator,
   faDroplet,
   faEuroSign,
-  faGem
+  faGem,
+  faClipboardList,
+  faXmark,
+  faCircleXmark,
+  faFloppyDisk,
+  faFileSignature,
+  faEraser,
+  faCheck,
+  faSortAlphaDown,
+  faExchangeAlt,
+  faUser,
+  faExclamationCircle,
+  faUserCheck
 } from '@fortawesome/free-solid-svg-icons'
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons'
+import { faCircleQuestion, faEye } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(
@@ -56,6 +69,7 @@ library.add(
   faPenToSquare,
   faTrashCan,
   faPlus,
+  faMinus,
   faSquareCheck,
   faHouse,
   faTriangleExclamation,
@@ -77,7 +91,20 @@ library.add(
   faCalculator,
   faDroplet,
   faEuroSign,
-  faGem
+  faGem,
+  faClipboardList,
+  faXmark,
+  faEye,
+  faCircleXmark,
+  faFloppyDisk,
+  faFileSignature,
+  faEraser,
+  faCheck,
+  faSortAlphaDown,
+  faExchangeAlt,
+  faUser,
+  faExclamationCircle,
+  faUserCheck
 )
 
 createApp(App).component('FontAwesomeIcon', FontAwesomeIcon).use(store).use(router).mount('#app')

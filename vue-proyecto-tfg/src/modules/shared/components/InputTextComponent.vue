@@ -10,7 +10,7 @@
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:ring-1 focus:border-secondary focus:outline-none block w-full p-4 mb-4 placeholder:first-letter:uppercase shadow-sm"
       type="text"
       :name="value"
-      :placeholder="`Introduce ${formattedPlaceholder}`"
+      :placeholder="formattedPlaceholder"
       :value="newValue"
       @input="(event) => updateValue(label, event)"
     />

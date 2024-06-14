@@ -9,15 +9,6 @@ export default {
       component: () => import(/* webpackChunkName: "Login" */ '@/modules/Auth/views/LoginView.vue')
     },
     {
-      path: '/register',
-      name: 'auth-register',
-      component: () =>
-        import(/* webpackChunkName: "Register" */ '@/modules/Auth/views/RegisterView.vue'),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
       path: '/logout',
       name: 'auth-logout',
       beforeEnter(to, from, next) {

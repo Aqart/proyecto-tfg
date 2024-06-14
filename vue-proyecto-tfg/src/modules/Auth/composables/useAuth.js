@@ -20,9 +20,7 @@ const useAuth = () => {
   }
 
   const changePassword = async (user) => {
-    console.log('User', user)
     const resp = await store.dispatch('Auth/changePassword', user)
-    console.log('Respuesta', resp)
     return resp
   }
 

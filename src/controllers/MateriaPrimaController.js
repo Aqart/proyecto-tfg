@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importa el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const MateriaPrimaController = {
     // Obtener todas las materias primas
@@ -15,11 +15,11 @@ const MateriaPrimaController = {
 
     // Crear una nueva materia prima
     crear: async (req, res, next) => {
-        const { nombre, coste_total, cantidad_m3 } = req.body
+        const { nombre, cantidad_m3, precio } = req.body
         try {
             await pool.query(
-                'INSERT INTO materia_prima (nombre, coste_total, cantidad_m3) VALUES (?, ?, ?)',
-                [nombre, coste_total, cantidad_m3]
+                'INSERT INTO materia_prima (nombre, cantidad_m3, precio) VALUES (?, ?, ?)',
+                [nombre, cantidad_m3, precio]
             )
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
@@ -53,11 +53,11 @@ const MateriaPrimaController = {
     // Actualizar una materia prima
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, coste_total, cantidad_m3 } = req.body
+        const { nombre, cantidad_m3, precio } = req.body
         try {
             await pool.query(
-                'UPDATE materia_prima SET nombre = ?, coste_total = ?, cantidad_m3 = ? WHERE id = ?',
-                [nombre, coste_total, cantidad_m3, id]
+                'UPDATE materia_prima SET nombre = ?, cantidad_m3 = ?, precio = ? WHERE id = ?',
+                [nombre, cantidad_m3, precio, id]
             )
             res.status(200).json({
                 message: 'Materia prima actualizada correctamente',
@@ -81,4 +81,4 @@ const MateriaPrimaController = {
     },
 }
 
-export default MateriaPrimaController
+module.exports = MateriaPrimaController

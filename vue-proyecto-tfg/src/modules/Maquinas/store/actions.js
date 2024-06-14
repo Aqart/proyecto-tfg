@@ -70,6 +70,30 @@ export const editMaquina = async ({ commit }, maquina) => {
   }
 }
 
+export const getMaquinaById = async ({ commit }, id) => {
+  if (localStorage.getItem('idToken') === null) {
+    return { ok: false, message: '....' }
+  }
+  try {
+    const response = await authApi.get(`/maquinas/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('idToken')}`
+      }
+    })
+    // Verifica si la solicitud fue exitosa y si la respuesta contiene datos
+    if (response.status === 200 && response.data) {
+      response.data.ok = true
+      return response.data
+    } else {
+      console.error('Error al obtener la máquina:', response.message)
+      return { ok: false, message: response.message }
+    }
+  } catch (error) {
+    console.error('Error al obtener la máquina:', error)
+    return { ok: false, message: 'Error en el acceso a máquinas' }
+  }
+}
+
 export const deleteMaquinas = async ({ commit }, maquinas) => {
   if (localStorage.getItem('idToken') === null) {
     return { ok: false, message: '....' }

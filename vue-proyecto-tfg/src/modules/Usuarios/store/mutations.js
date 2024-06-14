@@ -12,8 +12,8 @@ export const setResponse = (state, data) => {
 
 export const setUsuario = (state, data) => {
   state.usuarios = state.usuarios.map((usuario) => {
-    if (usuario.id == data.id) {
-      return { ...usuario, ...data.usuario }
+    if (usuario.id === data.id) {
+      return { ...usuario, ...data.userToCommit }
     }
     return usuario
   })

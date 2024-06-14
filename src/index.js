@@ -1,22 +1,18 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 //Controladores
-import AuthController from './controllers/AuthController.js'
-import TrabajadorController from './controllers/TrabajadorController.js'
-import MaquinaController from './controllers/MaquinaController.js'
-import ConsumibleController from './controllers/ConsumibleController.js'
-import GastoEnergeticoController from './controllers/GastoEnergeticoController.js'
-import GastoGeneralController from './controllers/GastoGeneralController.js'
-import MateriaPrimaController from './controllers/MateriaPrimaController.js'
-import TransporteController from './controllers/TransporteController.js'
-
-//Relaciones
-import ConsumibleMaquinaController from './controllers/Relations/ConsumibleMaquinaController.js'
-import TransporteMateriaPrimaController from './controllers/Relations/TransporteMateriaPrimaController.js'
-import GastoEnergeticoMaquinaController from './controllers/Relations/GastoEnergeticoMaquinaController.js'
-import TrabajadorMaquinaController from './controllers/Relations/TrabajadorMaquinaController.js'
+const AuthController = require('./controllers/AuthController.js')
+const TrabajadorController = require('./controllers/TrabajadorController.js')
+const MaquinaController = require('./controllers/MaquinaController.js')
+const ConsumibleController = require('./controllers/ConsumibleController.js')
+const GastoEnergeticoController = require('./controllers/GastoEnergeticoController.js')
+const GastoGeneralController = require('./controllers/GastoGeneralController.js')
+const MateriaPrimaController = require('./controllers/MateriaPrimaController.js')
+const TransporteController = require('./controllers/TransporteController.js')
+const EmpleadoController = require('./controllers/EmpleadoController.js')
+const ParteCortabloquesController = require('./controllers/ParteCortabloquesController.js')
 
 const app = express()
 
@@ -44,15 +40,13 @@ app.post('/trabajadores', TrabajadorController.crear)
 app.get('/trabajadores/:id', TrabajadorController.obtenerPorId)
 app.put('/trabajadores/:id', TrabajadorController.actualizar)
 app.delete('/trabajadores/:id', TrabajadorController.eliminar)
-app.post(
-    '/trabajadores/:trabajador_id/maquinas/:maquina_id',
-    TrabajadorMaquinaController.asociarTrabajadorMaquina
-)
 
-app.get(
-    '/trabajadores/:trabajador_id/maquinas',
-    TrabajadorMaquinaController.obtenerMaquinasPorTrabajador
-)
+// Endpoints para Trabajadores
+app.get('/empleados', EmpleadoController.obtenerTodos)
+app.post('/empleados', EmpleadoController.crear)
+app.get('/empleados/:id', EmpleadoController.obtenerPorId)
+app.put('/empleados/:id', EmpleadoController.actualizar)
+app.delete('/empleados/:id', EmpleadoController.desactivar)
 
 // Endpoints para Máquinas
 app.get('/maquinas', MaquinaController.obtenerTodas)
@@ -60,22 +54,6 @@ app.post('/maquinas', MaquinaController.crear)
 app.get('/maquinas/:id', MaquinaController.obtenerPorId)
 app.put('/maquinas/:id', MaquinaController.actualizar)
 app.delete('/maquinas/:id', MaquinaController.eliminar)
-app.get(
-    '/maquinas/:maquina_id/trabajadores',
-    TrabajadorMaquinaController.obtenerTrabajadoresPorMaquina
-)
-app.get(
-    '/maquinas/:maquina_id/gastos-energeticos',
-    GastoEnergeticoMaquinaController.obtenerGastosPorMaquina
-)
-app.get(
-    '/maquinas/:maquina_id/consumibles',
-    ConsumibleMaquinaController.obtenerConsumiblesPorMaquina
-)
-app.get(
-    '/maquinas/:maquina_id/',
-    GastoEnergeticoMaquinaController.obtenerMaquinasPorGasto
-)
 
 // Endpoints para Consumibles
 app.get('/consumibles', ConsumibleController.obtenerTodos)
@@ -83,18 +61,6 @@ app.post('/consumibles', ConsumibleController.crear)
 app.get('/consumibles/:id', ConsumibleController.obtenerPorId)
 app.put('/consumibles/:id', ConsumibleController.actualizar)
 app.delete('/consumibles/:id', ConsumibleController.eliminar)
-app.get(
-    '/consumibles/:consumible_id/maquinas',
-    ConsumibleMaquinaController.obtenerMaquinasPorConsumible
-)
-app.post(
-    '/consumibles/:consumible_id/maquinas/:maquina_id',
-    ConsumibleMaquinaController.asociarConsumibleMaquina
-)
-app.delete(
-    '/consumibles/:consumible_id/maquinas/:maquina_id',
-    ConsumibleMaquinaController.desasociarConsumibleMaquina
-)
 
 // Endpoints para Gastos Energeticos
 app.get('/gastos-energeticos', GastoEnergeticoController.obtenerTodos)
@@ -102,18 +68,6 @@ app.post('/gastos-energeticos', GastoEnergeticoController.crear)
 app.get('/gastos-energeticos/:id', GastoEnergeticoController.obtenerPorId)
 app.put('/gastos-energeticos/:id', GastoEnergeticoController.actualizar)
 app.delete('/gastos-energeticos/:id', GastoEnergeticoController.eliminar)
-app.get(
-    '/gastos-energeticos/:gasto_id/maquinas',
-    GastoEnergeticoMaquinaController.obtenerMaquinasPorGasto
-)
-app.post(
-    '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
-    GastoEnergeticoMaquinaController.asociarGastoMaquina
-)
-app.delete(
-    '/gastos-energeticos/:gasto_id/maquinas/:maquina_id',
-    GastoEnergeticoMaquinaController.desasociarGastoMaquina
-)
 
 // Endpoints para Gastos Generales
 app.get('/gastos-generales', GastoGeneralController.obtenerTodos)
@@ -128,10 +82,6 @@ app.post('/materias-primas', MateriaPrimaController.crear)
 app.get('/materias-primas/:id', MateriaPrimaController.obtenerPorId)
 app.put('/materias-primas/:id', MateriaPrimaController.actualizar)
 app.delete('/materias-primas/:id', MateriaPrimaController.eliminar)
-app.get(
-    '/materias-primas/:materia_prima_id/transportes',
-    TransporteMateriaPrimaController.obtenerTransportesPorMateriaPrima
-)
 
 // Endpoints para Transportes
 app.get('/transportes', TransporteController.obtenerTodos)
@@ -139,18 +89,6 @@ app.post('/transportes', TransporteController.crear)
 app.get('/transportes/:id', TransporteController.obtenerPorId)
 app.put('/transportes/:id', TransporteController.actualizar)
 app.delete('/transportes/:id', TransporteController.eliminar)
-app.get(
-    '/transportes/:transporte_id/materias-primas',
-    TransporteMateriaPrimaController.obtenerMateriasPrimasPorTransporte
-)
-app.post(
-    '/transportes/:transporte_id/materias-primas/:materia_prima_id',
-    TransporteMateriaPrimaController.asociarMateriaPrimaTransporte
-)
-app.delete(
-    '/transportes/:transporte_id/materias-primas/:materia_prima_id',
-    TransporteMateriaPrimaController.desasociarMateriaPrimaTransporte
-)
 
 //Endpoints para Usuarios
 app.get('/usuarios', AuthController.obtenerTodos)
@@ -159,6 +97,13 @@ app.put('/usuarios/:id', AuthController.actualizar)
 app.delete('/usuarios/:id', AuthController.eliminar)
 app.post('/usuarios/editar/password', AuthController.editarPassword)
 app.post('/usuarios/editar/ultimaconexion', AuthController.editarUltimaConexion)
+
+//Endpoints para partes de cortabloques
+app.get('/partes/cortabloques', ParteCortabloquesController.obtenerTodos)
+app.post('/partes/cortabloques', ParteCortabloquesController.crear)
+app.get('/partes/cortabloques/:id', ParteCortabloquesController.obtenerPorId)
+app.put('/partes/cortabloques/:id', ParteCortabloquesController.actualizar)
+app.delete('/partes/cortabloques/:id', ParteCortabloquesController.eliminar)
 
 // Manejador de errores para rutas no encontradas
 app.use((req, res, next) => {
@@ -174,34 +119,9 @@ app.use((err, req, res, next) => {
     })
 })
 
-// Función para buscar un puerto disponible
-function buscarPuertoDisponible(port) {
-    return new Promise((resolve, reject) => {
-        const server = app.listen(port, () => {
-            server.close(() => {
-                resolve(port)
-            })
-        })
-        server.on('error', (err) => {
-            if (err.code === 'EADDRINUSE') {
-                buscarPuertoDisponible(port + 1)
-                    .then(resolve)
-                    .catch(reject)
-            } else {
-                reject(err)
-            }
-        })
-    })
-}
+const puerto = process.env.PORT || 3000
+app.listen(puerto, () => {
+    console.log(`Servidor escuchando en el puerto ${puerto}`)
+})
 
-// Iniciar el servidor en un puerto disponible
-buscarPuertoDisponible(3000)
-    .then((port) => {
-        const PORT = process.env.PORT || port
-        app.listen(PORT, () => {
-            console.log(`Servidor escuchando en el puerto ${PORT}`)
-        })
-    })
-    .catch((err) => {
-        console.error('Error al buscar puerto disponible:', err)
-    })
+module.exports = app

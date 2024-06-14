@@ -70,7 +70,7 @@
         <ButtonComponent text="Cambiar" bgColor="bg-secondary" @click="handleModalSubmit" />
       </form>
     </ModalComponent>
-    <main v-else class="flex flex-col justify-between my-10 sm:mx-3">
+    <main v-else class="flex flex-col justify-between my-3 lg:my-10 sm:mx-3">
       <MenuView v-if="$route.path === '/home'" />
       <RouterMapComponent
         v-else
@@ -103,14 +103,14 @@ export default {
     RouterView,
     NabvarComponent: defineAsyncComponent(() => import('@/modules/shared/NabvarComponent.vue')),
     MenuView: defineAsyncComponent(() => import('@/modules/Home/views/MenuView.vue')),
-    RouterMapComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/RouterMapComponent.vue')
+    RouterMapComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/RouterMapComponent.vue')
     ),
-    ModalComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ModalComponent.vue')
+    ModalComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ModalComponent.vue')
     ),
-    ButtonComponent: defineAsyncComponent(
-      () => import('@/modules/shared/components/ButtonComponent.vue')
+    ButtonComponent: defineAsyncComponent(() =>
+      import('@/modules/shared/components/ButtonComponent.vue')
     ),
     LoadingComponent
   },
@@ -127,7 +127,6 @@ export default {
     })
 
     const someThingRequired = store.state.Auth.someThingRequired
-    console.log(someThingRequired)
 
     const obtenerConsumibles = async () => {
       const { getConsumibles } = useConsumible()
@@ -163,6 +162,12 @@ export default {
       const { getTrabajadores } = useTrabajadores()
       return await getTrabajadores()
     }
+
+    const obtenerEmpleados = async () => {
+      const { getEmpleados } = useTrabajadores()
+      return await getEmpleados()
+    }
+
     const obtenerUsuarios = async () => {
       const { getUsuarios } = useUsuarios()
       return await getUsuarios()
@@ -186,6 +191,7 @@ export default {
         obtenerMateriasPrimas()
         obtenerTransportes()
         obtenerTrabajadores()
+        obtenerEmpleados()
         obtenerUsuarios()
       } catch (error) {
         console.error('Error al obtener los datos:', error)
@@ -203,11 +209,9 @@ export default {
         !userForm.value.newPassword ||
         !userForm.value.repeatedPassword
       ) {
-        console.log('Debes rellenar todos los campos')
         showModal.value = true
       } else {
         if (userForm.value.newPassword !== userForm.value.repeatedPassword) {
-          console.log('Las contraseñas no coinciden', userForm.value.email)
           showModal.value = true
         } else {
           userForm.value = {
@@ -215,9 +219,7 @@ export default {
             oldPassword: userForm.value.oldPassword,
             newPassword: userForm.value.newPassword
           }
-          console.log('Cambiar contraseña', userForm.value)
           const { ok, message } = await resetPassword(userForm.value)
-          console.log(ok, message)
         }
       }
     }

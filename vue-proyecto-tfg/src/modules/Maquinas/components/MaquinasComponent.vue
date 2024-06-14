@@ -2,7 +2,8 @@
   <div>
     <div>
       <MensajesComponent
-        v-if="getTipo === 'success'"
+        v-if="getTipo !== 'warning'"
+        :textClasses="'text-md'"
         :message="getMensaje"
         :type="getTipo"
         :mostrarMensaje="getMostrar"
@@ -10,6 +11,7 @@
     </div>
     <TablaComponent
       :data="getMaquinas"
+      :headers="headers"
       @saveData="persistData"
       @deleteSelected="deleteMaquinasSeleccionadas"
     />
@@ -23,8 +25,17 @@ import useMaquina from '@/modules/Maquinas/composables/useMaquina'
 import useShared from '@/modules/shared/composables/useShared'
 
 export default {
+  data() {
+    return {
+      headers: [{
+        nombre: '',
+        produccion_m2: 0,
+        porcentaje_desperdicio: 0,
+      }],
+    }
+  },
   setup() {
-    const { createMaquina, editMaquina, deleteMaquinas } = useMaquina()
+    const { createMaquina, editMaquina, deleteMaquinas, getMaquina } = useMaquina()
     const { actualizarMensaje, actualizarMostrarMensaje } = useShared()
     const persistData = async (data, type) => {
       try {
@@ -56,14 +67,38 @@ export default {
 
     const deleteMaquinasSeleccionadas = async (arrayData) => {
       try {
-        await deleteMaquinas(arrayData)
+        const results = await deleteMaquinas(arrayData)
+        const failedResults = results.filter((result) => result.ok === false)
+        if (failedResults.length > 0) {
+          const dataFailedPromises = failedResults.map(async (result) => {
+            return await getMaquina(result.id)
+          })
+          const dataFailed = await Promise.all(dataFailedPromises)
+          if (!dataFailed[0].ok) {
+            actualizarMensaje('error', 'Error accediendo a las máquinas')
+            actualizarMostrarMensaje(true)
+          } else {
+            const nombres = dataFailed.map((result) => result.nombre).join(', ')
+            actualizarMensaje(
+              'error',
+              `Las siguientes máquinas no se pudieron eliminar: ${nombres}`
+            )
+            actualizarMostrarMensaje(true)
+          }
+        } else {
+          const nombresSuccess = arrayData.map((result) => result.nombre).join(', ')
+          actualizarMensaje(
+            'success',
+            `Las siguientes máquinas se han eliminado: ${nombresSuccess}`
+          )
+          actualizarMostrarMensaje(true)
+
+        }
       } catch (error) {
-        console.error('Error deleting data', error)
         actualizarMensaje('error', 'Error eliminando los datos')
         actualizarMostrarMensaje(true)
       }
     }
-
     return {
       persistData,
       deleteMaquinasSeleccionadas

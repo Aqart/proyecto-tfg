@@ -1,4 +1,4 @@
-import { pool } from '../db.js' // Importamos el pool de conexión a la base de datos
+const pool = require('../db.js').pool
 
 const MaquinaController = {
     // Obtener todas las máquinas
@@ -13,11 +13,11 @@ const MaquinaController = {
 
     // Crear una nueva máquina
     crear: async (req, res, next) => {
-        const { nombre, produccion_m2, energia_consumida } = req.body
+        const { nombre, produccion_m2, porcentaje_desperdicio } = req.body
         try {
             await pool.query(
-                'INSERT INTO maquina (nombre, produccion_m2, energia_consumida) VALUES (?, ?, ?)',
-                [nombre, produccion_m2, energia_consumida]
+                'INSERT INTO maquina (nombre, produccion_m2, porcentaje_desperdicio) VALUES (?, ?, ?)',
+                [nombre, produccion_m2, porcentaje_desperdicio]
             )
             const [rows] = await pool.query('SELECT LAST_INSERT_ID() as id')
             res.status(201).json({
@@ -51,11 +51,11 @@ const MaquinaController = {
     // Actualizar una máquina
     actualizar: async (req, res, next) => {
         const { id } = req.params
-        const { nombre, produccion_m2, energia_consumida } = req.body
+        const { nombre, produccion_m2, porcentaje_desperdicio } = req.body
         try {
             await pool.query(
-                'UPDATE maquina SET nombre = ?, produccion_m2 = ?, energia_consumida = ? WHERE id = ?',
-                [nombre, produccion_m2, energia_consumida, id]
+                'UPDATE maquina SET nombre = ?, produccion_m2 = ?, porcentaje_desperdicio = ? WHERE id = ?',
+                [nombre, produccion_m2, porcentaje_desperdicio, id]
             )
             res.status(200).json({
                 message: 'Máquina actualizada correctamente',
@@ -77,4 +77,4 @@ const MaquinaController = {
     },
 }
 
-export default MaquinaController
+module.exports = MaquinaController

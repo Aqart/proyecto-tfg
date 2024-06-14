@@ -1,5 +1,5 @@
 export const getUsuarios = (state) => {
-  return state.usuarios
+  return state.usuarios.sort((a, b) => a.status.localeCompare(b.status));
 }
 
 export const getUsuarioById = (state) => (id) => {

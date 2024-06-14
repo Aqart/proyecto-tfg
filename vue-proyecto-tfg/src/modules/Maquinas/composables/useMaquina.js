@@ -20,6 +20,14 @@ const useMaquina = () => {
 
   const deleteMaquinas = async (maquinas) => {
     const resp = await store.dispatch('Maquinas/deleteMaquinas', maquinas)
+    await store.dispatch('GastosEnergeticos/fetchGastos')
+    await store.dispatch('Consumible/fetchConsumibles')
+    await store.dispatch('Trabajadores/fetchTrabajadores')
+    return resp
+  }
+
+  const getMaquina = async (id) => {
+    const resp = await store.dispatch('Maquinas/getMaquinaById', id)
     return resp
   }
 
@@ -27,7 +35,8 @@ const useMaquina = () => {
     getMaquinas,
     createMaquina,
     editMaquina,
-    deleteMaquinas
+    deleteMaquinas,
+    getMaquina
   }
 }
 
